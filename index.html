@@ -49,7 +49,6 @@
       overflow-x: hidden;
     }
 
-    /* Top App Header with clean style */
     .top-header {
       position: sticky;
       top: 0;
@@ -104,10 +103,26 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    /* Modern clean balance chip from user image */
+    /* Separate modern Auth/Login button next to balance */
+    .header-auth-btn {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      border: 1px solid #38bdf8;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 0 8px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Balance chip */
     .balance-chip {
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -1312,7 +1327,7 @@
 </head>
 <body>
 
-  <!-- Top App Header with Modern Exact Balance Style -->
+  <!-- Top App Header -->
   <header class="top-header">
     <div class="brand-section" onclick="switchView('view-home')">
       <div class="brand-logo" id="siteLogo">
@@ -1320,12 +1335,19 @@
       </div>
       <span class="brand-title" id="siteTitleDisplay">Auto cash</span>
     </div>
+    
     <div class="header-actions">
-      <!-- Balance chip according to reference image with plus button -->
-      <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى ئالماشتۇرۇش">
+      <!-- Clean Balance Pill -->
+      <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى دوللار/لىرا ئالماشتۇرۇش">
         <span class="plus-symbol" onclick="event.stopPropagation(); checkAuthAndAction(() => switchView('view-add-balance'));">+</span>
         <span id="headerBalance">$ 0.00</span>
       </div>
+
+      <!-- Distinct Login/Account Button right next to the balance -->
+      <button class="header-auth-btn" id="headerAuthBtn" onclick="handleHeaderAuthClick()">
+        <span>🔑</span> <span id="headerAuthBtnText">كىرىش</span>
+      </button>
+
       <button class="menu-toggle-btn" onclick="toggleDrawer(true)">☰</button>
     </div>
   </header>
@@ -1491,16 +1513,16 @@
         <div style="background: rgba(4, 16, 33, 0.6); border: 1px solid #16365f; border-radius: 10px; padding: 12px; margin-top: 14px;">
           <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
             <span style="color: #94a3b8;">ئەسلى باھاسى:</span>
-            <span id="orderPageOriginalPrice" style="color: #fff;">0.00 $</span>
+            <span id="orderPageOriginalPrice" style="color: #fff;">$ 0.00</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
             <span style="color: #94a3b8;">VIP چېگىرمە:</span>
-            <span id="orderPageDiscountText" style="color: #38bdf8;">0% (-0.00 $)</span>
+            <span id="orderPageDiscountText" style="color: #38bdf8;">0% (-$ 0.00)</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 0.98rem; font-weight: bold; border-top: 1px solid #16365f; padding-top: 6px; margin-top: 6px;">
             <span style="color: #fff;">ئاخىرقى تۆلەيدىغان پۇل:</span>
             <div style="text-align: left;">
-              <span id="orderPageFinalPrice" style="color: #34d399;">0.00 $</span>
+              <span id="orderPageFinalPrice" style="color: #34d399;">$ 0.00</span>
               <div id="orderPageFinalPriceSYP" style="color: #f59e0b; font-size: 0.8rem; font-weight: normal;">≈ 0 لىرا</div>
             </div>
           </div>
@@ -1529,7 +1551,7 @@
           <span>💳</span> مېنىڭ پۇل تۆلەشلىرىم
         </h2>
         <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.8rem;" onclick="checkAuthAndAction(() => switchView('view-add-balance'))">
-          + پۇل قاچىلاش
+          + سومما قاچىلاش
         </button>
       </div>
 
@@ -1577,7 +1599,7 @@
         <h2 class="section-title" style="font-size: 1.2rem;">
           <span>💰</span> سومما قاچىلاش
         </h2>
-        <span class="user-wallet-val" id="rechargePageBalance">0.00 $</span>
+        <span class="user-wallet-val" id="rechargePageBalance">$ 0.00</span>
       </div>
 
       <div style="background: rgba(2, 132, 199, 0.12); border: 1px solid #1e4579; border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: 0.84rem; color: #cbd5e1;">
@@ -1611,7 +1633,7 @@
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
           <span style="color: #94a3b8; font-size: 0.82rem;">جەمئىي ئىستېمال:</span>
-          <span style="color: #34d399; font-weight: bold;" id="vipTotalSpent">0.00 $</span>
+          <span style="color: #34d399; font-weight: bold;" id="vipTotalSpent">$ 0.00</span>
         </div>
       </div>
 
@@ -1644,7 +1666,7 @@
       <div id="admin-orders" class="admin-subview">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h4 style="color: #fff;">بارلىق كەلگەن زاكازلار</h4>
-          <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="requestNotificationPermission()">🔔 تېلېفون ئۇقتۇرۇشىنى سىناش</button>
+          <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="requestNotificationPermission()">🔔 تېلېفون ئۇقتۇرۇشىنى ئېچىش</button>
         </div>
         <div id="adminAllOrdersList"></div>
       </div>
@@ -1766,15 +1788,15 @@
 
   </main>
 
-  <!-- QUICK ORDER APPROVE MODAL (FOR ADMIN POPUP) -->
-  <div class="modal-backdrop" id="modalAdminQuickOrderAction">
+  <!-- QUICK ACTION MODAL (FOR BOTH ORDERS & DEPOSITS) -->
+  <div class="modal-backdrop" id="modalAdminQuickAction">
     <div class="modal-card" style="border: 2px solid #38bdf8;">
       <div class="modal-header" style="background: #061f42;">
-        <h3 class="modal-title" style="color:#38bdf8;">🔔 يېڭى زاكاسنى بىر تەرەپ قىلىش</h3>
-        <button class="drawer-close-btn" onclick="closeModal('modalAdminQuickOrderAction')">✕</button>
+        <h3 class="modal-title" style="color:#38bdf8;" id="quickActionModalTitle">🔔 يېڭى تەلەپنى تەستىقلاش</h3>
+        <button class="drawer-close-btn" onclick="closeModal('modalAdminQuickAction')">✕</button>
       </div>
-      <div class="modal-body" id="quickOrderActionContent"></div>
-      <div class="modal-footer" id="quickOrderActionFooter"></div>
+      <div class="modal-body" id="quickActionContent"></div>
+      <div class="modal-footer" id="quickActionFooter"></div>
     </div>
   </div>
 
@@ -1794,11 +1816,11 @@
       </div>
       <div class="user-tag-badge" id="sidebarTierBadge">مىس</div>
       <div class="user-handle">
-        <span id="sidebarUsername">كېلىشمەن ئابونت</span>
+        <span id="sidebarUsername">مېھمان ئابونت</span>
       </div>
-      <div class="user-uid-text" id="sidebarUidText">UID: #000000</div>
+      <div class="user-uid-text" id="sidebarUidText">UID: #مېھمان</div>
       
-      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;">0.00 $</div>
+      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;">$ 0.00</div>
 
       <div class="profile-quick-actions">
         <div class="quick-btn" title="سومما قاچىلاش" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">💲</div>
@@ -1960,7 +1982,7 @@
         </div>
 
         <div style="background: rgba(2, 132, 199, 0.15); border: 1px dashed #0284c7; border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.82rem; color: #38bdf8;" id="rechargeConvertedDisplay">
-          تەڭ قىممەت: 0.00 $ = 0 سۈرىيە لىراسى
+          تەڭ قىممەت: $ 0.00 = 0 سۈرىيە لىراسى
         </div>
 
         <div class="form-group">
@@ -2097,7 +2119,7 @@
 
   <!-- JAVASCRIPT DIRECT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v11";
+    const STORAGE_KEY = "autocash_app_state_v12";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
@@ -2201,7 +2223,8 @@
       state.users = defaultData.users;
     }
 
-    let lastKnownOrdersCount = -1;
+    // Keep track of previously notified pending items to prevent repeated sound alerts
+    let notifiedPendingKeys = new Set();
 
     function ensureAdminFixed() {
       if (!state.users["user_999999"]) {
@@ -2226,6 +2249,7 @@
       return Object.values(state.payments || {}).reverse();
     }
 
+    // Direct REST API Sync
     async function syncFromCloud() {
       try {
         const res = await fetch(`${FIREBASE_URL}.json`);
@@ -2250,22 +2274,17 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             renderAll();
 
-            // Detect new orders for Admin with sound and interactive action
-            const currentOrdersList = getOrdersList();
+            // Detect new orders or deposit requests for admin notifications
             if (getCurrentUser()?.role === "admin") {
-              if (lastKnownOrdersCount !== -1 && currentOrdersList.length > lastKnownOrdersCount) {
-                const newestOrder = currentOrdersList[0];
-                triggerAdminAudioAndPopup(newestOrder);
-              }
-              lastKnownOrdersCount = currentOrdersList.length;
+              checkAndNotifyAdminForNewPending();
             }
 
-            // Session check
+            // Session watcher
             const me = getCurrentUser();
             if (me) {
               const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
               if (me.currentSessionToken && me.currentSessionToken !== localToken) {
-                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن چېكىندىڭىز.");
+                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن ئاپتوماتىك چېكىندىڭىز.");
                 logoutUser(true);
               }
             }
@@ -2280,6 +2299,27 @@
       } catch (err) {
         console.error("Cloud fetch error:", err);
       }
+    }
+
+    // Check newly incoming orders & deposit requests and notify once
+    function checkAndNotifyAdminForNewPending() {
+      // 1. Orders
+      const pendingOrders = Object.values(state.orders || {}).filter(o => o.status === "pending");
+      pendingOrders.forEach(o => {
+        if (!notifiedPendingKeys.has(o.id)) {
+          notifiedPendingKeys.add(o.id);
+          triggerAdminActionNotification("order", o);
+        }
+      });
+
+      // 2. Recharge/Deposits
+      const pendingDeposits = Object.values(state.payments || {}).filter(p => p.status === "pending");
+      pendingDeposits.forEach(p => {
+        if (!notifiedPendingKeys.has(p.id)) {
+          notifiedPendingKeys.add(p.id);
+          triggerAdminActionNotification("deposit", p);
+        }
+      });
     }
 
     async function pushToCloud() {
@@ -2362,6 +2402,15 @@
         openModal("modalAuthLogin");
       } else {
         if (callback) callback();
+      }
+    }
+
+    function handleHeaderAuthClick() {
+      const u = getCurrentUser();
+      if (!u) {
+        openModal("modalAuthLogin");
+      } else {
+        openAccountDetailsModal();
       }
     }
 
@@ -2455,6 +2504,7 @@
       closeModal("modalAuthLogin");
       alert("مۇۋەپپەقىيەتلىك كىردىڭىز!");
       requestNotificationPermission();
+      renderAll();
       switchView("view-home");
     }
 
@@ -2507,6 +2557,7 @@
       closeModal("modalAuthLogin");
       alert("ھېساباتىڭىز مۇۋەپپەقىيەتلىك ئېچىلدى! كودىڭىز (UID): #" + uid);
       requestNotificationPermission();
+      renderAll();
       switchView("view-home");
     }
 
@@ -2532,9 +2583,11 @@
       const adminEntry = document.getElementById("adminMenuEntry");
       const logoutItem = document.getElementById("sidebarLogoutItem");
       const authBtn = document.getElementById("sidebarAuthActionBtn");
+      const headerAuthText = document.getElementById("headerAuthBtnText");
 
       if (!u) {
-        document.getElementById("headerBalance").innerText = "كىرىش ➔";
+        document.getElementById("headerBalance").innerText = "$ 0.00";
+        headerAuthText.innerText = "كىرىش";
         document.getElementById("sidebarBalance").innerText = "ھېساباتقا كىرمىگەن";
         document.getElementById("sidebarUsername").innerText = "مېھمان ئابونت";
         document.getElementById("sidebarUidText").innerText = "UID: #مېھمان";
@@ -2548,6 +2601,7 @@
         return;
       }
 
+      headerAuthText.innerText = u.username;
       logoutItem.style.display = "flex";
       authBtn.innerText = "👤";
       authBtn.title = "ھېسابات تەپسىلاتى";
@@ -2577,69 +2631,127 @@
       document.getElementById("vipTotalSpent").innerText = formatDualCurrency(u.totalSpent);
     }
 
-    /* PUSH NOTIFICATIONS & INTERACTIVE POPUP */
+    /* REALTIME AUDIO AND PHONE PUSH NOTIFICATION */
     function requestNotificationPermission() {
       if ("Notification" in window && Notification.permission !== "granted") {
         Notification.requestPermission();
       }
     }
 
-    function triggerAdminAudioAndPopup(order) {
+    function triggerAdminActionNotification(type, item) {
       playLoudNotificationSound();
       if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 600]);
 
+      const title = type === "order" ? "📦 يېڭى زاكاس چۈشتى!" : "💰 يېڭى سومما قاچىلاش تەلىپى!";
+      const body = type === "order" 
+        ? `${item.username} نىڭ ${item.prodName} (${item.packageName}) زاكاسى كەلدى. تېز تەستىقلاش ئۈچۈن بېسىڭ.`
+        : `${item.username} دىن ${formatCurrency(item.amount)} قاچىلاش تەلىپى چۈشتى. بېسىپ ماقۇللاڭ.`;
+
       if ("Notification" in window && Notification.permission === "granted") {
-        const notif = new Notification("📦 يېڭى زاكاس كەلدى!", {
-          body: `${order.username} نىڭ ${order.prodName} زاكاسى چۈشتى. بېسىپ ماقۇللاڭ.`,
-          icon: state.siteSettings.logoUrl
+        const notif = new Notification(title, {
+          body: body,
+          icon: state.siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
         });
         notif.onclick = () => {
           window.focus();
-          openQuickOrderActionModal(order.id);
+          openAdminActionModal(type, item.id);
         };
       }
 
-      showToastNotification(`🔔 يېڭى زاكاس: ${order.username} (${order.prodName})! كۆرۈش ئۈچۈن بېسىڭ.`, () => {
-        openQuickOrderActionModal(order.id);
+      showToastNotification(`🔔 ${title} ${body}`, () => {
+        openAdminActionModal(type, item.id);
       });
     }
 
-    function openQuickOrderActionModal(orderId) {
-      const order = state.orders[orderId];
-      if (!order) {
-        switchView("view-admin");
-        return;
+    // Open Instant Approve / Reject Modal upon notification click
+    function openAdminActionModal(type, itemId) {
+      const modalTitle = document.getElementById("quickActionModalTitle");
+      const content = document.getElementById("quickActionContent");
+      const footer = document.getElementById("quickActionFooter");
+
+      if (type === "order") {
+        const order = state.orders[itemId];
+        if (!order) return;
+
+        modalTitle.innerText = "📦 زاكاسنى بىر تەرەپ قىلىش";
+        content.innerHTML = `
+          <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
+            <div style="font-size:1.1rem; font-weight:bold; color:#fff; margin-bottom:6px;">${order.prodName} (${order.packageName})</div>
+            <div style="color:#38bdf8; font-size:0.88rem; margin-bottom:4px;">ئابونت: <strong>${order.username}</strong> (UID: #${order.userUid})</div>
+            <div style="color:#fbbf24; font-size:0.95rem; font-weight:bold; background:#04152b; padding:8px 10px; border-radius:8px; margin:8px 0;">
+              ئويۇن كودى / ID: <span style="user-select:all;">${order.accountTarget}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.85rem;">
+              <span style="color:#94a3b8;">سوممىسى:</span>
+              <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(order.price)}</span>
+            </div>
+          </div>
+        `;
+
+        footer.innerHTML = `
+          <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickAction')">تاقاش</button>
+          <button class="btn btn-danger" onclick="adminQuickProcessOrder('${order.id}', 'rejected')">✕ رەت قىلىش</button>
+          <button class="btn btn-success" onclick="adminQuickProcessOrder('${order.id}', 'approved')">✓ ماقۇللاش</button>
+        `;
+      } else {
+        const pay = state.payments[itemId];
+        if (!pay) return;
+
+        modalTitle.innerText = "💰 سومما قاچىلاشنى بىر تەرەپ قىلىش";
+        content.innerHTML = `
+          <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
+            <div style="font-size:1.1rem; font-weight:bold; color:#fff; margin-bottom:6px;">${pay.methodName}</div>
+            <div style="color:#38bdf8; font-size:0.88rem; margin-bottom:4px;">ئابونت: <strong>${pay.username}</strong> (UID: #${pay.userUid})</div>
+            <div style="color:#fbbf24; font-size:0.95rem; font-weight:bold; background:#04152b; padding:8px 10px; border-radius:8px; margin:8px 0;">
+              سودا تەرتىپ نومۇرى (TxID): <span style="user-select:all;">${pay.txId}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.85rem;">
+              <span style="color:#94a3b8;">قاچىلايدىغان سوممىسى:</span>
+              <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(pay.amount)}</span>
+            </div>
+          </div>
+        `;
+
+        footer.innerHTML = `
+          <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickAction')">تاقاش</button>
+          <button class="btn btn-danger" onclick="adminQuickProcessDeposit('${pay.id}', 'rejected')">✕ رەت قىلىش</button>
+          <button class="btn btn-success" onclick="adminQuickProcessDeposit('${pay.id}', 'approved')">✓ تەستىقلاپ قوشۇش</button>
+        `;
       }
 
-      const body = document.getElementById("quickOrderActionContent");
-      const footer = document.getElementById("quickOrderActionFooter");
-
-      body.innerHTML = `
-        <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
-          <div style="font-size:1.1rem; font-weight:bold; color:#fff; margin-bottom:6px;">${order.prodName} (${order.packageName})</div>
-          <div style="color:#38bdf8; font-size:0.88rem; margin-bottom:4px;">ئابونت نامى: <strong>${order.username}</strong> (UID: #${order.userUid})</div>
-          <div style="color:#fbbf24; font-size:0.95rem; font-weight:bold; background:#04152b; padding:8px 10px; border-radius:8px; margin:8px 0;">
-            ئويۇن كودى / ID: <span style="user-select:all;">${order.accountTarget}</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.85rem;">
-            <span style="color:#94a3b8;">سوممىسى:</span>
-            <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(order.price)}</span>
-          </div>
-        </div>
-      `;
-
-      footer.innerHTML = `
-        <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickOrderAction')">تاقاش</button>
-        <button class="btn btn-danger" onclick="quickHandleOrder('${order.id}', 'rejected')">✕ قايتۇرۇۋېتىش (رەت)</button>
-        <button class="btn btn-success" onclick="quickHandleOrder('${order.id}', 'approved')">✓ ماقۇللاش</button>
-      `;
-
-      openModal("modalAdminQuickOrderAction");
+      openModal("modalAdminQuickAction");
     }
 
-    function quickHandleOrder(orderId, status) {
-      adminUpdateOrderStatus(orderId, status);
-      closeModal("modalAdminQuickOrderAction");
+    async function adminQuickProcessOrder(orderId, status) {
+      await adminUpdateOrderStatus(orderId, status);
+      closeModal("modalAdminQuickAction");
+    }
+
+    async function adminQuickProcessDeposit(payId, status) {
+      const p = state.payments[payId];
+      if (!p) return;
+
+      p.status = status;
+      if (status === 'approved') {
+        const u = state.users["user_" + p.userUid];
+        if (u) {
+          u.balance += parseFloat(p.amount);
+          state.users["user_" + p.userUid] = u;
+        }
+        alert(`سومما قاچىلاش تەستىقلاندى ۋە ئابونت قالدۇقىغا قوشۇلدى!`);
+      } else {
+        alert(`سومما قاچىلاش تەلىپى رەت قىلىندى.`);
+      }
+
+      state.payments[payId] = p;
+      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(p)
+      });
+
+      saveState();
+      closeModal("modalAdminQuickAction");
     }
 
     function playLoudNotificationSound() {
@@ -2688,7 +2800,7 @@
       setTimeout(() => {
         toast.style.opacity = "0";
         setTimeout(() => toast.style.display = "none", 300);
-      }, 5000);
+      }, 5500);
     }
 
     /* CAROUSEL */
@@ -2753,7 +2865,7 @@
       });
     }
 
-    /* ADMIN: USERS LIST WITH DELETE FUNCTION */
+    /* ADMIN: REALTIME USERS LIST WITH DELETE FUNCTION */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -2804,10 +2916,9 @@
       const u = state.users["user_" + uid];
       if (!u) return;
 
-      if (confirm(`ئابونت ${u.username} (UID: #${uid}) نى راستىنلا يۇيامسىز (ئۆچۈرەمسىز)؟ پۈتۈن ئۇچۇرلىرى ئامباردىن مەڭگۈلۈك ئۆچۈرۈلىدۇ.`)) {
+      if (confirm(`ئابونت ${u.username} (UID: #${uid}) نى راستىنلا يۇيامسىز (ئۆچۈرەمسىز)؟`)) {
         delete state.users["user_" + uid];
 
-        // Delete from Firebase directly
         await fetch(`${FIREBASE_URL}/users/user_${uid}.json`, {
           method: "DELETE"
         });
@@ -3144,7 +3255,6 @@
       });
 
       pushToCloud();
-      notifyAdminNewOrder("يېڭى سومما قاچىلاش تەلىپى", `${u.username} دىن $ ${finalUsd.toFixed(2)} سومما تەلەپ كىردى!`);
       alert(`سومما قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا ئەۋەتىلدى!`);
       switchView("view-payments");
     }
@@ -3465,7 +3575,7 @@
       if (status === 'rejected') {
         const u = state.users["user_" + ord.userUid];
         if (u) {
-          u.balance += ord.price; // Refund balance automatically
+          u.balance += ord.price;
           state.users["user_" + ord.userUid] = u;
           alert(`زاكاس رەت قىلىندى ۋە پۇل ئابونت ھېساباتىغا تولۇق قايتۇرۇلدى.`);
         }
@@ -3507,7 +3617,8 @@
             <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(p.amount)}</span>
             <span class="badge ${p.status === 'approved' ? 'badge-success' : 'badge-warning'}">${p.status}</span>
             <div style="display:flex; gap:4px; margin-top:4px;">
-              <button class="btn btn-success" style="padding:2px 6px; font-size:0.7rem;" onclick="adminApproveDeposit('${p.id}')">تەستىقلاش</button>
+              <button class="btn btn-success" style="padding:4px 8px; font-size:0.72rem;" onclick="adminApproveDeposit('${p.id}')">✓ تەستىقلاش</button>
+              <button class="btn btn-danger" style="padding:4px 8px; font-size:0.72rem;" onclick="adminRejectDeposit('${p.id}')">✕ رەت</button>
             </div>
           </div>
         `;
@@ -3534,6 +3645,22 @@
         saveState();
         alert(`سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
       }
+    }
+
+    async function adminRejectDeposit(payId) {
+      const p = state.payments[payId];
+      if (!p) return;
+      p.status = 'rejected';
+      state.payments[payId] = p;
+
+      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(p)
+      });
+
+      saveState();
+      alert(`سومما قاچىلاش تەلىپى رەت قىلىندى.`);
     }
 
     function renderFavorites() {
