@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
   
-  <!-- Firebase Realtime Engine -->
+  <!-- Firebase Realtime Database SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -2075,20 +2075,20 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT & CLOUD REALTIME DATABASE ENGINE -->
+  <!-- JAVASCRIPT & REALTIME DATABASE ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v6";
+    const STORAGE_KEY = "autocash_app_state_v7";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
 
-    // Firebase Global Realtime DB
+    // Directly connected to your dedicated Firebase Database
     const firebaseConfig = {
-      databaseURL: "https://autocash-pro-default-rtdb.firebaseio.com"
+      databaseURL: "https://autocash-store-new-default-rtdb.firebaseio.com/"
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
     const db = firebase.database();
-    const systemDbRef = db.ref("autocash_system_core");
+    const systemDbRef = db.ref("autocash_live_store");
 
     const defaultData = {
       siteSettings: {
@@ -2206,7 +2206,6 @@
         const myUid = state.currentUserId;
         const myCurr = state.userCurrencyMode;
 
-        // Merge cloud database state
         state = cloudData;
         state.currentUserId = myUid;
         state.userCurrencyMode = myCurr;
@@ -2220,10 +2219,13 @@
         if (me) {
           const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
           if (me.currentSessionToken && me.currentSessionToken !== localToken) {
-            alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! سىز ئاپتوماتىك چېكىندىڭىز.");
+            alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن ئاپتوماتىك چېكىندىڭىز.");
             logoutUser(true);
           }
         }
+      } else {
+        // First initialization of cloud database
+        systemDbRef.set(defaultData);
       }
     });
 
@@ -2231,7 +2233,7 @@
       ensureAdminFixed();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderAll();
-      // Push directly to Firebase Realtime DB
+      // Push directly to your Firebase database
       systemDbRef.set(state);
     }
 
@@ -2320,11 +2322,8 @@
       document.getElementById("bannerExchangeRateText").innerText = `1 $ = ${getRate()} سۈرىيە لىراسى`;
 
       const logoBox = document.getElementById("siteLogo");
-      if (s.logoUrl) {
-        logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
-      } else {
-        logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
-      }
+      if (s.logoUrl) logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
+      else logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
 
       const authLogoBox = document.getElementById("authLogoPreview");
       if (authLogoBox) {
@@ -2405,7 +2404,7 @@
       state.currentUserId = uid;
       localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
 
-      saveState(); // Instantly syncs to cloud
+      saveState(); // Instantly pushes to Firebase for Admin to see immediately
       alert("ھېساباتىڭىز مۇۋەپپەقىيەتلىك ئېچىلدى! سىزنىڭ UID كودىڭىز: #" + uid);
       requestNotificationPermission();
       switchView("view-home");
@@ -2580,7 +2579,7 @@
       });
     }
 
-    /* ADMIN: USERS LIST (Shows all users in Realtime) */
+    /* ADMIN: USERS LIST */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
