@@ -7,11 +7,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
   
-  <!-- Preconnect for Fastest Asset Loading -->
-  <link rel="preconnect" href="https://auto-chah-store-default-rtdb.firebaseio.com">
-  <link rel="preconnect" href="https://images.unsplash.com">
-  <link rel="preconnect" href="https://cdn-icons-png.flaticon.com">
-
   <!-- Firebase Realtime Database SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -54,7 +49,7 @@
       overflow-x: hidden;
     }
 
-    /* Welcome / Splash Screen */
+    /* Dynamic Splash Screen */
     #splashScreen {
       position: fixed;
       inset: 0;
@@ -66,7 +61,7 @@
       justify-content: center;
       padding: 24px;
       text-align: center;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
     }
     #splashScreen.hide {
       opacity: 0;
@@ -74,8 +69,8 @@
       pointer-events: none;
     }
     .splash-logo-circle {
-      width: 105px;
-      height: 105px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: #092140;
       border: 3px solid #38bdf8;
@@ -84,17 +79,12 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      margin-bottom: 18px;
-      animation: pulseLogo 2s infinite alternate;
+      margin-bottom: 16px;
     }
     .splash-logo-circle img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-    }
-    @keyframes pulseLogo {
-      0% { transform: scale(0.96); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-      100% { transform: scale(1.04); box-shadow: 0 0 30px rgba(56, 189, 248, 0.8); }
     }
     .splash-title {
       font-size: 1.5rem;
@@ -107,12 +97,12 @@
       color: #94a3b8;
       max-width: 320px;
       line-height: 1.5;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
     .splash-loader {
-      width: 38px;
-      height: 38px;
-      border: 3.5px solid rgba(56, 189, 248, 0.2);
+      width: 34px;
+      height: 34px;
+      border: 3px solid rgba(56, 189, 248, 0.2);
       border-top-color: #38bdf8;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -121,7 +111,7 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Top Header */
+    /* Header */
     .top-header {
       position: sticky;
       top: 0;
@@ -144,7 +134,6 @@
       cursor: pointer;
     }
 
-    /* Round Full-Visibility Logo */
     .brand-logo {
       width: 42px;
       height: 42px;
@@ -264,7 +253,7 @@
       padding: 4px;
     }
 
-    /* Centered Main Layout */
+    /* Centered Layout */
     .app-container {
       max-width: 620px;
       margin: 0 auto;
@@ -468,6 +457,9 @@
       position: relative;
       overflow: hidden;
       background: #06172d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .category-cover-wrapper img, .game-cover-wrapper img {
@@ -480,7 +472,7 @@
 
     .category-card:hover .category-cover-wrapper img,
     .game-card:hover .game-cover-wrapper img {
-      transform: scale(1.08);
+      transform: scale(1.06);
     }
 
     .category-info-box, .game-info-box {
@@ -642,7 +634,7 @@
     .detail-avatar-circle img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
     }
 
     .detail-prod-title {
@@ -820,7 +812,7 @@
     .pay-icon-circle {
       width: 52px;
       height: 52px;
-      border-radius: 14px;
+      border-radius: 50%;
       background: #061933;
       display: flex;
       align-items: center;
@@ -1411,10 +1403,10 @@
 </head>
 <body>
 
-  <!-- Dynamic Splash / Welcome Screen -->
+  <!-- Instant Dynamic Welcome / Splash Screen -->
   <div id="splashScreen">
     <div class="splash-logo-circle" id="splashLogoWrap">
-      <span id="splashEmojiIcon" style="font-size: 40px;">⚡</span>
+      <span style="font-size: 44px;">⚡</span>
     </div>
     <h2 class="splash-title" id="splashTitleText">Auto cash</h2>
     <p class="splash-msg" id="splashWelcomeMessage">كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!</p>
@@ -1424,6 +1416,7 @@
   <!-- Top App Header -->
   <header class="top-header">
     <div class="brand-section" onclick="switchView('view-home')">
+      <!-- Round Full-Bleed Logo -->
       <div class="brand-logo" id="siteLogo">
         <span>⚡</span>
       </div>
@@ -1442,14 +1435,14 @@
         <span>🔑</span> <span>كىرىش</span>
       </button>
 
-      <!-- Avatar Pill when logged in -> opens stats dashboard -->
-      <img id="headerUserAvatar" class="header-user-avatar" src="" alt="Avatar" onclick="openUserStatsDashboardModal()" title="ھېسابات تەپسىلاتى ۋە سىتاتىستىكا" loading="lazy" decoding="async">
+      <!-- Avatar Pill when logged in -->
+      <img id="headerUserAvatar" class="header-user-avatar" src="" alt="Avatar" onclick="openUserStatsDashboardModal()" title="ھېسابات تەپسىلاتى ۋە سىتاتىستىكا">
 
       <button class="menu-toggle-btn" onclick="toggleDrawer(true)">☰</button>
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Centered Main Layout -->
   <main class="app-container" id="mainContainer">
 
     <!-- VIEW 0: AUTH MODAL -->
@@ -1514,7 +1507,7 @@
       </div>
     </div>
 
-    <!-- VIEW 1: HOME (CENTERED LAYOUT) -->
+    <!-- VIEW 1: HOME -->
     <section id="view-home" class="page-view">
       <div class="banner-carousel">
         <div class="carousel-track" id="carouselTrack"></div>
@@ -1581,7 +1574,7 @@
       <div class="product-detail-hero">
         <button class="detail-fav-btn" id="productPageFavBtn" onclick="toggleCurrentProductFav()">🤍</button>
         <div class="detail-avatar-circle">
-          <img id="productPageAvatarImg" src="" alt="Product Icon" loading="lazy" decoding="async">
+          <img id="productPageAvatarImg" src="" alt="Product Icon">
         </div>
         <h2 class="detail-prod-title" id="productPageTitle">~ روبوتى PUBG</h2>
       </div>
@@ -1801,7 +1794,7 @@
         <div id="adminPaymentsList"></div>
       </div>
 
-      <!-- Welcome Screen Settings -->
+      <!-- Welcome Screen Settings with Full Cloud Sync -->
       <div id="admin-welcome" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 14px;">قارشى ئېلىش بېتى تەڭشەكلىرى</h4>
         <div class="form-group">
@@ -1813,10 +1806,10 @@
           <textarea id="adminWelcomeMsgInput" class="form-control" rows="3" placeholder="كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!"></textarea>
         </div>
         <div class="form-group">
-          <label class="form-label">قارشى ئېلىش لوگو / رەسىم ئۇلانمىسى (بوش قالسا باش لوگو چىقىدۇ)</label>
-          <input type="text" id="adminWelcomeImgInput" class="form-control" placeholder="https://.../welcome-icon.png">
+          <label class="form-label">قارشى ئېلىش لوگو / رەسىم ئۇلانمىسى</label>
+          <input type="text" id="adminWelcomeImgInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى باش لوگو چىقىدۇ">
         </div>
-        <button class="btn btn-success" style="width: 100%; padding: 11px;" onclick="saveAdminWelcomeSettings()">قارشى ئېلىش تەڭشىكىنى ساقلاش</button>
+        <button class="btn btn-success" style="width: 100%; padding: 11px;" onclick="saveAdminWelcomeSettings()">قارشى ئېلىش تەڭشىكىنى پۈتۈن بوشلۇققا ساقلاش</button>
       </div>
 
       <div id="admin-settings" class="admin-subview" style="display: none;">
@@ -1925,7 +1918,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align:center; margin-bottom:12px;">
-          <img id="dashAvatarImg" src="" style="width:72px; height:72px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:6px;" loading="lazy" decoding="async">
+          <img id="dashAvatarImg" src="" style="width:72px; height:72px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:6px;">
           <h3 id="dashUsername" style="color:#fff;"></h3>
           <div id="dashUidText" style="color:#38bdf8; font-family:monospace; font-size:0.85rem;"></div>
         </div>
@@ -1966,7 +1959,7 @@
 
     <div class="profile-banner-card">
       <div class="avatar-container">
-        <img id="sidebarAvatarImg" src="" alt="Avatar" class="user-avatar-img" loading="lazy" decoding="async">
+        <img id="sidebarAvatarImg" src="" alt="Avatar" class="user-avatar-img">
         <label for="avatarFileInput" class="avatar-upload-badge">📷</label>
         <input type="file" id="avatarFileInput" class="hidden-file-input" accept="image/*" onchange="handleAvatarFileSelect(event)">
       </div>
@@ -2064,7 +2057,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">تۈر رەسىمىنىڭ ئۇلانمىسى (Image URL)</label>
-          <input type="text" id="adminCatImageUrlInput" class="form-control" placeholder="https://.../game-cover.jpg">
+          <input type="text" id="adminCatImageUrlInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى چىرايلىق سىنبەلگە چىقىدۇ">
         </div>
       </div>
       <div class="modal-footer">
@@ -2088,7 +2081,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">لوگو ياكى بەلگە رەسىم ئۇلانمىسى</label>
-          <input type="text" id="adminPayIconInput" class="form-control" placeholder="مەسىلەن: 📱 ياكى https://.../icon.png">
+          <input type="text" id="adminPayIconInput" class="form-control" placeholder="مەسىلەن: 📱 ياكى رەسىم ئۇلانمىسى">
         </div>
         <div class="form-group">
           <label class="form-label">ھېسابات نومۇرى / ئادرېسى</label>
@@ -2185,7 +2178,6 @@
     </div>
   </div>
 
-  <!-- ACCOUNT DETAILS MODAL WITH LOCAL FILE UPLOAD -->
   <div class="modal-backdrop" id="modalAccountDetails">
     <div class="modal-card">
       <div class="modal-header">
@@ -2194,7 +2186,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align:center; margin-bottom:14px;">
-          <img id="accModalAvatarPreview" src="" style="width:76px; height:76px; border-radius:50%; object-fit:cover; border:2px solid #38bdf8; display:block; margin:0 auto 8px;" loading="lazy" decoding="async">
+          <img id="accModalAvatarPreview" src="" style="width:76px; height:76px; border-radius:50%; object-fit:cover; border:2px solid #38bdf8; display:block; margin:0 auto 8px;">
           <label for="accModalFileInput" class="btn btn-secondary" style="font-size:0.78rem; padding:5px 12px; cursor:pointer;">
             📁 تېلېفوندىن رەسىم تاللاش
           </label>
@@ -2280,9 +2272,18 @@
 
   <!-- JAVASCRIPT DIRECT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v16";
+    const STORAGE_KEY = "autocash_app_state_v18";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
+
+    // Instant, ultra-lightweight SVG vector images that load in 0.01 seconds
+    const fastIcons = {
+      gameCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230284c7'/%3E%3Cstop offset='100%25' stop-color='%23091f3d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g)'/%3E%3Cpath d='M130 180h140c16.5 0 30 13.5 30 30v40c0 16.5-13.5 30-30 30h-20l-15-20h-70l-15 20h-20c-16.5 0-30-13.5-30-30v-40c0-16.5 13.5-30 30-30z' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='160' cy='230' r='10' fill='%2338bdf8'/%3E%3Ccircle cx='240' cy='230' r='10' fill='%23f59e0b'/%3E%3Ctext x='200' y='325' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto Game%3C/text%3E%3C/svg%3E",
+      appCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230369a1'/%3E%3Cstop offset='100%25' stop-color='%230c264a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g2)'/%3E%3Crect x='130' y='110' width='140' height='180' rx='24' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='200' cy='260' r='12' fill='%2338bdf8'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto App%3C/text%3E%3C/svg%3E",
+      telecomCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230f3a6b'/%3E%3Cstop offset='100%25' stop-color='%2306172d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g3)'/%3E%3Cpath d='M200 130a70 70 0 0 1 70 70m-70-110a110 110 0 0 1 110 110M200 200a30 30 0 1 0 30 30' fill='none' stroke='%23f59e0b' stroke-width='10' stroke-linecap='round'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3ETelecom%3C/text%3E%3C/svg%3E",
+      bannerDefault: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 350'%3E%3Cdefs%3E%3ClinearGradient id='gb' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230369a1'/%3E%3Cstop offset='50%25' stop-color='%230c2d58'/%3E%3Cstop offset='100%25' stop-color='%23071930'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='350' fill='url(%23gb)'/%3E%3Ccircle cx='700' cy='80' r='140' fill='%230284c7' opacity='0.25'/%3E%3Ccircle cx='100' cy='280' r='180' fill='%23f59e0b' opacity='0.15'/%3E%3Ctext x='70' y='180' font-size='48' font-family='sans-serif' font-weight='900' fill='%2338bdf8'%3EAuto cash%3C/text%3E%3Ctext x='70' y='230' font-size='24' font-family='sans-serif' fill='%23e2e8f0'%3Eتېز ھەم ئىشەنچلىك تور مۇلازىمىتى%3C/text%3E%3C/svg%3E",
+      userDefaultAvatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%230c264a'/%3E%3Ccircle cx='100' cy='80' r='40' fill='%2338bdf8'/%3E%3Cpath d='M30 180c0-38.6 31.3-70 70-70s70 31.4 70 70z' fill='%230284c7'/%3E%3C/svg%3E"
+    };
 
     const defaultData = {
       siteSettings: {
@@ -2301,13 +2302,7 @@
             title: "Auto cash دۇكان مۇلازىمىتى",
             subtitle: "ئويۇن ۋە ئەپلەرگە ئەڭ ئەرزان پۇل قاچىلاش سۇپىسى",
             badge: "تېز & ئىشەنچلىك",
-            img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop"
-          },
-          {
-            title: "سېكۇنت ئىچىدە كود يەتكۈزۈش",
-            subtitle: "سۈرىيە لىراسى ۋە دوللار بىلەن بىۋاسىتە ئۇرۇش",
-            badge: "24/7 سىستېما",
-            img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop"
+            img: fastIcons.bannerDefault
           }
         ],
         vipTiers: [
@@ -2336,13 +2331,13 @@
           tier: "diamond",
           totalSpent: 5000.000,
           currentSessionToken: null,
-          avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150"
+          avatar: fastIcons.userDefaultAvatar
         }
       },
       categories: [
-        { id: "cat-games", name: "ئويۇنلار", subName: "كود ۋە ئالماس شحن الألعاب", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300" },
-        { id: "cat-apps", name: "قوللىنىشچان بۆلۈمى", subName: "پروگراممىلار ۋە پۇل قاچىلاش", img: "https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=300" },
-        { id: "cat-telecom", name: "تېلېكوملار", subName: "الرصيد والاتصالات كارتلىرى", img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300" }
+        { id: "cat-games", name: "ئويۇنلار", subName: "كود ۋە ئالماس شحن الألعاب", img: fastIcons.gameCover },
+        { id: "cat-apps", name: "قوللىنىشچان بۆلۈمى", subName: "پروگراممىلار ۋە پۇل قاچىلاش", img: fastIcons.appCover },
+        { id: "cat-telecom", name: "تېلېكوملار", subName: "الرصيد والاتصالات كارتلىرى", img: fastIcons.telecomCover }
       ],
       products: [
         {
@@ -2352,7 +2347,7 @@
           badge: "~ روبوتى PUBG",
           fieldLabel: "ئابددى جەڭچى 💣",
           placeholder: "جەڭچىنىڭ كودىغا كىرىڭ 💣",
-          image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300",
+          image: fastIcons.gameCover,
           packages: [
             { name: "PUBG GLOBAL 60 UC", price: 0.929 },
             { name: "PUBG GLOBAL 325 UC", price: 4.638 },
@@ -2366,7 +2361,7 @@
           badge: "Free Fire",
           fieldLabel: "Player ID",
           placeholder: "ID نومۇرىڭىز",
-          image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300",
+          image: fastIcons.gameCover,
           packages: [
             { name: "100+10 كۆك تاش", price: 0.950 },
             { name: "210+21 كۆك تاش", price: 1.950 }
@@ -2420,7 +2415,7 @@
       return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
 
-    // Direct Realtime Cloud Sync
+    // Direct Cloud Sync
     async function syncFromCloud() {
       try {
         const res = await fetch(`${FIREBASE_URL}.json`);
@@ -2444,6 +2439,7 @@
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             renderAll();
+            applyWelcomeSplashData();
 
             if (getCurrentUser()?.role === "admin") {
               checkAndNotifyAdminForNewPending();
@@ -2548,11 +2544,11 @@
       await syncFromCloud();
       initApp();
 
-      // Dismiss Welcome Screen smoothly after initial load
+      // Smooth dismiss
       setTimeout(() => {
         const splash = document.getElementById("splashScreen");
         if (splash) splash.classList.add("hide");
-      }, 1000);
+      }, 700);
 
       setInterval(syncFromCloud, 3500);
     });
@@ -2568,7 +2564,7 @@
 
       const logoImg = s.welcomeLogoUrl || s.logoUrl;
       if (logoImg) {
-        wrapEl.innerHTML = `<img src="${logoImg}" alt="Logo" loading="eager" decoding="async">`;
+        wrapEl.innerHTML = `<img src="${logoImg}" alt="Logo">`;
       } else {
         wrapEl.innerHTML = `<span style="font-size: 40px;">${s.logoEmoji || '⚡'}</span>`;
       }
@@ -2613,7 +2609,7 @@
       const u = getCurrentUser();
       if (!u) return;
 
-      document.getElementById("dashAvatarImg").src = u.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
+      document.getElementById("dashAvatarImg").src = u.avatar || fastIcons.userDefaultAvatar;
       document.getElementById("dashUsername").innerText = u.username;
       document.getElementById("dashUidText").innerText = "UID: #" + u.uid;
       document.getElementById("dashBalanceVal").innerText = formatCurrency(u.balance);
@@ -2665,7 +2661,7 @@
 
       const logoBox = document.getElementById("siteLogo");
       if (s.logoUrl) {
-        logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo" loading="eager" decoding="async">`;
+        logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
       } else {
         logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
       }
@@ -2746,7 +2742,7 @@
         tier: "bronze",
         totalSpent: 0.000,
         currentSessionToken: newSessionToken,
-        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
+        avatar: fastIcons.userDefaultAvatar
       };
 
       state.users["user_" + uid] = newUser;
@@ -2799,7 +2795,7 @@
         document.getElementById("sidebarBalance").innerText = "ھېساباتقا كىرمىگەن";
         document.getElementById("sidebarUsername").innerText = "مېھمان ئابونت";
         document.getElementById("sidebarUidText").innerText = "UID: #مېھمان";
-        document.getElementById("sidebarAvatarImg").src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
+        document.getElementById("sidebarAvatarImg").src = fastIcons.userDefaultAvatar;
         roleBadge.className = "role-badge-pill role-user";
         roleBadge.innerText = "مېھمان";
         adminEntry.style.display = "none";
@@ -2811,7 +2807,7 @@
 
       headerAuthBtn.style.display = "none";
       headerUserAvatar.style.display = "block";
-      headerUserAvatar.src = u.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
+      headerUserAvatar.src = u.avatar || fastIcons.userDefaultAvatar;
 
       logoutItem.style.display = "flex";
       authBtn.innerText = "🚪";
@@ -2824,7 +2820,7 @@
       document.getElementById("rechargePageBalance").innerText = formatDualCurrency(u.balance);
       document.getElementById("sidebarUsername").innerText = u.username;
       document.getElementById("sidebarUidText").innerText = "UID: #" + u.uid;
-      document.getElementById("sidebarAvatarImg").src = u.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
+      document.getElementById("sidebarAvatarImg").src = u.avatar || fastIcons.userDefaultAvatar;
 
       if (u.role === "admin") {
         roleBadge.className = "role-badge-pill role-admin";
@@ -2842,7 +2838,7 @@
       document.getElementById("vipTotalSpent").innerText = formatDualCurrency(u.totalSpent);
     }
 
-    /* PUSH NOTIFICATIONS & INTERACTIVE POPUP */
+    /* PUSH NOTIFICATIONS & POPUP */
     function requestNotificationPermission() {
       if ("Notification" in window && Notification.permission !== "granted") {
         Notification.requestPermission();
@@ -2855,13 +2851,13 @@
 
       const title = type === "order" ? "📦 يېڭى زاكاس چۈشتى!" : "💰 يېڭى سومما قاچىلاش تەلىپى!";
       const body = type === "order" 
-        ? `${item.username} نىڭ ${item.prodName} (${item.packageName}) زاكاسى كەلدى. تېز تەستىقلاش ئۈچۈن بېسىڭ.`
-        : `${item.username} دىن ${formatCurrency(item.amount)} قاچىلاش تەلىپى چۈشتى. بېسىپ ماقۇللاڭ.`;
+        ? `${item.username} نىڭ ${item.prodName} (${item.packageName}) زاكاسى كەلدى.`
+        : `${item.username} دىن ${formatCurrency(item.amount)} قاچىلاش تەلىپى كەلدى.`;
 
       if ("Notification" in window && Notification.permission === "granted") {
         const notif = new Notification(title, {
           body: body,
-          icon: state.siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
+          icon: state.siteSettings.logoUrl
         });
         notif.onclick = () => {
           window.focus();
@@ -3048,7 +3044,7 @@
         card.onclick = () => openCategoryDetailPage(cat.id);
         card.innerHTML = `
           <div class="category-cover-wrapper">
-            <img src="${cat.img}" alt="${cat.name}" loading="lazy" decoding="async">
+            <img src="${cat.img}" alt="${cat.name}">
           </div>
           <div class="category-info-box">
             <div class="category-title">${cat.name}</div>
@@ -3059,7 +3055,7 @@
       });
     }
 
-    /* ADMIN: REALTIME USERS LIST WITH DELETE FUNCTION */
+    /* ADMIN: REALTIME USERS LIST */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -3083,8 +3079,8 @@
         div.style.alignItems = "center";
         div.innerHTML = `
           <div style="display: flex; align-items: center; gap: 12px;">
-            <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}" 
-                 style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid ${u.role === 'admin' ? '#ef4444' : '#0284c7'};" loading="lazy" decoding="async">
+            <img src="${u.avatar || fastIcons.userDefaultAvatar}" 
+                 style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid ${u.role === 'admin' ? '#ef4444' : '#0284c7'};">
             <div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <strong style="color:#fff; font-size:0.95rem;">${u.username}</strong>
@@ -3148,13 +3144,11 @@
       if (!u) return;
       const newName = prompt("ئىشلەتكۈچى نامى:", u.username);
       if (newName && newName.trim()) u.username = newName.trim();
-      const newAvatar = prompt("باش رەسىم ئۇلانمىسى (Avatar URL):", u.avatar);
-      if (newAvatar && newAvatar.trim()) u.avatar = newAvatar.trim();
       state.users["user_" + uid] = u;
       saveState();
     }
 
-    /* ADMIN: WELCOME SCREEN SETTINGS */
+    /* ADMIN: WELCOME SCREEN SETTINGS (SAVED TO FIREBASE INSTANTLY) */
     function renderAdminWelcomeSettings() {
       const s = state.siteSettings;
       document.getElementById("adminWelcomeTitleInput").value = s.welcomeTitle || s.siteName || "Auto cash";
@@ -3162,14 +3156,18 @@
       document.getElementById("adminWelcomeImgInput").value = s.welcomeLogoUrl || "";
     }
 
-    function saveAdminWelcomeSettings() {
-      state.siteSettings.welcomeTitle = document.getElementById("adminWelcomeTitleInput").value.trim() || "Auto cash";
-      state.siteSettings.welcomeMessage = document.getElementById("adminWelcomeMsgInput").value.trim() || "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!";
-      state.siteSettings.welcomeLogoUrl = document.getElementById("adminWelcomeImgInput").value.trim();
+    async function saveAdminWelcomeSettings() {
+      const title = document.getElementById("adminWelcomeTitleInput").value.trim() || "Auto cash";
+      const msg = document.getElementById("adminWelcomeMsgInput").value.trim() || "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!";
+      const img = document.getElementById("adminWelcomeImgInput").value.trim();
+
+      state.siteSettings.welcomeTitle = title;
+      state.siteSettings.welcomeMessage = msg;
+      state.siteSettings.welcomeLogoUrl = img;
 
       saveState();
       applyWelcomeSplashData();
-      alert("قارشى ئېلىش بېتى تەڭشەكلىرى مۇقىم ساقلاندى!");
+      alert("قارشى ئېلىش بېتى تەڭشەكلىرى پۈتۈن بوشلۇققا مۇقىم ساقلاندى!");
     }
 
     /* ADMIN: SETTINGS */
@@ -3209,7 +3207,7 @@
         div.className = "admin-list-item";
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:12px;">
-            <img src="${cat.img}" style="width:48px; height:48px; object-fit:cover; border-radius:10px; border:1px solid #1e4579;" loading="lazy" decoding="async">
+            <img src="${cat.img}" style="width:48px; height:48px; object-fit:cover; border-radius:10px; border:1px solid #1e4579;">
             <div>
               <strong style="color:#fff; font-size:0.95rem;">${cat.name}</strong>
               <div style="font-size:0.75rem; color:#94a3b8;">${cat.subName}</div>
@@ -3251,20 +3249,19 @@
       const img = document.getElementById("adminCatImageUrlInput").value.trim();
       if (!name) return alert("تۈر نامىنى كىرگۈزۈڭ!");
 
-      const defaultImg = "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300";
       if (editId) {
         const cat = state.categories.find(c => c.id === editId);
         if (cat) {
           cat.name = name;
           cat.subName = subName || "Auto cash مۇلازىمىتى";
-          cat.img = img || cat.img || defaultImg;
+          cat.img = img || cat.img || fastIcons.gameCover;
         }
       } else {
         state.categories.push({
           id: "cat-" + Date.now(),
           name: name,
           subName: subName || "Auto cash مۇلازىمىتى",
-          img: img || defaultImg
+          img: img || fastIcons.gameCover
         });
       }
       saveState();
@@ -3289,7 +3286,7 @@
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:10px;">
             <div class="pay-icon-circle" style="width:40px; height:40px; margin:0; font-size:18px;">
-              ${m.icon.startsWith("http") ? `<img src="${m.icon}" loading="lazy" decoding="async">` : m.icon}
+              ${m.icon.startsWith("http") ? `<img src="${m.icon}">` : m.icon}
             </div>
             <div>
               <strong style="color:#fff; font-size:0.92rem;">${m.name}</strong>
@@ -3403,7 +3400,7 @@
         card.innerHTML = `
           <div class="pay-card-commission">${m.commission}</div>
           <div class="pay-icon-circle">
-            ${m.icon.startsWith("http") ? `<img src="${m.icon}" loading="lazy" decoding="async">` : `<span style="font-size:24px;">${m.icon}</span>`}
+            ${m.icon.startsWith("http") ? `<img src="${m.icon}">` : `<span style="font-size:24px;">${m.icon}</span>`}
           </div>
           <div class="pay-card-name">${m.name}</div>
         `;
@@ -3485,7 +3482,7 @@
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
-          <img src="${p.image}" class="product-image" alt="${p.name}" loading="lazy" decoding="async">
+          <img src="${p.image}" class="product-image" alt="${p.name}">
           <div class="product-info-title">${p.name}</div>
           <div class="product-info-desc">${p.badge || ''}</div>
           <div class="product-footer">
@@ -3514,7 +3511,7 @@
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
-          <img src="${p.image}" class="product-image" alt="${p.name}" loading="lazy" decoding="async">
+          <img src="${p.image}" class="product-image" alt="${p.name}">
           <div class="product-info-title">${p.name}</div>
           <div class="product-footer">
             <div class="product-price-box">
@@ -3561,7 +3558,7 @@
         card.onclick = () => checkAuthAndAction(() => openProductOrderPage(p.id));
         card.innerHTML = `
           <div class="game-cover-wrapper">
-            <img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async">
+            <img src="${p.image}" alt="${p.name}">
           </div>
           <div class="game-info-box">
             <div class="game-title">${p.name}</div>
@@ -3692,7 +3689,7 @@
       switchView("view-orders");
     }
 
-    /* FILTER AND RENDER USER ORDERS WITH TIME OF EXECUTION */
+    /* FILTER AND RENDER USER ORDERS */
     function filterOrders(filter, btn) {
       currentOrderFilter = filter;
       document.querySelectorAll("#orderFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
@@ -3754,7 +3751,7 @@
       });
     }
 
-    /* FILTER AND RENDER USER PAYMENTS WITH TIME OF EXECUTION */
+    /* FILTER AND RENDER USER PAYMENTS */
     function filterPayments(filter, btn) {
       currentPaymentFilter = filter;
       document.querySelectorAll("#paymentFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
@@ -3816,7 +3813,7 @@
       });
     }
 
-    /* ADMIN: ORDERS & DEPOSITS WITH INSTANT STATE CHANGE AND TIME STAMP */
+    /* ADMIN: ORDERS & DEPOSITS */
     function renderAdminAllOrders() {
       const container = document.getElementById("adminAllOrdersList");
       if (!container) return;
@@ -3982,7 +3979,7 @@
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
-          <img src="${p.image}" class="product-image" alt="${p.name}" loading="lazy" decoding="async">
+          <img src="${p.image}" class="product-image" alt="${p.name}">
           <div class="product-info-title">${p.name}</div>
           <div class="product-footer">
             <span class="product-price-usd">${p.packages[0] ? formatCurrency(p.packages[0].price) : '$ 0.00'}</span>
@@ -4015,7 +4012,7 @@
         div.innerHTML = `
           <div class="vip-left-info">
             <div class="vip-medal-icon">
-              ${t.logo ? `<img src="${t.logo}" alt="${t.name}" loading="lazy" decoding="async">` : `<span>${t.emoji}</span>`}
+              ${t.logo ? `<img src="${t.logo}" alt="${t.name}">` : `<span>${t.emoji}</span>`}
             </div>
             <div class="vip-details">
               <h4>${t.name}</h4>
@@ -4038,7 +4035,7 @@
         div.className = "admin-list-item";
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${b.img}" style="width:60px; height:40px; object-fit:cover; border-radius:6px;" loading="lazy" decoding="async">
+            <img src="${b.img}" style="width:60px; height:40px; object-fit:cover; border-radius:6px;">
             <div>
               <strong style="color:#fff; font-size:0.9rem;">${b.title}</strong>
               <div style="font-size:0.75rem; color:#94a3b8;">${b.subtitle}</div>
@@ -4081,8 +4078,8 @@
       const subtitle = document.getElementById("bannerSubInput").value.trim();
       const badge = document.getElementById("bannerBadgeInput").value.trim();
 
-      if (!img || !title) return alert("رەسىم ۋە تېمىنى كىرگۈزۈڭ!");
-      const item = { img, title, subtitle, badge };
+      if (!title) return alert("تېمىنى كىرگۈزۈڭ!");
+      const item = { img: img || fastIcons.bannerDefault, title, subtitle, badge };
       if (idx >= 0) state.siteSettings.banners[idx] = item;
       else state.siteSettings.banners.push(item);
       saveState();
@@ -4111,7 +4108,7 @@
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <strong style="color:#fff;">${t.name}</strong>
             <div class="vip-medal-icon" style="width:36px; height:36px;">
-              ${t.logo ? `<img src="${t.logo}" loading="lazy" decoding="async">` : t.emoji}
+              ${t.logo ? `<img src="${t.logo}">` : t.emoji}
             </div>
           </div>
           <div class="form-group" style="margin-bottom:4px;">
@@ -4172,7 +4169,7 @@
         div.className = "admin-list-item";
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${p.image}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;" loading="lazy" decoding="async">
+            <img src="${p.image}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">
             <div>
               <strong style="color:#fff;">${p.name}</strong>
               <div style="font-size:0.75rem; color:#94a3b8;">${p.packages ? p.packages.length : 0} بولاق</div>
@@ -4233,7 +4230,7 @@
         badge: badge,
         fieldLabel: label,
         placeholder: label,
-        image: img || "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300",
+        image: img || fastIcons.gameCover,
         packages: JSON.parse(JSON.stringify(tempPackages))
       });
       saveState();
@@ -4321,7 +4318,7 @@
       return "🤖 **بۇيرۇقىڭىز پۈتۈن بوشلۇقتا ئىجرا قىلىندى!**";
     }
 
-    /* LOCAL FILE AVATAR UPLOAD (NO URL REQUIRED) */
+    /* ACCOUNT DETAILS */
     let tempSelectedAvatarDataUrl = null;
 
     function openAccountDetailsModal() {
@@ -4330,7 +4327,7 @@
       document.getElementById("accUsernameInput").value = u.username;
       document.getElementById("accPhoneInput").value = u.phone || "";
       document.getElementById("accPasswordInput").value = "";
-      document.getElementById("accModalAvatarPreview").src = u.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150";
+      document.getElementById("accModalAvatarPreview").src = u.avatar || fastIcons.userDefaultAvatar;
       tempSelectedAvatarDataUrl = u.avatar || null;
       openModal("modalAccountDetails");
     }
