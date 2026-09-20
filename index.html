@@ -2077,12 +2077,12 @@
 
   <!-- JAVASCRIPT & REALTIME DATABASE ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v7";
+    const STORAGE_KEY = "autocash_app_state_v8";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
 
     // Directly connected to your dedicated Firebase Database
     const firebaseConfig = {
-      databaseURL: "https://autocash-store-new-default-rtdb.firebaseio.com/"
+      databaseURL: "https://auto-chah-store-default-rtdb.firebaseio.com/"
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
@@ -2199,7 +2199,6 @@
     }
     ensureAdminFixed();
 
-    // Listen to cloud updates instantly across all connected phones
     systemDbRef.on("value", (snapshot) => {
       const cloudData = snapshot.val();
       if (cloudData) {
@@ -2214,7 +2213,6 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         renderAll();
 
-        // Check single device session
         const me = getCurrentUser();
         if (me) {
           const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
@@ -2224,7 +2222,6 @@
           }
         }
       } else {
-        // First initialization of cloud database
         systemDbRef.set(defaultData);
       }
     });
@@ -2233,7 +2230,6 @@
       ensureAdminFixed();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderAll();
-      // Push directly to your Firebase database
       systemDbRef.set(state);
     }
 
@@ -2322,8 +2318,11 @@
       document.getElementById("bannerExchangeRateText").innerText = `1 $ = ${getRate()} سۈرىيە لىراسى`;
 
       const logoBox = document.getElementById("siteLogo");
-      if (s.logoUrl) logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
-      else logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
+      if (s.logoUrl) {
+        logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
+      } else {
+        logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
+      }
 
       const authLogoBox = document.getElementById("authLogoPreview");
       if (authLogoBox) {
@@ -2404,7 +2403,7 @@
       state.currentUserId = uid;
       localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
 
-      saveState(); // Instantly pushes to Firebase for Admin to see immediately
+      saveState();
       alert("ھېساباتىڭىز مۇۋەپپەقىيەتلىك ئېچىلدى! سىزنىڭ UID كودىڭىز: #" + uid);
       requestNotificationPermission();
       switchView("view-home");
@@ -3636,7 +3635,7 @@
             });
           }
         });
-        return `📉 **بارلىق مەھسۇلات باھالىرى دەل ۋاقتىدا %${percent} ${isReduce ? 'چۈشۈرۈلدى' : 'ئۆستۈرۈلدى'}.**`;
+        return `📉 **بارلىق مەھسۇلات بولاق باھالىرى دەل ۋاقتىدا %${percent} ${isReduce ? 'چۈشۈرۈلدى' : 'ئۆستۈرۈلدى'}.**`;
       }
 
       if (c.includes("دوللار") || c.includes("قالدۇق")) {
