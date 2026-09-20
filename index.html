@@ -6,10 +6,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
-  
-  <!-- Firebase Realtime Database SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
     :root {
@@ -61,7 +57,7 @@
       justify-content: center;
       padding: 24px;
       text-align: center;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     #splashScreen.hide {
       opacity: 0;
@@ -69,8 +65,8 @@
       pointer-events: none;
     }
     .splash-logo-circle {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       background: #092140;
       border: 3px solid #38bdf8;
@@ -87,29 +83,27 @@
       object-fit: contain;
     }
     .splash-title {
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       font-weight: 800;
       color: #fff;
       margin-bottom: 8px;
     }
     .splash-msg {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: #94a3b8;
       max-width: 320px;
       line-height: 1.5;
       margin-bottom: 20px;
     }
     .splash-loader {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       border: 3px solid rgba(56, 189, 248, 0.2);
       border-top-color: #38bdf8;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* Top Header */
     .top-header {
@@ -160,7 +154,6 @@
       font-weight: 800;
       color: #fff;
       letter-spacing: 0.5px;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
     }
 
     .header-actions {
@@ -181,7 +174,6 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      box-shadow: 0 0 8px rgba(2, 132, 199, 0.4);
     }
 
     .header-user-avatar {
@@ -192,7 +184,6 @@
       object-fit: cover;
       cursor: pointer;
       display: none;
-      box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
     }
 
     .balance-chip {
@@ -207,12 +198,7 @@
       font-weight: bold;
       font-size: 0.88rem;
       cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.2s ease;
       user-select: none;
-    }
-    .balance-chip:hover {
-      background: rgba(255, 255, 255, 0.2);
     }
     .balance-chip .plus-symbol {
       background: #10b981;
@@ -225,7 +211,6 @@
       justify-content: center;
       font-size: 13px;
       font-weight: 900;
-      flex-shrink: 0;
     }
 
     .menu-toggle-btn {
@@ -235,9 +220,6 @@
       font-size: 26px;
       padding: 4px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .header-back-btn {
@@ -247,10 +229,6 @@
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
     }
 
     /* Centered Layout */
@@ -275,7 +253,7 @@
 
     .carousel-track {
       display: flex;
-      transition: transform 0.5s ease-in-out;
+      transition: transform 0.4s ease;
       height: 100%;
     }
 
@@ -295,7 +273,7 @@
     .slide-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(7, 25, 48, 0.15) 0%, rgba(7, 25, 48, 0.9) 100%);
+      background: linear-gradient(180deg, rgba(7, 25, 48, 0.2) 0%, rgba(7, 25, 48, 0.95) 100%);
     }
 
     .slide-content {
@@ -358,26 +336,18 @@
       white-space: nowrap;
     }
 
-    .announcement-icon {
-      color: var(--accent-gold);
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
+    .announcement-icon { color: var(--accent-gold); font-size: 1.1rem; flex-shrink: 0; }
 
     .marquee-text {
       display: inline-block;
       animation: marquee 20s linear infinite;
     }
-
     @keyframes marquee {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
 
-    .search-box {
-      position: relative;
-      margin-bottom: 16px;
-    }
+    .search-box { position: relative; margin-bottom: 16px; }
 
     .search-input {
       width: 100%;
@@ -388,12 +358,6 @@
       color: #fff;
       font-size: 0.9rem;
       outline: none;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    .search-input:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
     }
 
     .search-icon {
@@ -433,28 +397,18 @@
       background: #0b2242;
       border: 1.5px solid #1e4579;
       border-radius: 14px;
-      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       cursor: pointer;
-      transition: all 0.25s ease;
-      position: relative;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-    }
-
-    .category-card:hover, .game-card:hover {
-      transform: translateY(-4px);
-      border-color: #38bdf8;
-      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.3);
     }
 
     .category-cover-wrapper, .game-cover-wrapper {
       width: 100%;
       aspect-ratio: 1 / 1;
-      position: relative;
       overflow: hidden;
       background: #06172d;
       display: flex;
@@ -467,12 +421,6 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.3s ease;
-    }
-
-    .category-card:hover .category-cover-wrapper img,
-    .game-card:hover .game-cover-wrapper img {
-      transform: scale(1.06);
     }
 
     .category-info-box, .game-info-box {
@@ -486,7 +434,6 @@
       font-size: 0.85rem;
       font-weight: 700;
       color: #f1f5f9;
-      line-height: 1.3;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -516,7 +463,6 @@
       padding: 10px;
       display: flex;
       flex-direction: column;
-      position: relative;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
@@ -538,12 +484,6 @@
       text-overflow: ellipsis;
     }
 
-    .product-info-desc {
-      font-size: 0.72rem;
-      color: #94a3b8;
-      margin-bottom: 8px;
-    }
-
     .product-footer {
       display: flex;
       align-items: center;
@@ -551,36 +491,11 @@
       margin-top: auto;
     }
 
-    .product-price-box {
-      display: flex;
-      flex-direction: column;
-    }
+    .product-price-box { display: flex; flex-direction: column; }
+    .product-price-usd { color: #38bdf8; font-weight: bold; font-size: 0.88rem; }
+    .product-price-syp { color: #f59e0b; font-size: 0.72rem; font-weight: 600; }
 
-    .product-price-usd {
-      color: #38bdf8;
-      font-weight: bold;
-      font-size: 0.88rem;
-    }
-
-    .product-price-syp {
-      color: #f59e0b;
-      font-size: 0.72rem;
-      font-weight: 600;
-    }
-
-    .product-actions-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .fav-toggle-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-    }
-
+    .fav-toggle-btn { background: none; border: none; cursor: pointer; font-size: 1.1rem; }
     .buy-btn {
       background: #0284c7;
       color: #fff;
@@ -596,26 +511,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
       margin-top: 10px;
       margin-bottom: 20px;
-    }
-
-    .detail-fav-btn {
-      position: absolute;
-      top: 0;
-      left: 6px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #0b2447;
-      border: 1px solid #1e4579;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      color: #94a3b8;
-      cursor: pointer;
     }
 
     .detail-avatar-circle {
@@ -631,31 +528,17 @@
       align-items: center;
       justify-content: center;
     }
-    .detail-avatar-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .detail-prod-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #fff;
-    }
+    .detail-avatar-circle img { width: 100%; height: 100%; object-fit: contain; }
 
     .order-form-panel {
       background: #0b2447;
       border: 1px solid #1c4578;
       border-radius: 16px;
       padding: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
       margin-bottom: 18px;
     }
 
-    .order-input-wrapper {
-      margin-bottom: 16px;
-    }
-
+    .order-input-wrapper { margin-bottom: 16px; }
     .order-input-label {
       font-size: 0.88rem;
       color: #cbd5e1;
@@ -701,9 +584,7 @@
       overflow: hidden;
       display: none;
     }
-    .package-options-container.open {
-      display: block;
-    }
+    .package-options-container.open { display: block; }
 
     .package-option-row {
       display: flex;
@@ -713,25 +594,7 @@
       border-bottom: 1px solid #14355f;
       cursor: pointer;
     }
-    .package-option-row:last-child {
-      border-bottom: none;
-    }
-    .package-option-row:hover, .package-option-row.selected {
-      background: #113463;
-    }
-    .package-opt-name {
-      font-size: 0.9rem;
-      color: #f1f5f9;
-    }
-    .package-opt-price {
-      font-size: 0.92rem;
-      color: #38bdf8;
-      font-weight: bold;
-      direction: ltr;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
+    .package-option-row:hover, .package-option-row.selected { background: #113463; }
 
     .send-request-big-btn {
       width: 100%;
@@ -743,11 +606,6 @@
       font-size: 1.05rem;
       font-weight: bold;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
     }
 
     .filter-tabs-row {
@@ -758,8 +616,6 @@
       padding-bottom: 4px;
       scrollbar-width: none;
     }
-    .filter-tabs-row::-webkit-scrollbar { display: none; }
-
     .filter-tab-pill {
       background: #092040;
       border: 1px solid #1b4170;
@@ -770,11 +626,7 @@
       white-space: nowrap;
       cursor: pointer;
     }
-    .filter-tab-pill.active {
-      background: #0284c7;
-      color: #fff;
-      border-color: #0284c7;
-    }
+    .filter-tab-pill.active { background: #0284c7; color: #fff; border-color: #0284c7; }
 
     .payment-methods-grid {
       display: grid;
@@ -793,10 +645,6 @@
       text-align: center;
       position: relative;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-    .pay-card:hover {
-      border-color: #38bdf8;
     }
     .pay-card-commission {
       position: absolute;
@@ -820,18 +668,8 @@
       margin-bottom: 10px;
       border: 1.5px solid #1e4579;
       overflow: hidden;
-      flex-shrink: 0;
     }
-    .pay-icon-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    .pay-card-name {
-      font-size: 0.88rem;
-      font-weight: bold;
-      color: #f1f5f9;
-    }
+    .pay-icon-circle img { width: 100%; height: 100%; object-fit: contain; }
 
     .vip-tier-card {
       background: #092040;
@@ -843,148 +681,9 @@
       align-items: center;
       justify-content: space-between;
     }
-    .vip-tier-card.active {
-      border-color: #f59e0b;
-      background: linear-gradient(135deg, #0d284f, #071930);
-    }
-    .vip-left-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .vip-medal-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      overflow: hidden;
-      background: #0c264a;
-      border: 1px solid #1e4579;
-    }
-    .vip-medal-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .vip-details h4 {
-      font-size: 0.95rem;
-      color: #fff;
-    }
-    .vip-details p {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-top: 2px;
-    }
+    .vip-tier-card.active { border-color: #f59e0b; background: linear-gradient(135deg, #0d284f, #071930); }
 
-    .empty-state {
-      text-align: center;
-      padding: 40px 14px;
-      color: #94a3b8;
-    }
-    .empty-state-icon {
-      font-size: 40px;
-      margin-bottom: 8px;
-    }
-    .empty-state-title {
-      font-weight: bold;
-      color: #cbd5e1;
-      margin-bottom: 4px;
-    }
-
-    .ai-chat-box {
-      background: #06172d;
-      border: 1px solid #1b4170;
-      border-radius: 14px;
-      display: flex;
-      flex-direction: column;
-      height: 460px;
-      overflow: hidden;
-    }
-    .ai-chat-messages {
-      flex: 1;
-      padding: 14px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .ai-msg {
-      max-width: 85%;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 0.88rem;
-      line-height: 1.45;
-    }
-    .ai-msg-user {
-      align-self: flex-start;
-      background: #0284c7;
-      color: #fff;
-      border-bottom-right-radius: 2px;
-    }
-    .ai-msg-bot {
-      align-self: flex-end;
-      background: #0d2a52;
-      color: #e2e8f0;
-      border: 1px solid #1e4579;
-      border-bottom-left-radius: 2px;
-    }
-    .ai-quick-prompts {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding: 8px 10px;
-      background: #081d38;
-      border-top: 1px solid #14355f;
-      scrollbar-width: none;
-    }
-    .ai-quick-prompts::-webkit-scrollbar { display: none; }
-    .ai-prompt-chip {
-      background: #113463;
-      border: 1px solid #1f4b82;
-      color: #38bdf8;
-      padding: 4px 10px;
-      border-radius: 14px;
-      font-size: 0.75rem;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .ai-chat-input-row {
-      display: flex;
-      padding: 10px;
-      background: #092040;
-      border-top: 1px solid #183a64;
-      gap: 8px;
-    }
-    .ai-chat-input-row input {
-      flex: 1;
-      background: #06172d;
-      border: 1px solid #1d4373;
-      border-radius: 8px;
-      padding: 9px 12px;
-      color: #fff;
-      font-size: 0.88rem;
-      outline: none;
-    }
-
-    .admin-price-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-      margin-bottom: 8px;
-      font-size: 0.82rem;
-    }
-    .admin-price-table th, .admin-price-table td {
-      border: 1px solid #1a3c68;
-      padding: 6px 8px;
-      text-align: right;
-    }
-    .admin-price-table th {
-      background: #0c264a;
-      color: #94a3b8;
-    }
+    .empty-state { text-align: center; padding: 40px 14px; color: #94a3b8; }
 
     .bottom-nav {
       position: fixed;
@@ -999,7 +698,6 @@
       align-items: center;
       justify-content: space-around;
       z-index: 60;
-      box-shadow: 0 -4px 15px rgba(0,0,0,0.5);
     }
     .nav-item {
       display: flex;
@@ -1007,25 +705,15 @@
       align-items: center;
       justify-content: center;
       color: #64748b;
-      text-decoration: none;
       font-size: 0.7rem;
       gap: 3px;
       flex: 1;
       height: 100%;
       cursor: pointer;
-      position: relative;
     }
-    .nav-item svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-    }
-    .nav-item.active {
-      color: #38bdf8;
-    }
-    .nav-item.active svg {
-      fill: #38bdf8;
-    }
+    .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+    .nav-item.active { color: #38bdf8; }
+    .nav-item.active svg { fill: #38bdf8; }
 
     .floating-chat-btn {
       position: fixed;
@@ -1044,11 +732,7 @@
       z-index: 55;
       border: 2px solid #38bdf8;
     }
-    .floating-chat-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: #fff;
-    }
+    .floating-chat-btn svg { width: 24px; height: 24px; fill: #fff; }
 
     .drawer-overlay {
       position: fixed;
@@ -1057,13 +741,9 @@
       backdrop-filter: blur(4px);
       z-index: 100;
       display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
     }
-    .drawer-overlay.active {
-      display: block;
-      opacity: 1;
-    }
+    .drawer-overlay.active { display: block; }
+
     .drawer-sidebar {
       position: fixed;
       top: 0;
@@ -1075,15 +755,13 @@
       z-index: 101;
       display: flex;
       flex-direction: column;
-      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: -8px 0 25px rgba(0,0,0,0.6);
+      transition: right 0.3s ease;
       overflow-y: auto;
       padding-top: var(--safe-top);
       padding-bottom: var(--safe-bottom);
     }
-    .drawer-sidebar.active {
-      right: 0;
-    }
+    .drawer-sidebar.active { right: 0; }
+
     .drawer-header {
       padding: 16px;
       display: flex;
@@ -1091,13 +769,8 @@
       align-items: center;
       border-bottom: 1px solid #16365f;
     }
-    .drawer-close-btn {
-      background: none;
-      border: none;
-      color: #94a3b8;
-      font-size: 24px;
-      cursor: pointer;
-    }
+    .drawer-close-btn { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
+
     .profile-banner-card {
       padding: 16px;
       display: flex;
@@ -1105,14 +778,8 @@
       align-items: center;
       border-bottom: 1px solid #16365f;
       background: linear-gradient(180deg, #0f2c54 0%, #091f3d 100%);
-      position: relative;
     }
-    .avatar-container {
-      position: relative;
-      width: 82px;
-      height: 82px;
-      margin-bottom: 10px;
-    }
+    .avatar-container { position: relative; width: 80px; height: 80px; margin-bottom: 10px; }
     .user-avatar-img {
       width: 100%;
       height: 100%;
@@ -1137,63 +804,8 @@
       font-size: 13px;
       cursor: pointer;
     }
-    .user-tag-badge {
-      background: #b45309;
-      color: #fef3c7;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.72rem;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-    .user-handle {
-      font-size: 1rem;
-      font-weight: bold;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .user-uid-text {
-      font-size: 0.78rem;
-      color: #38bdf8;
-      font-family: monospace;
-      margin-top: 2px;
-      background: rgba(56, 189, 248, 0.1);
-      padding: 1px 6px;
-      border-radius: 4px;
-    }
-    .user-wallet-val {
-      font-size: 0.88rem;
-      color: #34d399;
-      font-weight: bold;
-      margin-top: 4px;
-      text-align: center;
-    }
-    .profile-quick-actions {
-      display: flex;
-      gap: 14px;
-      margin-top: 12px;
-    }
-    .quick-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #113463;
-      border: 1px solid #1e4b85;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #93c5fd;
-      cursor: pointer;
-    }
-    .drawer-menu-list {
-      list-style: none;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+
+    .drawer-menu-list { list-style: none; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
     .drawer-menu-item {
       display: flex;
       align-items: center;
@@ -1204,23 +816,8 @@
       font-size: 0.9rem;
       cursor: pointer;
     }
-    .drawer-menu-item:hover {
-      background: #123769;
-      color: #38bdf8;
-    }
-    .drawer-menu-item .item-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .role-badge-pill {
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-    .role-user { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid #38bdf8; }
-    .role-admin { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+    .drawer-menu-item:hover { background: #123769; color: #38bdf8; }
+    .drawer-menu-item .item-left { display: flex; align-items: center; gap: 12px; }
 
     .modal-backdrop {
       position: fixed;
@@ -1233,9 +830,8 @@
       justify-content: center;
       padding: 14px;
     }
-    .modal-backdrop.active {
-      display: flex;
-    }
+    .modal-backdrop.active { display: flex; }
+
     .modal-card {
       background: #092040;
       border: 1px solid #1e4579;
@@ -1254,14 +850,8 @@
       justify-content: space-between;
       border-bottom: 1px solid #16365f;
     }
-    .modal-title {
-      font-size: 1.05rem;
-      font-weight: bold;
-      color: #fff;
-    }
-    .modal-body {
-      padding: 16px;
-    }
+    .modal-title { font-size: 1.05rem; font-weight: bold; color: #fff; }
+    .modal-body { padding: 16px; }
     .modal-footer {
       padding: 12px 16px;
       border-top: 1px solid #16365f;
@@ -1269,16 +859,9 @@
       justify-content: flex-end;
       gap: 10px;
     }
-    .form-group {
-      margin-bottom: 14px;
-    }
-    .form-label {
-      display: block;
-      font-size: 0.82rem;
-      color: #94a3b8;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 0.82rem; color: #94a3b8; margin-bottom: 6px; }
     .form-control {
       width: 100%;
       background: #06172d;
@@ -1289,9 +872,7 @@
       font-size: 0.9rem;
       outline: none;
     }
-    .form-control:focus {
-      border-color: #38bdf8;
-    }
+
     .btn {
       padding: 8px 16px;
       border-radius: 8px;
@@ -1318,7 +899,6 @@
       padding-bottom: 6px;
       scrollbar-width: none;
     }
-    .admin-tab-bar::-webkit-scrollbar { display: none; }
     .admin-tab-btn {
       background: #092040;
       border: 1px solid #1a3c68;
@@ -1329,12 +909,8 @@
       white-space: nowrap;
       cursor: pointer;
     }
-    .admin-tab-btn.active {
-      background: #ef4444;
-      color: #fff;
-      border-color: #ef4444;
-      font-weight: bold;
-    }
+    .admin-tab-btn.active { background: #ef4444; color: #fff; border-color: #ef4444; font-weight: bold; }
+
     .admin-list-item {
       background: #092040;
       border: 1px solid #183863;
@@ -1345,45 +921,12 @@
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: background 0.2s ease;
     }
-    .admin-list-item:hover {
-      background: #0d284f;
-    }
-    .hidden-file-input { display: none; }
-    .badge {
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: bold;
-      display: inline-block;
-    }
+
+    .badge { padding: 3px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; display: inline-block; }
     .badge-success { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid #10b981; }
     .badge-warning { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b; }
     .badge-danger { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid #ef4444; }
-
-    .currency-selector-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .curr-btn {
-      flex: 1;
-      padding: 8px;
-      border-radius: 8px;
-      border: 1px solid #1e4579;
-      background: #071a33;
-      color: #94a3b8;
-      font-weight: bold;
-      cursor: pointer;
-      text-align: center;
-      font-size: 0.85rem;
-    }
-    .curr-btn.active {
-      background: #0284c7;
-      color: #fff;
-      border-color: #38bdf8;
-    }
 
     .stat-dashboard-grid {
       display: grid;
@@ -1398,14 +941,8 @@
       padding: 10px;
       text-align: center;
     }
-    .stat-card-val {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #38bdf8;
-      margin-top: 4px;
-    }
+    .stat-card-val { font-size: 1.1rem; font-weight: bold; color: #38bdf8; margin-top: 4px; }
 
-    /* Single click copy row */
     .copyable-row {
       display: flex;
       align-items: center;
@@ -1423,14 +960,15 @@
       user-select: all;
       word-break: break-all;
     }
+    .hidden-file-input { display: none; }
   </style>
 </head>
 <body>
 
-  <!-- Dynamic Splash Screen -->
+  <!-- Instant Dynamic Welcome / Splash Screen -->
   <div id="splashScreen">
     <div class="splash-logo-circle" id="splashLogoWrap">
-      <span style="font-size: 44px;">⚡</span>
+      <span style="font-size: 40px;">⚡</span>
     </div>
     <h2 class="splash-title" id="splashTitleText">Auto cash</h2>
     <p class="splash-msg" id="splashWelcomeMessage">كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!</p>
@@ -1440,7 +978,6 @@
   <!-- Top App Header -->
   <header class="top-header">
     <div class="brand-section" onclick="switchView('view-home')">
-      <!-- Round Full-Bleed Logo -->
       <div class="brand-logo" id="siteLogo">
         <span>⚡</span>
       </div>
@@ -1460,7 +997,7 @@
       </button>
 
       <!-- Avatar Pill when logged in -->
-      <img id="headerUserAvatar" class="header-user-avatar" src="" alt="Avatar" onclick="openUserStatsDashboardModal()" title="ھېسابات تەپسىلاتى ۋە سىتاتىستىكا">
+      <img id="headerUserAvatar" class="header-user-avatar" src="" alt="Avatar" onclick="openUserStatsDashboardModal()" title="ھېسابات تەپسىلاتى">
 
       <button class="menu-toggle-btn" onclick="toggleDrawer(true)">☰</button>
     </div>
@@ -1818,7 +1355,7 @@
         <div id="adminPaymentsList"></div>
       </div>
 
-      <!-- Welcome Screen Settings with Full Cloud Sync -->
+      <!-- Welcome Screen Settings -->
       <div id="admin-welcome" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 14px;">قارشى ئېلىش بېتى تەڭشەكلىرى</h4>
         <div class="form-group">
@@ -1844,7 +1381,6 @@
             💱 سۈرىيە لىراسى پېرېۋوت نىسبىتى (1 دوللار = نەچچە لىرا؟)
           </label>
           <input type="number" step="0.1" id="adminSyrianPoundRateInput" class="form-control" style="font-size: 1.05rem; font-weight: bold; color: #fbbf24; border-color: #f59e0b;" placeholder="136">
-          <small style="color: #cbd5e1; display: block; margin-top: 4px;">بۇ تەڭشەك ساقلانغان ھامان بارلىق ئابونتلارغا مۇقىم بولىدۇ.</small>
         </div>
 
         <div class="form-group">
@@ -1905,13 +1441,6 @@
               سالام ھۆرمەتلىك باشقۇرغۇچى dronemax! كىرگۈزگەن ھەر قانداق بۇيرۇقىڭىز بوشلۇققا شۇ ھامان ساقلىنىدۇ.
             </div>
           </div>
-
-          <div class="ai-quick-prompts">
-            <div class="ai-prompt-chip" onclick="sendAiQuickPrompt('لىرا نىسبىتىنى 136 قىل')">💱 لىرا 136</div>
-            <div class="ai-prompt-chip" onclick="sendAiQuickPrompt('بارلىق قاچىلاش كومىسسىيەسىنى 0 قىل')">⚡ كومىسسىيەنى 0 قىل</div>
-            <div class="ai-prompt-chip" onclick="sendAiQuickPrompt('بارلىق مەھسۇلات باھاسىنى %10 چۈشۈر')">📉 %10 چۈشۈرۈم</div>
-          </div>
-
           <div class="ai-chat-input-row">
             <input type="text" id="aiChatInput" placeholder="AI غا بۇيرۇق كىرگۈزۈڭ..." onkeypress="handleAiInputKeyPress(event)">
             <button class="btn btn-primary" onclick="submitAiPrompt()">ئىجرا قىل 🚀</button>
@@ -2074,15 +1603,15 @@
         <input type="hidden" id="adminCatEditId">
         <div class="form-group">
           <label class="form-label">تۈر نامى</label>
-          <input type="text" id="adminCatNameInput" class="form-control" placeholder="مەسىلەن: ئويۇنلار ياكى پروگراممىلار">
+          <input type="text" id="adminCatNameInput" class="form-control">
         </div>
         <div class="form-group">
           <label class="form-label">قوشۇمچە ئىزاھات</label>
-          <input type="text" id="adminCatSubInput" class="form-control" placeholder="مەسىلەن: كود ۋە ئالماس شحن الألعاب">
+          <input type="text" id="adminCatSubInput" class="form-control">
         </div>
         <div class="form-group">
-          <label class="form-label">تۈر رەسىمىنىڭ ئۇلانمىسى (Image URL)</label>
-          <input type="text" id="adminCatImageUrlInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى سىنبەلگە چىقىدۇ">
+          <label class="form-label">تۈر رەسىمىنىڭ ئۇلانمىسى</label>
+          <input type="text" id="adminCatImageUrlInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى چىرايلىق سىنبەلگە چىقىدۇ">
         </div>
       </div>
       <div class="modal-footer">
@@ -2102,19 +1631,19 @@
         <input type="hidden" id="adminPayEditId">
         <div class="form-group">
           <label class="form-label">قاچىلاش ئۇسۇلى نامى</label>
-          <input type="text" id="adminPayNameInput" class="form-control" placeholder="مەسىلەن: Syriatel Cash, Sham Bank, USDT...">
+          <input type="text" id="adminPayNameInput" class="form-control">
         </div>
         <div class="form-group">
           <label class="form-label">لوگو ياكى بەلگە رەسىم ئۇلانمىسى</label>
-          <input type="text" id="adminPayIconInput" class="form-control" placeholder="مەسىلەن: 📱 ياكى رەسىم ئۇلانمىسى">
+          <input type="text" id="adminPayIconInput" class="form-control">
         </div>
         <div class="form-group">
           <label class="form-label">ھېسابات نومۇرى / ئادرېسى</label>
-          <input type="text" id="adminPayAccountInput" class="form-control" placeholder="0984373459 ياكى USDT Address">
+          <input type="text" id="adminPayAccountInput" class="form-control">
         </div>
         <div class="form-group">
           <label class="form-label">كومىسسىيە تېكىستى</label>
-          <input type="text" id="adminPayCommissionInput" class="form-control" placeholder="0% كومىسسىيە">
+          <input type="text" id="adminPayCommissionInput" class="form-control">
         </div>
         <div class="form-group">
           <label class="form-label">چۈشەندۈرۈش / كۆرسەتمە</label>
@@ -2180,19 +1709,19 @@
       <div class="modal-body">
         <input type="hidden" id="bannerEditIndex" value="-1">
         <div class="form-group">
-          <label class="form-label">رەسىم ئۇلانمىسى (Image URL)</label>
-          <input type="text" id="bannerImgUrlInput" class="form-control" placeholder="https://.../banner.jpg">
+          <label class="form-label">رەسىم ئۇلانمىسى</label>
+          <input type="text" id="bannerImgUrlInput" class="form-control">
         </div>
         <div class="form-group">
-          <label class="form-label">ئاساسىي تېما (Title)</label>
+          <label class="form-label">ئاساسىي تېما</label>
           <input type="text" id="bannerTitleInput" class="form-control">
         </div>
         <div class="form-group">
-          <label class="form-label">قوشۇمچە تېما (Subtitle)</label>
+          <label class="form-label">قوشۇمچە تېما</label>
           <input type="text" id="bannerSubInput" class="form-control">
         </div>
         <div class="form-group">
-          <label class="form-label">كىچىك بەلگە (Badge)</label>
+          <label class="form-label">كىچىك بەلگە</label>
           <input type="text" id="bannerBadgeInput" class="form-control" placeholder="مەسىلەن: يېڭى">
         </div>
       </div>
@@ -2203,6 +1732,7 @@
     </div>
   </div>
 
+  <!-- ACCOUNT DETAILS MODAL -->
   <div class="modal-backdrop" id="modalAccountDetails">
     <div class="modal-card">
       <div class="modal-header">
@@ -2238,7 +1768,7 @@
     </div>
   </div>
 
-  <!-- ADD / EDIT PRODUCT MODAL (COMPLETE FULL CRUD) -->
+  <!-- ADD / EDIT PRODUCT MODAL -->
   <div class="modal-backdrop" id="modalAdminProduct">
     <div class="modal-card" style="max-width: 520px;">
       <div class="modal-header">
@@ -2298,10 +1828,11 @@
 
   <!-- JAVASCRIPT DIRECT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v20";
+    const STORAGE_KEY = "autocash_app_state_v22";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
+    // Instant local lightweight SVG vectors for 100% instant image loading
     const fastIcons = {
       gameCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230284c7'/%3E%3Cstop offset='100%25' stop-color='%23091f3d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g)'/%3E%3Cpath d='M130 180h140c16.5 0 30 13.5 30 30v40c0 16.5-13.5 30-30 30h-20l-15-20h-70l-15 20h-20c-16.5 0-30-13.5-30-30v-40c0-16.5 13.5-30 30-30z' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='160' cy='230' r='10' fill='%2338bdf8'/%3E%3Ccircle cx='240' cy='230' r='10' fill='%23f59e0b'/%3E%3Ctext x='200' y='325' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto Game%3C/text%3E%3C/svg%3E",
       appCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230369a1'/%3E%3Cstop offset='100%25' stop-color='%230c264a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g2)'/%3E%3Crect x='130' y='110' width='140' height='180' rx='24' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='200' cy='260' r='12' fill='%2338bdf8'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto App%3C/text%3E%3C/svg%3E",
@@ -2420,17 +1951,9 @@
     }
     ensureAdminFixed();
 
-    function getUsersList() {
-      return Object.values(state.users || {});
-    }
-
-    function getOrdersList() {
-      return Object.values(state.orders || {}).reverse();
-    }
-
-    function getPaymentsList() {
-      return Object.values(state.payments || {}).reverse();
-    }
+    function getUsersList() { return Object.values(state.users || {}); }
+    function getOrdersList() { return Object.values(state.orders || {}).reverse(); }
+    function getPaymentsList() { return Object.values(state.payments || {}).reverse(); }
 
     function getCurrentTimeString() {
       const d = new Date();
@@ -2438,7 +1961,7 @@
       return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
 
-    // Helper: checks if user is currently editing an admin input to avoid overwriting typed text
+    // Protect active input while admin is typing
     function isAdminCurrentlyTyping() {
       const activeEl = document.activeElement;
       if (!activeEl) return false;
@@ -2446,7 +1969,7 @@
       return adminSection && adminSection.contains(activeEl) && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.tagName === "SELECT");
     }
 
-    // Direct Cloud Sync (Does NOT overwrite fields while admin is typing)
+    // Direct Cloud Sync
     async function syncFromCloud() {
       try {
         const res = await fetch(`${FIREBASE_URL}.json`);
@@ -2470,12 +1993,10 @@
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
-            // Only re-render forms if admin is not typing right now
             if (!isAdminCurrentlyTyping()) {
               renderAll();
               applyWelcomeSplashData();
             } else {
-              // Still update notification badges and orders safely
               renderAdminAllOrders();
               renderAdminDeposits();
             }
@@ -2488,7 +2009,7 @@
             if (me) {
               const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
               if (me.currentSessionToken && me.currentSessionToken !== localToken) {
-                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن ئاپتوماتىك چېكىندىڭىز.");
+                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! سىز ئاپتوماتىك چېكىندىڭىز.");
                 logoutUser(true);
               }
             }
@@ -2586,7 +2107,7 @@
       setTimeout(() => {
         const splash = document.getElementById("splashScreen");
         if (splash) splash.classList.add("hide");
-      }, 700);
+      }, 600);
 
       setInterval(syncFromCloud, 3500);
     });
@@ -2887,7 +2408,7 @@
       playLoudNotificationSound();
       if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 600]);
 
-      const title = type === "order" ? "📦 يېڭى زاكاس چۈشتى!" : "💰 يېڭى سومما قاچىلاش تەلىپى!";
+      const title = type === "order" ? "📦 يېڭى زاكاس كەلدى!" : "💰 يېڭى سومما قاچىلاش تەلىپى!";
       const body = type === "order" 
         ? `${item.username} نىڭ ${item.prodName} (${item.packageName}) زاكاسى كەلدى.`
         : `${item.username} دىن ${formatCurrency(item.amount)} قاچىلاش تەلىپى كەلدى.`;
@@ -2908,13 +2429,11 @@
       });
     }
 
-    // 1-CLICK COPY FUNCTION
     function copyTextToClipboard(text, alertMsg) {
       if (!text) return;
       navigator.clipboard.writeText(text).then(() => {
         alert(alertMsg || "كۆچۈرۈۋېلىندى: " + text);
       }).catch(() => {
-        // Fallback
         const inp = document.createElement("input");
         inp.value = text;
         document.body.appendChild(inp);
@@ -2925,7 +2444,6 @@
       });
     }
 
-    // BIG VIEW MODAL WITH 1-CLICK COPY
     function openAdminActionModal(type, itemId) {
       const modalTitle = document.getElementById("quickActionModalTitle");
       const content = document.getElementById("quickActionContent");
@@ -2954,7 +2472,7 @@
               <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(order.price)}</span>
             </div>
             <div style="font-size:0.78rem; color:#94a3b8; margin-top:6px;">تەلەپ ۋاقتى: ${order.date}</div>
-            ${order.processedAt ? `<div style="font-size:0.78rem; color:#38bdf8; margin-top:3px;">بىر تەرەپ قىلىنغان ۋاقتى: ${order.processedAt}</div>` : ''}
+            <div style="font-size:0.78rem; color:#f59e0b; margin-top:3px;">ھازىرقى ھالىتى: ${order.status === 'pending' ? 'ساقلاشتا ⏳' : (order.status === 'approved' ? 'قوبۇل قىلىندى ✓' : 'رەت قىلىندى ✕')}</div>
           </div>
         `;
 
@@ -2987,7 +2505,7 @@
               <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(pay.amount)}</span>
             </div>
             <div style="font-size:0.78rem; color:#94a3b8; margin-top:6px;">تەلەپ ۋاقتى: ${pay.date}</div>
-            ${pay.processedAt ? `<div style="font-size:0.78rem; color:#38bdf8; margin-top:3px;">بىر تەرەپ قىلىنغان ۋاقتى: ${pay.processedAt}</div>` : ''}
+            <div style="font-size:0.78rem; color:#f59e0b; margin-top:3px;">ھازىرقى ھالىتى: ${pay.status === 'pending' ? 'ساقلاشتا ⏳' : (pay.status === 'approved' ? 'قوبۇل قىلىندى ✓' : 'رەت قىلىندى ✕')}</div>
           </div>
         `;
 
@@ -3127,7 +2645,7 @@
       });
     }
 
-    /* ADMIN: REALTIME USERS LIST */
+    /* ADMIN: REALTIME USERS LIST WITH DELETE FUNCTION */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -3498,6 +3016,7 @@
       }
     }
 
+    /* SUBMIT RECHARGE: GUARANTEED PERSISTENT PENDING IN CLOUD */
     async function submitRechargeRequest() {
       const u = getCurrentUser();
       const rawAmt = parseFloat(document.getElementById("depositAmountInput").value);
@@ -3521,7 +3040,7 @@
         amountSyp: finalSyp,
         currencyUsed: rechargeCurrency,
         txId: tx || "—",
-        status: "pending",
+        status: "pending", // Strictly pending until admin approves
         date: getCurrentTimeString(),
         processedAt: null
       };
@@ -3529,13 +3048,13 @@
       state.payments[payId] = newPayItem;
       closeModal("modalRechargeSubmit");
 
+      // Write strictly to cloud
       await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newPayItem)
       });
 
-      pushToCloud();
       alert(`سومما قاچىلاش تەلىپىڭىز يوللاندى! ھازىر ساقلاش ھالىتىدە تۇرىدۇ.`);
       switchView("view-payments");
     }
@@ -3709,6 +3228,7 @@
       document.getElementById("orderPageFinalPriceSYP").innerText = `≈ ${finalSyp.toLocaleString()} سۈرىيە لىراسى`;
     }
 
+    /* SUBMIT ORDER: GUARANTEED PERSISTENT PENDING IN CLOUD */
     async function submitProductOrderFromPage() {
       const u = getCurrentUser();
       if (!u) {
@@ -3742,20 +3262,27 @@
         packageName: pkg.name,
         accountTarget: inputVal,
         price: finalPrice,
-        status: "pending",
+        status: "pending", // Strictly pending until admin approves
         date: getCurrentTimeString(),
         processedAt: null
       };
 
       state.orders[orderId] = orderObj;
 
+      // Direct write to cloud
       await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderObj)
       });
 
-      pushToCloud();
+      // Also update user's balance in cloud
+      await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(u)
+      });
+
       alert("زاكاز تاپشۇرۇلدى! ھازىر ساقلاشتا تۇرىدۇ.");
       switchView("view-orders");
     }
@@ -3938,6 +3465,11 @@
         if (u) {
           u.balance += ord.price;
           state.users["user_" + ord.userUid] = u;
+          await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(u)
+          });
           alert(`زاكاس رەت قىلىندى ۋە پۇل ئابونت ھېساباتىغا تولۇق قايتۇرۇلدى.`);
         }
       } else if (status === 'approved') {
@@ -3952,7 +3484,7 @@
         body: JSON.stringify(ord)
       });
 
-      saveState();
+      renderAll();
     }
 
     function renderAdminDeposits() {
@@ -4012,7 +3544,13 @@
           body: JSON.stringify(p)
         });
 
-        saveState();
+        await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(u)
+        });
+
+        renderAll();
         alert(`سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
       }
     }
@@ -4030,7 +3568,7 @@
         body: JSON.stringify(p)
       });
 
-      saveState();
+      renderAll();
       alert(`سومما قاچىلاش تەلىپى رەت قىلىندى.`);
     }
 
@@ -4228,7 +3766,7 @@
       alert("تېكىستلەر مۇۋەپپەقىيەتلىك ساقلاندى!");
     }
 
-    /* ADMIN: PRODUCTS & EDIT/DELETE FUNCTIONALITY */
+    /* ADMIN: PRODUCTS & EDIT/DELETE */
     function renderAdminProducts() {
       const container = document.getElementById("adminProductsList");
       if (!container) return;
