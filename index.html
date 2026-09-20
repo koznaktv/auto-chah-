@@ -6,10 +6,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
-  
-  <!-- Firebase Realtime Database SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
     :root {
@@ -1328,7 +1324,7 @@
   <!-- Main Container -->
   <main class="app-container" id="mainContainer">
 
-    <!-- VIEW 0: AUTH MODAL / EMBED -->
+    <!-- VIEW 0: AUTH MODAL -->
     <div class="modal-backdrop" id="modalAuthLogin">
       <div class="modal-card">
         <div class="modal-header">
@@ -1390,7 +1386,7 @@
       </div>
     </div>
 
-    <!-- VIEW 1: HOME (DEFAULT OPEN FOR EVERYONE) -->
+    <!-- VIEW 1: HOME -->
     <section id="view-home" class="page-view">
       <div class="banner-carousel">
         <div class="carousel-track" id="carouselTrack"></div>
@@ -1684,7 +1680,7 @@
             💱 سۈرىيە لىراسى پېرېۋوت نىسبىتى (1 دوللار = نەچچە لىرا؟)
           </label>
           <input type="number" step="0.1" id="adminSyrianPoundRateInput" class="form-control" style="font-size: 1.05rem; font-weight: bold; color: #fbbf24; border-color: #f59e0b;" placeholder="136">
-          <small style="color: #cbd5e1; display: block; margin-top: 4px;">بۇ تەڭشەك ساقلانغان ھامان بارلىق ئابونتلارغا مۇقىم بولىدۇ.</small>
+          <small style="color: #cbd5e1; display: block; margin-top: 4px;">بۇ تەڭشەك ساقلانغان ھامان دەرھال بارلىق ئابونتلارغا مۇقىم بولىدۇ.</small>
         </div>
 
         <div class="form-group">
@@ -2078,20 +2074,11 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT & REALTIME DATABASE ENGINE -->
+  <!-- JAVASCRIPT DIRECT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v9";
+    const STORAGE_KEY = "autocash_app_state_v10";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
-
-    // Directly connected to your dedicated Firebase Database
-    const firebaseConfig = {
-      databaseURL: "https://auto-chah-store-default-rtdb.firebaseio.com/"
-    };
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const db = firebase.database();
-    const systemDbRef = db.ref("autocash_live_store");
+    const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
     const defaultData = {
       siteSettings: {
@@ -2130,8 +2117,8 @@
       },
       currentUserId: null,
       userCurrencyMode: "USD",
-      users: [
-        {
+      users: {
+        "user_999999": {
           uid: "999999",
           username: "dronemax",
           password: "652923198405083311",
@@ -2144,7 +2131,7 @@
           currentSessionToken: null,
           avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150"
         }
-      ],
+      },
       categories: [
         { id: "cat-games", name: "ئويۇنلار", subName: "كود ۋە ئالماس شحن الألعاب", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300" },
         { id: "cat-apps", name: "قوللىنىشچان بۆلۈمى", subName: "پروگراممىلار ۋە پۇل قاچىلاش", img: "https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=300" },
@@ -2183,62 +2170,118 @@
         { id: "pay-syriatel", name: "Syriatel Cash (سۈرىيە لىراسى)", commission: "0% كومىسسىيە", account: "0984373459", desc: "Syriatel كاش ئارقىلىق بىۋاسىتە لىرا ئەۋەتىش", icon: "📱", status: "active" },
         { id: "pay-usdt", name: "USDT BEP20 (دوللار)", commission: "0% كومىسسىيە", account: "0x71C3928BEP20NetworkAddress", desc: "USDT ئارقىلىق تېز كىرىم قىلىش", icon: "₮", status: "active" }
       ],
-      orders: [],
-      payments: [],
+      orders: {},
+      payments: {},
       favorites: []
     };
 
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
+    if (!state.users || Array.isArray(state.users)) {
+      state.users = defaultData.users;
+    }
 
     function ensureAdminFixed() {
-      let admin = state.users.find(u => u.uid === "999999" || u.role === "admin");
-      if (!admin) {
-        state.users.unshift(defaultData.users[0]);
+      if (!state.users["user_999999"]) {
+        state.users["user_999999"] = defaultData.users["user_999999"];
       } else {
-        admin.username = "dronemax";
-        admin.password = "652923198405083311";
-        admin.role = "admin";
+        state.users["user_999999"].username = "dronemax";
+        state.users["user_999999"].password = "652923198405083311";
+        state.users["user_999999"].role = "admin";
       }
     }
     ensureAdminFixed();
 
-    // Realtime Database listener
-    systemDbRef.on("value", (snapshot) => {
-      const cloudData = snapshot.val();
-      if (cloudData) {
-        const myUid = state.currentUserId;
-        const myCurr = state.userCurrencyMode;
+    function getUsersList() {
+      return Object.values(state.users || {});
+    }
 
-        state = cloudData;
-        state.currentUserId = myUid;
-        state.userCurrencyMode = myCurr;
-        ensureAdminFixed();
+    function getOrdersList() {
+      return Object.values(state.orders || {}).reverse();
+    }
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        renderAll();
+    function getPaymentsList() {
+      return Object.values(state.payments || {}).reverse();
+    }
 
-        const me = getCurrentUser();
-        if (me) {
-          const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
-          if (me.currentSessionToken && me.currentSessionToken !== localToken) {
-            alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن ئاپتوماتىك چېكىندىڭىز.");
-            logoutUser(true);
+    // Direct REST API Sync
+    async function syncFromCloud() {
+      try {
+        const res = await fetch(`${FIREBASE_URL}.json`);
+        if (res.ok) {
+          const remote = await res.json();
+          if (remote) {
+            const myUid = state.currentUserId;
+            const myCurr = state.userCurrencyMode;
+
+            state.siteSettings = remote.siteSettings || state.siteSettings;
+            state.categories = remote.categories || state.categories;
+            state.products = remote.products || state.products;
+            state.paymentMethods = remote.paymentMethods || state.paymentMethods;
+            state.users = remote.users || state.users;
+            state.orders = remote.orders || state.orders;
+            state.payments = remote.payments || state.payments;
+
+            state.currentUserId = myUid;
+            state.userCurrencyMode = myCurr;
+            ensureAdminFixed();
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            renderAll();
+
+            // Session watcher
+            const me = getCurrentUser();
+            if (me) {
+              const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
+              if (me.currentSessionToken && me.currentSessionToken !== localToken) {
+                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن ئاپتوماتىك چېكىندىڭىز.");
+                logoutUser(true);
+              }
+            }
+          } else {
+            // First push
+            await fetch(`${FIREBASE_URL}.json`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(defaultData)
+            });
           }
         }
-      } else {
-        systemDbRef.set(defaultData);
+      } catch (err) {
+        console.error("Cloud fetch error:", err);
       }
-    });
+    }
 
-    function saveState() {
+    async function pushToCloud() {
       ensureAdminFixed();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderAll();
-      systemDbRef.set(state);
+
+      try {
+        await fetch(`${FIREBASE_URL}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            siteSettings: state.siteSettings,
+            categories: state.categories,
+            products: state.products,
+            paymentMethods: state.paymentMethods,
+            users: state.users,
+            orders: state.orders,
+            payments: state.payments
+          })
+        });
+      } catch (err) {
+        console.error("Cloud push error:", err);
+      }
+    }
+
+    function saveState() {
+      pushToCloud();
     }
 
     function getCurrentUser() {
-      return state.users.find(u => u.uid === state.currentUserId) || null;
+      if (!state.currentUserId) return null;
+      return state.users["user_" + state.currentUserId] || null;
     }
 
     function getRate() {
@@ -2269,19 +2312,19 @@
       showToastNotification(`پۇل بىرلىكى: ${state.userCurrencyMode === 'SYP' ? '🇸🇾 سۈرىيە لىراسى (SP)' : '💵 دوللار ($)'}`);
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
+      await syncFromCloud();
       initApp();
+      setInterval(syncFromCloud, 3500); // Continuous live sync with database
     });
 
     function initApp() {
       applySiteBranding();
       renderAll();
-      // Always open Home by default so guests can browse freely
       switchView("view-home");
       setupCarouselAutoSlide();
     }
 
-    // Guard actions that strictly require account login
     function checkAuthAndAction(callback) {
       const u = getCurrentUser();
       if (!u) {
@@ -2341,12 +2384,6 @@
         logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
       }
 
-      const authLogoBox = document.getElementById("authLogoPreview");
-      if (authLogoBox) {
-        if (s.logoUrl) authLogoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
-        else authLogoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
-      }
-
       if (s.dynamicTexts) {
         Object.keys(s.dynamicTexts).forEach(key => {
           const el = document.querySelector(`[data-key="${key}"]`);
@@ -2363,11 +2400,14 @@
       document.getElementById('authRegisterForm').style.display = tab === 'register' ? 'block' : 'none';
     }
 
-    function handleUserLogin() {
+    async function handleUserLogin() {
       const uname = document.getElementById("loginUsernameInput").value.trim();
       const pwd = document.getElementById("loginPasswordInput").value.trim();
 
-      const found = state.users.find(u => (u.username.toLowerCase() === uname.toLowerCase() || u.uid === uname) && u.password === pwd);
+      await syncFromCloud();
+      const allUsers = getUsersList();
+      const found = allUsers.find(u => (u.username.toLowerCase() === uname.toLowerCase() || u.uid === uname) && u.password === pwd);
+      
       if (!found) {
         alert("ئىشلەتكۈچى نامى ياكى پارول خاتا!");
         return;
@@ -2377,15 +2417,17 @@
       found.currentSessionToken = newSessionToken;
       localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
 
+      state.users["user_" + found.uid] = found;
       state.currentUserId = found.uid;
-      saveState();
+      
+      await pushToCloud();
       closeModal("modalAuthLogin");
       alert("مۇۋەپپەقىيەتلىك كىردىڭىز!");
       requestNotificationPermission();
       switchView("view-home");
     }
 
-    function handleUserRegister() {
+    async function handleUserRegister() {
       const uname = document.getElementById("regUsernameInput").value.trim();
       const pwd = document.getElementById("regPasswordInput").value.trim();
       const phone = document.getElementById("regPhoneInput").value.trim();
@@ -2396,7 +2438,9 @@
         return;
       }
 
-      if (state.users.some(u => u.username.toLowerCase() === uname.toLowerCase())) {
+      await syncFromCloud();
+      const allUsers = getUsersList();
+      if (allUsers.some(u => u.username.toLowerCase() === uname.toLowerCase())) {
         alert("بۇ ئىشلەتكۈچى نامى ئاللىقاچان بار! باشقا نام تاللاڭ.");
         return;
       }
@@ -2418,11 +2462,18 @@
         avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
       };
 
-      state.users.push(newUser);
+      // Direct REST save to Cloud instantly
+      state.users["user_" + uid] = newUser;
       state.currentUserId = uid;
       localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
 
-      saveState();
+      await fetch(`${FIREBASE_URL}/users/user_${uid}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser)
+      });
+
+      pushToCloud();
       closeModal("modalAuthLogin");
       alert("ھېساباتىڭىز مۇۋەپپەقىيەتلىك ئېچىلدى! كودىڭىز (UID): #" + uid);
       requestNotificationPermission();
@@ -2432,7 +2483,10 @@
     function logoutUser(force = false) {
       if (force || confirm("ھېساباتتىن چىقامسىز؟")) {
         const u = getCurrentUser();
-        if (u) u.currentSessionToken = null;
+        if (u) {
+          u.currentSessionToken = null;
+          state.users["user_" + u.uid] = u;
+        }
         localStorage.removeItem(SESSION_TOKEN_KEY);
         state.currentUserId = null;
         saveState();
@@ -2494,7 +2548,7 @@
       document.getElementById("vipTotalSpent").innerText = formatDualCurrency(u.totalSpent);
     }
 
-    /* PUSH NOTIFICATIONS & AUDIO */
+    /* NOTIFICATIONS */
     function requestNotificationPermission() {
       if ("Notification" in window && Notification.permission !== "granted") {
         Notification.requestPermission();
@@ -2618,14 +2672,14 @@
       });
     }
 
-    /* ADMIN: USERS LIST */
+    /* ADMIN: REALTIME USERS LIST */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
       container.innerHTML = "";
 
       const q = (document.getElementById("adminUserSearchInput")?.value || "").toLowerCase().trim();
-      let filtered = state.users;
+      let filtered = getUsersList();
       if (q) {
         filtered = filtered.filter(u => 
           u.username.toLowerCase().includes(q) || 
@@ -2665,7 +2719,7 @@
     }
 
     function adminAdjustUserBalance(uid) {
-      const u = state.users.find(x => x.uid === uid);
+      const u = state.users["user_" + uid];
       if (!u) return;
 
       const action = prompt(`ئابونت: ${u.username} (نۆۋەتتىكى قالدۇقى: ${formatDualCurrency(u.balance)})\n\nدوللاردا يېڭى سوممىنى كىرگۈزۈڭ ياكى لىرا ئۈچۈن ئاخىرىغا sp دەپ يېزىڭ:`, u.balance);
@@ -2679,18 +2733,20 @@
           newBalance = parseFloat(valStr) || 0;
         }
         u.balance = parseFloat(newBalance.toFixed(3));
+        state.users["user_" + uid] = u;
         saveState();
         alert(`ئابونت ${u.username} نىڭ قالدۇقى يېڭىلاندى:\n${formatDualCurrency(u.balance)}`);
       }
     }
 
     function adminEditUserInfo(uid) {
-      const u = state.users.find(x => x.uid === uid);
+      const u = state.users["user_" + uid];
       if (!u) return;
       const newName = prompt("ئىشلەتكۈچى نامى:", u.username);
       if (newName && newName.trim()) u.username = newName.trim();
       const newAvatar = prompt("باش رەسىم ئۇلانمىسى (Avatar URL):", u.avatar);
       if (newAvatar && newAvatar.trim()) u.avatar = newAvatar.trim();
+      state.users["user_" + uid] = u;
       saveState();
     }
 
@@ -2952,7 +3008,7 @@
       }
     }
 
-    function submitRechargeRequest() {
+    async function submitRechargeRequest() {
       const u = getCurrentUser();
       const rawAmt = parseFloat(document.getElementById("depositAmountInput").value);
       const tx = document.getElementById("depositTxIdInput").value.trim();
@@ -2965,8 +3021,9 @@
         finalUsd = parseFloat((rawAmt / getRate()).toFixed(3));
       }
 
+      const payId = "PAY-" + Math.floor(100000 + Math.random() * 900000);
       const newPayItem = {
-        id: "PAY-" + Math.floor(100000 + Math.random() * 900000),
+        id: payId,
         userUid: u.uid,
         username: u.username,
         methodName: selectedRechargeMethod.name,
@@ -2978,9 +3035,16 @@
         date: new Date().toISOString().split("T")[0]
       };
 
-      state.payments.unshift(newPayItem);
-      saveState();
+      state.payments[payId] = newPayItem;
       closeModal("modalRechargeSubmit");
+
+      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPayItem)
+      });
+
+      pushToCloud();
       notifyAdminNewOrder("يېڭى پۇل قاچىلاش تەلىپى", `${u.username} دىن ${finalUsd.toFixed(2)}$ پۇل تەلەپ كىردى!`);
       alert(`پۇل قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا ئەۋەتىلدى!`);
       switchView("view-payments");
@@ -3155,7 +3219,7 @@
       document.getElementById("orderPageFinalPriceSYP").innerText = `≈ ${finalSyp.toLocaleString()} سۈرىيە لىراسى`;
     }
 
-    function submitProductOrderFromPage() {
+    async function submitProductOrderFromPage() {
       const u = getCurrentUser();
       if (!u) {
         openModal("modalAuthLogin");
@@ -3177,9 +3241,11 @@
 
       u.balance -= finalPrice;
       u.totalSpent += finalPrice;
+      state.users["user_" + u.uid] = u;
 
+      const orderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
       const orderObj = {
-        id: "ORD-" + Math.floor(100000 + Math.random() * 900000),
+        id: orderId,
         userUid: u.uid,
         username: u.username,
         prodName: currentOrderingProduct.name,
@@ -3190,9 +3256,15 @@
         date: new Date().toISOString().split("T")[0]
       };
 
-      state.orders.unshift(orderObj);
-      saveState();
+      state.orders[orderId] = orderObj;
 
+      await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderObj)
+      });
+
+      pushToCloud();
       notifyAdminNewOrder("يېڭى زاكاس چۈشتى! 📦", `${u.username} نىڭ ${orderObj.prodName} زاكاسى كەلدى.`);
       alert("زاكاز مۇۋەپپەقىيەتلىك تاپشۇرۇلدى ھەمدە مەركەزگە چۈشتى!");
       switchView("view-orders");
@@ -3203,7 +3275,7 @@
       const u = getCurrentUser();
       if (!container || !u) return;
 
-      const list = state.orders.filter(o => o.userUid === u.uid);
+      const list = getOrdersList().filter(o => o.userUid === u.uid);
       if (list.length === 0) {
         container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📦</div><div class="empty-state-title">ھازىرچە زاكاز يوق</div></div>`;
         return;
@@ -3231,7 +3303,7 @@
       const u = getCurrentUser();
       if (!container || !u) return;
 
-      const list = state.payments.filter(p => p.userUid === u.uid);
+      const list = getPaymentsList().filter(p => p.userUid === u.uid);
       if (list.length === 0) {
         container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👛</div><div class="empty-state-title">ھازىرچە پۇل تۆلەش خاتىرىسى يوق</div></div>`;
         return;
@@ -3258,12 +3330,13 @@
     function renderAdminAllOrders() {
       const container = document.getElementById("adminAllOrdersList");
       if (!container) return;
-      if (state.orders.length === 0) {
+      const list = getOrdersList();
+      if (list.length === 0) {
         container.innerHTML = `<div class="empty-state"><div>تېخى زاكاس چۈشمىدى</div></div>`;
         return;
       }
       container.innerHTML = "";
-      state.orders.forEach(o => {
+      list.forEach(o => {
         const div = document.createElement("div");
         div.className = "admin-list-item";
         div.innerHTML = `
@@ -3287,28 +3360,31 @@
     }
 
     function adminUpdateOrderStatus(orderId, status) {
-      const ord = state.orders.find(x => x.id === orderId);
+      const ord = state.orders[orderId];
       if (!ord) return;
       ord.status = status;
       if (status === 'rejected') {
-        const u = state.users.find(x => x.uid === ord.userUid);
+        const u = state.users["user_" + ord.userUid];
         if (u) {
           u.balance += ord.price;
+          state.users["user_" + ord.userUid] = u;
           alert(`زاكاس رەت قىلىندى ۋە پۇل قايتۇرۇلدى.`);
         }
       }
+      state.orders[orderId] = ord;
       saveState();
     }
 
     function renderAdminDeposits() {
       const container = document.getElementById("adminDepositsList");
       if (!container) return;
-      if (state.payments.length === 0) {
+      const list = getPaymentsList();
+      if (list.length === 0) {
         container.innerHTML = `<div class="empty-state"><div>تېخى پۇل قاچىلاش تەلىپى يوق</div></div>`;
         return;
       }
       container.innerHTML = "";
-      state.payments.forEach(p => {
+      list.forEach(p => {
         const div = document.createElement("div");
         div.className = "admin-list-item";
         div.innerHTML = `
@@ -3331,12 +3407,14 @@
     }
 
     function adminApproveDeposit(payId) {
-      const p = state.payments.find(x => x.id === payId);
+      const p = state.payments[payId];
       if (!p || p.status === 'approved') return;
-      const u = state.users.find(x => x.uid === p.userUid);
+      const u = state.users["user_" + p.userUid];
       if (u) {
         u.balance += parseFloat(p.amount);
         p.status = 'approved';
+        state.payments[payId] = p;
+        state.users["user_" + p.userUid] = u;
         saveState();
         alert(`پۇل قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
       }
@@ -3686,8 +3764,9 @@
       if (c.includes("دوللار") || c.includes("قالدۇق")) {
         const num = c.match(/(\d+(\.\d+)?)/);
         const amt = num ? parseFloat(num[1]) : 50;
-        const target = state.users.find(u => c.includes(u.username.toLowerCase())) || state.users[0];
+        const target = getUsersList().find(u => c.includes(u.username.toLowerCase())) || state.users["user_999999"];
         target.balance += amt;
+        state.users["user_" + target.uid] = target;
         return `💰 **ئابونت ${target.username} غا +${amt} $ پۇل تەڭشەلدى.**`;
       }
 
@@ -3718,6 +3797,7 @@
       if (av) u.avatar = av;
       if (pw) u.password = pw;
 
+      state.users["user_" + u.uid] = u;
       saveState();
       closeModal("modalAccountDetails");
       alert("ھېسابات ئۇچۇرلىرى يېڭىلاندى!");
@@ -3731,6 +3811,7 @@
           const u = getCurrentUser();
           if (u) {
             u.avatar = e.target.result;
+            state.users["user_" + u.uid] = u;
             saveState();
           }
         };
