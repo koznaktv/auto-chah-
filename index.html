@@ -6,6 +6,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
+  
+  <!-- Firebase Realtime Database SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
     :root {
@@ -45,6 +49,7 @@
       overflow-x: hidden;
     }
 
+    /* Top App Header with clean style */
     .top-header {
       position: sticky;
       top: 0;
@@ -54,8 +59,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 14px;
-      min-height: 64px;
+      padding: 10px 14px;
+      min-height: 60px;
       backdrop-filter: blur(12px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
@@ -68,14 +73,14 @@
     }
 
     .brand-logo {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 12px;
       background: linear-gradient(135deg, #0284c7, #0369a1);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
       box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);
       border: 1.5px solid #38bdf8;
       overflow: hidden;
@@ -99,45 +104,49 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
+    /* Modern clean balance chip from user image */
     .balance-chip {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.25));
-      border: 1px solid var(--accent-gold);
-      border-radius: 20px;
-      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 30px;
+      padding: 4px 12px;
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #fbbf24;
+      color: #ffffff;
       font-weight: bold;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       cursor: pointer;
-      box-shadow: 0 0 8px var(--accent-gold-glow);
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
       user-select: none;
     }
-
-    .balance-chip .plus-btn {
-      background: #f59e0b;
-      color: #000;
-      width: 18px;
-      height: 18px;
+    .balance-chip:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .balance-chip .plus-symbol {
+      background: #10b981;
+      color: #fff;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 13px;
-      line-height: 1;
       font-weight: 900;
+      flex-shrink: 0;
     }
 
     .menu-toggle-btn {
       background: none;
       border: none;
       color: #fff;
-      font-size: 24px;
-      padding: 6px;
+      font-size: 26px;
+      padding: 4px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1303,7 +1312,7 @@
 </head>
 <body>
 
-  <!-- Top App Header -->
+  <!-- Top App Header with Modern Exact Balance Style -->
   <header class="top-header">
     <div class="brand-section" onclick="switchView('view-home')">
       <div class="brand-logo" id="siteLogo">
@@ -1312,10 +1321,10 @@
       <span class="brand-title" id="siteTitleDisplay">Auto cash</span>
     </div>
     <div class="header-actions">
+      <!-- Balance chip according to reference image with plus button -->
       <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى ئالماشتۇرۇش">
-        <span class="plus-btn" onclick="event.stopPropagation(); checkAuthAndAction(() => switchView('view-add-balance'));">+</span>
-        <span id="headerBalance">0.00 $</span>
-        <span id="headerCurrencyIcon">💵</span>
+        <span class="plus-symbol" onclick="event.stopPropagation(); checkAuthAndAction(() => switchView('view-add-balance'));">+</span>
+        <span id="headerBalance">$ 0.00</span>
       </div>
       <button class="menu-toggle-btn" onclick="toggleDrawer(true)">☰</button>
     </div>
@@ -1562,11 +1571,11 @@
       <div id="ordersList"></div>
     </section>
 
-    <!-- VIEW 5: ADD BALANCE -->
+    <!-- VIEW 5: ADD BALANCE (سومما قاچىلاش) -->
     <section id="view-add-balance" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 14px;">
         <h2 class="section-title" style="font-size: 1.2rem;">
-          <span>💰</span> تەڭگۈلۈك قوشۇش (پۇل قاچىلاش)
+          <span>💰</span> سومما قاچىلاش
         </h2>
         <span class="user-wallet-val" id="rechargePageBalance">0.00 $</span>
       </div>
@@ -1577,7 +1586,7 @@
       </div>
 
       <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">
-        تۆۋەندىكى قاچىلاش ئۇسۇللىرىنىڭ بىرىنى تاللاپ، دوللار ياكى سۈرىيە لىراسى بويىچە ئاسانلا ھېساباتىڭىزغا پۇل قاچىلاڭ:
+        تۆۋەندىكى قاچىلاش ئۇسۇللىرىنىڭ بىرىنى تاللاپ، دوللار ياكى سۈرىيە لىراسى بويىچە ئاسانلا ھېساباتىڭىزغا سومما قاچىلاڭ:
       </p>
 
       <div class="payment-methods-grid" id="rechargeMethodsGrid"></div>
@@ -1620,7 +1629,7 @@
 
       <div class="admin-tab-bar">
         <button class="admin-tab-btn active" onclick="switchAdminTab('admin-orders', this)">📋 زاكازلار</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-deposits', this)">📥 پۇل قاچىلاش</button>
+        <button class="admin-tab-btn" onclick="switchAdminTab('admin-deposits', this)">📥 سومما قاچىلاش</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-users', this)">👥 بارلىق ئابونتلار</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-cats', this)">📁 تۈرلەر (CRUD)</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-payments', this)">💳 پۇل قاچىلاش شەكلى</button>
@@ -1641,7 +1650,7 @@
       </div>
 
       <div id="admin-deposits" class="admin-subview" style="display: none;">
-        <h4 style="color: #fff; margin-bottom: 10px;">پۇل قاچىلاش ئىلتىماسلىرى</h4>
+        <h4 style="color: #fff; margin-bottom: 10px;">سومما قاچىلاش ئىلتىماسلىرى</h4>
         <div id="adminDepositsList"></div>
       </div>
 
@@ -1680,7 +1689,7 @@
             💱 سۈرىيە لىراسى پېرېۋوت نىسبىتى (1 دوللار = نەچچە لىرا؟)
           </label>
           <input type="number" step="0.1" id="adminSyrianPoundRateInput" class="form-control" style="font-size: 1.05rem; font-weight: bold; color: #fbbf24; border-color: #f59e0b;" placeholder="136">
-          <small style="color: #cbd5e1; display: block; margin-top: 4px;">بۇ تەڭشەك ساقلانغان ھامان دەرھال بارلىق ئابونتلارغا مۇقىم بولىدۇ.</small>
+          <small style="color: #cbd5e1; display: block; margin-top: 4px;">بۇ تەڭشەك ساقلانغان ھامان بارلىق ئابونتلارغا مۇقىم بولىدۇ.</small>
         </div>
 
         <div class="form-group">
@@ -1757,6 +1766,18 @@
 
   </main>
 
+  <!-- QUICK ORDER APPROVE MODAL (FOR ADMIN POPUP) -->
+  <div class="modal-backdrop" id="modalAdminQuickOrderAction">
+    <div class="modal-card" style="border: 2px solid #38bdf8;">
+      <div class="modal-header" style="background: #061f42;">
+        <h3 class="modal-title" style="color:#38bdf8;">🔔 يېڭى زاكاسنى بىر تەرەپ قىلىش</h3>
+        <button class="drawer-close-btn" onclick="closeModal('modalAdminQuickOrderAction')">✕</button>
+      </div>
+      <div class="modal-body" id="quickOrderActionContent"></div>
+      <div class="modal-footer" id="quickOrderActionFooter"></div>
+    </div>
+  </div>
+
   <!-- Drawer -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
   <aside class="drawer-sidebar" id="drawerSidebar">
@@ -1780,7 +1801,7 @@
       <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;">0.00 $</div>
 
       <div class="profile-quick-actions">
-        <div class="quick-btn" title="تەڭگۈلۈك قوشۇش" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">💲</div>
+        <div class="quick-btn" title="سومما قاچىلاش" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">💲</div>
         <div class="quick-btn" title="تەپسىلاتلار" onclick="checkAuthAndAction(() => { openAccountDetailsModal(); toggleDrawer(false); });">👤</div>
         <div class="quick-btn" title="چېكىنىش / كىرىش" id="sidebarAuthActionBtn" onclick="handleDrawerAuthAction();" style="color: #38bdf8;">🔑</div>
       </div>
@@ -1800,7 +1821,7 @@
         <div class="item-left"><span>❤️</span><span>ياقتۇرغانلار</span></div>
       </li>
       <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">
-        <div class="item-left"><span>💳</span><span>تەڭگۈلۈك قوشۇش</span></div>
+        <div class="item-left"><span>💳</span><span>سومما قاچىلاش</span></div>
       </li>
       <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-orders'); toggleDrawer(false); });">
         <div class="item-left"><span>📋</span><span>مېنىڭ تەلەپلىرىم</span></div>
@@ -1914,7 +1935,7 @@
   <div class="modal-backdrop" id="modalRechargeSubmit">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 class="modal-title" id="rechargeModalTitle">پۇل قاچىلاش</h3>
+        <h3 class="modal-title" id="rechargeModalTitle">سومما قاچىلاش</h3>
         <button class="drawer-close-btn" onclick="closeModal('modalRechargeSubmit')">✕</button>
       </div>
       <div class="modal-body">
@@ -2076,7 +2097,7 @@
 
   <!-- JAVASCRIPT DIRECT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v10";
+    const STORAGE_KEY = "autocash_app_state_v11";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
@@ -2180,6 +2201,8 @@
       state.users = defaultData.users;
     }
 
+    let lastKnownOrdersCount = -1;
+
     function ensureAdminFixed() {
       if (!state.users["user_999999"]) {
         state.users["user_999999"] = defaultData.users["user_999999"];
@@ -2203,7 +2226,6 @@
       return Object.values(state.payments || {}).reverse();
     }
 
-    // Direct REST API Sync
     async function syncFromCloud() {
       try {
         const res = await fetch(`${FIREBASE_URL}.json`);
@@ -2228,17 +2250,26 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             renderAll();
 
-            // Session watcher
+            // Detect new orders for Admin with sound and interactive action
+            const currentOrdersList = getOrdersList();
+            if (getCurrentUser()?.role === "admin") {
+              if (lastKnownOrdersCount !== -1 && currentOrdersList.length > lastKnownOrdersCount) {
+                const newestOrder = currentOrdersList[0];
+                triggerAdminAudioAndPopup(newestOrder);
+              }
+              lastKnownOrdersCount = currentOrdersList.length;
+            }
+
+            // Session check
             const me = getCurrentUser();
             if (me) {
               const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
               if (me.currentSessionToken && me.currentSessionToken !== localToken) {
-                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن ئاپتوماتىك چېكىندىڭىز.");
+                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن چېكىندىڭىز.");
                 logoutUser(true);
               }
             }
           } else {
-            // First push
             await fetch(`${FIREBASE_URL}.json`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
@@ -2294,16 +2325,16 @@
       if (state.userCurrencyMode === "SYP") {
         return `${syp.toLocaleString()} SP`;
       }
-      return `${usd.toFixed(2)} $`;
+      return `$ ${usd.toFixed(2)}`;
     }
 
     function formatDualCurrency(amountUSD) {
       const usd = parseFloat(amountUSD || 0);
       const syp = Math.round(usd * getRate());
       if (state.userCurrencyMode === "SYP") {
-        return `${syp.toLocaleString()} SP (${usd.toFixed(2)} $)`;
+        return `${syp.toLocaleString()} SP ($ ${usd.toFixed(2)})`;
       }
-      return `${usd.toFixed(2)} $ (${syp.toLocaleString()} SP)`;
+      return `$ ${usd.toFixed(2)} (${syp.toLocaleString()} SP)`;
     }
 
     function toggleCurrencyMode() {
@@ -2315,7 +2346,7 @@
     document.addEventListener("DOMContentLoaded", async () => {
       await syncFromCloud();
       initApp();
-      setInterval(syncFromCloud, 3500); // Continuous live sync with database
+      setInterval(syncFromCloud, 3500);
     });
 
     function initApp() {
@@ -2462,7 +2493,6 @@
         avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
       };
 
-      // Direct REST save to Cloud instantly
       state.users["user_" + uid] = newUser;
       state.currentUserId = uid;
       localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
@@ -2524,7 +2554,6 @@
 
       const singleDisp = formatCurrency(u.balance);
       document.getElementById("headerBalance").innerText = singleDisp;
-      document.getElementById("headerCurrencyIcon").innerText = state.userCurrencyMode === 'SYP' ? '🇸🇾' : '💵';
       document.getElementById("sidebarBalance").innerText = formatDualCurrency(u.balance);
       document.getElementById("sidebarCurrencyStateText").innerText = state.userCurrencyMode === 'SYP' ? 'سۈرىيە لىراسى (SP)' : 'دوللار ($)';
       document.getElementById("rechargePageBalance").innerText = formatDualCurrency(u.balance);
@@ -2548,40 +2577,90 @@
       document.getElementById("vipTotalSpent").innerText = formatDualCurrency(u.totalSpent);
     }
 
-    /* NOTIFICATIONS */
+    /* PUSH NOTIFICATIONS & INTERACTIVE POPUP */
     function requestNotificationPermission() {
       if ("Notification" in window && Notification.permission !== "granted") {
         Notification.requestPermission();
       }
     }
 
-    function notifyAdminNewOrder(title, body) {
-      playNotificationSound();
-      if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
+    function triggerAdminAudioAndPopup(order) {
+      playLoudNotificationSound();
+      if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 600]);
+
       if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(title, { body: body, icon: state.siteSettings.logoUrl });
+        const notif = new Notification("📦 يېڭى زاكاس كەلدى!", {
+          body: `${order.username} نىڭ ${order.prodName} زاكاسى چۈشتى. بېسىپ ماقۇللاڭ.`,
+          icon: state.siteSettings.logoUrl
+        });
+        notif.onclick = () => {
+          window.focus();
+          openQuickOrderActionModal(order.id);
+        };
       }
-      showToastNotification(`🔔 ${title}: ${body}`);
+
+      showToastNotification(`🔔 يېڭى زاكاس: ${order.username} (${order.prodName})! كۆرۈش ئۈچۈن بېسىڭ.`, () => {
+        openQuickOrderActionModal(order.id);
+      });
     }
 
-    function playNotificationSound() {
+    function openQuickOrderActionModal(orderId) {
+      const order = state.orders[orderId];
+      if (!order) {
+        switchView("view-admin");
+        return;
+      }
+
+      const body = document.getElementById("quickOrderActionContent");
+      const footer = document.getElementById("quickOrderActionFooter");
+
+      body.innerHTML = `
+        <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
+          <div style="font-size:1.1rem; font-weight:bold; color:#fff; margin-bottom:6px;">${order.prodName} (${order.packageName})</div>
+          <div style="color:#38bdf8; font-size:0.88rem; margin-bottom:4px;">ئابونت نامى: <strong>${order.username}</strong> (UID: #${order.userUid})</div>
+          <div style="color:#fbbf24; font-size:0.95rem; font-weight:bold; background:#04152b; padding:8px 10px; border-radius:8px; margin:8px 0;">
+            ئويۇن كودى / ID: <span style="user-select:all;">${order.accountTarget}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.85rem;">
+            <span style="color:#94a3b8;">سوممىسى:</span>
+            <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(order.price)}</span>
+          </div>
+        </div>
+      `;
+
+      footer.innerHTML = `
+        <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickOrderAction')">تاقاش</button>
+        <button class="btn btn-danger" onclick="quickHandleOrder('${order.id}', 'rejected')">✕ قايتۇرۇۋېتىش (رەت)</button>
+        <button class="btn btn-success" onclick="quickHandleOrder('${order.id}', 'approved')">✓ ماقۇللاش</button>
+      `;
+
+      openModal("modalAdminQuickOrderAction");
+    }
+
+    function quickHandleOrder(orderId, status) {
+      adminUpdateOrderStatus(orderId, status);
+      closeModal("modalAdminQuickOrderAction");
+    }
+
+    function playLoudNotificationSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-        osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.12);
+        osc.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.25);
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.4);
+        osc.stop(audioCtx.currentTime + 0.6);
       } catch (e) {}
     }
 
-    function showToastNotification(msg) {
+    function showToastNotification(msg, clickCb) {
       let toast = document.getElementById("systemAppToast");
       if (!toast) {
         toast = document.createElement("div");
@@ -2598,16 +2677,18 @@
         toast.style.zIndex = "9999";
         toast.style.fontSize = "0.85rem";
         toast.style.fontWeight = "bold";
+        toast.style.cursor = "pointer";
         toast.style.transition = "opacity 0.3s ease";
         document.body.appendChild(toast);
       }
       toast.innerText = msg;
+      toast.onclick = clickCb || null;
       toast.style.display = "block";
       toast.style.opacity = "1";
       setTimeout(() => {
         toast.style.opacity = "0";
         setTimeout(() => toast.style.display = "none", 300);
-      }, 3500);
+      }, 5000);
     }
 
     /* CAROUSEL */
@@ -2672,7 +2753,7 @@
       });
     }
 
-    /* ADMIN: REALTIME USERS LIST */
+    /* ADMIN: USERS LIST WITH DELETE FUNCTION */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -2712,10 +2793,28 @@
           <div style="display:flex; flex-direction:column; gap:4px;">
             <button class="btn btn-warning" style="padding:4px 10px; font-size:0.75rem;" onclick="adminAdjustUserBalance('${u.uid}')">💰 پۇل تەڭشەش</button>
             <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.72rem;" onclick="adminEditUserInfo('${u.uid}')">✏️ تەھرىرلەش</button>
+            ${u.role !== 'admin' ? `<button class="btn btn-danger" style="padding:4px 10px; font-size:0.72rem;" onclick="adminDeleteUser('${u.uid}')">🗑️ يۇيۇش</button>` : ''}
           </div>
         `;
         container.appendChild(div);
       });
+    }
+
+    async function adminDeleteUser(uid) {
+      const u = state.users["user_" + uid];
+      if (!u) return;
+
+      if (confirm(`ئابونت ${u.username} (UID: #${uid}) نى راستىنلا يۇيامسىز (ئۆچۈرەمسىز)؟ پۈتۈن ئۇچۇرلىرى ئامباردىن مەڭگۈلۈك ئۆچۈرۈلىدۇ.`)) {
+        delete state.users["user_" + uid];
+
+        // Delete from Firebase directly
+        await fetch(`${FIREBASE_URL}/users/user_${uid}.json`, {
+          method: "DELETE"
+        });
+
+        saveState();
+        alert(`ئابونت ${u.username} مۇۋەپپەقىيەتلىك يۇيۇۋېتىلدى!`);
+      }
     }
 
     function adminAdjustUserBalance(uid) {
@@ -2963,10 +3062,10 @@
       const disp = document.getElementById("rechargeConvertedDisplay");
       if (rechargeCurrency === 'USD') {
         const syp = Math.round(rawVal * rate);
-        disp.innerText = `تەڭ قىممەت: ${rawVal.toFixed(2)} $ = ${syp.toLocaleString()} سۈرىيە لىراسى`;
+        disp.innerText = `تەڭ قىممەت: $ ${rawVal.toFixed(2)} = ${syp.toLocaleString()} سۈرىيە لىراسى`;
       } else {
         const usd = rawVal / rate;
-        disp.innerText = `تەڭ قىممەت: ${rawVal.toLocaleString()} لىرا = ${usd.toFixed(3)} $ دوللار`;
+        disp.innerText = `تەڭ قىممەت: ${rawVal.toLocaleString()} لىرا = $ ${usd.toFixed(3)}`;
       }
     }
 
@@ -3045,8 +3144,8 @@
       });
 
       pushToCloud();
-      notifyAdminNewOrder("يېڭى پۇل قاچىلاش تەلىپى", `${u.username} دىن ${finalUsd.toFixed(2)}$ پۇل تەلەپ كىردى!`);
-      alert(`پۇل قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا ئەۋەتىلدى!`);
+      notifyAdminNewOrder("يېڭى سومما قاچىلاش تەلىپى", `${u.username} دىن $ ${finalUsd.toFixed(2)} سومما تەلەپ كىردى!`);
+      alert(`سومما قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا ئەۋەتىلدى!`);
       switchView("view-payments");
     }
 
@@ -3069,7 +3168,7 @@
           <div class="product-footer">
             <div class="product-price-box">
               <span class="product-price-usd">${formatCurrency(basePrice)}</span>
-              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? basePrice.toFixed(2) + ' $' : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
+              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
             </div>
             <div class="product-actions-group">
               <button class="fav-toggle-btn" onclick="toggleFavorite('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
@@ -3097,7 +3196,7 @@
           <div class="product-footer">
             <div class="product-price-box">
               <span class="product-price-usd">${formatCurrency(basePrice)}</span>
-              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? basePrice.toFixed(2) + ' $' : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
+              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
             </div>
             <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
           </div>
@@ -3234,7 +3333,7 @@
       const finalPrice = pkg.price * (1 - currentTierObj.discount / 100);
 
       if (u.balance < finalPrice) {
-        alert("تەڭگۈلۈكىڭىز يەتمىدى! ئاۋۋال تولۇقلاڭ.");
+        alert("تەڭگۈلۈكىڭىز يەتمىدى! ئاۋۋال سومما قاچىلاڭ.");
         switchView("view-add-balance");
         return;
       }
@@ -3265,7 +3364,6 @@
       });
 
       pushToCloud();
-      notifyAdminNewOrder("يېڭى زاكاس چۈشتى! 📦", `${u.username} نىڭ ${orderObj.prodName} زاكاسى كەلدى.`);
       alert("زاكاز مۇۋەپپەقىيەتلىك تاپشۇرۇلدى ھەمدە مەركەزگە چۈشتى!");
       switchView("view-orders");
     }
@@ -3343,15 +3441,15 @@
           <div>
             <strong style="color:#fff;">${o.prodName} - ${o.packageName}</strong>
             <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${o.username} (UID: #${o.userUid})</div>
-            <div style="font-size:0.75rem; color:#f59e0b;">كود/ID: ${o.accountTarget}</div>
+            <div style="font-size:0.75rem; color:#f59e0b;">كود/ID: <span style="user-select:all;">${o.accountTarget}</span></div>
             <div style="font-size:0.72rem; color:#94a3b8;">ۋاقتى: ${o.date} | ${o.id}</div>
           </div>
           <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
             <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(o.price)}</span>
             <span class="badge ${o.status === 'approved' ? 'badge-success' : 'badge-warning'}">${o.status}</span>
             <div style="display:flex; gap:4px; margin-top:4px;">
-              <button class="btn btn-success" style="padding:2px 6px; font-size:0.7rem;" onclick="adminUpdateOrderStatus('${o.id}', 'approved')">✓ قوبۇل</button>
-              <button class="btn btn-danger" style="padding:2px 6px; font-size:0.7rem;" onclick="adminUpdateOrderStatus('${o.id}', 'rejected')">✕ رەت</button>
+              <button class="btn btn-success" style="padding:4px 8px; font-size:0.72rem;" onclick="adminUpdateOrderStatus('${o.id}', 'approved')">✓ ماقۇللاش</button>
+              <button class="btn btn-danger" style="padding:4px 8px; font-size:0.72rem;" onclick="adminUpdateOrderStatus('${o.id}', 'rejected')">✕ قايتۇرۇش</button>
             </div>
           </div>
         `;
@@ -3359,19 +3457,30 @@
       });
     }
 
-    function adminUpdateOrderStatus(orderId, status) {
+    async function adminUpdateOrderStatus(orderId, status) {
       const ord = state.orders[orderId];
       if (!ord) return;
       ord.status = status;
+
       if (status === 'rejected') {
         const u = state.users["user_" + ord.userUid];
         if (u) {
-          u.balance += ord.price;
+          u.balance += ord.price; // Refund balance automatically
           state.users["user_" + ord.userUid] = u;
-          alert(`زاكاس رەت قىلىندى ۋە پۇل قايتۇرۇلدى.`);
+          alert(`زاكاس رەت قىلىندى ۋە پۇل ئابونت ھېساباتىغا تولۇق قايتۇرۇلدى.`);
         }
+      } else if (status === 'approved') {
+        alert(`زاكاس مۇۋەپپەقىيەتلىك تەستىقلاندى!`);
       }
+
       state.orders[orderId] = ord;
+
+      await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ord)
+      });
+
       saveState();
     }
 
@@ -3380,7 +3489,7 @@
       if (!container) return;
       const list = getPaymentsList();
       if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div>تېخى پۇل قاچىلاش تەلىپى يوق</div></div>`;
+        container.innerHTML = `<div class="empty-state"><div>تېخى سومما قاچىلاش تەلىپى يوق</div></div>`;
         return;
       }
       container.innerHTML = "";
@@ -3406,7 +3515,7 @@
       });
     }
 
-    function adminApproveDeposit(payId) {
+    async function adminApproveDeposit(payId) {
       const p = state.payments[payId];
       if (!p || p.status === 'approved') return;
       const u = state.users["user_" + p.userUid];
@@ -3415,8 +3524,15 @@
         p.status = 'approved';
         state.payments[payId] = p;
         state.users["user_" + p.userUid] = u;
+
+        await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(p)
+        });
+
         saveState();
-        alert(`پۇل قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
+        alert(`سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
       }
     }
 
@@ -3437,7 +3553,7 @@
           <img src="${p.image}" class="product-image" alt="${p.name}">
           <div class="product-info-title">${p.name}</div>
           <div class="product-footer">
-            <span class="product-price-usd">${p.packages[0] ? formatCurrency(p.packages[0].price) : '0.00 $'}</span>
+            <span class="product-price-usd">${p.packages[0] ? formatCurrency(p.packages[0].price) : '$ 0.00'}</span>
             <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
           </div>
         `;
