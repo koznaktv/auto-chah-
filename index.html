@@ -6,6 +6,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
+  
+  <!-- Firebase Realtime Engine -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
   <style>
     :root {
       --bg-dark: #071930;
@@ -1311,7 +1316,7 @@
       <span class="brand-title" id="siteTitleDisplay">Auto cash</span>
     </div>
     <div class="header-actions">
-      <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى دوللار/سۈرىيە لىراسى ئالماشتۇرۇش">
+      <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى ئالماشتۇرۇش">
         <span class="plus-btn" onclick="event.stopPropagation(); switchView('view-add-balance');">+</span>
         <span id="headerBalance">0.00 $</span>
         <span id="headerCurrencyIcon">💵</span>
@@ -1628,7 +1633,6 @@
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-ai', this)">🤖 ئالىي AI ياردەمچىسى</button>
       </div>
 
-      <!-- Admin TAB: Orders -->
       <div id="admin-orders" class="admin-subview">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h4 style="color: #fff;">بارلىق كەلگەن زاكازلار</h4>
@@ -1637,13 +1641,11 @@
         <div id="adminAllOrdersList"></div>
       </div>
 
-      <!-- Admin TAB: Deposits -->
       <div id="admin-deposits" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 10px;">پۇل قاچىلاش ئىلتىماسلىرى</h4>
         <div id="adminDepositsList"></div>
       </div>
 
-      <!-- Admin TAB: Users -->
       <div id="admin-users" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h4 style="color: #fff;">بارلىق تىزىملاتقان ئابونتلار (<span id="adminUsersCount">0</span>)</h4>
@@ -1655,7 +1657,6 @@
         <div id="adminUsersList"></div>
       </div>
 
-      <!-- Admin TAB: Categories -->
       <div id="admin-cats" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h4 style="color: #fff;">تۈرلەرنى باشقۇرۇش</h4>
@@ -1664,7 +1665,6 @@
         <div id="adminCategoriesList"></div>
       </div>
 
-      <!-- Admin TAB: Payment Methods -->
       <div id="admin-payments" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h4 style="color: #fff;">پۇل قاچىلاش ئۇسۇللىرى</h4>
@@ -1673,7 +1673,6 @@
         <div id="adminPaymentsList"></div>
       </div>
 
-      <!-- Admin TAB: Settings & Lira Rate -->
       <div id="admin-settings" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 14px;">بېكەت، لوگو ۋە لىرا نىسبىتى تەڭشىكى</h4>
         
@@ -1682,7 +1681,7 @@
             💱 سۈرىيە لىراسى پېرېۋوت نىسبىتى (1 دوللار = نەچچە لىرا؟)
           </label>
           <input type="number" step="0.1" id="adminSyrianPoundRateInput" class="form-control" style="font-size: 1.05rem; font-weight: bold; color: #fbbf24; border-color: #f59e0b;" placeholder="136">
-          <small style="color: #cbd5e1; display: block; margin-top: 4px;">بۇ تەڭشەك ساقلانغان ھامان دەرھال پۈتۈن ئابونتلارنىڭ ئەپىدە كۈچكە ئىگە بولىدۇ.</small>
+          <small style="color: #cbd5e1; display: block; margin-top: 4px;">بۇ تەڭشەك ساقلانغان ھامان دەرھال بارلىق ئابونتلارغا مۇقىم بولىدۇ.</small>
         </div>
 
         <div class="form-group">
@@ -1708,7 +1707,6 @@
         <button class="btn btn-success" style="width: 100%; padding: 11px;" onclick="saveAdminSettings()">تەڭشەكلەرنى پۈتۈن تورغا ساقلاش</button>
       </div>
 
-      <!-- Admin TAB: Products -->
       <div id="admin-prods" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h4 style="color: #fff;">مەھسۇلاتلار & باھا جەدۋىلى</h4>
@@ -1717,7 +1715,6 @@
         <div id="adminProductsList"></div>
       </div>
 
-      <!-- Admin TAB: Banners -->
       <div id="admin-banners" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">سىيرىلما رەسىملەر</h4>
@@ -1726,25 +1723,22 @@
         <div id="adminBannersList"></div>
       </div>
 
-      <!-- Admin TAB: VIP Logos -->
       <div id="admin-vip-logos" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 12px;">VIP دەرىجىلىرىنىڭ لوگوسىنى تەڭشەش</h4>
         <div id="adminVipLogosList"></div>
       </div>
 
-      <!-- Admin TAB: Dynamic Texts -->
       <div id="admin-texts" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 10px;">توربەت تېكىستلىرىنى ئۆزگەرتىش</h4>
         <div id="adminTextsFormList"></div>
         <button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="saveDynamicTexts()">تېكىستلەرنى ساقلاش</button>
       </div>
 
-      <!-- Admin TAB: AI Engine -->
       <div id="admin-ai" class="admin-subview" style="display: none;">
         <div class="ai-chat-box">
           <div class="ai-chat-messages" id="aiChatMessages">
             <div class="ai-msg ai-msg-bot">
-              سالام ھۆرمەتلىك باشقۇرغۇچى dronemax! بۇ يەردە كىرگۈزگەن ھەر قانداق بۇيرۇقىڭىز پۈتۈن ئابونتلارنىڭ ئېكرانىدا شۇ دەقىقىدە ئۆزگىرىدۇ.
+              سالام ھۆرمەتلىك باشقۇرغۇچى dronemax! كىرگۈزگەن ھەر قانداق بۇيرۇقىڭىز بوشلۇققا شۇ ھامان ساقلىنىدۇ.
             </div>
           </div>
 
@@ -1764,7 +1758,7 @@
 
   </main>
 
-  <!-- Drawer (Sidebar) -->
+  <!-- Drawer -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
   <aside class="drawer-sidebar" id="drawerSidebar">
     <div class="drawer-header">
@@ -1784,7 +1778,7 @@
       </div>
       <div class="user-uid-text" id="sidebarUidText">UID: #999999</div>
       
-      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;" title="پۇل بىرلىكىنى ئالماشتۇرۇش">0.00 $</div>
+      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;">0.00 $</div>
 
       <div class="profile-quick-actions">
         <div class="quick-btn" title="تەڭگۈلۈك قوشۇش" onclick="switchView('view-add-balance'); toggleDrawer(false);">💲</div>
@@ -1950,7 +1944,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">سودا تەرتىپ نومۇرى (TxID / پۇل ئەۋەتىلگەن نومۇر)</label>
+          <label class="form-label">سودا تەرتىپ نومۇرى (TxID)</label>
           <input type="text" id="depositTxIdInput" class="form-control" placeholder="مەسىلەن: 987654321">
         </div>
       </div>
@@ -2081,25 +2075,28 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT ENGINE -->
+  <!-- JAVASCRIPT & CLOUD REALTIME DATABASE ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_pro_system_v5";
+    const STORAGE_KEY = "autocash_app_state_v6";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
-    
-    // Cloud Remote Storage
-    const CLOUD_BIN_URL = "https://api.jsonbin.io/v3/b/66ebfa4ae41b4d34e432c8fe";
-    const CLOUD_API_KEY = "$2a$10$7R7zQd8Zf3w9TfD8P8p8OuQk7mR1w4Cq.7b1r0yXk6E5d3mQ0O.2u";
+
+    // Firebase Global Realtime DB
+    const firebaseConfig = {
+      databaseURL: "https://autocash-pro-default-rtdb.firebaseio.com"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+    const systemDbRef = db.ref("autocash_system_core");
 
     const defaultData = {
-      version: 5,
-      lastUpdated: Date.now(),
       siteSettings: {
         siteName: "Auto cash",
         logoUrl: "",
         logoEmoji: "⚡",
         syrianPoundRate: 136,
-        defaultCurrency: "USD",
-        marqueeText: "Auto cash - دۇكان ئىگىلىرى، توپ ساتقۇچىلار ۋە تور پارچە سېتىش مۇلازىمەتلىرىگە خۇش كېلىپسىز! ★ ئالاقە: @KOZNAK_USD",
+        marqueeText: "Auto cash - دۇكان ئىگىلىرى، توپ ساتقۇچىلار ۋە ئويۇن مۇلازىمەتلىرىگە خۇش كېلىپسىز! ★ ئالاقە: @KOZNAK_USD",
         whatsapp: "+963969926491",
         telegram: "KOZNAK_USD",
         banners: [
@@ -2190,7 +2187,7 @@
 
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
 
-    function ensureAdminExists() {
+    function ensureAdminFixed() {
       let admin = state.users.find(u => u.uid === "999999" || u.role === "admin");
       if (!admin) {
         state.users.unshift(defaultData.users[0]);
@@ -2200,50 +2197,42 @@
         admin.role = "admin";
       }
     }
-    ensureAdminExists();
+    ensureAdminFixed();
 
-    async function pullCloudState() {
-      try {
-        const res = await fetch(CLOUD_BIN_URL + "/latest", {
-          headers: { "X-Master-Key": CLOUD_API_KEY }
-        });
-        if (res.ok) {
-          const cloudJson = await res.json();
-          const remoteData = cloudJson.record;
-          if (remoteData && remoteData.lastUpdated && remoteData.lastUpdated > (state.lastUpdated || 0)) {
-            const curUid = state.currentUserId;
-            const curCurr = state.userCurrencyMode;
-            state = remoteData;
-            state.currentUserId = curUid;
-            state.userCurrencyMode = curCurr;
-            ensureAdminExists();
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-            renderAll();
+    // Listen to cloud updates instantly across all connected phones
+    systemDbRef.on("value", (snapshot) => {
+      const cloudData = snapshot.val();
+      if (cloudData) {
+        const myUid = state.currentUserId;
+        const myCurr = state.userCurrencyMode;
+
+        // Merge cloud database state
+        state = cloudData;
+        state.currentUserId = myUid;
+        state.userCurrencyMode = myCurr;
+        ensureAdminFixed();
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderAll();
+
+        // Check single device session
+        const me = getCurrentUser();
+        if (me) {
+          const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
+          if (me.currentSessionToken && me.currentSessionToken !== localToken) {
+            alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! سىز ئاپتوماتىك چېكىندىڭىز.");
+            logoutUser(true);
           }
         }
-      } catch (err) {
       }
-    }
-
-    async function pushCloudState() {
-      state.lastUpdated = Date.now();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      renderAll();
-      try {
-        await fetch(CLOUD_BIN_URL, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": CLOUD_API_KEY
-          },
-          body: JSON.stringify(state)
-        });
-      } catch (err) {
-      }
-    }
+    });
 
     function saveState() {
-      pushCloudState();
+      ensureAdminFixed();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+      // Push directly to Firebase Realtime DB
+      systemDbRef.set(state);
     }
 
     function getCurrentUser() {
@@ -2278,10 +2267,8 @@
       showToastNotification(`پۇل بىرلىكى: ${state.userCurrencyMode === 'SYP' ? '🇸🇾 سۈرىيە لىراسى (SP)' : '💵 دوللار ($)'}`);
     }
 
-    document.addEventListener("DOMContentLoaded", async () => {
-      await pullCloudState();
+    document.addEventListener("DOMContentLoaded", () => {
       initApp();
-      startRealtimePolling();
     });
 
     function initApp() {
@@ -2297,21 +2284,6 @@
         switchView("view-home");
       }
       setupCarouselAutoSlide();
-    }
-
-    function startRealtimePolling() {
-      setInterval(async () => {
-        await pullCloudState();
-
-        const u = getCurrentUser();
-        if (u) {
-          const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
-          if (u.currentSessionToken && u.currentSessionToken !== localToken) {
-            alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! بۇ يەردىن چېكىندىڭىز.");
-            logoutUser(true);
-          }
-        }
-      }, 4000);
     }
 
     function renderAll() {
@@ -2348,8 +2320,11 @@
       document.getElementById("bannerExchangeRateText").innerText = `1 $ = ${getRate()} سۈرىيە لىراسى`;
 
       const logoBox = document.getElementById("siteLogo");
-      if (s.logoUrl) logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
-      else logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
+      if (s.logoUrl) {
+        logoBox.innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
+      } else {
+        logoBox.innerHTML = `<span>${s.logoEmoji || '⚡'}</span>`;
+      }
 
       const authLogoBox = document.getElementById("authLogoPreview");
       if (authLogoBox) {
@@ -2373,11 +2348,9 @@
       document.getElementById('authRegisterForm').style.display = tab === 'register' ? 'block' : 'none';
     }
 
-    async function handleUserLogin() {
+    function handleUserLogin() {
       const uname = document.getElementById("loginUsernameInput").value.trim();
       const pwd = document.getElementById("loginPasswordInput").value.trim();
-
-      await pullCloudState();
 
       const found = state.users.find(u => (u.username.toLowerCase() === uname.toLowerCase() || u.uid === uname) && u.password === pwd);
       if (!found) {
@@ -2395,7 +2368,7 @@
       switchView("view-home");
     }
 
-    async function handleUserRegister() {
+    function handleUserRegister() {
       const uname = document.getElementById("regUsernameInput").value.trim();
       const pwd = document.getElementById("regPasswordInput").value.trim();
       const phone = document.getElementById("regPhoneInput").value.trim();
@@ -2406,9 +2379,8 @@
         return;
       }
 
-      await pullCloudState();
       if (state.users.some(u => u.username.toLowerCase() === uname.toLowerCase())) {
-        alert("بۇ ئىشلەتكۈچى نامى ئاللىقاچان تىزىملانغان! باشقىسىنى تاللاڭ.");
+        alert("بۇ ئىشلەتكۈچى نامى ئاللىقاچان بار! باشقا نام تاللاڭ.");
         return;
       }
 
@@ -2433,7 +2405,7 @@
       state.currentUserId = uid;
       localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
 
-      saveState();
+      saveState(); // Instantly syncs to cloud
       alert("ھېساباتىڭىز مۇۋەپپەقىيەتلىك ئېچىلدى! سىزنىڭ UID كودىڭىز: #" + uid);
       requestNotificationPermission();
       switchView("view-home");
@@ -2484,7 +2456,7 @@
       document.getElementById("vipTotalSpent").innerText = formatDualCurrency(u.totalSpent);
     }
 
-    /* PUSH NOTIFICATIONS & ALERTS */
+    /* PUSH NOTIFICATIONS & AUDIO */
     function requestNotificationPermission() {
       if ("Notification" in window && Notification.permission !== "granted") {
         Notification.requestPermission();
@@ -2608,7 +2580,7 @@
       });
     }
 
-    /* ADMIN: USERS LIST */
+    /* ADMIN: USERS LIST (Shows all users in Realtime) */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -2658,7 +2630,7 @@
       const u = state.users.find(x => x.uid === uid);
       if (!u) return;
 
-      const action = prompt(`ئابونت: ${u.username} (نۆۋەتتىكى قالدۇقى: ${formatDualCurrency(u.balance)})\n\nدوللاردا يېڭى سوممىنى كىرگۈزۈڭ ياكى لىرا ئۈچۈن ئاخىرىغا sp دەپ قوشۇڭ:`, u.balance);
+      const action = prompt(`ئابونت: ${u.username} (نۆۋەتتىكى قالدۇقى: ${formatDualCurrency(u.balance)})\n\nدوللاردا يېڭى سوممىنى كىرگۈزۈڭ ياكى لىرا ئۈچۈن ئاخىرىغا sp دەپ يېزىڭ:`, u.balance);
       if (action !== null && action.trim() !== "") {
         const valStr = action.trim().toLowerCase();
         let newBalance = u.balance;
@@ -2708,7 +2680,7 @@
       }
 
       saveState();
-      alert(`بېكەت تەڭشەكلىرى، سۈرىيە لىرا نىسبىتى (${state.siteSettings.syrianPoundRate}) پۈتۈن ئابونتلارغا مۇۋەپپەقىيەتلىك ساقلاندى!`);
+      alert(`بېكەت تەڭشەكلىرى، سۈرىيە لىرا نىسبىتى (${state.siteSettings.syrianPoundRate}) بوشلۇققا مۇقىم ساقلاندى!`);
     }
 
     /* CRUD FOR CATEGORIES */
@@ -3643,7 +3615,7 @@
         const num = c.match(/(\d+(\.\d+)?)/);
         if (num) {
           state.siteSettings.syrianPoundRate = parseFloat(num[1]);
-          return `💱 **سۈرىيە لىرا پېرېۋوت نىسبىتى 1 $ = ${state.siteSettings.syrianPoundRate} لىرا قىلىپ پۈتۈن سىستېمىغا تارقىتىلدى.**`;
+          return `💱 **سۈرىيە لىرا پېرېۋوت نىسبىتى 1 $ = ${state.siteSettings.syrianPoundRate} لىرا قىلىپ بوشلۇققا تەكشىلەندى.**`;
         }
       }
 
@@ -3665,7 +3637,7 @@
             });
           }
         });
-        return `📉 **بارلىق مەھسۇلات بولاق باھالىرى دەرھال %${percent} ${isReduce ? 'چۈشۈرۈلدى' : 'ئۆستۈرۈلدى'}.**`;
+        return `📉 **بارلىق مەھسۇلات باھالىرى دەل ۋاقتىدا %${percent} ${isReduce ? 'چۈشۈرۈلدى' : 'ئۆستۈرۈلدى'}.**`;
       }
 
       if (c.includes("دوللار") || c.includes("قالدۇق")) {
@@ -3676,7 +3648,7 @@
         return `💰 **ئابونت ${target.username} غا +${amt} $ پۇل تەڭشەلدى.**`;
       }
 
-      return "🤖 **بۇيرۇقىڭىز سىستېمىدا دەل ۋاقتىدا ئىجرا قىلىندى!**";
+      return "🤖 **بۇيرۇقىڭىز پۈتۈن بوشلۇقتا ئىجرا قىلىندى!**";
     }
 
     /* ACCOUNT DETAILS */
