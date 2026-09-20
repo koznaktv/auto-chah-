@@ -49,7 +49,7 @@
       overflow-x: hidden;
     }
 
-    /* Dynamic Splash Screen */
+    /* Splash Screen */
     #splashScreen {
       position: fixed;
       inset: 0;
@@ -111,7 +111,7 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Header */
+    /* Top Header */
     .top-header {
       position: sticky;
       top: 0;
@@ -1344,6 +1344,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .admin-list-item:hover {
+      background: #0d284f;
     }
     .hidden-file-input { display: none; }
     .badge {
@@ -1399,11 +1404,30 @@
       color: #38bdf8;
       margin-top: 4px;
     }
+
+    /* Single click copy row */
+    .copyable-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #051428;
+      border: 1px solid #1e4579;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-top: 6px;
+    }
+    .copyable-text {
+      font-family: monospace;
+      font-size: 0.95rem;
+      color: #fbbf24;
+      user-select: all;
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Instant Dynamic Welcome / Splash Screen -->
+  <!-- Dynamic Splash Screen -->
   <div id="splashScreen">
     <div class="splash-logo-circle" id="splashLogoWrap">
       <span style="font-size: 44px;">⚡</span>
@@ -1660,7 +1684,7 @@
       <div id="paymentsList"></div>
     </section>
 
-    <!-- VIEW 4: ORDERS (مېنىڭ تەلەپلىرىم) -->
+    <!-- VIEW 4: ORDERS -->
     <section id="view-orders" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 14px;">
         <h2 class="section-title" style="font-size: 1.2rem;">
@@ -1683,7 +1707,7 @@
       <div id="ordersList"></div>
     </section>
 
-    <!-- VIEW 5: ADD BALANCE (سومما قاچىلاش) -->
+    <!-- VIEW 5: ADD BALANCE -->
     <section id="view-add-balance" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 14px;">
         <h2 class="section-title" style="font-size: 1.2rem;">
@@ -1846,6 +1870,7 @@
         <button class="btn btn-success" style="width: 100%; padding: 11px;" onclick="saveAdminSettings()">تەڭشەكلەرنى پۈتۈن تورغا ساقلاش</button>
       </div>
 
+      <!-- PRODUCTS WITH EDIT AND DELETE CAPABILITIES -->
       <div id="admin-prods" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <h4 style="color: #fff;">مەھسۇلاتلار & باھا جەدۋىلى</h4>
@@ -1897,11 +1922,11 @@
 
   </main>
 
-  <!-- QUICK ACTION MODAL (FOR ADMIN PUSH ACTION) -->
+  <!-- QUICK ACTION / BIG VIEW MODAL WITH 1-CLICK COPY -->
   <div class="modal-backdrop" id="modalAdminQuickAction">
-    <div class="modal-card" style="border: 2px solid #38bdf8;">
+    <div class="modal-card" style="border: 2px solid #38bdf8; max-width: 520px;">
       <div class="modal-header" style="background: #061f42;">
-        <h3 class="modal-title" style="color:#38bdf8;" id="quickActionModalTitle">🔔 يېڭى تەلەپنى بىر تەرەپ قىلىش</h3>
+        <h3 class="modal-title" style="color:#38bdf8;" id="quickActionModalTitle">📋 تەلەپ تەپسىلاتى</h3>
         <button class="drawer-close-btn" onclick="closeModal('modalAdminQuickAction')">✕</button>
       </div>
       <div class="modal-body" id="quickActionContent"></div>
@@ -2057,7 +2082,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">تۈر رەسىمىنىڭ ئۇلانمىسى (Image URL)</label>
-          <input type="text" id="adminCatImageUrlInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى چىرايلىق سىنبەلگە چىقىدۇ">
+          <input type="text" id="adminCatImageUrlInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى سىنبەلگە چىقىدۇ">
         </div>
       </div>
       <div class="modal-footer">
@@ -2213,10 +2238,11 @@
     </div>
   </div>
 
+  <!-- ADD / EDIT PRODUCT MODAL (COMPLETE FULL CRUD) -->
   <div class="modal-backdrop" id="modalAdminProduct">
     <div class="modal-card" style="max-width: 520px;">
       <div class="modal-header">
-        <h3 class="modal-title" id="modalAdminProdTitle">مەھسۇلات & باھا جەدۋىلى</h3>
+        <h3 class="modal-title" id="modalAdminProdTitle">مەھسۇلات قوشۇش / تەھرىرلەش</h3>
         <button class="drawer-close-btn" onclick="closeModal('modalAdminProduct')">✕</button>
       </div>
       <div class="modal-body">
@@ -2230,11 +2256,11 @@
           <input type="text" id="adminProdNameInput" class="form-control">
         </div>
         <div class="form-group">
-          <label class="form-label">كۆرسىتىلىدىغان بەلگە</label>
+          <label class="form-label">كۆرسىتىلىدىغان بەلگە (Badge)</label>
           <input type="text" id="adminProdBadgeInput" class="form-control">
         </div>
         <div class="form-group">
-          <label class="form-label">كود نامى (Label)</label>
+          <label class="form-label">ئابونتتىن تەلەپ قىلىنىدىغان كود نامى (Label)</label>
           <input type="text" id="adminProdFieldLabelInput" class="form-control">
         </div>
         <div class="form-group">
@@ -2272,11 +2298,10 @@
 
   <!-- JAVASCRIPT DIRECT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v18";
+    const STORAGE_KEY = "autocash_app_state_v20";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
-    // Instant, ultra-lightweight SVG vector images that load in 0.01 seconds
     const fastIcons = {
       gameCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230284c7'/%3E%3Cstop offset='100%25' stop-color='%23091f3d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g)'/%3E%3Cpath d='M130 180h140c16.5 0 30 13.5 30 30v40c0 16.5-13.5 30-30 30h-20l-15-20h-70l-15 20h-20c-16.5 0-30-13.5-30-30v-40c0-16.5 13.5-30 30-30z' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='160' cy='230' r='10' fill='%2338bdf8'/%3E%3Ccircle cx='240' cy='230' r='10' fill='%23f59e0b'/%3E%3Ctext x='200' y='325' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto Game%3C/text%3E%3C/svg%3E",
       appCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230369a1'/%3E%3Cstop offset='100%25' stop-color='%230c264a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g2)'/%3E%3Crect x='130' y='110' width='140' height='180' rx='24' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='200' cy='260' r='12' fill='%2338bdf8'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto App%3C/text%3E%3C/svg%3E",
@@ -2379,8 +2404,6 @@
 
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
     if (!state.users || Array.isArray(state.users)) state.users = defaultData.users;
-    if (!state.siteSettings.welcomeTitle) state.siteSettings.welcomeTitle = "Auto cash";
-    if (!state.siteSettings.welcomeMessage) state.siteSettings.welcomeMessage = "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!";
 
     let notifiedPendingKeys = new Set();
     let currentOrderFilter = 'all';
@@ -2415,7 +2438,15 @@
       return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
 
-    // Direct Cloud Sync
+    // Helper: checks if user is currently editing an admin input to avoid overwriting typed text
+    function isAdminCurrentlyTyping() {
+      const activeEl = document.activeElement;
+      if (!activeEl) return false;
+      const adminSection = document.getElementById("view-admin");
+      return adminSection && adminSection.contains(activeEl) && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.tagName === "SELECT");
+    }
+
+    // Direct Cloud Sync (Does NOT overwrite fields while admin is typing)
     async function syncFromCloud() {
       try {
         const res = await fetch(`${FIREBASE_URL}.json`);
@@ -2438,8 +2469,16 @@
             ensureAdminFixed();
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-            renderAll();
-            applyWelcomeSplashData();
+
+            // Only re-render forms if admin is not typing right now
+            if (!isAdminCurrentlyTyping()) {
+              renderAll();
+              applyWelcomeSplashData();
+            } else {
+              // Still update notification badges and orders safely
+              renderAdminAllOrders();
+              renderAdminDeposits();
+            }
 
             if (getCurrentUser()?.role === "admin") {
               checkAndNotifyAdminForNewPending();
@@ -2544,7 +2583,6 @@
       await syncFromCloud();
       initApp();
 
-      // Smooth dismiss
       setTimeout(() => {
         const splash = document.getElementById("splashScreen");
         if (splash) splash.classList.add("hide");
@@ -2870,6 +2908,24 @@
       });
     }
 
+    // 1-CLICK COPY FUNCTION
+    function copyTextToClipboard(text, alertMsg) {
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        alert(alertMsg || "كۆچۈرۈۋېلىندى: " + text);
+      }).catch(() => {
+        // Fallback
+        const inp = document.createElement("input");
+        inp.value = text;
+        document.body.appendChild(inp);
+        inp.select();
+        document.execCommand("copy");
+        document.body.removeChild(inp);
+        alert(alertMsg || "كۆچۈرۈۋېلىندى: " + text);
+      });
+    }
+
+    // BIG VIEW MODAL WITH 1-CLICK COPY
     function openAdminActionModal(type, itemId) {
       const modalTitle = document.getElementById("quickActionModalTitle");
       const content = document.getElementById("quickActionContent");
@@ -2879,51 +2935,67 @@
         const order = state.orders[itemId];
         if (!order) return;
 
-        modalTitle.innerText = "📦 زاكاسنى بىر تەرەپ قىلىش";
+        modalTitle.innerText = "📦 زاكاس تەپسىلاتى";
         content.innerHTML = `
           <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
-            <div style="font-size:1.1rem; font-weight:bold; color:#fff; margin-bottom:6px;">${order.prodName} (${order.packageName})</div>
-            <div style="color:#38bdf8; font-size:0.88rem; margin-bottom:4px;">ئابونت: <strong>${order.username}</strong> (UID: #${order.userUid})</div>
-            <div style="color:#fbbf24; font-size:0.95rem; font-weight:bold; background:#04152b; padding:8px 10px; border-radius:8px; margin:8px 0;">
-              ئويۇن كودى / ID: <span style="user-select:all;">${order.accountTarget}</span>
+            <div style="font-size:1.15rem; font-weight:bold; color:#fff; margin-bottom:6px;">${order.prodName} (${order.packageName})</div>
+            <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px;">ئابونت: <strong>${order.username}</strong> (UID: #${order.userUid})</div>
+            
+            <div style="margin: 10px 0;">
+              <label style="font-size:0.8rem; color:#94a3b8;">ئويۇن / ئەپ كودى (ID):</label>
+              <div class="copyable-row">
+                <span class="copyable-text">${order.accountTarget}</span>
+                <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem;" onclick="copyTextToClipboard('${order.accountTarget}', 'ئويۇن ID كۆچۈرۈلدى!')">📋 كۆچۈرۈش</button>
+              </div>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.85rem;">
+
+            <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:0.9rem;">
               <span style="color:#94a3b8;">سوممىسى:</span>
               <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(order.price)}</span>
             </div>
-            <div style="font-size:0.75rem; color:#94a3b8; margin-top:6px;">تەلەپ ۋاقتى: ${order.date}</div>
+            <div style="font-size:0.78rem; color:#94a3b8; margin-top:6px;">تەلەپ ۋاقتى: ${order.date}</div>
+            ${order.processedAt ? `<div style="font-size:0.78rem; color:#38bdf8; margin-top:3px;">بىر تەرەپ قىلىنغان ۋاقتى: ${order.processedAt}</div>` : ''}
           </div>
         `;
 
         footer.innerHTML = `
           <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickAction')">تاقاش</button>
+          ${order.status === 'pending' ? `
           <button class="btn btn-danger" onclick="adminQuickProcessOrder('${order.id}', 'rejected')">✕ رەت قىلىش</button>
-          <button class="btn btn-success" onclick="adminQuickProcessOrder('${order.id}', 'approved')">✓ ماقۇللاش</button>
+          <button class="btn btn-success" onclick="adminQuickProcessOrder('${order.id}', 'approved')">✓ ماقۇللاش</button>` : ''}
         `;
       } else {
         const pay = state.payments[itemId];
         if (!pay) return;
 
-        modalTitle.innerText = "💰 سومما قاچىلاشنى بىر تەرەپ قىلىش";
+        modalTitle.innerText = "💰 سومما قاچىلاش تەپسىلاتى";
         content.innerHTML = `
           <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
-            <div style="font-size:1.1rem; font-weight:bold; color:#fff; margin-bottom:6px;">${pay.methodName}</div>
-            <div style="color:#38bdf8; font-size:0.88rem; margin-bottom:4px;">ئابونت: <strong>${pay.username}</strong> (UID: #${pay.userUid})</div>
-            <div style="color:#fbbf24; font-size:0.95rem; font-weight:bold; background:#04152b; padding:8px 10px; border-radius:8px; margin:8px 0;">
-              سودا تەرتىپ نومۇرى (TxID): <span style="user-select:all;">${pay.txId}</span>
+            <div style="font-size:1.15rem; font-weight:bold; color:#fff; margin-bottom:6px;">${pay.methodName}</div>
+            <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px;">ئابونت: <strong>${pay.username}</strong> (UID: #${pay.userUid})</div>
+            
+            <div style="margin: 10px 0;">
+              <label style="font-size:0.8rem; color:#94a3b8;">سودا تەرتىپ نومۇرى (TxID):</label>
+              <div class="copyable-row">
+                <span class="copyable-text">${pay.txId}</span>
+                <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem;" onclick="copyTextToClipboard('${pay.txId}', 'TxID نومۇرى كۆچۈرۈلدى!')">📋 كۆچۈرۈش</button>
+              </div>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.85rem;">
+
+            <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:0.9rem;">
               <span style="color:#94a3b8;">قاچىلايدىغان سوممىسى:</span>
               <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(pay.amount)}</span>
             </div>
-            <div style="font-size:0.75rem; color:#94a3b8; margin-top:6px;">تەلەپ ۋاقتى: ${pay.date}</div>
+            <div style="font-size:0.78rem; color:#94a3b8; margin-top:6px;">تەلەپ ۋاقتى: ${pay.date}</div>
+            ${pay.processedAt ? `<div style="font-size:0.78rem; color:#38bdf8; margin-top:3px;">بىر تەرەپ قىلىنغان ۋاقتى: ${pay.processedAt}</div>` : ''}
           </div>
         `;
 
         footer.innerHTML = `
           <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickAction')">تاقاش</button>
+          ${pay.status === 'pending' ? `
           <button class="btn btn-danger" onclick="adminQuickProcessDeposit('${pay.id}', 'rejected')">✕ رەت قىلىش</button>
-          <button class="btn btn-success" onclick="adminQuickProcessDeposit('${pay.id}', 'approved')">✓ تەستىقلاپ قوشۇش</button>
+          <button class="btn btn-success" onclick="adminQuickProcessDeposit('${pay.id}', 'approved')">✓ تەستىقلاپ قوشۇش</button>` : ''}
         `;
       }
 
@@ -3148,7 +3220,7 @@
       saveState();
     }
 
-    /* ADMIN: WELCOME SCREEN SETTINGS (SAVED TO FIREBASE INSTANTLY) */
+    /* ADMIN: WELCOME SCREEN SETTINGS */
     function renderAdminWelcomeSettings() {
       const s = state.siteSettings;
       document.getElementById("adminWelcomeTitleInput").value = s.welcomeTitle || s.siteName || "Auto cash";
@@ -3422,8 +3494,7 @@
 
     function copyAccountAddress() {
       if (selectedRechargeMethod) {
-        navigator.clipboard.writeText(selectedRechargeMethod.account);
-        alert("ھېسابات نومۇرى كۆچۈرۈۋېلىندى: " + selectedRechargeMethod.account);
+        copyTextToClipboard(selectedRechargeMethod.account, "ھېسابات نومۇرى كۆچۈرۈلدى!");
       }
     }
 
@@ -3735,6 +3806,7 @@
 
         const div = document.createElement("div");
         div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("order", o.id);
         div.innerHTML = `
           <div>
             <div style="font-weight: bold; color: #fff;">${o.prodName} (${o.packageName})</div>
@@ -3797,6 +3869,7 @@
 
         const div = document.createElement("div");
         div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("deposit", p.id);
         div.innerHTML = `
           <div>
             <div style="font-weight: bold; color: #fff;">${p.methodName}</div>
@@ -3826,30 +3899,28 @@
       list.forEach(o => {
         let statusBadge = '';
         if (o.status === 'approved') {
-          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓ (${o.processedAt || ''})</span>`;
+          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
         } else if (o.status === 'rejected') {
-          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕ (${o.processedAt || ''})</span>`;
+          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
         } else {
           statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
         }
 
         const div = document.createElement("div");
         div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("order", o.id);
         div.innerHTML = `
           <div>
             <strong style="color:#fff;">${o.prodName} - ${o.packageName}</strong>
             <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${o.username} (UID: #${o.userUid})</div>
-            <div style="font-size:0.75rem; color:#f59e0b;">كود/ID: <span style="user-select:all;">${o.accountTarget}</span></div>
-            <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${o.date} | ID: ${o.id}</div>
+            <div style="font-size:0.75rem; color:#fbbf24;">كود/ID: ${o.accountTarget}</div>
+            <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${o.date}</div>
+            ${o.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>` : ''}
           </div>
           <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
             <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(o.price)}</span>
             ${statusBadge}
-            ${o.status === 'pending' ? `
-            <div style="display:flex; gap:4px; margin-top:4px;">
-              <button class="btn btn-success" style="padding:4px 8px; font-size:0.72rem;" onclick="adminUpdateOrderStatus('${o.id}', 'approved')">✓ ماقۇللاش</button>
-              <button class="btn btn-danger" style="padding:4px 8px; font-size:0.72rem;" onclick="adminUpdateOrderStatus('${o.id}', 'rejected')">✕ قايتۇرۇش</button>
-            </div>` : ''}
+            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('order', '${o.id}')">🔍 چوڭ كۆرۈش</button>
           </div>
         `;
         container.appendChild(div);
@@ -3896,30 +3967,28 @@
       list.forEach(p => {
         let statusBadge = '';
         if (p.status === 'approved') {
-          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓ (${p.processedAt || ''})</span>`;
+          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
         } else if (p.status === 'rejected') {
-          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕ (${p.processedAt || ''})</span>`;
+          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
         } else {
           statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
         }
 
         const div = document.createElement("div");
         div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("deposit", p.id);
         div.innerHTML = `
           <div>
             <strong style="color:#fff;">${p.methodName}</strong>
             <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${p.username} (UID: #${p.userUid})</div>
-            <div style="font-size:0.75rem; color:#f59e0b;">TxID: ${p.txId}</div>
+            <div style="font-size:0.75rem; color:#fbbf24;">TxID: ${p.txId}</div>
             <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${p.date}</div>
+            ${p.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>` : ''}
           </div>
           <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
             <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(p.amount)}</span>
             ${statusBadge}
-            ${p.status === 'pending' ? `
-            <div style="display:flex; gap:4px; margin-top:4px;">
-              <button class="btn btn-success" style="padding:4px 8px; font-size:0.72rem;" onclick="adminApproveDeposit('${p.id}')">✓ تەستىقلاش</button>
-              <button class="btn btn-danger" style="padding:4px 8px; font-size:0.72rem;" onclick="adminRejectDeposit('${p.id}')">✕ رەت</button>
-            </div>` : ''}
+            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('deposit', '${p.id}')">🔍 چوڭ كۆرۈش</button>
           </div>
         `;
         container.appendChild(div);
@@ -4012,7 +4081,7 @@
         div.innerHTML = `
           <div class="vip-left-info">
             <div class="vip-medal-icon">
-              ${t.logo ? `<img src="${t.logo}" alt="${t.name}">` : `<span>${t.emoji}</span>`}
+              ${t.logo ? `<img src="${t.logo}">` : `<span>${t.emoji}</span>`}
             </div>
             <div class="vip-details">
               <h4>${t.name}</h4>
@@ -4159,7 +4228,7 @@
       alert("تېكىستلەر مۇۋەپپەقىيەتلىك ساقلاندى!");
     }
 
-    /* ADMIN: PRODUCTS & PACKAGES */
+    /* ADMIN: PRODUCTS & EDIT/DELETE FUNCTIONALITY */
     function renderAdminProducts() {
       const container = document.getElementById("adminProductsList");
       if (!container) return;
@@ -4172,10 +4241,13 @@
             <img src="${p.image}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">
             <div>
               <strong style="color:#fff;">${p.name}</strong>
-              <div style="font-size:0.75rem; color:#94a3b8;">${p.packages ? p.packages.length : 0} بولاق</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">${p.packages ? p.packages.length : 0} بولاق | ${p.badge || 'ئاددىي'}</div>
             </div>
           </div>
-          <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminProduct(${idx})">ئۆچۈرۈش</button>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminProduct('${p.id}')">✏️ تەھرىرلەش</button>
+            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminProduct(${idx})">ئۆچۈرۈش</button>
+          </div>
         `;
         container.appendChild(div);
       });
@@ -4183,15 +4255,40 @@
 
     let tempPackages = [];
     function openAddProductModal() {
+      document.getElementById("modalAdminProdTitle").innerText = "يېڭى مەھسۇلات قوشۇش";
       document.getElementById("adminProdEditId").value = "";
       document.getElementById("adminProdNameInput").value = "";
       document.getElementById("adminProdBadgeInput").value = "";
       document.getElementById("adminProdFieldLabelInput").value = "ئويۇن ID نومۇرى";
       document.getElementById("adminProdImageUrlInput").value = "";
+      
       const sel = document.getElementById("adminProdCatSelect");
       sel.innerHTML = "";
       state.categories.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.name}</option>`);
+      
       tempPackages = [{ name: "ئۆلچەملىك", price: 1.000 }];
+      renderAdminPackageRows();
+      openModal("modalAdminProduct");
+    }
+
+    function editAdminProduct(prodId) {
+      const p = state.products.find(x => x.id === prodId);
+      if (!p) return;
+
+      document.getElementById("modalAdminProdTitle").innerText = "مەھسۇلاتنى تەھرىرلەش";
+      document.getElementById("adminProdEditId").value = p.id;
+      document.getElementById("adminProdNameInput").value = p.name;
+      document.getElementById("adminProdBadgeInput").value = p.badge || "";
+      document.getElementById("adminProdFieldLabelInput").value = p.fieldLabel || "ID نومۇرى";
+      document.getElementById("adminProdImageUrlInput").value = p.image || "";
+
+      const sel = document.getElementById("adminProdCatSelect");
+      sel.innerHTML = "";
+      state.categories.forEach(c => {
+        sel.innerHTML += `<option value="${c.id}" ${c.id === p.catId ? 'selected' : ''}>${c.name}</option>`;
+      });
+
+      tempPackages = JSON.parse(JSON.stringify(p.packages || [{ name: "ئۆلچەملىك", price: 1.000 }]));
       renderAdminPackageRows();
       openModal("modalAdminProduct");
     }
@@ -4216,6 +4313,7 @@
     }
 
     function saveAdminProduct() {
+      const editId = document.getElementById("adminProdEditId").value;
       const name = document.getElementById("adminProdNameInput").value.trim();
       const catId = document.getElementById("adminProdCatSelect").value;
       const badge = document.getElementById("adminProdBadgeInput").value.trim();
@@ -4223,18 +4321,34 @@
       const img = document.getElementById("adminProdImageUrlInput").value.trim();
 
       if (!name) return alert("نامىنى تولدۇرۇڭ!");
-      state.products.push({
-        id: "prod-" + Date.now(),
-        catId: catId,
-        name: name,
-        badge: badge,
-        fieldLabel: label,
-        placeholder: label,
-        image: img || fastIcons.gameCover,
-        packages: JSON.parse(JSON.stringify(tempPackages))
-      });
+
+      if (editId) {
+        const p = state.products.find(x => x.id === editId);
+        if (p) {
+          p.name = name;
+          p.catId = catId;
+          p.badge = badge;
+          p.fieldLabel = label || "ID نومۇرى";
+          p.placeholder = label || "ID نومۇرى";
+          p.image = img || p.image || fastIcons.gameCover;
+          p.packages = JSON.parse(JSON.stringify(tempPackages));
+        }
+      } else {
+        state.products.push({
+          id: "prod-" + Date.now(),
+          catId: catId,
+          name: name,
+          badge: badge,
+          fieldLabel: label || "ID نومۇرى",
+          placeholder: label || "ID نومۇرى",
+          image: img || fastIcons.gameCover,
+          packages: JSON.parse(JSON.stringify(tempPackages))
+        });
+      }
+
       saveState();
       closeModal("modalAdminProduct");
+      alert("مەھسۇلات مۇۋەپپەقىيەتلىك ساقلاندى!");
     }
 
     function deleteAdminProduct(idx) {
