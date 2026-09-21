@@ -14,7 +14,6 @@
     import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
     window.fbAuthModules = { initializeApp, getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged };
 
-    // سىز بەرگەن تولۇق Firebase تەڭشىكى
     const firebaseConfig = {
       apiKey: "AIzaSyB1X0rq3wtBq0uGDOfUJz5gIgJ3TETpoWg",
       authDomain: "koznak-cinema.firebaseapp.com",
@@ -79,7 +78,6 @@
       overflow-x: hidden;
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: #07172c; }
     ::-webkit-scrollbar-thumb { background: #1a3f6f; border-radius: 4px; }
@@ -151,7 +149,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Top Header */
+    /* Top Header Re-aligned */
     .top-header {
       position: sticky;
       top: 0;
@@ -171,7 +169,7 @@
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       cursor: pointer;
     }
 
@@ -198,16 +196,21 @@
       display: block;
     }
 
-    .brand-title {
-      font-size: 1.2rem;
-      font-weight: 800;
+    .header-center-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.25rem;
+      font-weight: 900;
       background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 0.5px;
+      pointer-events: none;
+      white-space: nowrap;
     }
 
-    .header-actions {
+    .header-actions-left {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -273,22 +276,6 @@
       font-weight: 900;
       box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
     }
-
-    .menu-toggle-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      font-size: 20px;
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .menu-toggle-btn:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--primary-light); }
 
     .header-back-btn {
       background: rgba(56, 189, 248, 0.1);
@@ -642,9 +629,7 @@
       font-weight: bold;
       transition: all 0.2s;
     }
-    .buy-btn:hover {
-      box-shadow: 0 0 10px var(--primary-glow);
-    }
+    .buy-btn:hover { box-shadow: 0 0 10px var(--primary-glow); }
 
     /* Product Order View */
     .product-detail-hero {
@@ -868,7 +853,7 @@
     .pay-icon-circle img { width: 100%; height: 100%; object-fit: contain; }
     .pay-card-name { font-weight: 700; font-size: 0.88rem; color: #fff; }
 
-    /* VIP Cards & Membership Section (Enhanced) */
+    /* VIP Cards & Membership Section */
     .vip-dashboard-card {
       background: linear-gradient(135deg, #102e56 0%, #081a33 100%);
       border: 1px solid rgba(245, 158, 11, 0.4);
@@ -1038,7 +1023,7 @@
     .floating-chat-btn:active { transform: scale(0.92); }
     .floating-chat-btn svg { width: 24px; height: 24px; fill: #fff; }
 
-    /* Drawer Sidebar (Enhanced) */
+    /* Drawer Sidebar */
     .drawer-overlay {
       position: fixed;
       inset: 0;
@@ -1289,7 +1274,24 @@
     .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800; }
     .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
     .btn-secondary { background: #1a3c68; color: #cbd5e1; }
-    .btn-google { background: #fff; color: #333; font-weight: bold; width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    
+    .btn-google {
+      background: #ffffff;
+      color: #1e293b;
+      font-weight: 800;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+    }
+    .btn-google:hover { background: #f8fafc; transform: translateY(-1px); }
 
     /* Admin Tabs & Views */
     .admin-tab-bar {
@@ -1454,29 +1456,28 @@
 
   <!-- Top App Header -->
   <header class="top-header">
-    <div class="brand-section" onclick="switchView('view-home')">
+    <!-- Right side: Logo Click opens Drawer -->
+    <div class="brand-section" onclick="toggleDrawer(true)" title="تىزىملىكنى ئېچىش (Menu)">
       <div class="brand-logo" id="siteLogo">
         <span>⚡</span>
       </div>
-      <span class="brand-title" id="siteTitleDisplay">Auto cash</span>
     </div>
+
+    <!-- Center: Brand Name -->
+    <div class="header-center-title" id="siteTitleDisplay">Auto cash</div>
     
-    <div class="header-actions">
-      <!-- Balance Pill -->
+    <!-- Left side: Balance and User Avatar/Login -->
+    <div class="header-actions-left">
       <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى دوللار/لىرا ئالماشتۇرۇش">
         <span class="plus-symbol" onclick="event.stopPropagation(); checkAuthAndAction(() => switchView('view-add-balance'));">+</span>
         <span id="headerBalance">$ 0.00</span>
       </div>
 
-      <!-- Login Button when guest -->
       <button class="header-auth-btn" id="headerAuthBtn" onclick="handleHeaderAuthClick()">
         <span>🔑</span> <span>كىرىش</span>
       </button>
 
-      <!-- Avatar Pill when logged in -->
       <img id="headerUserAvatar" class="header-user-avatar" src="" alt="Avatar" onclick="openUserStatsDashboardModal()" title="ھېسابات تەپسىلاتى">
-
-      <button class="menu-toggle-btn" onclick="toggleDrawer(true)">☰</button>
     </div>
   </header>
 
@@ -1501,12 +1502,7 @@
             <div class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')" style="flex:1; text-align:center; padding:10px; font-weight:bold; cursor:pointer; color:#94a3b8;">يېڭى ھېسابات ئېچىش</div>
           </div>
 
-          <!-- Google / Gmail One-Click button -->
-          <button type="button" class="btn-google" onclick="handleGoogleSignIn()">
-            <span>🌐</span> گىمائىل (Google) بىلەن كىرىش
-          </button>
-          <div style="text-align:center; font-size:0.75rem; color:#94a3b8; margin: 10px 0;">ياكى ئېلخەت / UID ئارقىلىق</div>
-
+          <!-- Forms Area -->
           <div id="authLoginForm">
             <div class="form-group">
               <label class="form-label">ئىشلەتكۈچى نامى، UID ياكى ئېلخەت (Email)</label>
@@ -1527,7 +1523,7 @@
               <input type="text" id="regUsernameInput" class="form-control" placeholder="مەسىلەن: user12345">
             </div>
             <div class="form-group">
-              <label class="form-label">ئېلخەت ئادرېسى (Email - مەجبۇرىي ئەمەس، ئېلخەت بىلەن كىرسىڭىز)</label>
+              <label class="form-label">ئېلخەت ئادرېسى (Email - مەجبۇرىي ئەمەس)</label>
               <input type="email" id="regEmailInput" class="form-control" placeholder="user@gmail.com">
             </div>
             <div class="form-group">
@@ -1551,6 +1547,17 @@
               ھېسابات ئېچىش ۋە كىرىش ➔
             </button>
           </div>
+
+          <!-- Beautiful Google Login at Bottom -->
+          <div style="display: flex; align-items: center; margin: 20px 0 14px; gap: 10px;">
+            <div style="flex: 1; height: 1px; background: #1a3c68;"></div>
+            <span style="font-size: 0.78rem; color: #94a3b8;">ياكى تېز كىرىش</span>
+            <div style="flex: 1; height: 1px; background: #1a3c68;"></div>
+          </div>
+          <button type="button" class="btn-google" onclick="handleGoogleSignIn()">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+            <span>گىمائىل (Google) بىلەن كىرىش</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1752,7 +1759,7 @@
       <div class="payment-methods-grid" id="rechargeMethodsGrid"></div>
     </section>
 
-    <!-- VIEW 6: VIP MEMBERSHIP (ENHANCED) -->
+    <!-- VIEW 6: VIP MEMBERSHIP -->
     <section id="view-vip" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 16px;">
         <h2 class="section-title" style="font-size: 1.25rem;">
@@ -1771,7 +1778,7 @@
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 0.88rem;">
-          <span style="color: #94a3b8;">جەمئىي ئىستېمالىڭىز:</span>
+          <span style="color: #94a3b8;">جەمئىي ئىستېمال & قاچىلىغان پۇل:</span>
           <span style="color: #34d399; font-weight: 800;" id="vipTotalSpent">$ 0.00</span>
         </div>
 
@@ -1786,7 +1793,7 @@
         </div>
       </div>
 
-      <h4 style="color: #fff; margin-bottom: 12px; font-size: 0.95rem;">👑 بارلىق VIP دەرىجىلەر جەدۋىلى</h4>
+      <h4 style="color: #fff; margin-bottom: 12px; font-size: 0.95rem;">👑 بارلىق VIP دەرىجىلەر تىزىملىكى</h4>
       <div id="vipTiersList"></div>
     </section>
 
@@ -1803,6 +1810,7 @@
         <button class="admin-tab-btn active" onclick="switchAdminTab('admin-orders', this)">📋 زاكازلار</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-deposits', this)">📥 سومما قاچىلاش</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-users', this)">👥 بارلىق ئابونتلار</button>
+        <button class="admin-tab-btn" onclick="switchAdminTab('admin-vip-rates', this)">👑 VIP چېگىرمە & باھا</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-cats', this)">📁 تۈرلەر (CRUD)</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-payments', this)">💳 پۇل قاچىلاش شەكلى</button>
         <button class="admin-tab-btn" onclick="switchAdminTab('admin-settings', this)">🛠️ بېكەت & لىرا نىسبىتى</button>
@@ -1838,6 +1846,14 @@
         <div id="adminUsersList"></div>
       </div>
 
+      <!-- VIP Rates Customization Tab -->
+      <div id="admin-vip-rates" class="admin-subview" style="display: none;">
+        <h4 style="color: #fff; margin-bottom: 14px;">👑 VIP چېگىرمە پىرسەنتى & تەلەپ سوممىسى تەڭشىكى</h4>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">بۇ يەردە ھەر بىر دەرىجىدىكى چېگىرمە پىرسەنتىنى ئۆزگەرتەلەيسىز:</p>
+        <div id="adminVipRatesContainer"></div>
+        <button class="btn btn-success" style="width: 100%; padding: 12px; margin-top: 10px;" onclick="saveAdminVipRates()">VIP تەڭشەكلىرىنى ساقلاش</button>
+      </div>
+
       <div id="admin-cats" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">تۈرلەرنى باشقۇرۇش</h4>
@@ -1854,7 +1870,6 @@
         <div id="adminPaymentsList"></div>
       </div>
 
-      <!-- Welcome Screen Settings -->
       <div id="admin-welcome" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 14px;">قارشى ئېلىش بېتى تەڭشەكلىرى</h4>
         <div class="form-group">
@@ -1994,14 +2009,24 @@
           </div>
         </div>
 
-        <button class="btn btn-primary" style="width:100%; margin-top:10px; padding:11px;" onclick="closeModal('modalUserStatsDashboard'); openAccountDetailsModal();">
-          ✏️ ھېسابات ئۇچۇرلىرىنى تەھرىرلەش
-        </button>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px;">
+          <button class="btn btn-primary" style="width:100%; padding:11px;" onclick="closeModal('modalUserStatsDashboard'); openAccountDetailsModal();">
+            ✏️ ھېسابات ئۇچۇرلىرىنى تەھرىرلەش
+          </button>
+          
+          <button class="btn btn-warning" style="width:100%; padding:11px;" onclick="closeModal('modalUserStatsDashboard'); logoutUser(false, true);">
+            🔄 باشقا ھېساباتتا كىرىش
+          </button>
+          
+          <button class="btn btn-danger" style="width:100%; padding:11px;" onclick="closeModal('modalUserStatsDashboard'); logoutUser(false, false);">
+            🚪 توربەتتىن چېكىنىش
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Drawer Sidebar (Enhanced) -->
+  <!-- Drawer Sidebar -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
   <aside class="drawer-sidebar" id="drawerSidebar">
     <div class="drawer-header">
@@ -2326,7 +2351,7 @@
 
   <!-- JAVASCRIPT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v22";
+    const STORAGE_KEY = "autocash_app_state_v23";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
@@ -2360,7 +2385,7 @@
         ],
         vipTiers: [
           { id: "bronze", name: "مىس (Bronze)", req: 0, discount: 0, logo: "https://cdn-icons-png.flaticon.com/512/2583/2583342.png", emoji: "🥉" },
-          { id: "silver", name: "كۈمۈش (Silver)", req: 200, discount: 2, logo: "https://cdn-icons-png.flaticon.com/512/2583/2583319.png", emoji: "🥈" },
+          { id: "silver", name: "كۈمۈش (Silver)", req: 100, discount: 2, logo: "https://cdn-icons-png.flaticon.com/512/2583/2583319.png", emoji: "🥈" },
           { id: "gold", name: "ئالتۇن (Gold)", req: 500, discount: 5, logo: "https://cdn-icons-png.flaticon.com/512/2583/2583343.png", emoji: "🥇" },
           { id: "diamond", name: "ئالماس (Diamond)", req: 1000, discount: 8, logo: "https://cdn-icons-png.flaticon.com/512/2583/2583434.png", emoji: "💎" }
         ],
@@ -2467,6 +2492,38 @@
       return adminSection && adminSection.contains(activeEl) && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.tagName === "SELECT");
     }
 
+    /* VIP Auto Calculation Logic */
+    function evaluateUserTier(user) {
+      if (!user) return "bronze";
+      // قاچىلانغان ياكى سەرپ قىلىنغان جەمئىي سومما
+      const metric = Math.max(parseFloat(user.totalSpent || 0), parseFloat(user.balance || 0));
+      
+      const tiers = state.siteSettings.vipTiers;
+      const dTier = tiers.find(t => t.id === 'diamond') || { req: 1000 };
+      const gTier = tiers.find(t => t.id === 'gold') || { req: 500 };
+      const sTier = tiers.find(t => t.id === 'silver') || { req: 100 };
+
+      if (metric >= dTier.req) return "diamond";
+      if (metric >= gTier.req) return "gold";
+      if (metric >= sTier.req) return "silver";
+      return "bronze";
+    }
+
+    function autoUpdateAllUsersTiers() {
+      let changed = false;
+      Object.keys(state.users).forEach(k => {
+        const u = state.users[k];
+        if (u && !u.manualTier) { // ئەگەر باشقۇرغۇچى ئۆزى قولدا بېكىتمىگەن بولسا ئاپتوماتىك دەرىجىگە ئايرىيدۇ
+          const newTier = evaluateUserTier(u);
+          if (u.tier !== newTier) {
+            u.tier = newTier;
+            changed = true;
+          }
+        }
+      });
+      return changed;
+    }
+
     /* CLOUD SYNC */
     async function syncFromCloud() {
       try {
@@ -2488,6 +2545,7 @@
             state.currentUserId = myUid;
             state.userCurrencyMode = myCurr;
             ensureAdminFixed();
+            autoUpdateAllUsersTiers();
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
@@ -2538,6 +2596,7 @@
 
     async function pushToCloud() {
       ensureAdminFixed();
+      autoUpdateAllUsersTiers();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderAll();
 
@@ -2706,6 +2765,7 @@
         renderAdminWelcomeSettings();
         renderAdminAllOrders();
         renderAdminDeposits();
+        renderAdminVipRates();
       }
     }
 
@@ -2816,7 +2876,7 @@
           alert("گىمائىل بىلەن كىرىشتە خاتالىق: " + e.message);
         }
       } else {
-        alert("Firebase Auth تېخى تەييار ئەمەس، config نى يۇقىرىقى script گە توغرا قويۇڭ.");
+        alert("Firebase Auth تەڭشىكى ئېنىقلانمىدى.");
       }
     }
 
@@ -2875,8 +2935,8 @@
       switchView("view-home");
     }
 
-    function logoutUser(force = false) {
-      if (force || confirm("ھېساباتتىن چېكىنىشكە جەزملەشتۈرەمسىز؟")) {
+    function logoutUser(force = false, openLoginAfter = false) {
+      if (force || confirm(openLoginAfter ? "باشقا ھېساباتقا كىرمەكچىمۇ؟" : "ھېساباتتىن چېكىنىشكە جەزملەشتۈرەمسىز؟")) {
         const u = getCurrentUser();
         if (u) {
           u.currentSessionToken = null;
@@ -2888,6 +2948,9 @@
         toggleDrawer(false);
         renderAll();
         switchView("view-home");
+        if (openLoginAfter) {
+          setTimeout(() => openModal("modalAuthLogin"), 200);
+        }
       }
     }
 
@@ -2997,10 +3060,13 @@
       });
     }
 
+    /* Only Admin Can Approve/Reject */
     function openAdminActionModal(type, itemId) {
       const modalTitle = document.getElementById("quickActionModalTitle");
       const content = document.getElementById("quickActionContent");
       const footer = document.getElementById("quickActionFooter");
+      const currentUser = getCurrentUser();
+      const isAdmin = currentUser && currentUser.role === 'admin';
 
       if (type === "order") {
         const order = state.orders[itemId];
@@ -3031,7 +3097,7 @@
 
         footer.innerHTML = `
           <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickAction')">تاقاش</button>
-          ${order.status === 'pending' ? `
+          ${isAdmin && order.status === 'pending' ? `
           <button class="btn btn-danger" onclick="adminQuickProcessOrder('${order.id}', 'rejected')">✕ رەت قىلىش</button>
           <button class="btn btn-success" onclick="adminQuickProcessOrder('${order.id}', 'approved')">✓ ماقۇللاش</button>` : ''}
         `;
@@ -3064,7 +3130,7 @@
 
         footer.innerHTML = `
           <button class="btn btn-secondary" onclick="closeModal('modalAdminQuickAction')">تاقاش</button>
-          ${pay.status === 'pending' ? `
+          ${isAdmin && pay.status === 'pending' ? `
           <button class="btn btn-danger" onclick="adminQuickProcessDeposit('${pay.id}', 'rejected')">✕ رەت قىلىش</button>
           <button class="btn btn-success" onclick="adminQuickProcessDeposit('${pay.id}', 'approved')">✓ تەستىقلاپ قوشۇش</button>` : ''}
         `;
@@ -3198,7 +3264,7 @@
       });
     }
 
-    /* ADMIN: USERS */
+    /* ADMIN: USERS (With Tier Selector) */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -3234,6 +3300,17 @@
               <div style="font-size:0.84rem; color:#34d399; font-weight:bold; margin-top:3px;">
                 قالدۇقى: ${formatDualCurrency(u.balance)}
               </div>
+              
+              <!-- VIP Tier Controller -->
+              <div style="margin-top: 6px; display:flex; align-items:center; gap:6px;">
+                <label style="font-size:0.75rem; color:#fbbf24;">👑 دەرىجىسى:</label>
+                <select style="background:#071a33; color:#fff; border:1px solid #1a3c68; border-radius:6px; font-size:0.75rem; padding:2px 6px;" onchange="adminChangeUserTier('${u.uid}', this.value)">
+                  <option value="bronze" ${u.tier === 'bronze' ? 'selected' : ''}>مىس</option>
+                  <option value="silver" ${u.tier === 'silver' ? 'selected' : ''}>كۈمۈش</option>
+                  <option value="gold" ${u.tier === 'gold' ? 'selected' : ''}>ئالتۇن</option>
+                  <option value="diamond" ${u.tier === 'diamond' ? 'selected' : ''}>ئالماس</option>
+                </select>
+              </div>
             </div>
           </div>
           <div style="display:flex; flex-direction:column; gap:6px;">
@@ -3244,6 +3321,15 @@
         `;
         container.appendChild(div);
       });
+    }
+
+    function adminChangeUserTier(uid, newTier) {
+      const u = state.users["user_" + uid];
+      if (!u) return;
+      u.tier = newTier;
+      u.manualTier = true; // باشقۇرغۇچى مەخسۇس ئۆزگەرتتى
+      saveState();
+      alert(`ئابونت ${u.username} نىڭ ئەزالىق دەرىجىسى ${newTier} گە ئۆزگەرتىلدى.`);
     }
 
     async function adminDeleteUser(uid) {
@@ -3277,6 +3363,8 @@
           newBalance = parseFloat(valStr) || 0;
         }
         u.balance = parseFloat(newBalance.toFixed(3));
+        u.totalSpent = Math.max(u.totalSpent, u.balance);
+        if (!u.manualTier) u.tier = evaluateUserTier(u); // دەرىجىنى ئاپتوماتىك كۆتۈرۈش
         state.users["user_" + uid] = u;
         saveState();
         alert(`ئابونت ${u.username} نىڭ قالدۇقى يېڭىلاندى:\n${formatDualCurrency(u.balance)}`);
@@ -3290,6 +3378,47 @@
       if (newName && newName.trim()) u.username = newName.trim();
       state.users["user_" + uid] = u;
       saveState();
+    }
+
+    /* ADMIN: VIP DISCOUNT RATES CRUD */
+    function renderAdminVipRates() {
+      const container = document.getElementById("adminVipRatesContainer");
+      if (!container) return;
+      container.innerHTML = "";
+      state.siteSettings.vipTiers.forEach((tier, idx) => {
+        const card = document.createElement("div");
+        card.style.background = "#071c35";
+        card.style.border = "1px solid #1a3c68";
+        card.style.borderRadius = "10px";
+        card.style.padding = "12px";
+        card.style.marginBottom = "10px";
+        card.innerHTML = `
+          <div style="font-weight:bold; color:#fbbf24; margin-bottom:8px;">${tier.name}</div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div>
+              <label class="form-label" style="font-size:0.75rem;">تەلەپ قىلىنىدىغان سومما ($)</label>
+              <input type="number" class="form-control" id="vip_req_${idx}" value="${tier.req}">
+            </div>
+            <div>
+              <label class="form-label" style="font-size:0.75rem;">چېگىرمە نىسبىتى (%)</label>
+              <input type="number" class="form-control" id="vip_disc_${idx}" value="${tier.discount}">
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function saveAdminVipRates() {
+      state.siteSettings.vipTiers.forEach((tier, idx) => {
+        const reqVal = parseFloat(document.getElementById(`vip_req_${idx}`).value) || 0;
+        const discVal = parseFloat(document.getElementById(`vip_disc_${idx}`).value) || 0;
+        tier.req = reqVal;
+        tier.discount = discVal;
+      });
+      autoUpdateAllUsersTiers();
+      saveState();
+      alert("VIP دەرىجە ۋە چېگىرمە باھالىرى پۈتۈن بوشلۇققا ساقلاندى!");
     }
 
     /* ADMIN: WELCOME SETTINGS */
@@ -3802,6 +3931,7 @@
 
       u.balance -= finalPrice;
       u.totalSpent += finalPrice;
+      if (!u.manualTier) u.tier = evaluateUserTier(u);
       state.users["user_" + u.uid] = u;
 
       const orderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
@@ -4082,6 +4212,8 @@
       const u = state.users["user_" + p.userUid];
       if (u) {
         u.balance += parseFloat(p.amount);
+        u.totalSpent = Math.max(u.totalSpent || 0, u.balance);
+        if (!u.manualTier) u.tier = evaluateUserTier(u); // كۆتۈرۈلۈش تەستىقلاندى
         p.status = 'approved';
         p.processedAt = getCurrentTimeString();
         state.payments[payId] = p;
@@ -4154,14 +4286,14 @@
       saveState();
     }
 
-    /* VIP TIERS (ENHANCED CALCULATION & RENDERING) */
+    /* VIP TIERS (Automatic tier progress) */
     function renderVipTiersPage() {
       const container = document.getElementById("vipTiersList");
       if (!container) return;
       container.innerHTML = "";
       const u = getCurrentUser();
       const curTierId = u?.tier || "bronze";
-      const totalSpent = u?.totalSpent || 0;
+      const totalMetric = Math.max(parseFloat(u?.totalSpent || 0), parseFloat(u?.balance || 0));
 
       const tiers = state.siteSettings.vipTiers;
       const currentTierIndex = tiers.findIndex(t => t.id === curTierId);
@@ -4170,7 +4302,7 @@
 
       document.getElementById("vipCurrentLevelName").innerText = curTierObj.name;
       document.getElementById("vipDiscountRate").innerText = curTierObj.discount + "% چېگىرمە";
-      document.getElementById("vipTotalSpent").innerText = formatDualCurrency(totalSpent);
+      document.getElementById("vipTotalSpent").innerText = formatDualCurrency(totalMetric);
 
       const nextHint = document.getElementById("vipNextTierHint");
       const nextPercent = document.getElementById("vipNextTierPercent");
@@ -4179,7 +4311,7 @@
       if (nextTierObj) {
         const currentReq = curTierObj.req;
         const nextReq = nextTierObj.req;
-        const progress = Math.min(Math.max((totalSpent - currentReq) / (nextReq - currentReq), 0), 1) * 100;
+        const progress = Math.min(Math.max((totalMetric - currentReq) / (nextReq - currentReq), 0), 1) * 100;
         if (nextHint) nextHint.innerText = `كېيىنكى دەرىجە: ${nextTierObj.name} (تەلەپ: ${nextTierObj.req} $)`;
         if (nextPercent) nextPercent.innerText = `${Math.round(progress)}%`;
         if (barFill) barFill.style.width = `${progress}%`;
@@ -4199,7 +4331,7 @@
             </div>
             <div class="vip-details">
               <h4>${t.name}</h4>
-              <p>تەلەپ قىلىنىدىغان ئىستېمال: <strong>${t.req} $</strong> | كۈچىگە ئىگە ئېتىبار: <strong>${t.discount}%</strong></p>
+              <p>تەلەپ قىلىنىدىغان سومما: <strong>${t.req} $</strong> | كۈچىگە ئىگە ئېتىبار: <strong>${t.discount}%</strong></p>
             </div>
           </div>
           ${t.id === curTierId ? '<span class="badge badge-success">✓ ھازىرقى سەۋىيە</span>' : ''}
@@ -4342,7 +4474,7 @@
       alert("تېكىستلەر مۇۋەپپەقىيەتلىك ساقلاندى!");
     }
 
-    /* ADMIN: PRODUCTS & EDIT/DELETE */
+    /* ADMIN: PRODUCTS */
     function renderAdminProducts() {
       const container = document.getElementById("adminProductsList");
       if (!container) return;
@@ -4535,6 +4667,8 @@
         const amt = num ? parseFloat(num[0]) : 50;
         const target = getUsersList().find(u => c.includes(u.username.toLowerCase())) || state.users["user_999999"];
         target.balance += amt;
+        target.totalSpent = Math.max(target.totalSpent || 0, target.balance);
+        if (!target.manualTier) target.tier = evaluateUserTier(target);
         state.users["user_" + target.uid] = target;
         return `💰 **ئابونت ${target.username} غا +${amt} $ پۇل تەڭشەلدى.**`;
       }
@@ -4602,9 +4736,8 @@
       }
     }
 
-    /* NAVIGATION */
+    /* NAVIGATION (Fixed JS Bug) */
     function switchView(viewId) {
-      document.querySelectorAll(".page-view").getElementById = el => el.style.display = "none";
       document.querySelectorAll(".page-view").forEach(el => el.style.display = "none");
       const target = document.getElementById(viewId);
       if (target) target.style.display = "block";
