@@ -14,9 +14,9 @@
     import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
     window.fbAuthModules = { initializeApp, getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged };
 
-    // سىز كۆچۈرۈپ ئەكەلگەن تولۇق Firebase تەڭشىكى
+    // سىز بەرگەن تولۇق Firebase تەڭشىكى
     const firebaseConfig = {
-      apiKey: "AIzaSyB1X0rq3wtBqOuGDOfUJz5gIgJ3TETpoWg",
+      apiKey: "AIzaSyB1X0rq3wtBq0uGDOfUJz5gIgJ3TETpoWg",
       authDomain: "koznak-cinema.firebaseapp.com",
       projectId: "koznak-cinema",
       storageBucket: "koznak-cinema.firebasestorage.app",
@@ -2876,7 +2876,7 @@
     }
 
     function logoutUser(force = false) {
-      if (force || confirm("ھېساباتتىن چىقامسىز؟")) {
+      if (force || confirm("ھېساباتتىن چېكىنىشكە جەزملەشتۈرەمسىز؟")) {
         const u = getCurrentUser();
         if (u) {
           u.currentSessionToken = null;
@@ -4604,6 +4604,7 @@
 
     /* NAVIGATION */
     function switchView(viewId) {
+      document.querySelectorAll(".page-view").getElementById = el => el.style.display = "none";
       document.querySelectorAll(".page-view").forEach(el => el.style.display = "none");
       const target = document.getElementById(viewId);
       if (target) target.style.display = "block";
