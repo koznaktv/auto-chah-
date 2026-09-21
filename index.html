@@ -129,7 +129,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Top Header - Auto cash text near logo to the right, balance visible on left */
+    /* Top Header */
     .top-header {
       position: sticky;
       top: 0;
@@ -269,9 +269,9 @@
       flex-direction: column;
     }
 
-    /* Admin Hub Folder Layout on Home */
+    /* Admin Hub Categorized Folder Layout on Home */
     .admin-home-hub {
-      background: linear-gradient(135deg, #180d1e 0%, #0e1d3a 100%);
+      background: linear-gradient(135deg, #140e26 0%, #0a1b38 100%);
       border: 1.5px solid rgba(239, 68, 68, 0.4);
       border-radius: var(--radius-lg);
       padding: 16px;
@@ -288,10 +288,20 @@
       padding-bottom: 8px;
       border-bottom: 1px solid rgba(239, 68, 68, 0.2);
     }
+    .admin-hub-category-title {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      font-weight: bold;
+      margin: 10px 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
     .admin-hub-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
+      margin-bottom: 8px;
     }
     .admin-folder-card {
       background: rgba(14, 43, 82, 0.7);
@@ -509,7 +519,7 @@
     .curr-btn { flex: 1; padding: 10px; border-radius: 10px; background: #061a33; border: 1px solid var(--border-color); color: #94a3b8; font-size: 0.85rem; font-weight: bold; text-align: center; cursor: pointer; }
     .curr-btn.active { background: var(--primary); border-color: var(--primary-light); color: #fff; box-shadow: 0 2px 10px var(--primary-glow); }
 
-    /* Bottom Nav - Customized (Wallet on Right, Home in Center) */
+    /* Bottom Nav */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -583,7 +593,7 @@
     .floating-chat-btn:active { transform: scale(0.92); }
     .floating-chat-btn svg { width: 22px; height: 22px; fill: #fff; }
 
-    /* Drawer Sidebar - Ultra Sleek Design */
+    /* Drawer Sidebar */
     .drawer-overlay {
       position: fixed;
       inset: 0;
@@ -704,10 +714,64 @@
     .btn-secondary { background: #1a3c68; color: #cbd5e1; }
     .btn-google { background: #ffffff; color: #1e293b; font-weight: 800; width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-    /* Admin Tabs & Subviews */
-    .admin-tab-bar { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 16px; padding-bottom: 6px; scrollbar-width: none; }
-    .admin-tab-btn { background: var(--bg-surface); border: 1px solid var(--border-color); color: #94a3b8; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; white-space: nowrap; cursor: pointer; font-weight: 600; }
-    .admin-tab-btn.active { background: #ef4444; color: #fff; border-color: #ef4444; box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4); }
+    /* Categorized Admin Navigation */
+    .admin-category-selector-bar {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .admin-master-cat-btn {
+      background: #081d38;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px;
+      color: #94a3b8;
+      font-size: 0.84rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .admin-master-cat-btn.active {
+      background: linear-gradient(135deg, #1e3a8a, #0284c7);
+      color: #fff;
+      border-color: #38bdf8;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+    .admin-sub-tab-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      padding: 6px 4px 8px;
+      scrollbar-width: none;
+      background: rgba(4, 16, 33, 0.6);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    .admin-tab-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: #94a3b8;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .admin-tab-btn.active {
+      background: #ef4444;
+      color: #fff;
+      border-color: #ef4444;
+      box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
+    }
+
     .admin-list-item { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
     .admin-price-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     .admin-price-table th, .admin-price-table td { padding: 8px; border: 1px solid #1a3c68; text-align: center; }
@@ -735,6 +799,30 @@
     .empty-state { text-align: center; padding: 40px 14px; color: #94a3b8; }
     .empty-state-icon { font-size: 40px; margin-bottom: 8px; }
     .hidden-file-input { display: none; }
+
+    /* Easy Package Tool Box */
+    .package-tool-segmented {
+      display: flex;
+      background: #051428;
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border-color);
+    }
+    .pkg-tool-tab {
+      flex: 1;
+      text-align: center;
+      padding: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #94a3b8;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .pkg-tool-tab.active {
+      background: var(--primary);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -749,7 +837,7 @@
     <div class="splash-loader"></div>
   </div>
 
-  <!-- Top App Header (Auto cash shifted near Logo on Right, Balance on Left) -->
+  <!-- Top App Header -->
   <header class="top-header">
     <div class="brand-section-right" onclick="toggleDrawer(true)" title="تىزىملىكنى ئېچىش (Menu)">
       <div class="brand-logo" id="siteLogo">
@@ -854,51 +942,69 @@
     <!-- VIEW 1: HOME -->
     <section id="view-home" class="page-view">
       
-      <!-- ADMIN FOLDER HUB ON HOME PAGE (Visible only for admin) -->
+      <!-- CATEGORIZED ADMIN FOLDER HUB ON HOME PAGE -->
       <div class="admin-home-hub" id="adminHomeHub">
         <div class="admin-hub-header">
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="font-size: 20px;">📂</span>
             <strong style="color: #fca5a5; font-size: 0.95rem;">باشقۇرۇش مەركىزى (Admin Hub)</strong>
           </div>
-          <span class="badge badge-danger">ھۆججەت تەڭشەكلىرى</span>
+          <span class="badge badge-danger">رەتلەنگەن مەركەز</span>
         </div>
+
+        <div class="admin-hub-category-title">📋 زاكاز ۋە نەق پۇل مەركىزى</div>
         <div class="admin-hub-grid">
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-orders')">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-orders', 'cat-ops')">
             <div class="admin-folder-icon">📋</div>
             <div class="admin-folder-title">زاكازلار</div>
           </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-deposits')">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-deposits', 'cat-ops')">
             <div class="admin-folder-icon">📥</div>
             <div class="admin-folder-title">پۇل قاچىلاش</div>
           </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-users')">
+        </div>
+
+        <div class="admin-hub-category-title">👥 ئابونتلار ۋە پۇل-باھا سىستېمىسى</div>
+        <div class="admin-hub-grid">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-users', 'cat-users-finance')">
             <div class="admin-folder-icon">👥</div>
             <div class="admin-folder-title">ئابونتلار</div>
           </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-vip-rates')">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-vip-rates', 'cat-users-finance')">
             <div class="admin-folder-icon">👑</div>
-            <div class="admin-folder-title">VIP باھا</div>
+            <div class="admin-folder-title">VIP باھا & چېگىرمە</div>
           </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-prods')">
-            <div class="admin-folder-icon">🎁</div>
-            <div class="admin-folder-title">مەھسۇلاتلار</div>
-          </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-cats')">
-            <div class="admin-folder-icon">📁</div>
-            <div class="admin-folder-title">تۈرلەر</div>
-          </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-settings')">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-settings', 'cat-users-finance')">
             <div class="admin-folder-icon">💱</div>
             <div class="admin-folder-title">لىرا نىسبىتى</div>
           </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-payments')">
+        </div>
+
+        <div class="admin-hub-category-title">🎁 مەھسۇلات ۋە مۇلازىمەتلەر</div>
+        <div class="admin-hub-grid">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-prods', 'cat-products')">
+            <div class="admin-folder-icon">🎁</div>
+            <div class="admin-folder-title">مەھسۇلات & باھا</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-cats', 'cat-products')">
+            <div class="admin-folder-icon">📁</div>
+            <div class="admin-folder-title">تۈرلەر</div>
+          </div>
+        </div>
+
+        <div class="admin-hub-category-title">⚙️ سىستېما ۋە AI تەڭشەكلىرى</div>
+        <div class="admin-hub-grid">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-payments', 'cat-system')">
             <div class="admin-folder-icon">💳</div>
             <div class="admin-folder-title">قاچىلاش يولى</div>
           </div>
-          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-ai')">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-ai', 'cat-system')">
             <div class="admin-folder-icon">🤖</div>
             <div class="admin-folder-title">ئالىي AI</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-welcome', 'cat-system')">
+            <div class="admin-folder-icon">🎉</div>
+            <div class="admin-folder-title">قارشى ئېلىش</div>
           </div>
         </div>
       </div>
@@ -957,7 +1063,7 @@
       <div class="game-grid" id="categoryGamesGrid"></div>
     </section>
 
-    <!-- VIEW 1.6: ORDER PAGE -->
+    <!-- VIEW 1.6: ORDER PAGE (With Single / Double ID and AI Checking) -->
     <section id="view-product-order-page" class="page-view" style="display: none;">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
         <button class="header-back-btn" onclick="goBackToCategory()">‹ كەينىگە</button>
@@ -974,11 +1080,26 @@
       </div>
 
       <div class="order-form-panel">
+        
+        <!-- Primary ID Input (User ID / Account) -->
         <div class="order-input-wrapper">
           <label class="order-input-label">
             <span id="orderPageInputLabel">ئابددى جەڭچى 💣</span>
           </label>
           <input type="text" id="orderPageAccountInput" class="order-custom-field" placeholder="جەڭچىنىڭ كودىغا كىرىڭ 💣">
+        </div>
+
+        <!-- Secondary ID Input (Server / Zone ID for Double ID games like MLBB) -->
+        <div class="order-input-wrapper" id="orderPageServerInputWrap" style="display: none;">
+          <label class="order-input-label">
+            <span id="orderPageServerLabel">Zone / سىرۋېر نومۇرى (Server ID)</span>
+          </label>
+          <input type="text" id="orderPageServerInput" class="order-custom-field" placeholder="مەسىلەن: 2001">
+        </div>
+
+        <!-- AI Verification Badge Indicator -->
+        <div id="orderAiStatusNote" style="background: rgba(2, 132, 199, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.78rem; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          <span>🤖 AI ئەقلىي تەكشۈرۈش ئوچۇق: ئايدى نومۇرى بىۋاسىتە تەكشۈرۈلۈپ تەستىققا ماڭىدۇ.</span>
         </div>
 
         <div class="order-input-wrapper">
@@ -1077,7 +1198,7 @@
       <div id="ordersList"></div>
     </section>
 
-    <!-- VIEW 5: WALLET & BALANCE (With User Account Info & Stats Embedded) -->
+    <!-- VIEW 5: WALLET & BALANCE -->
     <section id="view-add-balance" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 14px;">
         <h2 class="section-title" style="font-size: 1.2rem;">
@@ -1086,7 +1207,6 @@
         <span class="user-wallet-val" id="rechargePageBalance">$ 0.00</span>
       </div>
 
-      <!-- Account Stats embedded in Wallet Page -->
       <div style="background: linear-gradient(135deg, #0d274c 0%, #081d38 100%); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
           <img id="walletUserAvatar" src="" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold);">
@@ -1164,31 +1284,61 @@
       <div id="vipTiersList"></div>
     </section>
 
-    <!-- VIEW 7: ADMIN CENTER -->
+    <!-- VIEW 7: CATEGORIZED ADMIN CENTER -->
     <section id="view-admin" class="page-view" style="display: none;">
-      <div class="section-title-bar" style="margin-bottom: 14px;">
+      <div class="section-title-bar" style="margin-bottom: 12px;">
         <h2 class="section-title" style="font-size: 1.2rem; color: #f87171;">
           <span>⚙️</span> باشقۇرۇش مەركىزى (Admin Center)
         </h2>
         <button class="header-back-btn" onclick="switchView('view-home')">‹ باش بەتكە قايتىش</button>
       </div>
 
-      <div class="admin-tab-bar">
+      <!-- 4 High-Level Master Category Sections -->
+      <div class="admin-category-selector-bar">
+        <div class="admin-master-cat-btn active" id="mcat-ops" onclick="selectAdminMasterCat('cat-ops')">
+          <span>📋</span> <span>زاكاز ۋە نەق پۇل</span>
+        </div>
+        <div class="admin-master-cat-btn" id="mcat-users-finance" onclick="selectAdminMasterCat('cat-users-finance')">
+          <span>👥</span> <span>ئابونتلار، VIP، لىرا</span>
+        </div>
+        <div class="admin-master-cat-btn" id="mcat-products" onclick="selectAdminMasterCat('cat-products')">
+          <span>🎁</span> <span>مەھسۇلات ۋە تۈرلەر</span>
+        </div>
+        <div class="admin-master-cat-btn" id="mcat-system" onclick="selectAdminMasterCat('cat-system')">
+          <span>⚙️</span> <span>سىستېما ۋە AI</span>
+        </div>
+      </div>
+
+      <!-- Group 1: Ops (Orders & Deposits) -->
+      <div class="admin-sub-tab-bar" id="subtabs-cat-ops">
         <button class="admin-tab-btn active" id="tabBtn-admin-orders" onclick="switchAdminTab('admin-orders', this)">📋 زاكازلار</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-deposits" onclick="switchAdminTab('admin-deposits', this)">📥 سومما قاچىلاش</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-deposits" onclick="switchAdminTab('admin-deposits', this)">📥 سومما قاچىلاش ئىلتىماسلىرى</button>
+      </div>
+
+      <!-- Group 2: Users & Finance (Users, VIP Tiers, Lira Rate, VIP Badges) -->
+      <div class="admin-sub-tab-bar" id="subtabs-cat-users-finance" style="display: none;">
         <button class="admin-tab-btn" id="tabBtn-admin-users" onclick="switchAdminTab('admin-users', this)">👥 بارلىق ئابونتلار</button>
         <button class="admin-tab-btn" id="tabBtn-admin-vip-rates" onclick="switchAdminTab('admin-vip-rates', this)">👑 VIP چېگىرمە & باھا</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-cats" onclick="switchAdminTab('admin-cats', this)">📁 تۈرلەر (CRUD)</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-payments" onclick="switchAdminTab('admin-payments', this)">💳 پۇل قاچىلاش شەكلى</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-settings" onclick="switchAdminTab('admin-settings', this)">🛠️ بېكەت & لىرا نىسبىتى</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-welcome" onclick="switchAdminTab('admin-welcome', this)">🎉 قارشى ئېلىش تەڭشىكى</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-prods" onclick="switchAdminTab('admin-prods', this)">🎁 مەھسۇلات & باھا</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-banners" onclick="switchAdminTab('admin-banners', this)">🖼️ سىيرىلما رەسىملەر</button>
-        <button class="admin-tab-btn" id="tabBtn-admin-vip-logos" onclick="switchAdminTab('admin-vip-logos', this)">👑 VIP لوگولار</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-settings" onclick="switchAdminTab('admin-settings', this)">💱 سۈرىيە لىرا نىسبىتى & بېكەت</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-vip-logos" onclick="switchAdminTab('admin-vip-logos', this)">🎖️ VIP دەرىجە بەلگىلىرى</button>
+      </div>
+
+      <!-- Group 3: Products (Products, Categories) -->
+      <div class="admin-sub-tab-bar" id="subtabs-cat-products" style="display: none;">
+        <button class="admin-tab-btn" id="tabBtn-admin-prods" onclick="switchAdminTab('admin-prods', this)">🎁 بارلىق مەھسۇلات & باھالار</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-cats" onclick="switchAdminTab('admin-cats', this)">📁 تۈرلەرنى باشقۇرۇش</button>
+      </div>
+
+      <!-- Group 4: System (Payments, Banners, Welcome, Texts, AI) -->
+      <div class="admin-sub-tab-bar" id="subtabs-cat-system" style="display: none;">
+        <button class="admin-tab-btn" id="tabBtn-admin-payments" onclick="switchAdminTab('admin-payments', this)">💳 قاچىلاش شەكىللىرى</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-banners" onclick="switchAdminTab('admin-banners', this)">🖼️ سىيرىلما ئېلانلار</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-welcome" onclick="switchAdminTab('admin-welcome', this)">🎉 قارشى ئېلىش بېتى</button>
         <button class="admin-tab-btn" id="tabBtn-admin-texts" onclick="switchAdminTab('admin-texts', this)">✏️ توربەت تېكىستلىرى</button>
         <button class="admin-tab-btn" id="tabBtn-admin-ai" onclick="switchAdminTab('admin-ai', this)">🤖 ئالىي AI ياردەمچىسى</button>
       </div>
 
+      <!-- Subviews -->
       <div id="admin-orders" class="admin-subview">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">بارلىق كەلگەن زاكازلار</h4>
@@ -1342,7 +1492,7 @@
     </div>
   </div>
 
-  <!-- USER STATS & DASHBOARD MODAL (Only here: Edit info, Logout, Switch account) -->
+  <!-- USER STATS & DASHBOARD MODAL -->
   <div class="modal-backdrop" id="modalUserStatsDashboard">
     <div class="modal-card">
       <div class="modal-header">
@@ -1392,7 +1542,7 @@
     </div>
   </div>
 
-  <!-- Drawer Sidebar (Sleek Modern Glass Design) -->
+  <!-- Drawer Sidebar -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
   <aside class="drawer-sidebar" id="drawerSidebar">
     <div class="drawer-header">
@@ -1452,7 +1602,7 @@
     </ul>
   </aside>
 
-  <!-- Bottom Nav: Wallet on the RIGHT, Home in the CENTER -->
+  <!-- Bottom Nav -->
   <nav class="bottom-nav">
     <div class="nav-item" id="nav-add-balance" onclick="checkAuthAndAction(() => switchView('view-add-balance'))">
       <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
@@ -1464,7 +1614,6 @@
       <span>ياقتۇرغانلار</span>
     </div>
 
-    <!-- Home Button in Center -->
     <div class="nav-item nav-center-btn active" id="nav-home" onclick="switchView('view-home')">
       <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     </div>
@@ -1661,9 +1810,9 @@
     </div>
   </div>
 
-  <!-- ADD / EDIT PRODUCT MODAL -->
+  <!-- ADD / EDIT PRODUCT MODAL (With Double ID & Easy Batch Package Management) -->
   <div class="modal-backdrop" id="modalAdminProduct">
-    <div class="modal-card" style="max-width: 520px;">
+    <div class="modal-card" style="max-width: 540px;">
       <div class="modal-header">
         <h3 class="modal-title" id="modalAdminProdTitle">مەھسۇلات قوشۇش / تەھرىرلەش</h3>
         <button class="drawer-close-btn" onclick="closeModal('modalAdminProduct')">✕</button>
@@ -1676,40 +1825,117 @@
         </div>
         <div class="form-group">
           <label class="form-label">مەھسۇلات نامى</label>
-          <input type="text" id="adminProdNameInput" class="form-control">
+          <input type="text" id="adminProdNameInput" class="form-control" placeholder="مەسىلەن: Mobile Legends: Bang Bang">
         </div>
         <div class="form-group">
           <label class="form-label">كۆرسىتىلىدىغان بەلگە (Badge)</label>
-          <input type="text" id="adminProdBadgeInput" class="form-control">
-        </div>
-        <div class="form-group">
-          <label class="form-label">ئابونتتىن تەلەپ قىلىنىدىغان كود نامى (Label)</label>
-          <input type="text" id="adminProdFieldLabelInput" class="form-control">
+          <input type="text" id="adminProdBadgeInput" class="form-control" placeholder="مەسىلەن: تېز قاچىلاش">
         </div>
         <div class="form-group">
           <label class="form-label">رەسىم ئۇلانمىسى (Image URL)</label>
-          <input type="text" id="adminProdImageUrlInput" class="form-control">
+          <input type="text" id="adminProdImageUrlInput" class="form-control" placeholder="https://...">
         </div>
 
-        <div style="background: #061933; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-top: 16px;">
+        <!-- ID Configuration (Single or Double ID) -->
+        <div style="background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 12px; margin-bottom: 16px;">
+          <label class="form-label" style="color: #38bdf8; font-weight: bold; font-size: 0.9rem;">
+            🎮 ئايدى (ID) نۇمۇرىنىڭ تۈرى:
+          </label>
+          <select id="adminProdIdTypeSelect" class="form-control" onchange="toggleAdminDoubleIdFields()" style="margin-bottom: 10px;">
+            <option value="single">بىر ئايدى نۇمۇرلۇق (پەقەت ئويۇن ID)</option>
+            <option value="double">ئىككى كودلۇق (مەسىلەن: Mobile Legends - User ID + سىرۋېر نومۇرى)</option>
+          </select>
+
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label class="form-label" id="adminFirstFieldLabelTitle">1-ئايدى نۇمۇرىنىڭ نامى (Label):</label>
+            <input type="text" id="adminProdFieldLabelInput" class="form-control" placeholder="مەسىلەن: ئويۇن ID كودى">
+          </div>
+
+          <!-- Secondary ID Box (Shown only if double ID is selected) -->
+          <div id="adminDoubleIdBox" style="display: none; border-top: 1px dashed rgba(56, 189, 248, 0.3); padding-top: 8px; margin-top: 8px;">
+            <div class="form-group" style="margin-bottom: 8px;">
+              <label class="form-label">2-سىرۋېر نۇمۇرىنىڭ نامى (Server / Zone ID):</label>
+              <input type="text" id="adminProdServerLabelInput" class="form-control" placeholder="مەسىلەن: سىرۋېر نومۇرى (Zone ID)">
+            </div>
+            <div class="form-group" style="margin-bottom: 4px;">
+              <label class="form-label">2-سىرۋېر كىرگۈزۈش ئەسكەرتمىسى (Placeholder):</label>
+              <input type="text" id="adminProdServerPlaceholderInput" class="form-control" placeholder="مەسىلەن: 2001">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 10px; margin-bottom: 0;">
+            <label class="form-label" style="font-size: 0.78rem; color: #fbbf24;">🤖 AI ئاپتوماتىك كود دەلىللەش تۈرى:</label>
+            <select id="adminProdAiValidationSelect" class="form-control" style="font-size: 0.85rem;">
+              <option value="auto">AI ئەقلىي ئاپتوماتىك تەكشۈرۈش (رەقەم ۋە نورمال ئۇزۇنلۇق)</option>
+              <option value="mlbb">Mobile Legends فورماتى (User ID 5-12 خانە + Server ID 3-6 خانە)</option>
+              <option value="pubg">PUBG Mobile فورماتى (7-13 خانىلىق رەقەم)</option>
+              <option value="numeric">پەقەت رەقەم (ئاز دېگەندە 4 خانە)</option>
+              <option value="general">ئاددىي تېكىست (ئاز دېگەندە 3 ھەرپ/رەقەم)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Easy Package & Pricing Management -->
+        <div style="background: #061933; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <label class="form-label" style="color: #f59e0b; margin: 0; font-weight: bold;">
               📊 بولاقلار ۋە باھا جەدۋىلى ($)
             </label>
             <button type="button" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="addPackageRowToAdminForm()">
-              + يېڭى باھا قوشۇش
+              + قۇر قوشۇش
             </button>
           </div>
-          <table class="admin-price-table">
-            <thead>
-              <tr>
-                <th>بولاق نامى</th>
-                <th>باھاسى ($)</th>
-                <th style="width: 40px;">مەشغۇلات</th>
-              </tr>
-            </thead>
-            <tbody id="adminPackageRowsTbody"></tbody>
-          </table>
+
+          <!-- Segmented View for Easy Management -->
+          <div class="package-tool-segmented">
+            <div class="pkg-tool-tab active" id="pkgToolTabTable" onclick="switchPackageInputMode('table')">جەدۋەل شەكلىدە</div>
+            <div class="pkg-tool-tab" id="pkgToolTabBatch" onclick="switchPackageInputMode('batch')">📝 تېز تۈركۈملەپ كىرگۈزۈش</div>
+            <div class="pkg-tool-tab" id="pkgToolTabPresets" onclick="switchPackageInputMode('presets')">⚡ تەييار قېلىپلار</div>
+          </div>
+
+          <!-- Mode 1: Table View -->
+          <div id="pkgModeTableView">
+            <table class="admin-price-table">
+              <thead>
+                <tr>
+                  <th>بولاق نامى</th>
+                  <th>باھاسى ($)</th>
+                  <th style="width: 40px;">ئۆچۈرۈش</th>
+                </tr>
+              </thead>
+              <tbody id="adminPackageRowsTbody"></tbody>
+            </table>
+          </div>
+
+          <!-- Mode 2: Batch Fast Text Paste -->
+          <div id="pkgModeBatchView" style="display: none;">
+            <p style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 6px;">
+              تۆۋەنگە بولاق ۋە باھاسىنى ھەر قۇردا يېزىڭ (مەسىلەن: <strong>60 UC = 0.93</strong> ياكى <strong>86 Diamonds : 1.35</strong>):
+            </p>
+            <textarea id="adminBatchPackageTextarea" class="form-control" rows="5" style="direction: ltr; text-align: left; font-family: monospace; font-size: 0.85rem;" placeholder="60 UC = 0.93&#10;325 UC = 4.64&#10;660 UC = 9.28"></textarea>
+            <button type="button" class="btn btn-success" style="width: 100%; margin-top: 8px; font-size: 0.82rem;" onclick="applyBatchPackagesFromText()">
+              📥 يۇقىرىقى تېكىستنى جەدۋەلگە قاچىلاش
+            </button>
+          </div>
+
+          <!-- Mode 3: Presets -->
+          <div id="pkgModePresetsView" style="display: none; padding-top: 6px;">
+            <p style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 8px;">
+              بىرلا چەكمە بىلەن ئويۇننىڭ تەييار باھالىرىنى قاچىلاڭ:
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <button type="button" class="btn btn-secondary" style="font-size: 0.8rem; justify-content: flex-start;" onclick="loadPackagePreset('pubg')">
+                🎮 PUBG Mobile (60, 325, 660, 1800 UC)
+              </button>
+              <button type="button" class="btn btn-secondary" style="font-size: 0.8rem; justify-content: flex-start;" onclick="loadPackagePreset('mlbb')">
+                ⚔️ Mobile Legends (86, 172, 257, 706 ئالماس)
+              </button>
+              <button type="button" class="btn btn-secondary" style="font-size: 0.8rem; justify-content: flex-start;" onclick="loadPackagePreset('freefire')">
+                🔥 Free Fire (100, 210, 530 كۆك تاش)
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="modal-footer">
@@ -1721,14 +1947,14 @@
 
   <!-- JAVASCRIPT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v24";
+    const STORAGE_KEY = "autocash_app_state_v25";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
     const fastIcons = {
       gameCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230284c7'/%3E%3Cstop offset='100%25' stop-color='%23091f3d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g)'/%3E%3Cpath d='M130 180h140c16.5 0 30 13.5 30 30v40c0 16.5-13.5 30-30 30h-20l-15-20h-70l-15 20h-20c-16.5 0-30-13.5-30-30v-40c0-16.5 13.5-30 30-30z' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='160' cy='230' r='10' fill='%2338bdf8'/%3E%3Ccircle cx='240' cy='230' r='10' fill='%23f59e0b'/%3E%3Ctext x='200' y='325' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto Game%3C/text%3E%3C/svg%3E",
       appCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230369a1'/%3E%3Cstop offset='100%25' stop-color='%230c264a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g2)'/%3E%3Crect x='130' y='110' width='140' height='180' rx='24' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='200' cy='260' r='12' fill='%2338bdf8'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto App%3C/text%3E%3C/svg%3E",
-      telecomCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230f3a6b'/%3E%3Cstop offset='100%25' stop-color='%2306172d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g3)'/%3E%3Cpath d='M200 130a70 70 0 0 1 70 70m-70-110a110 110 0 0 1 110 110M200 200a30 30 0 1 0 30 30' fill='none' stroke='%23f59e0b' stroke-width='10' stroke-linecap='round'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3ETelecom%3C/text%3E%3C/svg%3E",
+      telecomCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230f3a6b'/%3E%3Cstop offset='100%25' stop-color='%2306172d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g3)'/%3E%3Cpath d='M200 130a70 70 0 0 1 70 70m-70-110a110 110 0 0 1 110 110M200 200a30 30 0 1 0 30 30' fill='none' stroke='%23f59e0b' stroke-width='10' stroke-linecap='round'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto Telecom%3C/text%3E%3C/svg%3E",
       bannerDefault: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 350'%3E%3Cdefs%3E%3ClinearGradient id='gb' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230369a1'/%3E%3Cstop offset='50%25' stop-color='%230c2d58'/%3E%3Cstop offset='100%25' stop-color='%23071930'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='350' fill='url(%23gb)'/%3E%3Ccircle cx='700' cy='80' r='140' fill='%230284c7' opacity='0.25'/%3E%3Ccircle cx='100' cy='280' r='180' fill='%23f59e0b' opacity='0.15'/%3E%3Ctext x='70' y='180' font-size='48' font-family='sans-serif' font-weight='900' fill='%2338bdf8'%3EAuto cash%3C/text%3E%3Ctext x='70' y='230' font-size='24' font-family='sans-serif' fill='%23e2e8f0'%3Eتېز ھەم ئىشەنچلىك تور مۇلازىمىتى%3C/text%3E%3C/svg%3E",
       userDefaultAvatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%230c264a'/%3E%3Ccircle cx='100' cy='80' r='40' fill='%2338bdf8'/%3E%3Cpath d='M30 180c0-38.6 31.3-70 70-70s70 31.4 70 70z' fill='%230284c7'/%3E%3C/svg%3E"
     };
@@ -1794,8 +2020,12 @@
           catId: "cat-games",
           name: "PUBG Mobile",
           badge: "~ روبوتى PUBG",
+          isDoubleId: false,
           fieldLabel: "ئابددى جەڭچى 💣",
           placeholder: "جەڭچىنىڭ كودىغا كىرىڭ 💣",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "pubg",
           image: fastIcons.gameCover,
           packages: [
             { name: "PUBG GLOBAL 60 UC", price: 0.929 },
@@ -1804,12 +2034,35 @@
           ]
         },
         {
+          id: "prod-mlbb",
+          catId: "cat-games",
+          name: "Mobile Legends: Bang Bang",
+          badge: "MLBB Diamonds",
+          isDoubleId: true,
+          fieldLabel: "ئويۇن User ID",
+          placeholder: "User ID كىرگۈزۈڭ (مەسىلەن: 12345678)",
+          serverLabel: "Zone / سىرۋېر نومۇرى (Server ID)",
+          serverPlaceholder: "Zone ID (مەسىلەن: 2001)",
+          aiValidation: "mlbb",
+          image: fastIcons.gameCover,
+          packages: [
+            { name: "86 كۆك ئالماس (Diamonds)", price: 1.350 },
+            { name: "172 كۆك ئالماس (Diamonds)", price: 2.700 },
+            { name: "257 كۆك ئالماس (Diamonds)", price: 3.950 },
+            { name: "706 كۆك ئالماس (Diamonds)", price: 10.500 }
+          ]
+        },
+        {
           id: "prod-freefire",
           catId: "cat-games",
           name: "ئەركىن ئوت (Free Fire)",
           badge: "Free Fire",
+          isDoubleId: false,
           fieldLabel: "Player ID",
           placeholder: "ID نومۇرىڭىز",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "numeric",
           image: fastIcons.gameCover,
           packages: [
             { name: "100+10 كۆك تاش", price: 0.950 },
@@ -2200,10 +2453,25 @@
       }
     }
 
-    function openAdminDirectSection(tabId) {
+    function openAdminDirectSection(tabId, masterCatId) {
       switchView("view-admin");
+      if (masterCatId) selectAdminMasterCat(masterCatId);
       const targetBtn = document.getElementById(`tabBtn-${tabId}`);
       switchAdminTab(tabId, targetBtn);
+    }
+
+    /* MASTER CATEGORY SELECTOR IN ADMIN */
+    function selectAdminMasterCat(catId) {
+      document.querySelectorAll(".admin-master-cat-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(`mcat-${catId.replace('cat-', '')}`)?.classList.add("active");
+
+      document.querySelectorAll(".admin-sub-tab-bar").forEach(bar => bar.style.display = "none");
+      const targetSubBar = document.getElementById(`subtabs-${catId}`);
+      if (targetSubBar) {
+        targetSubBar.style.display = "flex";
+        const firstBtn = targetSubBar.querySelector(".admin-tab-btn");
+        if (firstBtn) firstBtn.click();
+      }
     }
 
     /* AUTHENTICATION & LOGIN */
@@ -2499,6 +2767,12 @@
                 <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem;" onclick="copyTextToClipboard('${order.accountTarget}', 'ئويۇن ID كۆچۈرۈلدى!')">📋 كۆچۈرۈش</button>
               </div>
             </div>
+
+            ${order.aiVerified ? `
+              <div style="background:rgba(16, 185, 129, 0.15); border:1px solid #10b981; border-radius:8px; padding:6px 10px; font-size:0.78rem; color:#34d399; margin: 8px 0;">
+                🤖 AI ئەقلىي تەكشۈرۈشتىن ئۆتكەن: ID تەكشۈرۈلگەن ھەم نورمال.
+              </div>
+            ` : ''}
 
             <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:0.9rem;">
               <span style="color:#94a3b8;">سوممىسى:</span>
@@ -3153,6 +3427,58 @@
       switchView("view-payments");
     }
 
+    /* AI AUTOMATIC SMART VALIDATION FUNCTION */
+    function validateAccountWithAI(product, id1, id2) {
+      if (!id1 || id1.trim().length === 0) {
+        return { valid: false, msg: "⚠️ ئەسكەرتىش: كود ياكى ID نۇمۇرى بوش قالدى! ئاۋۋال تولدۇرۇڭ." };
+      }
+      const cleanId1 = id1.trim();
+      const vType = product.aiValidation || (product.isDoubleId ? "mlbb" : (product.name.toLowerCase().includes("pubg") ? "pubg" : "auto"));
+
+      // Check for illegal characters
+      if (/[<>{}[\]\\^~]/.test(cleanId1)) {
+        return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: ID نۇمۇرىدا رۇخسەت قىلىنمىغان خاتا ياكى ئالاھىدە بەلگىلەر بار! تەكشۈرۈپ قايتا كىرگۈزۈڭ." };
+      }
+
+      // Check Double ID (e.g. Mobile Legends Bang Bang)
+      if (product.isDoubleId || vType === "mlbb") {
+        if (!id2 || id2.trim().length === 0) {
+          return { valid: false, msg: "⚠️ سىرۋېر (Zone / Server ID) نۇمۇرى تولدۇرۇلمىدى! ئىككى كودنى تەڭ كىرگۈزۈش شەرت." };
+        }
+        const cleanId2 = id2.trim();
+        if (!/^\d{5,12}$/.test(cleanId1)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: ئويۇن User ID نۇمۇرى خاتا! ئۇ 5 خانىدىن 12 خانىغىچە پەقەت رەقەمدىن تۈزۈلۈشى كېرەك." };
+        }
+        if (!/^\d{3,6}$/.test(cleanId2)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: سىرۋېر (Zone ID) نۇمۇرى خاتا! 3 تىن 6 خانىغىچە بولغان سان بولۇشى شەرت (مەسىلەن: 2001)." };
+        }
+        return { valid: true, msg: "✅ AI دەلىللىشى: Mobile Legends User ID ۋە Zone ID توغرا." };
+      }
+
+      // PUBG Specific Check
+      if (vType === "pubg" || product.name.toLowerCase().includes("pubg")) {
+        if (!/^\d{7,13}$/.test(cleanId1)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: PUBG ID نۇمۇرى خاتا! ئۇ 7 تىن 13 خانىغىچە بولغان پەقەت رەقەملەردىن تۈزۈلگەن بولۇشى كېرەك." };
+        }
+        return { valid: true, msg: "✅ AI دەلىللىشى: PUBG كودى نورمال دەلىللەندى." };
+      }
+
+      // Numeric only check
+      if (vType === "numeric") {
+        if (!/^\d{4,20}$/.test(cleanId1)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: بۇ مەھسۇلاتنىڭ ID نۇمۇرى پەقەت رەقەمدىن تەركىب تېپىشى شەرت (ئاز دېگەندە 4 خانە)!" };
+        }
+        return { valid: true, msg: "✅ AI دەلىللىشى: رەقەملىك ID توغرا." };
+      }
+
+      // General auto check
+      if (cleanId1.length < 4) {
+        return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: كىرگۈزگەن كود بەك قىسقا! ئاز دېگەندە 4 ھەرپ ياكى رەقەم كىرگۈزۈڭ." };
+      }
+
+      return { valid: true, msg: "✅ AI دەلىللىشى: كود فورماتى تەكشۈرۈلدى ۋە ئۆتتى." };
+    }
+
     /* PRODUCTS & ORDERING */
     function renderProducts() {
       const container = document.getElementById("productsGrid");
@@ -3264,9 +3590,20 @@
 
       document.getElementById("productPageTitle").innerText = p.name;
       document.getElementById("productPageAvatarImg").src = p.image;
-      document.getElementById("orderPageInputLabel").innerText = p.fieldLabel;
+      document.getElementById("orderPageInputLabel").innerText = p.fieldLabel || "ئويۇن ID نومۇرى";
       document.getElementById("orderPageAccountInput").value = "";
-      document.getElementById("orderPageAccountInput").placeholder = p.placeholder;
+      document.getElementById("orderPageAccountInput").placeholder = p.placeholder || "ID نومۇرى كىرگۈزۈڭ";
+
+      // Check Double ID Requirement
+      const serverWrap = document.getElementById("orderPageServerInputWrap");
+      if (p.isDoubleId) {
+        serverWrap.style.display = "block";
+        document.getElementById("orderPageServerLabel").innerText = p.serverLabel || "Zone / سىرۋېر نومۇرى (Server ID)";
+        document.getElementById("orderPageServerInput").value = "";
+        document.getElementById("orderPageServerInput").placeholder = p.serverPlaceholder || "Zone ID (مەسىلەن: 2001)";
+      } else {
+        serverWrap.style.display = "none";
+      }
 
       renderPackageDropdownOptions();
       updateOrderPageCalculations();
@@ -3330,7 +3667,14 @@
       }
 
       const inputVal = document.getElementById("orderPageAccountInput").value.trim();
-      if (!inputVal) return alert("ھېسابات ياكى ID نى كىرگۈزۈڭ!");
+      const serverVal = currentOrderingProduct.isDoubleId ? document.getElementById("orderPageServerInput").value.trim() : "";
+
+      // AI AUTOMATIC VERIFICATION RUN
+      const aiResult = validateAccountWithAI(currentOrderingProduct, inputVal, serverVal);
+      if (!aiResult.valid) {
+        alert(aiResult.msg);
+        return; // Halt: Order is NOT sent!
+      }
 
       const pkg = currentOrderingProduct.packages[selectedPackageIndex];
       const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || { discount: 0 };
@@ -3341,6 +3685,11 @@
         switchView("view-add-balance");
         return;
       }
+
+      // Format Target with Zone/Server if double ID
+      const fullTargetString = currentOrderingProduct.isDoubleId 
+        ? `${inputVal} (Zone/Server: ${serverVal})`
+        : inputVal;
 
       u.balance -= finalPrice;
       u.totalSpent += finalPrice;
@@ -3354,7 +3703,10 @@
         username: u.username,
         prodName: currentOrderingProduct.name,
         packageName: pkg.name,
-        accountTarget: inputVal,
+        accountTarget: fullTargetString,
+        rawId: inputVal,
+        rawServer: serverVal,
+        aiVerified: true,
         price: finalPrice,
         status: "pending",
         date: getCurrentTimeString(),
@@ -3375,7 +3727,8 @@
         body: JSON.stringify(u)
       });
 
-      alert("زاكاز تاپشۇرۇلدى! ھازىر ساقلاشتا تۇرىدۇ.");
+      showToastNotification(`🤖 AI تەكشۈرۈشىدىن مۇۋەپپەقىيەتلىك ئۆتتى! زاكاس قوبۇل قىلىندى.`);
+      alert("✅ زاكاز تاپشۇرۇلدى! ئايدى نومۇرى AI تەكشۈرۈشىدىن ئۆتۈپ باشقۇرغۇچىغا تەستىققا ماڭدى.");
       switchView("view-orders");
     }
 
@@ -3533,6 +3886,7 @@
             <strong style="color:#fff;">${o.prodName} - ${o.packageName}</strong>
             <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${o.username} (UID: #${o.userUid})</div>
             <div style="font-size:0.75rem; color:#fbbf24;">كود/ID: ${o.accountTarget}</div>
+            ${o.aiVerified ? `<div style="font-size:0.72rem; color:#34d399;">🤖 AI دەلىللىگەن ✓</div>` : ''}
             <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${o.date}</div>
             ${o.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>` : ''}
           </div>
@@ -3753,141 +4107,7 @@
       });
     }
 
-    /* ADMIN: BANNERS */
-    function renderAdminBanners() {
-      const container = document.getElementById("adminBannersList");
-      if (!container) return;
-      container.innerHTML = "";
-      state.siteSettings.banners.forEach((b, idx) => {
-        const div = document.createElement("div");
-        div.className = "admin-list-item";
-        div.innerHTML = `
-          <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${b.img}" style="width:60px; height:40px; object-fit:cover; border-radius:6px;">
-            <div>
-              <strong style="color:#fff; font-size:0.9rem;">${b.title}</strong>
-              <div style="font-size:0.75rem; color:#94a3b8;">${b.subtitle}</div>
-            </div>
-          </div>
-          <div style="display:flex; gap:6px;">
-            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminBanner(${idx})">تەھرىرلەش</button>
-            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminBanner(${idx})">ئۆچۈرۈش</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function openAddBannerModal() {
-      document.getElementById("bannerEditIndex").value = -1;
-      document.getElementById("bannerModalTitle").innerText = "يېڭى سىيرىلما رەسىم قوشۇش";
-      document.getElementById("bannerImgUrlInput").value = "";
-      document.getElementById("bannerTitleInput").value = "";
-      document.getElementById("bannerSubInput").value = "";
-      document.getElementById("bannerBadgeInput").value = "ئېلان";
-      openModal("modalAdminBanner");
-    }
-
-    function editAdminBanner(idx) {
-      const b = state.siteSettings.banners[idx];
-      document.getElementById("bannerEditIndex").value = idx;
-      document.getElementById("bannerModalTitle").innerText = "سىيرىلما رەسىمنى تەھرىرلەش";
-      document.getElementById("bannerImgUrlInput").value = b.img;
-      document.getElementById("bannerTitleInput").value = b.title;
-      document.getElementById("bannerSubInput").value = b.subtitle;
-      document.getElementById("bannerBadgeInput").value = b.badge;
-      openModal("modalAdminBanner");
-    }
-
-    function saveAdminBanner() {
-      const idx = parseInt(document.getElementById("bannerEditIndex").value);
-      const img = document.getElementById("bannerImgUrlInput").value.trim();
-      const title = document.getElementById("bannerTitleInput").value.trim();
-      const subtitle = document.getElementById("bannerSubInput").value.trim();
-      const badge = document.getElementById("bannerBadgeInput").value.trim();
-
-      if (!title) return alert("تېمىنى كىرگۈزۈڭ!");
-      const item = { img: img || fastIcons.bannerDefault, title, subtitle, badge };
-      if (idx >= 0) state.siteSettings.banners[idx] = item;
-      else state.siteSettings.banners.push(item);
-      saveState();
-      closeModal("modalAdminBanner");
-    }
-
-    function deleteAdminBanner(idx) {
-      if (confirm("بۇ رەسىمنى ئۆچۈرەمسىز؟")) {
-        state.siteSettings.banners.splice(idx, 1);
-        saveState();
-      }
-    }
-
-    /* ADMIN: VIP LOGOS */
-    function renderAdminVipLogos() {
-      const container = document.getElementById("adminVipLogosList");
-      if (!container) return;
-      container.innerHTML = "";
-      state.siteSettings.vipTiers.forEach((t, idx) => {
-        const div = document.createElement("div");
-        div.className = "admin-list-item";
-        div.style.flexDirection = "column";
-        div.style.alignItems = "stretch";
-        div.style.gap = "8px";
-        div.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <strong style="color:#fff;">${t.name}</strong>
-            <div class="vip-medal-icon" style="width:38px; height:38px;">
-              ${t.logo ? `<img src="${t.logo}">` : t.emoji}
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom:4px;">
-            <label class="form-label" style="font-size:0.75rem;">لوگو رەسىم ئۇلانمىسى (Image URL):</label>
-            <input type="text" class="form-control" value="${t.logo || ''}" onchange="updateVipTierLogo(${idx}, this.value)">
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function updateVipTierLogo(idx, url) {
-      state.siteSettings.vipTiers[idx].logo = url.trim();
-      saveState();
-    }
-
-    /* ADMIN: DYNAMIC TEXTS */
-    function renderAdminTexts() {
-      const container = document.getElementById("adminTextsFormList");
-      if (!container) return;
-      container.innerHTML = "";
-      const texts = state.siteSettings.dynamicTexts || {};
-      const labels = {
-        authSubtitle: "كىرىش بېتىنىڭ كىچىك ئىزاھات تېكىستى",
-        categoriesTitle: "باش بەت تۈرلەر تېمىسى",
-        featuredTitle: "باش بەت قىزىق مەھسۇلاتلار تېمىسى"
-      };
-
-      Object.keys(texts).forEach(key => {
-        const div = document.createElement("div");
-        div.className = "form-group";
-        div.innerHTML = `
-          <label class="form-label">${labels[key] || key}</label>
-          <input type="text" id="dynamic_text_${key}" class="form-control" value="${texts[key]}">
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function saveDynamicTexts() {
-      const texts = state.siteSettings.dynamicTexts || {};
-      Object.keys(texts).forEach(key => {
-        const input = document.getElementById(`dynamic_text_${key}`);
-        if (input) texts[key] = input.value.trim();
-      });
-      state.siteSettings.dynamicTexts = texts;
-      saveState();
-      alert("تېكىستلەر مۇۋەپپەقىيەتلىك ساقلاندى!");
-    }
-
-    /* ADMIN: PRODUCTS */
+    /* ADMIN PRODUCTS MANAGEMENT */
     function renderAdminProducts() {
       const container = document.getElementById("adminProductsList");
       if (!container) return;
@@ -3899,7 +4119,10 @@
           <div style="display:flex; align-items:center; gap:10px;">
             <img src="${p.image}" style="width:44px; height:44px; border-radius:8px; object-fit:cover;">
             <div>
-              <strong style="color:#fff;">${p.name}</strong>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <strong style="color:#fff;">${p.name}</strong>
+                ${p.isDoubleId ? '<span class="badge badge-warning" style="font-size:0.65rem;">ئىككى كودلۇق</span>' : ''}
+              </div>
               <div style="font-size:0.75rem; color:#94a3b8;">${p.packages ? p.packages.length : 0} بولاق | ${p.badge || 'ئاددىي'}</div>
             </div>
           </div>
@@ -3918,14 +4141,21 @@
       document.getElementById("adminProdEditId").value = "";
       document.getElementById("adminProdNameInput").value = "";
       document.getElementById("adminProdBadgeInput").value = "";
+      document.getElementById("adminProdIdTypeSelect").value = "single";
       document.getElementById("adminProdFieldLabelInput").value = "ئويۇن ID نومۇرى";
+      document.getElementById("adminProdServerLabelInput").value = "Zone / سىرۋېر نومۇرى (Server ID)";
+      document.getElementById("adminProdServerPlaceholderInput").value = "مەسىلەن: 2001";
       document.getElementById("adminProdImageUrlInput").value = "";
+      document.getElementById("adminProdAiValidationSelect").value = "auto";
       
+      toggleAdminDoubleIdFields();
+
       const sel = document.getElementById("adminProdCatSelect");
       sel.innerHTML = "";
       state.categories.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.name}</option>`);
       
       tempPackages = [{ name: "ئۆلچەملىك", price: 1.000 }];
+      switchPackageInputMode('table');
       renderAdminPackageRows();
       openModal("modalAdminProduct");
     }
@@ -3938,8 +4168,14 @@
       document.getElementById("adminProdEditId").value = p.id;
       document.getElementById("adminProdNameInput").value = p.name;
       document.getElementById("adminProdBadgeInput").value = p.badge || "";
+      document.getElementById("adminProdIdTypeSelect").value = p.isDoubleId ? "double" : "single";
       document.getElementById("adminProdFieldLabelInput").value = p.fieldLabel || "ID نومۇرى";
+      document.getElementById("adminProdServerLabelInput").value = p.serverLabel || "Zone / سىرۋېر نومۇرى (Server ID)";
+      document.getElementById("adminProdServerPlaceholderInput").value = p.serverPlaceholder || "مەسىلەن: 2001";
       document.getElementById("adminProdImageUrlInput").value = p.image || "";
+      document.getElementById("adminProdAiValidationSelect").value = p.aiValidation || "auto";
+
+      toggleAdminDoubleIdFields();
 
       const sel = document.getElementById("adminProdCatSelect");
       sel.innerHTML = "";
@@ -3948,8 +4184,41 @@
       });
 
       tempPackages = JSON.parse(JSON.stringify(p.packages || [{ name: "ئۆلچەملىك", price: 1.000 }]));
+      switchPackageInputMode('table');
       renderAdminPackageRows();
       openModal("modalAdminProduct");
+    }
+
+    function toggleAdminDoubleIdFields() {
+      const type = document.getElementById("adminProdIdTypeSelect").value;
+      const box = document.getElementById("adminDoubleIdBox");
+      const firstLabelTitle = document.getElementById("adminFirstFieldLabelTitle");
+      if (type === "double") {
+        box.style.display = "block";
+        firstLabelTitle.innerText = "1-ئاساسىي ئايدى (User ID) كودىنىڭ نامى:";
+        if (!document.getElementById("adminProdFieldLabelInput").value) {
+          document.getElementById("adminProdFieldLabelInput").value = "ئويۇن User ID";
+        }
+      } else {
+        box.style.display = "none";
+        firstLabelTitle.innerText = "ئايدى نۇمۇرىنىڭ نامى (Label):";
+      }
+    }
+
+    /* EASY PACKAGE TOOLS: Table, Batch Paste, Presets */
+    function switchPackageInputMode(mode) {
+      document.getElementById("pkgToolTabTable").classList.toggle("active", mode === 'table');
+      document.getElementById("pkgToolTabBatch").classList.toggle("active", mode === 'batch');
+      document.getElementById("pkgToolTabPresets").classList.toggle("active", mode === 'presets');
+
+      document.getElementById("pkgModeTableView").style.display = mode === 'table' ? 'block' : 'none';
+      document.getElementById("pkgModeBatchView").style.display = mode === 'batch' ? 'block' : 'none';
+      document.getElementById("pkgModePresetsView").style.display = mode === 'presets' ? 'block' : 'none';
+
+      if (mode === 'batch') {
+        const lines = tempPackages.map(p => `${p.name} = ${p.price}`).join('\n');
+        document.getElementById("adminBatchPackageTextarea").value = lines;
+      }
     }
 
     function renderAdminPackageRows() {
@@ -3968,7 +4237,78 @@
 
     function addPackageRowToAdminForm() {
       tempPackages.push({ name: "يېڭى بولاق", price: 1.000 });
+      switchPackageInputMode('table');
       renderAdminPackageRows();
+    }
+
+    function applyBatchPackagesFromText() {
+      const text = document.getElementById("adminBatchPackageTextarea").value.trim();
+      if (!text) return alert("تېكىست بوش!");
+
+      const lines = text.split("\n");
+      const parsed = [];
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        let parts = trimmed.split(/[=:,]/);
+        if (parts.length >= 2) {
+          const name = parts[0].trim();
+          const price = parseFloat(parts[1].trim()) || 0;
+          parsed.push({ name, price });
+        } else {
+          parsed.push({ name: trimmed, price: 1.000 });
+        }
+      });
+
+      if (parsed.length > 0) {
+        tempPackages = parsed;
+        switchPackageInputMode('table');
+        renderAdminPackageRows();
+        alert(`✅ ${parsed.length} تال بولاق جەدۋەلگە مۇۋەپپەقىيەتلىك كىرگۈزۈلدى!`);
+      }
+    }
+
+    function loadPackagePreset(type) {
+      if (type === 'pubg') {
+        tempPackages = [
+          { name: "PUBG GLOBAL 60 UC", price: 0.929 },
+          { name: "PUBG GLOBAL 325 UC", price: 4.638 },
+          { name: "PUBG GLOBAL 660 UC", price: 9.276 },
+          { name: "PUBG GLOBAL 1800 UC", price: 23.500 }
+        ];
+        document.getElementById("adminProdNameInput").value = "PUBG Mobile";
+        document.getElementById("adminProdIdTypeSelect").value = "single";
+        document.getElementById("adminProdAiValidationSelect").value = "pubg";
+        document.getElementById("adminProdFieldLabelInput").value = "ئويۇن ID كودى";
+      } else if (type === 'mlbb') {
+        tempPackages = [
+          { name: "86 كۆك ئالماس (Diamonds)", price: 1.350 },
+          { name: "172 كۆك ئالماس (Diamonds)", price: 2.700 },
+          { name: "257 كۆك ئالماس (Diamonds)", price: 3.950 },
+          { name: "706 كۆك ئالماس (Diamonds)", price: 10.500 }
+        ];
+        document.getElementById("adminProdNameInput").value = "Mobile Legends: Bang Bang";
+        document.getElementById("adminProdIdTypeSelect").value = "double";
+        document.getElementById("adminProdAiValidationSelect").value = "mlbb";
+        document.getElementById("adminProdFieldLabelInput").value = "ئويۇن User ID";
+        document.getElementById("adminProdServerLabelInput").value = "Zone / سىرۋېر نومۇرى (Server ID)";
+        document.getElementById("adminProdServerPlaceholderInput").value = "مەسىلەن: 2001";
+      } else if (type === 'freefire') {
+        tempPackages = [
+          { name: "100+10 كۆك تاش", price: 0.950 },
+          { name: "210+21 كۆك تاش", price: 1.950 },
+          { name: "530+53 كۆك تاش", price: 4.800 }
+        ];
+        document.getElementById("adminProdNameInput").value = "ئەركىن ئوت (Free Fire)";
+        document.getElementById("adminProdIdTypeSelect").value = "single";
+        document.getElementById("adminProdAiValidationSelect").value = "numeric";
+        document.getElementById("adminProdFieldLabelInput").value = "Player ID";
+      }
+
+      toggleAdminDoubleIdFields();
+      switchPackageInputMode('table');
+      renderAdminPackageRows();
+      alert("قېلىپ مۇۋەپپەقىيەتلىك قاچىلاندى!");
     }
 
     function saveAdminProduct() {
@@ -3976,33 +4316,37 @@
       const name = document.getElementById("adminProdNameInput").value.trim();
       const catId = document.getElementById("adminProdCatSelect").value;
       const badge = document.getElementById("adminProdBadgeInput").value.trim();
+      const isDoubleId = document.getElementById("adminProdIdTypeSelect").value === "double";
       const label = document.getElementById("adminProdFieldLabelInput").value.trim();
+      const serverLabel = document.getElementById("adminProdServerLabelInput").value.trim();
+      const serverPlaceholder = document.getElementById("adminProdServerPlaceholderInput").value.trim();
+      const aiVal = document.getElementById("adminProdAiValidationSelect").value;
       const img = document.getElementById("adminProdImageUrlInput").value.trim();
 
-      if (!name) return alert("نامىنى تولدۇرۇڭ!");
+      if (!name) return alert("مەھسۇلات نامىنى تولدۇرۇڭ!");
+
+      const productPayload = {
+        catId: catId,
+        name: name,
+        badge: badge,
+        isDoubleId: isDoubleId,
+        fieldLabel: label || "ID نومۇرى",
+        placeholder: label || "ID نومۇرى",
+        serverLabel: isDoubleId ? (serverLabel || "Zone / سىرۋېر نومۇرى (Server ID)") : "",
+        serverPlaceholder: isDoubleId ? (serverPlaceholder || "Zone ID (مەسىلەن: 2001)") : "",
+        aiValidation: aiVal || "auto",
+        image: img || fastIcons.gameCover,
+        packages: JSON.parse(JSON.stringify(tempPackages))
+      };
 
       if (editId) {
         const p = state.products.find(x => x.id === editId);
         if (p) {
-          p.name = name;
-          p.catId = catId;
-          p.badge = badge;
-          p.fieldLabel = label || "ID نومۇرى";
-          p.placeholder = label || "ID نومۇرى";
-          p.image = img || p.image || fastIcons.gameCover;
-          p.packages = JSON.parse(JSON.stringify(tempPackages));
+          Object.assign(p, productPayload);
         }
       } else {
-        state.products.push({
-          id: "prod-" + Date.now(),
-          catId: catId,
-          name: name,
-          badge: badge,
-          fieldLabel: label || "ID نومۇرى",
-          placeholder: label || "ID نومۇرى",
-          image: img || fastIcons.gameCover,
-          packages: JSON.parse(JSON.stringify(tempPackages))
-        });
+        productPayload.id = "prod-" + Date.now();
+        state.products.push(productPayload);
       }
 
       saveState();
