@@ -9,21 +9,28 @@
 
   <style>
     :root {
-      --bg-dark: #071930;
-      --bg-card: #0c264a;
-      --bg-card-hover: #123466;
+      --bg-dark: #061325;
+      --bg-surface: #0a1f3b;
+      --bg-card: #0e2b52;
+      --bg-card-hover: #13396c;
       --primary: #0284c7;
-      --primary-glow: rgba(2, 132, 199, 0.4);
+      --primary-light: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.35);
       --accent-gold: #f59e0b;
-      --accent-gold-glow: rgba(245, 158, 11, 0.3);
+      --accent-gold-light: #fbbf24;
+      --accent-gold-glow: rgba(245, 158, 11, 0.35);
       --accent-green: #10b981;
       --accent-red: #ef4444;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --border-color: #1e3a5f;
+      --border-color: #1a3c68;
+      --border-light: rgba(56, 189, 248, 0.25);
       --drawer-width: 320px;
       --safe-top: env(safe-area-inset-top, 28px);
       --safe-bottom: env(safe-area-inset-bottom, 12px);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
     }
 
     * {
@@ -31,11 +38,12 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "UKIJ Tuz Tom", "Alpida Unicode System", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "UKIJ Tuz Tom", "Alpida Unicode System", "Microsoft Uighur", sans-serif;
     }
 
     body {
-      background-color: var(--bg-dark);
+      background: radial-gradient(circle at top right, #0d274c 0%, #061325 100%);
+      background-attachment: fixed;
       color: var(--text-main);
       min-height: 100vh;
       padding-top: var(--safe-top);
@@ -45,11 +53,17 @@
       overflow-x: hidden;
     }
 
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #07172c; }
+    ::-webkit-scrollbar-thumb { background: #1a3f6f; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+
     /* Splash Screen */
     #splashScreen {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #0c2b55 0%, #06172d 100%);
+      background: radial-gradient(circle at center, #0e305e 0%, #05101f 100%);
       z-index: 99999;
       display: flex;
       flex-direction: column;
@@ -57,7 +71,7 @@
       justify-content: center;
       padding: 24px;
       text-align: center;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
     }
     #splashScreen.hide {
       opacity: 0;
@@ -65,17 +79,22 @@
       pointer-events: none;
     }
     .splash-logo-circle {
-      width: 90px;
-      height: 90px;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
       background: #092140;
-      border: 3px solid #38bdf8;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+      border: 3px solid var(--primary-light);
+      box-shadow: 0 0 30px var(--primary-glow);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
+      animation: pulseGlow 2s infinite alternate;
+    }
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+      to { box-shadow: 0 0 35px rgba(56, 189, 248, 0.8); }
     }
     .splash-logo-circle img {
       width: 100%;
@@ -83,23 +102,24 @@
       object-fit: contain;
     }
     .splash-title {
-      font-size: 1.45rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: #fff;
       margin-bottom: 8px;
+      letter-spacing: 0.5px;
     }
     .splash-msg {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       color: #94a3b8;
       max-width: 320px;
-      line-height: 1.5;
-      margin-bottom: 20px;
+      line-height: 1.6;
+      margin-bottom: 24px;
     }
     .splash-loader {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border: 3px solid rgba(56, 189, 248, 0.2);
-      border-top-color: #38bdf8;
+      border-top-color: var(--primary-light);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
@@ -110,38 +130,41 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: linear-gradient(180deg, #091f3d 0%, #071930 100%);
+      background: rgba(9, 27, 51, 0.88);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 14px;
-      min-height: 60px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      padding: 10px 16px;
+      min-height: 62px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       cursor: pointer;
     }
 
     .brand-logo {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: #081d38;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);
-      border: 2px solid #38bdf8;
+      font-size: 22px;
+      box-shadow: 0 0 14px var(--primary-glow);
+      border: 2px solid var(--primary-light);
       overflow: hidden;
       flex-shrink: 0;
+      transition: transform 0.2s ease;
     }
+    .brand-logo:active { transform: scale(0.95); }
     .brand-logo img {
       width: 100%;
       height: 100%;
@@ -150,110 +173,137 @@
     }
 
     .brand-title {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 800;
-      color: #fff;
+      background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       letter-spacing: 0.5px;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .header-auth-btn {
       background: linear-gradient(135deg, #0284c7, #0369a1);
-      border: 1px solid #38bdf8;
+      border: 1px solid var(--primary-light);
       color: #fff;
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: bold;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .header-user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid #38bdf8;
-      object-fit: cover;
-      cursor: pointer;
-      display: none;
-    }
-
-    .balance-chip {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 30px;
-      padding: 4px 12px;
       display: flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+      transition: all 0.2s;
+    }
+    .header-auth-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.6); }
+
+    .header-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--primary-light);
+      object-fit: cover;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 0 10px var(--primary-glow);
+      transition: transform 0.2s ease;
+    }
+    .header-user-avatar:active { transform: scale(0.92); }
+
+    .balance-chip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      padding: 5px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       color: #ffffff;
-      font-weight: bold;
+      font-weight: 800;
       font-size: 0.88rem;
       cursor: pointer;
       user-select: none;
+      backdrop-filter: blur(10px);
+      transition: background 0.2s;
     }
+    .balance-chip:hover { background: rgba(255, 255, 255, 0.14); }
     .balance-chip .plus-symbol {
-      background: #10b981;
+      background: linear-gradient(135deg, #10b981, #059669);
       color: #fff;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 900;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
     }
 
     .menu-toggle-btn {
-      background: none;
-      border: none;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
       color: #fff;
-      font-size: 26px;
-      padding: 4px;
+      font-size: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
+      transition: all 0.2s;
     }
+    .menu-toggle-btn:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--primary-light); }
 
     .header-back-btn {
-      background: none;
-      border: none;
-      color: #38bdf8;
-      font-size: 1rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid var(--primary-light);
+      color: var(--primary-light);
+      font-size: 0.88rem;
       font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 8px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
     }
+    .header-back-btn:hover { background: var(--primary-light); color: #04101e; }
 
-    /* Centered Layout */
+    /* App Container */
     .app-container {
-      max-width: 620px;
+      max-width: 650px;
       margin: 0 auto;
-      padding: 14px 12px;
+      padding: 16px 14px;
       display: flex;
       flex-direction: column;
     }
 
+    /* Banner Carousel */
     .banner-carousel {
       position: relative;
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       overflow: hidden;
-      margin-bottom: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(2, 132, 199, 0.3);
+      margin-bottom: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border-light);
       aspect-ratio: 16 / 7;
       background: #0b2242;
     }
 
     .carousel-track {
       display: flex;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
       height: 100%;
     }
 
@@ -266,14 +316,14 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 14px;
+      padding: 18px;
       cursor: pointer;
     }
 
     .slide-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(7, 25, 48, 0.2) 0%, rgba(7, 25, 48, 0.95) 100%);
+      background: linear-gradient(180deg, rgba(6, 19, 37, 0.1) 0%, rgba(6, 19, 37, 0.95) 100%);
     }
 
     .slide-content {
@@ -283,24 +333,26 @@
 
     .slide-badge {
       display: inline-block;
-      background: #0284c7;
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
       color: #fff;
-      padding: 3px 8px;
+      padding: 3px 10px;
       border-radius: 6px;
-      font-size: 0.72rem;
-      margin-bottom: 4px;
+      font-size: 0.75rem;
+      margin-bottom: 6px;
       font-weight: bold;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.5);
     }
 
     .slide-title {
-      font-size: 1.05rem;
-      font-weight: bold;
+      font-size: 1.15rem;
+      font-weight: 800;
       color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     }
 
     .carousel-indicators {
       position: absolute;
-      bottom: 8px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -309,60 +361,70 @@
     }
 
     .carousel-dot {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.4);
-      transition: all 0.3s;
+      transition: all 0.3s ease;
     }
     .carousel-dot.active {
-      width: 18px;
-      border-radius: 4px;
-      background: #38bdf8;
+      width: 22px;
+      border-radius: 6px;
+      background: var(--primary-light);
+      box-shadow: 0 0 8px var(--primary-light);
     }
 
+    /* Announcement */
     .announcement-bar {
-      background: rgba(15, 42, 77, 0.85);
+      background: rgba(14, 43, 82, 0.7);
       border: 1px solid var(--border-color);
-      border-radius: 25px;
-      padding: 8px 14px;
+      border-radius: 30px;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-      font-size: 0.84rem;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 0.86rem;
       color: #cbd5e1;
       overflow: hidden;
       white-space: nowrap;
+      backdrop-filter: blur(8px);
     }
 
-    .announcement-icon { color: var(--accent-gold); font-size: 1.1rem; flex-shrink: 0; }
+    .announcement-icon { color: var(--accent-gold); font-size: 1.15rem; flex-shrink: 0; }
 
     .marquee-text {
       display: inline-block;
-      animation: marquee 20s linear infinite;
+      animation: marquee 22s linear infinite;
     }
     @keyframes marquee {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
 
-    .search-box { position: relative; margin-bottom: 16px; }
+    /* Search Box */
+    .search-box { position: relative; margin-bottom: 18px; }
 
     .search-input {
       width: 100%;
-      background: #092140;
-      border: 1px solid #1e4273;
-      border-radius: 25px;
-      padding: 10px 42px 10px 16px;
+      background: rgba(10, 31, 59, 0.85);
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      padding: 12px 46px 12px 18px;
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       outline: none;
+      transition: all 0.25s ease;
+    }
+    .search-input:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 12px var(--primary-glow);
+      background: #0d274c;
     }
 
     .search-icon {
       position: absolute;
-      right: 14px;
+      right: 16px;
       top: 50%;
       transform: translateY(-50%);
       color: #64748b;
@@ -370,22 +432,24 @@
       pointer-events: none;
     }
 
+    /* Section Bar */
     .section-title-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .section-title {
-      font-size: 1rem;
-      font-weight: bold;
+      font-size: 1.05rem;
+      font-weight: 800;
       color: #f8fafc;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
+    /* Grids */
     .category-grid, .game-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -394,16 +458,22 @@
     }
 
     .category-card, .game-card {
-      background: #0b2242;
-      border: 1.5px solid #1e4579;
-      border-radius: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       cursor: pointer;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .category-card:hover, .game-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary-light);
+      box-shadow: 0 8px 20px var(--primary-glow);
     }
 
     .category-cover-wrapper, .game-cover-wrapper {
@@ -421,17 +491,22 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.3s ease;
+    }
+    .category-card:hover .category-cover-wrapper img,
+    .game-card:hover .game-cover-wrapper img {
+      transform: scale(1.06);
     }
 
     .category-info-box, .game-info-box {
       width: 100%;
-      padding: 8px 6px;
-      background: linear-gradient(180deg, rgba(11,34,66,0.9) 0%, #081d38 100%);
-      border-top: 1px solid #16365f;
+      padding: 10px 8px;
+      background: linear-gradient(180deg, rgba(14, 43, 82, 0.9) 0%, #091e38 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .category-title, .game-title {
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: #f1f5f9;
       white-space: nowrap;
@@ -440,7 +515,7 @@
     }
 
     .category-subtitle {
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       color: #94a3b8;
       white-space: nowrap;
       overflow: hidden;
@@ -448,40 +523,53 @@
       margin-top: 2px;
     }
 
+    /* Product Grid */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 24px;
     }
 
     .product-card {
-      background: #0b2242;
-      border: 1px solid #1a3e6d;
-      border-radius: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
       overflow: hidden;
-      padding: 10px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transition: all 0.25s ease;
+    }
+    .product-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: 0 6px 20px var(--primary-glow);
     }
 
     .product-image {
       width: 100%;
-      height: 110px;
+      height: 120px;
       object-fit: cover;
       border-radius: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .product-info-title {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: bold;
       color: #fff;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .product-info-desc {
+      font-size: 0.72rem;
+      color: #38bdf8;
+      margin-bottom: 8px;
     }
 
     .product-footer {
@@ -489,100 +577,157 @@
       align-items: center;
       justify-content: space-between;
       margin-top: auto;
+      padding-top: 6px;
     }
 
     .product-price-box { display: flex; flex-direction: column; }
-    .product-price-usd { color: #38bdf8; font-weight: bold; font-size: 0.88rem; }
-    .product-price-syp { color: #f59e0b; font-size: 0.72rem; font-weight: 600; }
+    .product-price-usd { color: var(--primary-light); font-weight: 800; font-size: 0.92rem; }
+    .product-price-syp { color: var(--accent-gold); font-size: 0.75rem; font-weight: 600; }
 
-    .fav-toggle-btn { background: none; border: none; cursor: pointer; font-size: 1.1rem; }
-    .buy-btn {
-      background: #0284c7;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 5px 10px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      font-weight: bold;
+    .product-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
+    .fav-toggle-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+    }
+    .fav-toggle-btn:active { transform: scale(1.2); }
+
+    .buy-btn {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #fff;
+      border: 1px solid var(--primary-light);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .buy-btn:hover {
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    /* Product Order View */
     .product-detail-hero {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 10px;
-      margin-bottom: 20px;
+      margin: 10px 0 20px;
+    }
+
+    .detail-fav-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
     }
 
     .detail-avatar-circle {
-      width: 86px;
-      height: 86px;
+      width: 92px;
+      height: 92px;
       border-radius: 50%;
       background: #0b2242;
-      border: 2px solid #0284c7;
-      box-shadow: 0 0 16px rgba(2, 132, 199, 0.5);
+      border: 3px solid var(--primary-light);
+      box-shadow: 0 0 20px var(--primary-glow);
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .detail-avatar-circle img { width: 100%; height: 100%; object-fit: contain; }
+    .detail-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+    .detail-prod-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+    }
 
     .order-form-panel {
-      background: #0b2447;
-      border: 1px solid #1c4578;
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
 
     .order-input-wrapper { margin-bottom: 16px; }
     .order-input-label {
       font-size: 0.88rem;
       color: #cbd5e1;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 6px;
-      font-weight: bold;
+      font-weight: 700;
     }
 
     .order-custom-field {
       width: 100%;
-      background: #071a33;
-      border: 1px solid #204b7e;
-      border-radius: 10px;
-      padding: 12px 14px;
+      background: #06172d;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 16px;
       color: #fff;
       font-size: 0.95rem;
       outline: none;
       direction: rtl;
+      transition: border-color 0.25s;
+    }
+    .order-custom-field:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 10px var(--primary-glow);
     }
 
     .package-dropdown-btn {
       width: 100%;
-      background: #071a33;
-      border: 1px solid #204b7e;
-      border-radius: 10px;
-      padding: 12px 14px;
+      background: #06172d;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 16px;
       color: #fff;
       font-size: 0.92rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: all 0.2s;
     }
+    .package-dropdown-btn:hover { border-color: var(--primary-light); }
 
     .package-options-container {
       margin-top: 8px;
-      background: #071a33;
-      border: 1px solid #204b7e;
+      background: #06172d;
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       overflow: hidden;
       display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
     }
     .package-options-container.open { display: block; }
 
@@ -593,98 +738,224 @@
       padding: 12px 16px;
       border-bottom: 1px solid #14355f;
       cursor: pointer;
+      transition: background 0.2s;
     }
     .package-option-row:hover, .package-option-row.selected { background: #113463; }
+    .package-opt-name { font-weight: 600; color: #f1f5f9; font-size: 0.9rem; }
+    .package-opt-price { display: flex; flex-direction: column; align-items: flex-end; }
 
     .send-request-big-btn {
       width: 100%;
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #fff;
-      border: none;
-      border-radius: 12px;
+      border: 1px solid var(--primary-light);
+      border-radius: 14px;
       padding: 14px;
       font-size: 1.05rem;
-      font-weight: bold;
+      font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 6px 20px var(--primary-glow);
+      transition: all 0.25s;
+    }
+    .send-request-big-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(2, 132, 199, 0.6);
     }
 
+    /* Filter Tabs */
     .filter-tabs-row {
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       padding-bottom: 4px;
       scrollbar-width: none;
     }
     .filter-tab-pill {
-      background: #092040;
-      border: 1px solid #1b4170;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
       color: #94a3b8;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      padding: 7px 16px;
+      border-radius: 25px;
+      font-size: 0.82rem;
+      font-weight: bold;
       white-space: nowrap;
       cursor: pointer;
+      transition: all 0.2s;
     }
-    .filter-tab-pill.active { background: #0284c7; color: #fff; border-color: #0284c7; }
+    .filter-tab-pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary-light);
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
 
+    /* Payments Grid */
     .payment-methods-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      gap: 14px;
     }
 
     .pay-card {
-      background: #0b2447;
-      border: 1px solid #1d4375;
-      border-radius: 14px;
-      padding: 16px 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       position: relative;
       cursor: pointer;
+      transition: all 0.25s;
+    }
+    .pay-card:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px var(--accent-gold-glow);
     }
     .pay-card-commission {
       position: absolute;
-      top: 6px;
-      right: 6px;
-      background: rgba(245, 158, 11, 0.2);
-      color: #fbbf24;
-      font-size: 0.65rem;
-      padding: 2px 6px;
+      top: 8px;
+      right: 8px;
+      background: rgba(245, 158, 11, 0.18);
+      color: var(--accent-gold-light);
+      font-size: 0.68rem;
+      padding: 2px 8px;
       border-radius: 6px;
-      font-weight: bold;
+      font-weight: 700;
+      border: 1px solid rgba(245, 158, 11, 0.3);
     }
     .pay-icon-circle {
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: #061933;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 10px;
-      border: 1.5px solid #1e4579;
+      margin-bottom: 12px;
+      border: 2px solid var(--border-color);
       overflow: hidden;
     }
     .pay-icon-circle img { width: 100%; height: 100%; object-fit: contain; }
+    .pay-card-name { font-weight: 700; font-size: 0.88rem; color: #fff; }
+
+    /* VIP Cards & Membership Section (Enhanced) */
+    .vip-dashboard-card {
+      background: linear-gradient(135deg, #102e56 0%, #081a33 100%);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .vip-dashboard-card::before {
+      content: "👑";
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      font-size: 80px;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    .vip-tier-badge-pill {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-weight: 900;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 10px var(--accent-gold-glow);
+    }
+    .vip-progress-wrapper {
+      margin-top: 14px;
+    }
+    .vip-progress-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .vip-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #f59e0b);
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
 
     .vip-tier-card {
-      background: #092040;
-      border: 1px solid #1a3c68;
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 10px;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
     }
-    .vip-tier-card.active { border-color: #f59e0b; background: linear-gradient(135deg, #0d284f, #071930); }
+    .vip-tier-card:hover { transform: translateY(-2px); }
+    .vip-tier-card.active {
+      border-color: var(--accent-gold);
+      background: linear-gradient(135deg, #12345e 0%, #091d38 100%);
+      box-shadow: 0 4px 18px var(--accent-gold-glow);
+    }
+    .vip-left-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .vip-medal-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #061933;
+      border: 1.5px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .vip-medal-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .vip-details h4 { font-size: 0.98rem; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .vip-details p { font-size: 0.8rem; color: #94a3b8; }
 
-    .empty-state { text-align: center; padding: 40px 14px; color: #94a3b8; }
+    /* Currency selector */
+    .currency-selector-row {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0 16px;
+    }
+    .curr-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      background: #061a33;
+      border: 1px solid var(--border-color);
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .curr-btn.active {
+      background: var(--primary);
+      border-color: var(--primary-light);
+      color: #fff;
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
 
+    /* Bottom Nav */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -692,12 +963,14 @@
       right: 0;
       height: calc(64px + var(--safe-bottom));
       padding-bottom: var(--safe-bottom);
-      background: #081d38;
-      border-top: 1px solid #16365f;
+      background: rgba(8, 26, 51, 0.92);
+      border-top: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-around;
       z-index: 60;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
     .nav-item {
       display: flex;
@@ -705,40 +978,47 @@
       align-items: center;
       justify-content: center;
       color: #64748b;
-      font-size: 0.7rem;
-      gap: 3px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      gap: 4px;
       flex: 1;
       height: 100%;
       cursor: pointer;
+      transition: all 0.2s;
     }
-    .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
-    .nav-item.active { color: #38bdf8; }
-    .nav-item.active svg { fill: #38bdf8; }
+    .nav-item svg { width: 22px; height: 22px; fill: currentColor; transition: transform 0.2s; }
+    .nav-item.active { color: var(--primary-light); }
+    .nav-item.active svg { fill: var(--primary-light); transform: translateY(-2px); }
 
+    /* Floating Chat */
     .floating-chat-btn {
       position: fixed;
       bottom: calc(78px + var(--safe-bottom));
-      left: 16px;
-      width: 48px;
-      height: 48px;
+      left: 18px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: linear-gradient(135deg, #0284c7, #0ea5e9);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.5);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.6);
       cursor: pointer;
       z-index: 55;
-      border: 2px solid #38bdf8;
+      border: 2px solid var(--primary-light);
+      transition: transform 0.2s;
     }
+    .floating-chat-btn:active { transform: scale(0.92); }
     .floating-chat-btn svg { width: 24px; height: 24px; fill: #fff; }
 
+    /* Drawer Sidebar (Enhanced) */
     .drawer-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       z-index: 100;
       display: none;
     }
@@ -748,218 +1028,388 @@
       position: fixed;
       top: 0;
       bottom: 0;
-      right: -330px;
+      right: -340px;
       width: var(--drawer-width);
-      background: #091f3d;
-      border-left: 1px solid #1e4273;
+      background: linear-gradient(180deg, #0a2142 0%, #051224 100%);
+      border-left: 1px solid var(--border-color);
       z-index: 101;
       display: flex;
       flex-direction: column;
-      transition: right 0.3s ease;
+      transition: right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
       overflow-y: auto;
       padding-top: var(--safe-top);
       padding-bottom: var(--safe-bottom);
+      box-shadow: -8px 0 30px rgba(0,0,0,0.7);
     }
     .drawer-sidebar.active { right: 0; }
 
     .drawer-header {
-      padding: 16px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #16365f;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .drawer-close-btn { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
+    .drawer-close-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .role-badge-pill {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .role-user {
+      background: rgba(2, 132, 199, 0.2);
+      color: var(--primary-light);
+      border: 1px solid var(--primary);
+    }
+    .role-admin {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid #ef4444;
+    }
 
     .profile-banner-card {
-      padding: 16px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      border-bottom: 1px solid #16365f;
-      background: linear-gradient(180deg, #0f2c54 0%, #091f3d 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(16, 48, 88, 0.6) 0%, rgba(10, 33, 66, 0.2) 100%);
     }
-    .avatar-container { position: relative; width: 80px; height: 80px; margin-bottom: 10px; }
+    .avatar-container { position: relative; width: 84px; height: 84px; margin-bottom: 12px; }
     .user-avatar-img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #f59e0b;
+      border: 3px solid var(--accent-gold);
       background: #0f172a;
+      box-shadow: 0 0 18px var(--accent-gold-glow);
     }
     .avatar-upload-badge {
       position: absolute;
-      bottom: 2px;
-      right: 2px;
-      background: #0284c7;
+      bottom: 0;
+      right: 0;
+      background: var(--primary);
       border: 2px solid #091f3d;
       color: #fff;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 14px;
       cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     }
 
-    .drawer-menu-list { list-style: none; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .user-tag-badge {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold-light);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .user-handle { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 2px; }
+    .user-uid-text { font-size: 0.78rem; color: var(--primary-light); font-family: monospace; margin-bottom: 8px; }
+    .user-wallet-val {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 16px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .profile-quick-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .quick-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quick-btn:hover { background: var(--primary); border-color: var(--primary-light); }
+
+    .drawer-menu-list { list-style: none; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
     .drawer-menu-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 14px;
-      border-radius: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
       color: #cbd5e1;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s;
     }
-    .drawer-menu-item:hover { background: #123769; color: #38bdf8; }
-    .drawer-menu-item .item-left { display: flex; align-items: center; gap: 12px; }
+    .drawer-menu-item:hover {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--primary-light);
+      transform: translateX(-4px);
+    }
+    .drawer-menu-item .item-left { display: flex; align-items: center; gap: 14px; }
 
+    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       z-index: 120;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 14px;
+      padding: 16px;
     }
     .modal-backdrop.active { display: flex; }
 
     .modal-card {
       background: #092040;
-      border: 1px solid #1e4579;
-      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
       width: 100%;
       max-width: 500px;
       max-height: 90vh;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.6);
     }
     .modal-header {
-      padding: 14px 18px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #16365f;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(5, 18, 38, 0.5);
     }
-    .modal-title { font-size: 1.05rem; font-weight: bold; color: #fff; }
-    .modal-body { padding: 16px; }
+    .modal-title { font-size: 1.1rem; font-weight: 800; color: #fff; }
+    .modal-body { padding: 18px; }
     .modal-footer {
-      padding: 12px 16px;
-      border-top: 1px solid #16365f;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+      background: rgba(5, 18, 38, 0.5);
     }
 
-    .form-group { margin-bottom: 14px; }
-    .form-label { display: block; font-size: 0.82rem; color: #94a3b8; margin-bottom: 6px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
     .form-control {
       width: 100%;
-      background: #06172d;
-      border: 1px solid #1d406d;
-      border-radius: 8px;
-      padding: 9px 12px;
+      background: #051428;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 11px 14px;
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       outline: none;
+      transition: border-color 0.25s;
+    }
+    .form-control:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 10px var(--primary-glow);
     }
 
     .btn {
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
       font-size: 0.88rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       border: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      transition: all 0.2s;
     }
-    .btn-primary { background: #0284c7; color: #fff; }
-    .btn-success { background: #10b981; color: #fff; }
-    .btn-warning { background: #f59e0b; color: #000; }
-    .btn-danger { background: #ef4444; color: #fff; }
-    .btn-secondary { background: #1e3a5f; color: #cbd5e1; }
+    .btn:active { transform: scale(0.96); }
+    .btn-primary { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; box-shadow: 0 2px 10px var(--primary-glow); }
+    .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+    .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800; }
+    .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
+    .btn-secondary { background: #1a3c68; color: #cbd5e1; }
 
+    /* Admin Tabs & Views */
     .admin-tab-bar {
       display: flex;
       gap: 6px;
       overflow-x: auto;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       padding-bottom: 6px;
       scrollbar-width: none;
     }
     .admin-tab-btn {
-      background: #092040;
-      border: 1px solid #1a3c68;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
       color: #94a3b8;
-      padding: 7px 12px;
-      border-radius: 8px;
-      font-size: 0.8rem;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
       white-space: nowrap;
       cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
     }
-    .admin-tab-btn.active { background: #ef4444; color: #fff; border-color: #ef4444; font-weight: bold; }
+    .admin-tab-btn.active {
+      background: #ef4444;
+      color: #fff;
+      border-color: #ef4444;
+      box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
+    }
 
     .admin-list-item {
-      background: #092040;
-      border: 1px solid #183863;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    .admin-list-item:hover { border-color: var(--primary-light); }
+
+    .admin-price-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .admin-price-table th, .admin-price-table td {
+      padding: 8px;
+      border: 1px solid #1a3c68;
+      text-align: center;
+    }
+    .admin-price-table th { background: #071930; color: #94a3b8; font-size: 0.8rem; }
+
+    /* AI Chat box */
+    .ai-chat-box {
+      background: #06172d;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 380px;
+    }
+    .ai-chat-messages {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ai-msg {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .ai-msg-bot {
+      background: #0d284f;
+      color: #f1f5f9;
+      align-self: flex-start;
+      border: 1px solid #1a4277;
+    }
+    .ai-msg-user {
+      background: #0284c7;
+      color: #fff;
+      align-self: flex-end;
+    }
+    .ai-chat-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      background: #092040;
+      border-top: 1px solid #1a3c68;
+    }
+    .ai-chat-input-row input {
+      flex: 1;
+      background: #051428;
+      border: 1px solid #1a3c68;
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #fff;
+      outline: none;
     }
 
-    .badge { padding: 3px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; display: inline-block; }
-    .badge-success { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid #10b981; }
-    .badge-warning { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b; }
-    .badge-danger { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid #ef4444; }
+    .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: bold; display: inline-block; }
+    .badge-success { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .badge-warning { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .badge-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
     .stat-dashboard-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin: 12px 0;
+      gap: 12px;
+      margin: 14px 0;
     }
     .stat-card-box {
-      background: #0b2242;
-      border: 1px solid #1d4375;
-      border-radius: 10px;
-      padding: 10px;
+      background: #081d38;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
       text-align: center;
     }
-    .stat-card-val { font-size: 1.1rem; font-weight: bold; color: #38bdf8; margin-top: 4px; }
+    .stat-card-val { font-size: 1.15rem; font-weight: 800; color: var(--primary-light); margin-top: 4px; }
 
     .copyable-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: #051428;
-      border: 1px solid #1e4579;
-      border-radius: 8px;
-      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
       margin-top: 6px;
     }
     .copyable-text {
       font-family: monospace;
       font-size: 0.95rem;
-      color: #fbbf24;
+      color: var(--accent-gold-light);
       user-select: all;
       word-break: break-all;
     }
+    .empty-state { text-align: center; padding: 40px 14px; color: #94a3b8; }
+    .empty-state-icon { font-size: 40px; margin-bottom: 8px; }
     .hidden-file-input { display: none; }
   </style>
 </head>
@@ -968,7 +1418,7 @@
   <!-- Instant Dynamic Welcome / Splash Screen -->
   <div id="splashScreen">
     <div class="splash-logo-circle" id="splashLogoWrap">
-      <span style="font-size: 40px;">⚡</span>
+      <span style="font-size: 44px;">⚡</span>
     </div>
     <h2 class="splash-title" id="splashTitleText">Auto cash</h2>
     <p class="splash-msg" id="splashWelcomeMessage">كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!</p>
@@ -1013,15 +1463,15 @@
           <h3 class="modal-title" id="authHeaderTitle">ھېساباتقا كىرىش / تىزىملىتىش</h3>
           <button class="drawer-close-btn" onclick="closeModal('modalAuthLogin')">✕</button>
         </div>
-        <div class="modal-body" style="padding: 10px 16px;">
-          <div style="text-align: center; margin-bottom: 12px;">
-            <h2 style="color: #fff; font-size: 1.2rem;">Auto cash</h2>
-            <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 2px;">كارت ۋە تور مۇلازىمەت مەركىزى</p>
+        <div class="modal-body">
+          <div style="text-align: center; margin-bottom: 16px;">
+            <h2 style="color: #fff; font-size: 1.3rem;">Auto cash</h2>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">كارت ۋە تور مۇلازىمەت مەركىزى</p>
           </div>
 
-          <div class="auth-tab-row" style="display:flex; border-bottom:1px solid #1a3c68; margin-bottom:14px;">
-            <div class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthTab('login')" style="flex:1; text-align:center; padding:8px; font-weight:bold; cursor:pointer; color:#38bdf8;">ھېساباتقا كىرىش</div>
-            <div class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')" style="flex:1; text-align:center; padding:8px; font-weight:bold; cursor:pointer; color:#94a3b8;">يېڭى ھېسابات ئېچىش</div>
+          <div class="auth-tab-row" style="display:flex; border-bottom:1px solid #1a3c68; margin-bottom:16px;">
+            <div class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthTab('login')" style="flex:1; text-align:center; padding:10px; font-weight:bold; cursor:pointer; color:#38bdf8; border-bottom: 2px solid #38bdf8;">ھېساباتقا كىرىش</div>
+            <div class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')" style="flex:1; text-align:center; padding:10px; font-weight:bold; cursor:pointer; color:#94a3b8;">يېڭى ھېسابات ئېچىش</div>
           </div>
 
           <div id="authLoginForm">
@@ -1033,8 +1483,8 @@
               <label class="form-label">مەخپىي نومۇر (پارول)</label>
               <input type="password" id="loginPasswordInput" class="form-control" placeholder="••••••••">
             </div>
-            <button class="btn btn-primary" style="width: 100%; padding: 11px; margin-top: 8px;" onclick="handleUserLogin()">
-              ھېساباتقا كىرىش
+            <button class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 8px;" onclick="handleUserLogin()">
+              ھېساباتقا كىرىش ➔
             </button>
           </div>
 
@@ -1060,8 +1510,8 @@
                 <option value="باشقا">باشقا</option>
               </select>
             </div>
-            <button class="btn btn-success" style="width: 100%; padding: 11px; margin-top: 8px;" onclick="handleUserRegister()">
-              ھېسابات ئېچىش ۋە كىرىش
+            <button class="btn btn-success" style="width: 100%; padding: 12px; margin-top: 8px;" onclick="handleUserRegister()">
+              ھېسابات ئېچىش ۋە كىرىش ➔
             </button>
           </div>
         </div>
@@ -1093,7 +1543,7 @@
         <h3 class="section-title">
           <span>⚡</span> <span data-key="categoriesTitle">مۇلازىمەت ۋە تۈرلەر</span>
         </h3>
-        <span style="font-size: 0.78rem; color: #38bdf8; cursor: pointer;" onclick="resetSearch()">ھەممىسى</span>
+        <span style="font-size: 0.8rem; color: #38bdf8; cursor: pointer; font-weight: bold;" onclick="resetSearch()">ھەممىسى</span>
       </div>
 
       <div class="category-grid" id="categoryGrid"></div>
@@ -1128,7 +1578,7 @@
     <section id="view-product-order-page" class="page-view" style="display: none;">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
         <button class="header-back-btn" onclick="goBackToCategory()">‹ كەينىگە</button>
-        <span style="color: #94a3b8; font-size: 0.85rem;" id="orderPageCatBreadcrumb">ئويۇنلار</span>
+        <span style="color: #94a3b8; font-size: 0.88rem; font-weight: 600;" id="orderPageCatBreadcrumb">ئويۇنلار</span>
         <div style="width: 40px;"></div>
       </div>
 
@@ -1161,20 +1611,20 @@
           <div class="package-options-container" id="packageOptionsContainer"></div>
         </div>
 
-        <div style="background: rgba(4, 16, 33, 0.6); border: 1px solid #16365f; border-radius: 10px; padding: 12px; margin-top: 14px;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
+        <div style="background: rgba(4, 16, 33, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-top: 16px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 6px;">
             <span style="color: #94a3b8;">ئەسلى باھاسى:</span>
-            <span id="orderPageOriginalPrice" style="color: #fff;">$ 0.00</span>
+            <span id="orderPageOriginalPrice" style="color: #fff; font-weight: bold;">$ 0.00</span>
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 6px;">
             <span style="color: #94a3b8;">VIP چېگىرمە:</span>
-            <span id="orderPageDiscountText" style="color: #38bdf8;">0% (-$ 0.00)</span>
+            <span id="orderPageDiscountText" style="color: #38bdf8; font-weight: bold;">0% (-$ 0.00)</span>
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.98rem; font-weight: bold; border-top: 1px solid #16365f; padding-top: 6px; margin-top: 6px;">
+          <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 800; border-top: 1px solid #16365f; padding-top: 8px; margin-top: 8px;">
             <span style="color: #fff;">ئاخىرقى تۆلەيدىغان پۇل:</span>
             <div style="text-align: left;">
               <span id="orderPageFinalPrice" style="color: #34d399;">$ 0.00</span>
-              <div id="orderPageFinalPriceSYP" style="color: #f59e0b; font-size: 0.8rem; font-weight: normal;">≈ 0 لىرا</div>
+              <div id="orderPageFinalPriceSYP" style="color: #f59e0b; font-size: 0.82rem; font-weight: normal;">≈ 0 لىرا</div>
             </div>
           </div>
         </div>
@@ -1201,7 +1651,7 @@
         <h2 class="section-title" style="font-size: 1.2rem;">
           <span>💳</span> مېنىڭ پۇل تۆلەشلىرىم
         </h2>
-        <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.8rem;" onclick="checkAuthAndAction(() => switchView('view-add-balance'))">
+        <button class="btn btn-primary" style="padding: 6px 14px; font-size: 0.82rem;" onclick="checkAuthAndAction(() => switchView('view-add-balance'))">
           + سومما قاچىلاش
         </button>
       </div>
@@ -1213,7 +1663,7 @@
         <div class="filter-tab-pill" onclick="filterPayments('pending', this)">ساقلاشتا ⏳</div>
       </div>
 
-      <div class="search-box" style="margin-bottom: 8px;">
+      <div class="search-box" style="margin-bottom: 10px;">
         <span class="search-icon">🔍</span>
         <input type="text" class="search-input" id="paymentSearchInput" placeholder="سودا نومۇرى، سوممىسى..." oninput="renderPaymentsList()">
       </div>
@@ -1236,7 +1686,7 @@
         <div class="filter-tab-pill" onclick="filterOrders('pending', this)">ساقلاشتا ⏳</div>
       </div>
 
-      <div class="search-box" style="margin-bottom: 8px;">
+      <div class="search-box" style="margin-bottom: 10px;">
         <span class="search-icon">🔍</span>
         <input type="text" class="search-input" id="orderSearchInput" placeholder="زاكاز نومۇرى، مەھسۇلات..." oninput="renderOrdersList()">
       </div>
@@ -1253,41 +1703,53 @@
         <span class="user-wallet-val" id="rechargePageBalance">$ 0.00</span>
       </div>
 
-      <div style="background: rgba(2, 132, 199, 0.12); border: 1px solid #1e4579; border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: 0.84rem; color: #cbd5e1;">
+      <div style="background: rgba(2, 132, 199, 0.12); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #cbd5e1;">
         <span>💱 نەق پېرېۋوت نىسبىتى: </span>
         <strong style="color: #f59e0b;" id="bannerExchangeRateText">1 $ = 136 سۈرىيە لىراسى</strong>
       </div>
 
-      <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
         تۆۋەندىكى قاچىلاش ئۇسۇللىرىنىڭ بىرىنى تاللاپ، دوللار ياكى سۈرىيە لىراسى بويىچە ئاسانلا ھېساباتىڭىزغا سومما قاچىلاڭ:
       </p>
 
       <div class="payment-methods-grid" id="rechargeMethodsGrid"></div>
     </section>
 
-    <!-- VIEW 6: VIP -->
+    <!-- VIEW 6: VIP MEMBERSHIP (ENHANCED) -->
     <section id="view-vip" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 16px;">
-        <h2 class="section-title" style="font-size: 1.2rem;">
-          <span style="color: #f59e0b;">👑</span> ئەزالىق دەرىجىسى
+        <h2 class="section-title" style="font-size: 1.25rem;">
+          <span style="color: #f59e0b;">👑</span> ئەزالىق دەرىجىسى & ئىمتىيازلىرى
         </h2>
       </div>
 
-      <div style="background: radial-gradient(circle, #103463 0%, #081d38 100%); border: 1px solid #1e4b85; border-radius: 16px; padding: 16px; margin-bottom: 18px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span style="color: #94a3b8; font-size: 0.85rem;">سىزنىڭ ھازىرقى سەۋىيەڭىز:</span>
-          <span class="badge badge-warning" id="vipCurrentLevelName">مىس</span>
+      <!-- Luxury VIP Card -->
+      <div class="vip-dashboard-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div>
+            <div style="color: #94a3b8; font-size: 0.82rem;">سىزنىڭ نۆۋەتتىكى ئەزالىقىڭىز:</div>
+            <h3 style="color: #fff; font-size: 1.3rem; font-weight: 800; margin-top: 2px;" id="vipCurrentLevelName">مىس</h3>
+          </div>
+          <span class="vip-tier-badge-pill" id="vipDiscountRate">0% چېگىرمە</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="color: #94a3b8; font-size: 0.82rem;">چېگىرمە نىسبىتى:</span>
-          <span style="color: #38bdf8; font-weight: bold;" id="vipDiscountRate">0%</span>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 0.88rem;">
+          <span style="color: #94a3b8;">جەمئىي ئىستېمالىڭىز:</span>
+          <span style="color: #34d399; font-weight: 800;" id="vipTotalSpent">$ 0.00</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-          <span style="color: #94a3b8; font-size: 0.82rem;">جەمئىي ئىستېمال:</span>
-          <span style="color: #34d399; font-weight: bold;" id="vipTotalSpent">$ 0.00</span>
+
+        <div class="vip-progress-wrapper">
+          <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: #94a3b8;">
+            <span id="vipNextTierHint">كېيىنكى دەرىجىگە يېتىش سۈرئىتى</span>
+            <span id="vipNextTierPercent">0%</span>
+          </div>
+          <div class="vip-progress-bar-track">
+            <div class="vip-progress-bar-fill" id="vipProgressBarFill" style="width: 0%;"></div>
+          </div>
         </div>
       </div>
 
+      <h4 style="color: #fff; margin-bottom: 12px; font-size: 0.95rem;">👑 بارلىق VIP دەرىجىلەر جەدۋىلى</h4>
       <div id="vipTiersList"></div>
     </section>
 
@@ -1316,23 +1778,23 @@
       </div>
 
       <div id="admin-orders" class="admin-subview">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">بارلىق كەلگەن زاكازلار</h4>
-          <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="requestNotificationPermission()">🔔 تېلېفون ئۇقتۇرۇشىنى ئېچىش</button>
+          <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.78rem;" onclick="requestNotificationPermission()">🔔 تېلېفون ئۇقتۇرۇشىنى ئېچىش</button>
         </div>
         <div id="adminAllOrdersList"></div>
       </div>
 
       <div id="admin-deposits" class="admin-subview" style="display: none;">
-        <h4 style="color: #fff; margin-bottom: 10px;">سومما قاچىلاش ئىلتىماسلىرى</h4>
+        <h4 style="color: #fff; margin-bottom: 12px;">سومما قاچىلاش ئىلتىماسلىرى</h4>
         <div id="adminDepositsList"></div>
       </div>
 
       <div id="admin-users" class="admin-subview" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">بارلىق تىزىملاتقان ئابونتلار (<span id="adminUsersCount">0</span>)</h4>
         </div>
-        <div class="search-box" style="margin-bottom: 10px;">
+        <div class="search-box" style="margin-bottom: 12px;">
           <span class="search-icon">🔍</span>
           <input type="text" id="adminUserSearchInput" class="search-input" placeholder="ئىسمى، تېلېفون ياكى UID بويىچە ئىزدەش..." oninput="renderAdminUsers()">
         </div>
@@ -1340,17 +1802,17 @@
       </div>
 
       <div id="admin-cats" class="admin-subview" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">تۈرلەرنى باشقۇرۇش</h4>
-          <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.8rem;" onclick="openAddCategoryModal()">+ يېڭى تۈر قوشۇش</button>
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 0.82rem;" onclick="openAddCategoryModal()">+ يېڭى تۈر قوشۇش</button>
         </div>
         <div id="adminCategoriesList"></div>
       </div>
 
       <div id="admin-payments" class="admin-subview" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">پۇل قاچىلاش ئۇسۇللىرى</h4>
-          <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.8rem;" onclick="openAddPaymentModal()">+ يېڭى قاچىلاش شەكلى</button>
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 0.82rem;" onclick="openAddPaymentModal()">+ يېڭى قاچىلاش شەكلى</button>
         </div>
         <div id="adminPaymentsList"></div>
       </div>
@@ -1370,17 +1832,17 @@
           <label class="form-label">قارشى ئېلىش لوگو / رەسىم ئۇلانمىسى</label>
           <input type="text" id="adminWelcomeImgInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى باش لوگو چىقىدۇ">
         </div>
-        <button class="btn btn-success" style="width: 100%; padding: 11px;" onclick="saveAdminWelcomeSettings()">قارشى ئېلىش تەڭشىكىنى پۈتۈن بوشلۇققا ساقلاش</button>
+        <button class="btn btn-success" style="width: 100%; padding: 12px;" onclick="saveAdminWelcomeSettings()">قارشى ئېلىش تەڭشىكىنى پۈتۈن بوشلۇققا ساقلاش</button>
       </div>
 
       <div id="admin-settings" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 14px;">بېكەت، لوگو ۋە لىرا نىسبىتى تەڭشىكى</h4>
         
-        <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; border-radius: 10px; padding: 12px; margin-bottom: 16px;">
-          <label class="form-label" style="color: #fbbf24; font-weight: bold; font-size: 0.9rem;">
+        <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+          <label class="form-label" style="color: #fbbf24; font-weight: bold; font-size: 0.92rem;">
             💱 سۈرىيە لىراسى پېرېۋوت نىسبىتى (1 دوللار = نەچچە لىرا؟)
           </label>
-          <input type="number" step="0.1" id="adminSyrianPoundRateInput" class="form-control" style="font-size: 1.05rem; font-weight: bold; color: #fbbf24; border-color: #f59e0b;" placeholder="136">
+          <input type="number" step="0.1" id="adminSyrianPoundRateInput" class="form-control" style="font-size: 1.1rem; font-weight: bold; color: #fbbf24; border-color: #f59e0b;" placeholder="136">
         </div>
 
         <div class="form-group">
@@ -1403,14 +1865,13 @@
           <label class="form-label">Telegram نامى</label>
           <input type="text" id="adminTelegramInput" class="form-control">
         </div>
-        <button class="btn btn-success" style="width: 100%; padding: 11px;" onclick="saveAdminSettings()">تەڭشەكلەرنى پۈتۈن تورغا ساقلاش</button>
+        <button class="btn btn-success" style="width: 100%; padding: 12px;" onclick="saveAdminSettings()">تەڭشەكلەرنى پۈتۈن تورغا ساقلاش</button>
       </div>
 
-      <!-- PRODUCTS WITH EDIT AND DELETE CAPABILITIES -->
       <div id="admin-prods" class="admin-subview" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">مەھسۇلاتلار & باھا جەدۋىلى</h4>
-          <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="openAddProductModal()">+ يېڭى مەھسۇلات</button>
+          <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.8rem;" onclick="openAddProductModal()">+ يېڭى مەھسۇلات</button>
         </div>
         <div id="adminProductsList"></div>
       </div>
@@ -1418,20 +1879,20 @@
       <div id="admin-banners" class="admin-subview" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">سىيرىلما رەسىملەر</h4>
-          <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="openAddBannerModal()">+ يېڭى رەسىم قوشۇش</button>
+          <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.8rem;" onclick="openAddBannerModal()">+ يېڭى رەسىم قوشۇش</button>
         </div>
         <div id="adminBannersList"></div>
       </div>
 
       <div id="admin-vip-logos" class="admin-subview" style="display: none;">
-        <h4 style="color: #fff; margin-bottom: 12px;">VIP دەرىجىلىرىنىڭ لوگوسىنى تەڭشەش</h4>
+        <h4 style="color: #fff; margin-bottom: 14px;">VIP دەرىجىلىرىنىڭ لوگوسىنى تەڭشەش</h4>
         <div id="adminVipLogosList"></div>
       </div>
 
       <div id="admin-texts" class="admin-subview" style="display: none;">
-        <h4 style="color: #fff; margin-bottom: 10px;">توربەت تېكىستلىرىنى ئۆزگەرتىش</h4>
+        <h4 style="color: #fff; margin-bottom: 12px;">توربەت تېكىستلىرىنى ئۆزگەرتىش</h4>
         <div id="adminTextsFormList"></div>
-        <button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="saveDynamicTexts()">تېكىستلەرنى ساقلاش</button>
+        <button class="btn btn-success" style="width: 100%; margin-top: 12px;" onclick="saveDynamicTexts()">تېكىستلەرنى ساقلاش</button>
       </div>
 
       <div id="admin-ai" class="admin-subview" style="display: none;">
@@ -1471,10 +1932,10 @@
         <button class="drawer-close-btn" onclick="closeModal('modalUserStatsDashboard')">✕</button>
       </div>
       <div class="modal-body">
-        <div style="text-align:center; margin-bottom:12px;">
-          <img id="dashAvatarImg" src="" style="width:72px; height:72px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:6px;">
-          <h3 id="dashUsername" style="color:#fff;"></h3>
-          <div id="dashUidText" style="color:#38bdf8; font-family:monospace; font-size:0.85rem;"></div>
+        <div style="text-align:center; margin-bottom:14px;">
+          <img id="dashAvatarImg" src="" style="width:76px; height:76px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:8px; box-shadow: 0 0 16px var(--accent-gold-glow);">
+          <h3 id="dashUsername" style="color:#fff; font-size:1.15rem;"></h3>
+          <div id="dashUidText" style="color:#38bdf8; font-family:monospace; font-size:0.88rem; margin-top:2px;"></div>
         </div>
 
         <div class="stat-dashboard-grid">
@@ -1496,14 +1957,14 @@
           </div>
         </div>
 
-        <button class="btn btn-primary" style="width:100%; margin-top:8px;" onclick="closeModal('modalUserStatsDashboard'); openAccountDetailsModal();">
+        <button class="btn btn-primary" style="width:100%; margin-top:10px; padding:11px;" onclick="closeModal('modalUserStatsDashboard'); openAccountDetailsModal();">
           ✏️ ھېسابات ئۇچۇرلىرىنى تەھرىرلەش
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Drawer -->
+  <!-- Drawer Sidebar (Enhanced) -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
   <aside class="drawer-sidebar" id="drawerSidebar">
     <div class="drawer-header">
@@ -1514,7 +1975,7 @@
     <div class="profile-banner-card">
       <div class="avatar-container">
         <img id="sidebarAvatarImg" src="" alt="Avatar" class="user-avatar-img">
-        <label for="avatarFileInput" class="avatar-upload-badge">📷</label>
+        <label for="avatarFileInput" class="avatar-upload-badge" title="سۈرەت ئالماشتۇرۇش">📷</label>
         <input type="file" id="avatarFileInput" class="hidden-file-input" accept="image/*" onchange="handleAvatarFileSelect(event)">
       </div>
       <div class="user-tag-badge" id="sidebarTierBadge">مىس</div>
@@ -1523,7 +1984,7 @@
       </div>
       <div class="user-uid-text" id="sidebarUidText">UID: #مېھمان</div>
       
-      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;">$ 0.00</div>
+      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;" title="پۇل بىرلىكىنى دوللار/لىرا ئالماشتۇرۇش">$ 0.00</div>
 
       <div class="profile-quick-actions">
         <div class="quick-btn" title="سومما قاچىلاش" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">💲</div>
@@ -1540,10 +2001,10 @@
         <div class="item-left"><span>💱</span><span>پۇل بىرلىكى: <strong id="sidebarCurrencyStateText" style="color: #38bdf8;">دوللار ($)</strong></span></div>
       </li>
       <li class="drawer-menu-item" onclick="switchView('view-vip'); toggleDrawer(false);">
-        <div class="item-left"><span>👑</span><span>دەرىجە (VIP)</span></div>
+        <div class="item-left"><span>👑</span><span>ئەزالىق دەرىجىسى (VIP)</span></div>
       </li>
       <li class="drawer-menu-item" onclick="switchView('view-favorites'); toggleDrawer(false);">
-        <div class="item-left"><span>❤️</span><span>ياقتۇرغانلار</span></div>
+        <div class="item-left"><span>❤️</span><span>ياقتۇرغانلىرىم</span></div>
       </li>
       <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">
         <div class="item-left"><span>💳</span><span>سومما قاچىلاش</span></div>
@@ -1588,7 +2049,7 @@
   </nav>
 
   <!-- Floating Chat -->
-  <div class="floating-chat-btn" onclick="openSupportChat()">
+  <div class="floating-chat-btn" onclick="openSupportChat()" title="ياردەم مەركىزى">
     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
   </div>
 
@@ -1664,12 +2125,12 @@
         <button class="drawer-close-btn" onclick="closeModal('modalRechargeSubmit')">✕</button>
       </div>
       <div class="modal-body">
-        <div style="background: #061933; border: 1px solid #1b4170; border-radius: 10px; padding: 12px; margin-bottom: 14px;">
+        <div style="background: #061933; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
           <h4 id="rechargeMethodName" style="color: #f59e0b; margin-bottom: 4px;"></h4>
-          <p id="rechargeMethodDesc" style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.4; margin-bottom: 6px;"></p>
-          <div style="display: flex; align-items: center; justify-content: space-between; background: #020c1a; padding: 6px 10px; border-radius: 6px;">
+          <p id="rechargeMethodDesc" style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 8px;"></p>
+          <div style="display: flex; align-items: center; justify-content: space-between; background: #020c1a; padding: 8px 12px; border-radius: 8px;">
             <span id="rechargeTargetAccount" style="color: #38bdf8; font-family: monospace; font-size: 0.95rem; font-weight: bold;"></span>
-            <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 0.72rem;" onclick="copyAccountAddress()">كۆچۈرۈش</button>
+            <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.74rem;" onclick="copyAccountAddress()">كۆچۈرۈش</button>
           </div>
         </div>
 
@@ -1684,7 +2145,7 @@
           <input type="number" step="any" id="depositAmountInput" class="form-control" placeholder="مەسىلەن: 10" oninput="handleRechargeAmountConvert()">
         </div>
 
-        <div style="background: rgba(2, 132, 199, 0.15); border: 1px dashed #0284c7; border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.82rem; color: #38bdf8;" id="rechargeConvertedDisplay">
+        <div style="background: rgba(2, 132, 199, 0.15); border: 1px dashed #0284c7; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: #38bdf8;" id="rechargeConvertedDisplay">
           تەڭ قىممەت: $ 0.00 = 0 سۈرىيە لىراسى
         </div>
 
@@ -1740,9 +2201,9 @@
         <button class="drawer-close-btn" onclick="closeModal('modalAccountDetails')">✕</button>
       </div>
       <div class="modal-body">
-        <div style="text-align:center; margin-bottom:14px;">
-          <img id="accModalAvatarPreview" src="" style="width:76px; height:76px; border-radius:50%; object-fit:cover; border:2px solid #38bdf8; display:block; margin:0 auto 8px;">
-          <label for="accModalFileInput" class="btn btn-secondary" style="font-size:0.78rem; padding:5px 12px; cursor:pointer;">
+        <div style="text-align:center; margin-bottom:16px;">
+          <img id="accModalAvatarPreview" src="" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #38bdf8; display:block; margin:0 auto 10px; box-shadow: 0 0 14px var(--primary-glow);">
+          <label for="accModalFileInput" class="btn btn-secondary" style="font-size:0.8rem; padding:6px 14px; cursor:pointer;">
             📁 تېلېفوندىن رەسىم تاللاش
           </label>
           <input type="file" id="accModalFileInput" class="hidden-file-input" accept="image/*" onchange="handleModalAvatarSelect(event)">
@@ -1798,12 +2259,12 @@
           <input type="text" id="adminProdImageUrlInput" class="form-control">
         </div>
 
-        <div style="background: #061933; border: 1px solid #1b4170; border-radius: 10px; padding: 12px; margin-top: 14px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div style="background: #061933; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-top: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <label class="form-label" style="color: #f59e0b; margin: 0; font-weight: bold;">
               📊 بولاقلار ۋە باھا جەدۋىلى ($)
             </label>
-            <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 0.72rem;" onclick="addPackageRowToAdminForm()">
+            <button type="button" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="addPackageRowToAdminForm()">
               + يېڭى باھا قوشۇش
             </button>
           </div>
@@ -1826,13 +2287,12 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT DIRECT REALTIME REST ENGINE -->
+  <!-- JAVASCRIPT REALTIME REST ENGINE -->
   <script>
     const STORAGE_KEY = "autocash_app_state_v22";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
-    // Instant local lightweight SVG vectors for 100% instant image loading
     const fastIcons = {
       gameCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230284c7'/%3E%3Cstop offset='100%25' stop-color='%23091f3d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g)'/%3E%3Cpath d='M130 180h140c16.5 0 30 13.5 30 30v40c0 16.5-13.5 30-30 30h-20l-15-20h-70l-15 20h-20c-16.5 0-30-13.5-30-30v-40c0-16.5 13.5-30 30-30z' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='160' cy='230' r='10' fill='%2338bdf8'/%3E%3Ccircle cx='240' cy='230' r='10' fill='%23f59e0b'/%3E%3Ctext x='200' y='325' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto Game%3C/text%3E%3C/svg%3E",
       appCover: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230369a1'/%3E%3Cstop offset='100%25' stop-color='%230c264a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g2)'/%3E%3Crect x='130' y='110' width='140' height='180' rx='24' fill='%2307152b' stroke='%2338bdf8' stroke-width='8'/%3E%3Ccircle cx='200' cy='260' r='12' fill='%2338bdf8'/%3E%3Ctext x='200' y='330' font-size='32' font-family='sans-serif' font-weight='bold' fill='%23f8fafc' text-anchor='middle'%3EAuto App%3C/text%3E%3C/svg%3E",
@@ -1961,7 +2421,6 @@
       return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
 
-    // Protect active input while admin is typing
     function isAdminCurrentlyTyping() {
       const activeEl = document.activeElement;
       if (!activeEl) return false;
@@ -1969,7 +2428,7 @@
       return adminSection && adminSection.contains(activeEl) && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.tagName === "SELECT");
     }
 
-    // Direct Cloud Sync
+    /* CLOUD SYNC */
     async function syncFromCloud() {
       try {
         const res = await fetch(`${FIREBASE_URL}.json`);
@@ -2125,7 +2584,7 @@
       if (logoImg) {
         wrapEl.innerHTML = `<img src="${logoImg}" alt="Logo">`;
       } else {
-        wrapEl.innerHTML = `<span style="font-size: 40px;">${s.logoEmoji || '⚡'}</span>`;
+        wrapEl.innerHTML = `<span style="font-size: 44px;">${s.logoEmoji || '⚡'}</span>`;
       }
     }
 
@@ -2237,6 +2696,10 @@
     function switchAuthTab(tab) {
       document.getElementById('tabBtnLogin').classList.toggle('active', tab === 'login');
       document.getElementById('tabBtnRegister').classList.toggle('active', tab === 'register');
+      document.getElementById('tabBtnLogin').style.color = tab === 'login' ? '#38bdf8' : '#94a3b8';
+      document.getElementById('tabBtnLogin').style.borderBottom = tab === 'login' ? '2px solid #38bdf8' : 'none';
+      document.getElementById('tabBtnRegister').style.color = tab === 'register' ? '#38bdf8' : '#94a3b8';
+      document.getElementById('tabBtnRegister').style.borderBottom = tab === 'register' ? '2px solid #38bdf8' : 'none';
       document.getElementById('authLoginForm').style.display = tab === 'login' ? 'block' : 'none';
       document.getElementById('authRegisterForm').style.display = tab === 'register' ? 'block' : 'none';
     }
@@ -2346,6 +2809,7 @@
       const authBtn = document.getElementById("sidebarAuthActionBtn");
       const headerAuthBtn = document.getElementById("headerAuthBtn");
       const headerUserAvatar = document.getElementById("headerUserAvatar");
+      const tierBadge = document.getElementById("sidebarTierBadge");
 
       if (!u) {
         document.getElementById("headerBalance").innerText = "$ 0.00";
@@ -2355,6 +2819,7 @@
         document.getElementById("sidebarUsername").innerText = "مېھمان ئابونت";
         document.getElementById("sidebarUidText").innerText = "UID: #مېھمان";
         document.getElementById("sidebarAvatarImg").src = fastIcons.userDefaultAvatar;
+        if (tierBadge) tierBadge.innerText = "مېھمان";
         roleBadge.className = "role-badge-pill role-user";
         roleBadge.innerText = "مېھمان";
         adminEntry.style.display = "none";
@@ -2392,9 +2857,7 @@
       }
 
       const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || state.siteSettings.vipTiers[0];
-      document.getElementById("vipCurrentLevelName").innerText = currentTierObj.name;
-      document.getElementById("vipDiscountRate").innerText = currentTierObj.discount + "%";
-      document.getElementById("vipTotalSpent").innerText = formatDualCurrency(u.totalSpent);
+      if (tierBadge) tierBadge.innerText = currentTierObj.name;
     }
 
     /* PUSH NOTIFICATIONS & POPUP */
@@ -2455,7 +2918,7 @@
 
         modalTitle.innerText = "📦 زاكاس تەپسىلاتى";
         content.innerHTML = `
-          <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
+          <div style="background:#061a33; border:1px solid var(--border-color); border-radius:12px; padding:14px; margin-bottom:12px;">
             <div style="font-size:1.15rem; font-weight:bold; color:#fff; margin-bottom:6px;">${order.prodName} (${order.packageName})</div>
             <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px;">ئابونت: <strong>${order.username}</strong> (UID: #${order.userUid})</div>
             
@@ -2488,7 +2951,7 @@
 
         modalTitle.innerText = "💰 سومما قاچىلاش تەپسىلاتى";
         content.innerHTML = `
-          <div style="background:#092140; border:1px solid #1e4579; border-radius:12px; padding:14px; margin-bottom:12px;">
+          <div style="background:#061a33; border:1px solid var(--border-color); border-radius:12px; padding:14px; margin-bottom:12px;">
             <div style="font-size:1.15rem; font-weight:bold; color:#fff; margin-bottom:6px;">${pay.methodName}</div>
             <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px;">ئابونت: <strong>${pay.username}</strong> (UID: #${pay.userUid})</div>
             
@@ -2563,11 +3026,11 @@
         toast.style.transform = "translateX(-50%)";
         toast.style.background = "#0284c7";
         toast.style.color = "#fff";
-        toast.style.padding = "10px 18px";
-        toast.style.borderRadius = "25px";
+        toast.style.padding = "10px 20px";
+        toast.style.borderRadius = "30px";
         toast.style.boxShadow = "0 6px 20px rgba(0,0,0,0.6)";
         toast.style.zIndex = "9999";
-        toast.style.fontSize = "0.85rem";
+        toast.style.fontSize = "0.88rem";
         toast.style.fontWeight = "bold";
         toast.style.cursor = "pointer";
         toast.style.transition = "opacity 0.3s ease";
@@ -2600,7 +3063,7 @@
           <div class="slide-content">
             <span class="slide-badge">${b.badge || 'ئېلان'}</span>
             <div class="slide-title">${b.title}</div>
-            <div style="font-size:0.78rem; color:#cbd5e1;">${b.subtitle || ''}</div>
+            <div style="font-size:0.8rem; color:#cbd5e1; margin-top:2px;">${b.subtitle || ''}</div>
           </div>
         `;
         track.appendChild(slide);
@@ -2645,7 +3108,7 @@
       });
     }
 
-    /* ADMIN: REALTIME USERS LIST WITH DELETE FUNCTION */
+    /* ADMIN: USERS */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -2670,19 +3133,19 @@
         div.innerHTML = `
           <div style="display: flex; align-items: center; gap: 12px;">
             <img src="${u.avatar || fastIcons.userDefaultAvatar}" 
-                 style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid ${u.role === 'admin' ? '#ef4444' : '#0284c7'};">
+                 style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid ${u.role === 'admin' ? '#ef4444' : '#0284c7'};">
             <div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <strong style="color:#fff; font-size:0.95rem;">${u.username}</strong>
                 <span class="badge ${u.role === 'admin' ? 'badge-danger' : 'badge-success'}">${u.role === 'admin' ? 'باشقۇرغۇچى' : 'ئابونت'}</span>
               </div>
               <div style="font-size:0.78rem; color:#38bdf8; font-family:monospace;">UID: #${u.uid} | 📞 ${u.phone || 'يوق'}</div>
-              <div style="font-size:0.82rem; color:#34d399; font-weight:bold; margin-top:2px;">
+              <div style="font-size:0.84rem; color:#34d399; font-weight:bold; margin-top:3px;">
                 قالدۇقى: ${formatDualCurrency(u.balance)}
               </div>
             </div>
           </div>
-          <div style="display:flex; flex-direction:column; gap:4px;">
+          <div style="display:flex; flex-direction:column; gap:6px;">
             <button class="btn btn-warning" style="padding:4px 10px; font-size:0.75rem;" onclick="adminAdjustUserBalance('${u.uid}')">💰 پۇل تەڭشەش</button>
             <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.72rem;" onclick="adminEditUserInfo('${u.uid}')">✏️ تەھرىرلەش</button>
             ${u.role !== 'admin' ? `<button class="btn btn-danger" style="padding:4px 10px; font-size:0.72rem;" onclick="adminDeleteUser('${u.uid}')">🗑️ يۇيۇش</button>` : ''}
@@ -2738,7 +3201,7 @@
       saveState();
     }
 
-    /* ADMIN: WELCOME SCREEN SETTINGS */
+    /* ADMIN: WELCOME SETTINGS */
     function renderAdminWelcomeSettings() {
       const s = state.siteSettings;
       document.getElementById("adminWelcomeTitleInput").value = s.welcomeTitle || s.siteName || "Auto cash";
@@ -2787,7 +3250,7 @@
       alert(`بېكەت تەڭشەكلىرى، سۈرىيە لىرا نىسبىتى (${state.siteSettings.syrianPoundRate}) بوشلۇققا مۇقىم ساقلاندى!`);
     }
 
-    /* CRUD FOR CATEGORIES */
+    /* CATEGORIES CRUD */
     function renderAdminCategories() {
       const container = document.getElementById("adminCategoriesList");
       if (!container) return;
@@ -2865,7 +3328,7 @@
       }
     }
 
-    /* CRUD FOR PAYMENT METHODS */
+    /* PAYMENT METHODS CRUD */
     function renderAdminPayments() {
       const container = document.getElementById("adminPaymentsList");
       if (!container) return;
@@ -2875,7 +3338,7 @@
         div.className = "admin-list-item";
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:10px;">
-            <div class="pay-icon-circle" style="width:40px; height:40px; margin:0; font-size:18px;">
+            <div class="pay-icon-circle" style="width:42px; height:42px; margin:0; font-size:18px;">
               ${m.icon.startsWith("http") ? `<img src="${m.icon}">` : m.icon}
             </div>
             <div>
@@ -3016,7 +3479,6 @@
       }
     }
 
-    /* SUBMIT RECHARGE: GUARANTEED PERSISTENT PENDING IN CLOUD */
     async function submitRechargeRequest() {
       const u = getCurrentUser();
       const rawAmt = parseFloat(document.getElementById("depositAmountInput").value);
@@ -3040,7 +3502,7 @@
         amountSyp: finalSyp,
         currencyUsed: rechargeCurrency,
         txId: tx || "—",
-        status: "pending", // Strictly pending until admin approves
+        status: "pending",
         date: getCurrentTimeString(),
         processedAt: null
       };
@@ -3048,7 +3510,6 @@
       state.payments[payId] = newPayItem;
       closeModal("modalRechargeSubmit");
 
-      // Write strictly to cloud
       await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -3204,7 +3665,7 @@
         row.innerHTML = `
           <span class="package-opt-name">${pkg.name}</span>
           <div class="package-opt-price">
-            <span>${formatCurrency(pkg.price)}</span>
+            <span style="font-weight:bold; color:#38bdf8;">${formatCurrency(pkg.price)}</span>
             <span style="font-size:0.75rem; color:#f59e0b;">≈ ${syp.toLocaleString()} لىرا</span>
           </div>
         `;
@@ -3228,7 +3689,6 @@
       document.getElementById("orderPageFinalPriceSYP").innerText = `≈ ${finalSyp.toLocaleString()} سۈرىيە لىراسى`;
     }
 
-    /* SUBMIT ORDER: GUARANTEED PERSISTENT PENDING IN CLOUD */
     async function submitProductOrderFromPage() {
       const u = getCurrentUser();
       if (!u) {
@@ -3262,21 +3722,19 @@
         packageName: pkg.name,
         accountTarget: inputVal,
         price: finalPrice,
-        status: "pending", // Strictly pending until admin approves
+        status: "pending",
         date: getCurrentTimeString(),
         processedAt: null
       };
 
       state.orders[orderId] = orderObj;
 
-      // Direct write to cloud
       await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderObj)
       });
 
-      // Also update user's balance in cloud
       await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -3287,7 +3745,7 @@
       switchView("view-orders");
     }
 
-    /* FILTER AND RENDER USER ORDERS */
+    /* ORDERS LIST */
     function filterOrders(filter, btn) {
       currentOrderFilter = filter;
       document.querySelectorAll("#orderFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
@@ -3312,7 +3770,7 @@
       }
 
       if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📦</div><div class="empty-state-title">تەلەپ تېپىلمىدى</div></div>`;
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📦</div><div>تەلەپ تېپىلمىدى</div></div>`;
         return;
       }
 
@@ -3323,10 +3781,10 @@
 
         if (o.status === 'approved') {
           statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
-          if (o.processedAt) processedTimeNote = `<div style="font-size:0.72rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>`;
+          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>`;
         } else if (o.status === 'rejected') {
           statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
-          if (o.processedAt) processedTimeNote = `<div style="font-size:0.72rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${o.processedAt}</div>`;
+          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${o.processedAt}</div>`;
         } else {
           statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
         }
@@ -3337,8 +3795,8 @@
         div.innerHTML = `
           <div>
             <div style="font-weight: bold; color: #fff;">${o.prodName} (${o.packageName})</div>
-            <div style="font-size: 0.75rem; color: #94a3b8;">${o.accountTarget} | ID: ${o.id}</div>
-            <div style="font-size: 0.72rem; color: #64748b;">تاپشۇرۇلغان ۋاقتى: ${o.date}</div>
+            <div style="font-size: 0.78rem; color: #94a3b8;">${o.accountTarget} | ID: ${o.id}</div>
+            <div style="font-size: 0.74rem; color: #64748b;">تاپشۇرۇلغان ۋاقتى: ${o.date}</div>
             ${processedTimeNote}
           </div>
           <div style="text-align: left;">
@@ -3350,7 +3808,7 @@
       });
     }
 
-    /* FILTER AND RENDER USER PAYMENTS */
+    /* PAYMENTS LIST */
     function filterPayments(filter, btn) {
       currentPaymentFilter = filter;
       document.querySelectorAll("#paymentFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
@@ -3375,7 +3833,7 @@
       }
 
       if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👛</div><div class="empty-state-title">خاتىرە تېپىلمىدى</div></div>`;
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👛</div><div>خاتىرە تېپىلمىدى</div></div>`;
         return;
       }
 
@@ -3386,10 +3844,10 @@
 
         if (p.status === 'approved') {
           statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
-          if (p.processedAt) processedTimeNote = `<div style="font-size:0.72rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>`;
+          if (p.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>`;
         } else if (p.status === 'rejected') {
           statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
-          if (p.processedAt) processedTimeNote = `<div style="font-size:0.72rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${p.processedAt}</div>`;
+          if (p.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${p.processedAt}</div>`;
         } else {
           statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
         }
@@ -3400,8 +3858,8 @@
         div.innerHTML = `
           <div>
             <div style="font-weight: bold; color: #fff;">${p.methodName}</div>
-            <div style="font-size: 0.75rem; color: #94a3b8;">TxID: ${p.txId}</div>
-            <div style="font-size: 0.72rem; color: #64748b;">تەلەپ ۋاقتى: ${p.date}</div>
+            <div style="font-size: 0.78rem; color: #94a3b8;">TxID: ${p.txId}</div>
+            <div style="font-size: 0.74rem; color: #64748b;">تەلەپ ۋاقتى: ${p.date}</div>
             ${processedTimeNote}
           </div>
           <div style="text-align: left;">
@@ -3577,7 +4035,7 @@
       if (!container) return;
       const favs = state.products.filter(p => state.favorites.includes(p.id));
       if (favs.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🤍</div><div class="empty-state-title">ياقتۇرغانلار يوق</div></div>`;
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🤍</div><div>ياقتۇرغانلار يوق</div></div>`;
         return;
       }
       container.innerHTML = `<div class="product-grid" id="favGrid"></div>`;
@@ -3605,15 +4063,42 @@
       saveState();
     }
 
-    /* VIP TIERS */
+    /* VIP TIERS (ENHANCED CALCULATION & RENDERING) */
     function renderVipTiersPage() {
       const container = document.getElementById("vipTiersList");
       if (!container) return;
       container.innerHTML = "";
       const u = getCurrentUser();
       const curTierId = u?.tier || "bronze";
+      const totalSpent = u?.totalSpent || 0;
 
-      state.siteSettings.vipTiers.forEach(t => {
+      const tiers = state.siteSettings.vipTiers;
+      const currentTierIndex = tiers.findIndex(t => t.id === curTierId);
+      const curTierObj = tiers[currentTierIndex] || tiers[0];
+      const nextTierObj = tiers[currentTierIndex + 1] || null;
+
+      document.getElementById("vipCurrentLevelName").innerText = curTierObj.name;
+      document.getElementById("vipDiscountRate").innerText = curTierObj.discount + "% چېگىرمە";
+      document.getElementById("vipTotalSpent").innerText = formatDualCurrency(totalSpent);
+
+      const nextHint = document.getElementById("vipNextTierHint");
+      const nextPercent = document.getElementById("vipNextTierPercent");
+      const barFill = document.getElementById("vipProgressBarFill");
+
+      if (nextTierObj) {
+        const currentReq = curTierObj.req;
+        const nextReq = nextTierObj.req;
+        const progress = Math.min(Math.max((totalSpent - currentReq) / (nextReq - currentReq), 0), 1) * 100;
+        if (nextHint) nextHint.innerText = `كېيىنكى دەرىجە: ${nextTierObj.name} (تەلەپ: ${nextTierObj.req} $)`;
+        if (nextPercent) nextPercent.innerText = `${Math.round(progress)}%`;
+        if (barFill) barFill.style.width = `${progress}%`;
+      } else {
+        if (nextHint) nextHint.innerText = "🎉 سىز ئەڭ يۇقىرى VIP دەرىجىگە يەتتىڭىز!";
+        if (nextPercent) nextPercent.innerText = "100%";
+        if (barFill) barFill.style.width = "100%";
+      }
+
+      tiers.forEach(t => {
         const div = document.createElement("div");
         div.className = `vip-tier-card ${t.id === curTierId ? 'active' : ''}`;
         div.innerHTML = `
@@ -3623,10 +4108,10 @@
             </div>
             <div class="vip-details">
               <h4>${t.name}</h4>
-              <p>تەلەپ: ${t.req} $ | چېگىرمە: ${t.discount}%</p>
+              <p>تەلەپ قىلىنىدىغان ئىستېمال: <strong>${t.req} $</strong> | كۈچىگە ئىگە ئېتىبار: <strong>${t.discount}%</strong></p>
             </div>
           </div>
-          ${t.id === curTierId ? '<span style="color:#10b981; font-weight:bold;">✓ نۆۋەتتىكى</span>' : ''}
+          ${t.id === curTierId ? '<span class="badge badge-success">✓ ھازىرقى سەۋىيە</span>' : ''}
         `;
         container.appendChild(div);
       });
@@ -3714,7 +4199,7 @@
         div.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <strong style="color:#fff;">${t.name}</strong>
-            <div class="vip-medal-icon" style="width:36px; height:36px;">
+            <div class="vip-medal-icon" style="width:38px; height:38px;">
               ${t.logo ? `<img src="${t.logo}">` : t.emoji}
             </div>
           </div>
@@ -3776,7 +4261,7 @@
         div.className = "admin-list-item";
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${p.image}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">
+            <img src="${p.image}" style="width:44px; height:44px; border-radius:8px; object-fit:cover;">
             <div>
               <strong style="color:#fff;">${p.name}</strong>
               <div style="font-size:0.75rem; color:#94a3b8;">${p.packages ? p.packages.length : 0} بولاق | ${p.badge || 'ئاددىي'}</div>
@@ -3839,7 +4324,7 @@
           <tr>
             <td><input type="text" class="form-control" value="${pkg.name}" oninput="tempPackages[${idx}].name=this.value"></td>
             <td><input type="number" step="0.001" class="form-control" value="${pkg.price}" oninput="tempPackages[${idx}].price=parseFloat(this.value)||0"></td>
-            <td><button type="button" class="btn btn-danger" style="padding:2px 6px;" onclick="tempPackages.splice(${idx},1); renderAdminPackageRows();">✕</button></td>
+            <td><button type="button" class="btn btn-danger" style="padding:4px 8px;" onclick="tempPackages.splice(${idx},1); renderAdminPackageRows();">✕</button></td>
           </tr>
         `;
       });
@@ -3899,10 +4384,6 @@
     /* AI COMMAND EXECUTOR */
     function handleAiInputKeyPress(e) {
       if (e.key === "Enter") submitAiPrompt();
-    }
-    function sendAiQuickPrompt(t) {
-      document.getElementById("aiChatInput").value = t;
-      submitAiPrompt();
     }
     function submitAiPrompt() {
       const input = document.getElementById("aiChatInput");
