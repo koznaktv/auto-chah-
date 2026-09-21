@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
 
-  <!-- Google Identity Services / Firebase Auth SDK (Module support for Email/Google Sign-In) -->
+  <!-- Google Identity Services / Firebase Auth SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
@@ -97,11 +97,7 @@
       text-align: center;
       transition: opacity 0.4s ease, visibility 0.4s ease;
     }
-    #splashScreen.hide {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
+    #splashScreen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
     .splash-logo-circle {
       width: 96px;
       height: 96px;
@@ -120,25 +116,9 @@
       from { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
       to { box-shadow: 0 0 35px rgba(56, 189, 248, 0.8); }
     }
-    .splash-logo-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    .splash-title {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
-      letter-spacing: 0.5px;
-    }
-    .splash-msg {
-      font-size: 0.95rem;
-      color: #94a3b8;
-      max-width: 320px;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
+    .splash-logo-circle img { width: 100%; height: 100%; object-fit: contain; }
+    .splash-title { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: 0.5px; }
+    .splash-msg { font-size: 0.95rem; color: #94a3b8; max-width: 320px; line-height: 1.6; margin-bottom: 24px; }
     .splash-loader {
       width: 32px;
       height: 32px;
@@ -149,39 +129,40 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Top Header Re-aligned */
+    /* Top Header - Auto cash text near logo to the right, balance visible on left */
     .top-header {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(9, 27, 51, 0.88);
+      background: rgba(9, 27, 51, 0.92);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 16px;
+      padding: 10px 14px;
       min-height: 62px;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
 
-    .brand-section {
+    .brand-section-right {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .brand-logo {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: #081d38;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
       box-shadow: 0 0 14px var(--primary-glow);
       border: 2px solid var(--primary-light);
       overflow: hidden;
@@ -189,92 +170,80 @@
       transition: transform 0.2s ease;
     }
     .brand-logo:active { transform: scale(0.95); }
-    .brand-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
+    .brand-logo img { width: 100%; height: 100%; object-fit: contain; }
 
-    .header-center-title {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.25rem;
+    .brand-name-title {
+      font-size: 1.15rem;
       font-weight: 900;
       background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 0.5px;
-      pointer-events: none;
       white-space: nowrap;
     }
 
     .header-actions-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .balance-chip {
+      background: rgba(14, 43, 82, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 30px;
+      padding: 5px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.84rem;
+      cursor: pointer;
+      user-select: none;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: background 0.2s;
+    }
+    .balance-chip:hover { background: rgba(19, 57, 108, 0.95); }
+    .balance-chip .plus-symbol {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
     }
 
     .header-auth-btn {
       background: linear-gradient(135deg, #0284c7, #0369a1);
       border: 1px solid var(--primary-light);
       color: #fff;
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 20px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: bold;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
-      transition: all 0.2s;
     }
-    .header-auth-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.6); }
 
     .header-user-avatar {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: 2px solid var(--primary-light);
       object-fit: cover;
       cursor: pointer;
       display: none;
       box-shadow: 0 0 10px var(--primary-glow);
-      transition: transform 0.2s ease;
-    }
-    .header-user-avatar:active { transform: scale(0.92); }
-
-    .balance-chip {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 30px;
-      padding: 5px 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.88rem;
-      cursor: pointer;
-      user-select: none;
-      backdrop-filter: blur(10px);
-      transition: background 0.2s;
-    }
-    .balance-chip:hover { background: rgba(255, 255, 255, 0.14); }
-    .balance-chip .plus-symbol {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 900;
-      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
     }
 
     .header-back-btn {
@@ -289,9 +258,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      transition: all 0.2s;
     }
-    .header-back-btn:hover { background: var(--primary-light); color: #04101e; }
 
     /* App Container */
     .app-container {
@@ -301,6 +268,50 @@
       display: flex;
       flex-direction: column;
     }
+
+    /* Admin Hub Folder Layout on Home */
+    .admin-home-hub {
+      background: linear-gradient(135deg, #180d1e 0%, #0e1d3a 100%);
+      border: 1.5px solid rgba(239, 68, 68, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
+      display: none;
+    }
+    .admin-home-hub.active { display: block; }
+    .admin-hub-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .admin-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .admin-folder-card {
+      background: rgba(14, 43, 82, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .admin-folder-card:hover {
+      background: #153866;
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .admin-folder-icon { font-size: 22px; margin-bottom: 4px; }
+    .admin-folder-title { font-size: 0.76rem; font-weight: 700; color: #f1f5f9; }
 
     /* Banner Carousel */
     .banner-carousel {
@@ -313,13 +324,7 @@
       aspect-ratio: 16 / 7;
       background: #0b2242;
     }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      height: 100%;
-    }
-
+    .carousel-track { display: flex; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); height: 100%; }
     .carousel-slide {
       min-width: 100%;
       height: 100%;
@@ -332,18 +337,8 @@
       padding: 18px;
       cursor: pointer;
     }
-
-    .slide-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(6, 19, 37, 0.1) 0%, rgba(6, 19, 37, 0.95) 100%);
-    }
-
-    .slide-content {
-      position: relative;
-      z-index: 2;
-    }
-
+    .slide-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6, 19, 37, 0.1) 0%, rgba(6, 19, 37, 0.95) 100%); }
+    .slide-content { position: relative; z-index: 2; }
     .slide-badge {
       display: inline-block;
       background: linear-gradient(135deg, #0284c7, #0ea5e9);
@@ -355,37 +350,10 @@
       font-weight: bold;
       box-shadow: 0 2px 8px rgba(2, 132, 199, 0.5);
     }
-
-    .slide-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #fff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-    }
-
-    .carousel-indicators {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 6px;
-      z-index: 3;
-    }
-
-    .carousel-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4);
-      transition: all 0.3s ease;
-    }
-    .carousel-dot.active {
-      width: 22px;
-      border-radius: 6px;
-      background: var(--primary-light);
-      box-shadow: 0 0 8px var(--primary-light);
-    }
+    .slide-title { font-size: 1.15rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
+    .carousel-indicators { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 3; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transition: all 0.3s ease; }
+    .carousel-dot.active { width: 22px; border-radius: 6px; background: var(--primary-light); box-shadow: 0 0 8px var(--primary-light); }
 
     /* Announcement */
     .announcement-bar {
@@ -403,21 +371,12 @@
       white-space: nowrap;
       backdrop-filter: blur(8px);
     }
-
     .announcement-icon { color: var(--accent-gold); font-size: 1.15rem; flex-shrink: 0; }
-
-    .marquee-text {
-      display: inline-block;
-      animation: marquee 22s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
+    .marquee-text { display: inline-block; animation: marquee 22s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
     /* Search Box */
     .search-box { position: relative; margin-bottom: 18px; }
-
     .search-input {
       width: 100%;
       background: rgba(10, 31, 59, 0.85);
@@ -429,47 +388,15 @@
       outline: none;
       transition: all 0.25s ease;
     }
-    .search-input:focus {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 12px var(--primary-glow);
-      background: #0d274c;
-    }
-
-    .search-icon {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #64748b;
-      font-size: 18px;
-      pointer-events: none;
-    }
+    .search-input:focus { border-color: var(--primary-light); box-shadow: 0 0 12px var(--primary-glow); background: #0d274c; }
+    .search-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 18px; pointer-events: none; }
 
     /* Section Bar */
-    .section-title-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #f8fafc;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .section-title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .section-title { font-size: 1.05rem; font-weight: 800; color: #f8fafc; display: flex; align-items: center; gap: 8px; }
 
     /* Grids */
-    .category-grid, .game-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
+    .category-grid, .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
     .category-card, .game-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
@@ -483,67 +410,16 @@
       box-shadow: 0 4px 14px rgba(0,0,0,0.3);
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
-    .category-card:hover, .game-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--primary-light);
-      box-shadow: 0 8px 20px var(--primary-glow);
-    }
-
-    .category-cover-wrapper, .game-cover-wrapper {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: #06172d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .category-cover-wrapper img, .game-cover-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-    .category-card:hover .category-cover-wrapper img,
-    .game-card:hover .game-cover-wrapper img {
-      transform: scale(1.06);
-    }
-
-    .category-info-box, .game-info-box {
-      width: 100%;
-      padding: 10px 8px;
-      background: linear-gradient(180deg, rgba(14, 43, 82, 0.9) 0%, #091e38 100%);
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .category-title, .game-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #f1f5f9;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .category-subtitle {
-      font-size: 0.7rem;
-      color: #94a3b8;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 2px;
-    }
+    .category-card:hover, .game-card:hover { transform: translateY(-3px); border-color: var(--primary-light); box-shadow: 0 8px 20px var(--primary-glow); }
+    .category-cover-wrapper, .game-cover-wrapper { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #06172d; display: flex; align-items: center; justify-content: center; }
+    .category-cover-wrapper img, .game-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
+    .category-card:hover .category-cover-wrapper img, .game-card:hover .game-cover-wrapper img { transform: scale(1.06); }
+    .category-info-box, .game-info-box { width: 100%; padding: 10px 8px; background: linear-gradient(180deg, rgba(14, 43, 82, 0.9) 0%, #091e38 100%); border-top: 1px solid rgba(255, 255, 255, 0.06); }
+    .category-title, .game-title { font-size: 0.88rem; font-weight: 700; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .category-subtitle { font-size: 0.7rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
     /* Product Grid */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
+    .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; }
     .product-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
@@ -555,301 +431,51 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
       transition: all 0.25s ease;
     }
-    .product-card:hover {
-      border-color: var(--primary-light);
-      box-shadow: 0 6px 20px var(--primary-glow);
-    }
-
-    .product-image {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .product-info-title {
-      font-size: 0.95rem;
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .product-info-desc {
-      font-size: 0.72rem;
-      color: #38bdf8;
-      margin-bottom: 8px;
-    }
-
-    .product-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: auto;
-      padding-top: 6px;
-    }
-
+    .product-card:hover { border-color: var(--primary-light); box-shadow: 0 6px 20px var(--primary-glow); }
+    .product-image { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.05); }
+    .product-info-title { font-size: 0.95rem; font-weight: bold; color: #fff; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .product-info-desc { font-size: 0.72rem; color: #38bdf8; margin-bottom: 8px; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 6px; }
     .product-price-box { display: flex; flex-direction: column; }
     .product-price-usd { color: var(--primary-light); font-weight: 800; font-size: 0.92rem; }
     .product-price-syp { color: var(--accent-gold); font-size: 0.75rem; font-weight: 600; }
-
-    .product-actions-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .fav-toggle-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: transform 0.2s;
-    }
+    .product-actions-group { display: flex; align-items: center; gap: 6px; }
+    .fav-toggle-btn { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-color); border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; }
     .fav-toggle-btn:active { transform: scale(1.2); }
-
-    .buy-btn {
-      background: linear-gradient(135deg, #0284c7, #0369a1);
-      color: #fff;
-      border: 1px solid var(--primary-light);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 0.78rem;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.2s;
-    }
-    .buy-btn:hover { box-shadow: 0 0 10px var(--primary-glow); }
+    .buy-btn { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: 1px solid var(--primary-light); border-radius: 8px; padding: 6px 12px; font-size: 0.78rem; cursor: pointer; font-weight: bold; }
 
     /* Product Order View */
-    .product-detail-hero {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 10px 0 20px;
-    }
-
-    .detail-fav-btn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-
-    .detail-avatar-circle {
-      width: 92px;
-      height: 92px;
-      border-radius: 50%;
-      background: #0b2242;
-      border: 3px solid var(--primary-light);
-      box-shadow: 0 0 20px var(--primary-glow);
-      overflow: hidden;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .product-detail-hero { position: relative; display: flex; flex-direction: column; align-items: center; margin: 10px 0 20px; }
+    .detail-fav-btn { position: absolute; top: 0; right: 0; background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-color); border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; }
+    .detail-avatar-circle { width: 92px; height: 92px; border-radius: 50%; background: #0b2242; border: 3px solid var(--primary-light); box-shadow: 0 0 20px var(--primary-glow); overflow: hidden; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; }
     .detail-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-prod-title { font-size: 1.3rem; font-weight: 800; color: #fff; }
 
-    .detail-prod-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .order-form-panel {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    }
-
+    .order-form-panel { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
     .order-input-wrapper { margin-bottom: 16px; }
-    .order-input-label {
-      font-size: 0.88rem;
-      color: #cbd5e1;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 6px;
-      font-weight: 700;
-    }
-
-    .order-custom-field {
-      width: 100%;
-      background: #06172d;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: #fff;
-      font-size: 0.95rem;
-      outline: none;
-      direction: rtl;
-      transition: border-color 0.25s;
-    }
-    .order-custom-field:focus {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 10px var(--primary-glow);
-    }
-
-    .package-dropdown-btn {
-      width: 100%;
-      background: #06172d;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 14px 16px;
-      color: #fff;
-      font-size: 0.92rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.2s;
-    }
-    .package-dropdown-btn:hover { border-color: var(--primary-light); }
-
-    .package-options-container {
-      margin-top: 8px;
-      background: #06172d;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      display: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    }
+    .order-input-label { font-size: 0.88rem; color: #cbd5e1; margin-bottom: 8px; display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-weight: 700; }
+    .order-custom-field { width: 100%; background: #06172d; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 16px; color: #fff; font-size: 0.95rem; outline: none; direction: rtl; }
+    .order-custom-field:focus { border-color: var(--primary-light); box-shadow: 0 0 10px var(--primary-glow); }
+    .package-dropdown-btn { width: 100%; background: #06172d; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; color: #fff; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+    .package-options-container { margin-top: 8px; background: #06172d; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
     .package-options-container.open { display: block; }
-
-    .package-option-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-bottom: 1px solid #14355f;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+    .package-option-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #14355f; cursor: pointer; }
     .package-option-row:hover, .package-option-row.selected { background: #113463; }
     .package-opt-name { font-weight: 600; color: #f1f5f9; font-size: 0.9rem; }
     .package-opt-price { display: flex; flex-direction: column; align-items: flex-end; }
-
-    .send-request-big-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #fff;
-      border: 1px solid var(--primary-light);
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 6px 20px var(--primary-glow);
-      transition: all 0.25s;
-    }
-    .send-request-big-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(2, 132, 199, 0.6);
-    }
+    .send-request-big-btn { width: 100%; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #fff; border: 1px solid var(--primary-light); border-radius: 14px; padding: 14px; font-size: 1.05rem; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px var(--primary-glow); }
 
     /* Filter Tabs */
-    .filter-tabs-row {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin-bottom: 14px;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-    }
-    .filter-tab-pill {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: #94a3b8;
-      padding: 7px 16px;
-      border-radius: 25px;
-      font-size: 0.82rem;
-      font-weight: bold;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .filter-tab-pill.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary-light);
-      box-shadow: 0 2px 10px var(--primary-glow);
-    }
+    .filter-tabs-row { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 4px; scrollbar-width: none; }
+    .filter-tab-pill { background: var(--bg-surface); border: 1px solid var(--border-color); color: #94a3b8; padding: 7px 16px; border-radius: 25px; font-size: 0.82rem; font-weight: bold; white-space: nowrap; cursor: pointer; }
+    .filter-tab-pill.active { background: var(--primary); color: #fff; border-color: var(--primary-light); box-shadow: 0 2px 10px var(--primary-glow); }
 
     /* Payments Grid */
-    .payment-methods-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .pay-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 18px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-    .pay-card:hover {
-      border-color: var(--accent-gold);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 18px var(--accent-gold-glow);
-    }
-    .pay-card-commission {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(245, 158, 11, 0.18);
-      color: var(--accent-gold-light);
-      font-size: 0.68rem;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-weight: 700;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-    .pay-icon-circle {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #061933;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-      border: 2px solid var(--border-color);
-      overflow: hidden;
-    }
+    .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .pay-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; cursor: pointer; transition: all 0.25s; }
+    .pay-card:hover { border-color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 6px 18px var(--accent-gold-glow); }
+    .pay-card-commission { position: absolute; top: 8px; right: 8px; background: rgba(245, 158, 11, 0.18); color: var(--accent-gold-light); font-size: 0.68rem; padding: 2px 8px; border-radius: 6px; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .pay-icon-circle { width: 56px; height: 56px; border-radius: 50%; background: #061933; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; border: 2px solid var(--border-color); overflow: hidden; }
     .pay-icon-circle img { width: 100%; height: 100%; object-fit: contain; }
     .pay-card-name { font-weight: 700; font-size: 0.88rem; color: #fff; }
 
@@ -864,109 +490,26 @@
       position: relative;
       overflow: hidden;
     }
-    .vip-dashboard-card::before {
-      content: "👑";
-      position: absolute;
-      top: -10px;
-      left: 10px;
-      font-size: 80px;
-      opacity: 0.08;
-      pointer-events: none;
-    }
-    .vip-tier-badge-pill {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #000;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-weight: 900;
-      font-size: 0.85rem;
-      box-shadow: 0 2px 10px var(--accent-gold-glow);
-    }
-    .vip-progress-wrapper {
-      margin-top: 14px;
-    }
-    .vip-progress-bar-track {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 6px;
-    }
-    .vip-progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #38bdf8, #f59e0b);
-      border-radius: 10px;
-      transition: width 0.5s ease;
-    }
+    .vip-dashboard-card::before { content: "👑"; position: absolute; top: -10px; left: 10px; font-size: 80px; opacity: 0.08; pointer-events: none; }
+    .vip-tier-badge-pill { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; padding: 4px 14px; border-radius: 20px; font-weight: 900; font-size: 0.85rem; box-shadow: 0 2px 10px var(--accent-gold-glow); }
+    .vip-progress-wrapper { margin-top: 14px; }
+    .vip-progress-bar-track { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; margin-top: 6px; }
+    .vip-progress-bar-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #f59e0b); border-radius: 10px; transition: width 0.5s ease; }
 
-    .vip-tier-card {
-      background: var(--bg-surface);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.25s ease;
-      position: relative;
-    }
-    .vip-tier-card:hover { transform: translateY(-2px); }
-    .vip-tier-card.active {
-      border-color: var(--accent-gold);
-      background: linear-gradient(135deg, #12345e 0%, #091d38 100%);
-      box-shadow: 0 4px 18px var(--accent-gold-glow);
-    }
-    .vip-left-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .vip-medal-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #061933;
-      border: 1.5px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
+    .vip-tier-card { background: var(--bg-surface); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; position: relative; }
+    .vip-tier-card.active { border-color: var(--accent-gold); background: linear-gradient(135deg, #12345e 0%, #091d38 100%); box-shadow: 0 4px 18px var(--accent-gold-glow); }
+    .vip-left-info { display: flex; align-items: center; gap: 14px; }
+    .vip-medal-icon { width: 44px; height: 44px; border-radius: 50%; background: #061933; border: 1.5px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden; flex-shrink: 0; }
     .vip-medal-icon img { width: 100%; height: 100%; object-fit: contain; }
     .vip-details h4 { font-size: 0.98rem; font-weight: 800; color: #fff; margin-bottom: 3px; }
     .vip-details p { font-size: 0.8rem; color: #94a3b8; }
 
     /* Currency selector */
-    .currency-selector-row {
-      display: flex;
-      gap: 10px;
-      margin: 10px 0 16px;
-    }
-    .curr-btn {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      background: #061a33;
-      border: 1px solid var(--border-color);
-      color: #94a3b8;
-      font-size: 0.85rem;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .curr-btn.active {
-      background: var(--primary);
-      border-color: var(--primary-light);
-      color: #fff;
-      box-shadow: 0 2px 10px var(--primary-glow);
-    }
+    .currency-selector-row { display: flex; gap: 10px; margin: 10px 0 16px; }
+    .curr-btn { flex: 1; padding: 10px; border-radius: 10px; background: #061a33; border: 1px solid var(--border-color); color: #94a3b8; font-size: 0.85rem; font-weight: bold; text-align: center; cursor: pointer; }
+    .curr-btn.active { background: var(--primary); border-color: var(--primary-light); color: #fff; box-shadow: 0 2px 10px var(--primary-glow); }
 
-    /* Bottom Nav */
+    /* Bottom Nav - Customized (Wallet on Right, Home in Center) */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -974,7 +517,7 @@
       right: 0;
       height: calc(64px + var(--safe-bottom));
       padding-bottom: var(--safe-bottom);
-      background: rgba(8, 26, 51, 0.92);
+      background: rgba(8, 26, 51, 0.94);
       border-top: 1px solid var(--border-color);
       display: flex;
       align-items: center;
@@ -1001,13 +544,30 @@
     .nav-item.active { color: var(--primary-light); }
     .nav-item.active svg { fill: var(--primary-light); transform: translateY(-2px); }
 
+    .nav-center-btn {
+      position: relative;
+      top: -12px;
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 18px var(--primary-glow);
+      border: 3px solid #061325;
+      color: #fff !important;
+      flex: 0 0 50px;
+    }
+    .nav-center-btn svg { width: 26px; height: 26px; fill: #fff !important; }
+
     /* Floating Chat */
     .floating-chat-btn {
       position: fixed;
       bottom: calc(78px + var(--safe-bottom));
       left: 18px;
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: linear-gradient(135deg, #0284c7, #0ea5e9);
       color: #fff;
@@ -1021,15 +581,15 @@
       transition: transform 0.2s;
     }
     .floating-chat-btn:active { transform: scale(0.92); }
-    .floating-chat-btn svg { width: 24px; height: 24px; fill: #fff; }
+    .floating-chat-btn svg { width: 22px; height: 22px; fill: #fff; }
 
-    /* Drawer Sidebar */
+    /* Drawer Sidebar - Ultra Sleek Design */
     .drawer-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 100;
       display: none;
     }
@@ -1041,16 +601,16 @@
       bottom: 0;
       right: -340px;
       width: var(--drawer-width);
-      background: linear-gradient(180deg, #0a2142 0%, #051224 100%);
-      border-left: 1px solid var(--border-color);
+      background: linear-gradient(180deg, rgba(12, 33, 62, 0.96) 0%, rgba(5, 16, 33, 0.98) 100%);
+      border-left: 1px solid rgba(56, 189, 248, 0.2);
       z-index: 101;
       display: flex;
       flex-direction: column;
-      transition: right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: right 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
       overflow-y: auto;
       padding-top: var(--safe-top);
       padding-bottom: var(--safe-bottom);
-      box-shadow: -8px 0 30px rgba(0,0,0,0.7);
+      box-shadow: -10px 0 35px rgba(0,0,0,0.7);
     }
     .drawer-sidebar.active { right: 0; }
 
@@ -1066,7 +626,7 @@
       border: 1px solid var(--border-color);
       width: 34px;
       height: 34px;
-      border-radius: 8px;
+      border-radius: 10px;
       color: #cbd5e1;
       font-size: 18px;
       display: flex;
@@ -1075,22 +635,9 @@
       cursor: pointer;
     }
 
-    .role-badge-pill {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-    .role-user {
-      background: rgba(2, 132, 199, 0.2);
-      color: var(--primary-light);
-      border: 1px solid var(--primary);
-    }
-    .role-admin {
-      background: rgba(239, 68, 68, 0.2);
-      color: #fca5a5;
-      border: 1px solid #ef4444;
-    }
+    .role-badge-pill { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+    .role-user { background: rgba(2, 132, 199, 0.2); color: var(--primary-light); border: 1px solid var(--primary); }
+    .role-admin { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
 
     .profile-banner-card {
       padding: 20px 16px;
@@ -1098,77 +645,18 @@
       flex-direction: column;
       align-items: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, rgba(16, 48, 88, 0.6) 0%, rgba(10, 33, 66, 0.2) 100%);
+      background: linear-gradient(180deg, rgba(16, 48, 88, 0.4) 0%, rgba(10, 33, 66, 0.1) 100%);
     }
-    .avatar-container { position: relative; width: 84px; height: 84px; margin-bottom: 12px; }
-    .user-avatar-img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--accent-gold);
-      background: #0f172a;
-      box-shadow: 0 0 18px var(--accent-gold-glow);
-    }
-    .avatar-upload-badge {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      background: var(--primary);
-      border: 2px solid #091f3d;
-      color: #fff;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
-
-    .user-tag-badge {
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid var(--accent-gold);
-      color: var(--accent-gold-light);
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.72rem;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
+    .avatar-container { position: relative; width: 80px; height: 80px; margin-bottom: 10px; }
+    .user-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-gold); background: #0f172a; box-shadow: 0 0 16px var(--accent-gold-glow); }
+    .avatar-upload-badge { position: absolute; bottom: 0; right: 0; background: var(--primary); border: 2px solid #091f3d; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; }
+    .user-tag-badge { background: rgba(245, 158, 11, 0.2); border: 1px solid var(--accent-gold); color: var(--accent-gold-light); padding: 2px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: bold; margin-bottom: 4px; }
     .user-handle { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 2px; }
     .user-uid-text { font-size: 0.78rem; color: var(--primary-light); font-family: monospace; margin-bottom: 8px; }
-    .user-wallet-val {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: #34d399;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 4px 16px;
-      border-radius: 20px;
-      margin-bottom: 12px;
-    }
+    .user-wallet-val { font-size: 1.15rem; font-weight: 900; color: #34d399; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 16px; border-radius: 20px; margin-bottom: 12px; }
 
-    .profile-quick-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .quick-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+    .profile-quick-actions { display: flex; align-items: center; gap: 10px; }
+    .quick-btn { width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; }
     .quick-btn:hover { background: var(--primary); border-color: var(--primary-light); }
 
     .drawer-menu-list { list-style: none; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
@@ -1176,267 +664,74 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 16px;
+      padding: 12px 14px;
       border-radius: 12px;
       color: #cbd5e1;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid transparent;
       transition: all 0.2s;
     }
     .drawer-menu-item:hover {
       background: rgba(56, 189, 248, 0.12);
-      color: var(--primary-light);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #fff;
       transform: translateX(-4px);
     }
-    .drawer-menu-item .item-left { display: flex; align-items: center; gap: 14px; }
+    .drawer-menu-item .item-left { display: flex; align-items: center; gap: 12px; }
 
     /* Modals */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 120;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 120; display: none; align-items: center; justify-content: center; padding: 16px; }
     .modal-backdrop.active { display: flex; }
-
-    .modal-card {
-      background: #092040;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.6);
-    }
-    .modal-header {
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-color);
-      background: rgba(5, 18, 38, 0.5);
-    }
+    .modal-card { background: #092040; border: 1px solid var(--border-color); border-radius: var(--radius-lg); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 35px rgba(0,0,0,0.6); }
+    .modal-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); background: rgba(5, 18, 38, 0.5); }
     .modal-title { font-size: 1.1rem; font-weight: 800; color: #fff; }
     .modal-body { padding: 18px; }
-    .modal-footer {
-      padding: 14px 20px;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      background: rgba(5, 18, 38, 0.5);
-    }
+    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; background: rgba(5, 18, 38, 0.5); }
 
     .form-group { margin-bottom: 16px; }
     .form-label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
-    .form-control {
-      width: 100%;
-      background: #051428;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 11px 14px;
-      color: #fff;
-      font-size: 0.92rem;
-      outline: none;
-      transition: border-color 0.25s;
-    }
-    .form-control:focus {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 10px var(--primary-glow);
-    }
+    .form-control { width: 100%; background: #051428; border: 1px solid var(--border-color); border-radius: 10px; padding: 11px 14px; color: #fff; font-size: 0.92rem; outline: none; }
+    .form-control:focus { border-color: var(--primary-light); box-shadow: 0 0 10px var(--primary-glow); }
 
-    .btn {
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-    .btn:active { transform: scale(0.96); }
+    .btn { padding: 10px 18px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-primary { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; box-shadow: 0 2px 10px var(--primary-glow); }
     .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
     .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800; }
     .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
     .btn-secondary { background: #1a3c68; color: #cbd5e1; }
-    
-    .btn-google {
-      background: #ffffff;
-      color: #1e293b;
-      font-weight: 800;
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: all 0.2s;
-    }
-    .btn-google:hover { background: #f8fafc; transform: translateY(-1px); }
+    .btn-google { background: #ffffff; color: #1e293b; font-weight: 800; width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-    /* Admin Tabs & Views */
-    .admin-tab-bar {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      margin-bottom: 16px;
-      padding-bottom: 6px;
-      scrollbar-width: none;
-    }
-    .admin-tab-btn {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: #94a3b8;
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-size: 0.82rem;
-      white-space: nowrap;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    .admin-tab-btn.active {
-      background: #ef4444;
-      color: #fff;
-      border-color: #ef4444;
-      box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
-    }
-
-    .admin-list-item {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .admin-list-item:hover { border-color: var(--primary-light); }
-
-    .admin-price-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-    }
-    .admin-price-table th, .admin-price-table td {
-      padding: 8px;
-      border: 1px solid #1a3c68;
-      text-align: center;
-    }
+    /* Admin Tabs & Subviews */
+    .admin-tab-bar { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 16px; padding-bottom: 6px; scrollbar-width: none; }
+    .admin-tab-btn { background: var(--bg-surface); border: 1px solid var(--border-color); color: #94a3b8; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; white-space: nowrap; cursor: pointer; font-weight: 600; }
+    .admin-tab-btn.active { background: #ef4444; color: #fff; border-color: #ef4444; box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4); }
+    .admin-list-item { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+    .admin-price-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .admin-price-table th, .admin-price-table td { padding: 8px; border: 1px solid #1a3c68; text-align: center; }
     .admin-price-table th { background: #071930; color: #94a3b8; font-size: 0.8rem; }
 
     /* AI Chat box */
-    .ai-chat-box {
-      background: #06172d;
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      height: 380px;
-    }
-    .ai-chat-messages {
-      flex: 1;
-      padding: 14px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .ai-msg {
-      max-width: 85%;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 0.88rem;
-      line-height: 1.5;
-    }
-    .ai-msg-bot {
-      background: #0d284f;
-      color: #f1f5f9;
-      align-self: flex-start;
-      border: 1px solid #1a4277;
-    }
-    .ai-msg-user {
-      background: #0284c7;
-      color: #fff;
-      align-self: flex-end;
-    }
-    .ai-chat-input-row {
-      display: flex;
-      gap: 8px;
-      padding: 10px;
-      background: #092040;
-      border-top: 1px solid #1a3c68;
-    }
-    .ai-chat-input-row input {
-      flex: 1;
-      background: #051428;
-      border: 1px solid #1a3c68;
-      border-radius: 8px;
-      padding: 8px 12px;
-      color: #fff;
-      outline: none;
-    }
+    .ai-chat-box { background: #06172d; border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; height: 380px; }
+    .ai-chat-messages { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .ai-msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 0.88rem; line-height: 1.5; }
+    .ai-msg-bot { background: #0d284f; color: #f1f5f9; align-self: flex-start; border: 1px solid #1a4277; }
+    .ai-msg-user { background: #0284c7; color: #fff; align-self: flex-end; }
+    .ai-chat-input-row { display: flex; gap: 8px; padding: 10px; background: #092040; border-top: 1px solid #1a3c68; }
+    .ai-chat-input-row input { flex: 1; background: #051428; border: 1px solid #1a3c68; border-radius: 8px; padding: 8px 12px; color: #fff; outline: none; }
 
     .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: bold; display: inline-block; }
     .badge-success { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
     .badge-warning { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
     .badge-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
-    .stat-dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin: 14px 0;
-    }
-    .stat-card-box {
-      background: #081d38;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-    }
+    .stat-dashboard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0; }
+    .stat-card-box { background: #081d38; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: center; }
     .stat-card-val { font-size: 1.15rem; font-weight: 800; color: var(--primary-light); margin-top: 4px; }
-
-    .copyable-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #051428;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 10px 14px;
-      margin-top: 6px;
-    }
-    .copyable-text {
-      font-family: monospace;
-      font-size: 0.95rem;
-      color: var(--accent-gold-light);
-      user-select: all;
-      word-break: break-all;
-    }
+    .copyable-row { display: flex; align-items: center; justify-content: space-between; background: #051428; border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 14px; margin-top: 6px; }
+    .copyable-text { font-family: monospace; font-size: 0.95rem; color: var(--accent-gold-light); user-select: all; word-break: break-all; }
     .empty-state { text-align: center; padding: 40px 14px; color: #94a3b8; }
     .empty-state-icon { font-size: 40px; margin-bottom: 8px; }
     .hidden-file-input { display: none; }
@@ -1444,7 +739,7 @@
 </head>
 <body>
 
-  <!-- Instant Dynamic Welcome / Splash Screen -->
+  <!-- Welcome / Splash Screen -->
   <div id="splashScreen">
     <div class="splash-logo-circle" id="splashLogoWrap">
       <span style="font-size: 44px;">⚡</span>
@@ -1454,21 +749,17 @@
     <div class="splash-loader"></div>
   </div>
 
-  <!-- Top App Header -->
+  <!-- Top App Header (Auto cash shifted near Logo on Right, Balance on Left) -->
   <header class="top-header">
-    <!-- Right side: Logo Click opens Drawer -->
-    <div class="brand-section" onclick="toggleDrawer(true)" title="تىزىملىكنى ئېچىش (Menu)">
+    <div class="brand-section-right" onclick="toggleDrawer(true)" title="تىزىملىكنى ئېچىش (Menu)">
       <div class="brand-logo" id="siteLogo">
         <span>⚡</span>
       </div>
+      <span class="brand-name-title" id="siteTitleDisplay">Auto cash</span>
     </div>
-
-    <!-- Center: Brand Name -->
-    <div class="header-center-title" id="siteTitleDisplay">Auto cash</div>
     
-    <!-- Left side: Balance and User Avatar/Login -->
     <div class="header-actions-left">
-      <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى دوللار/لىرا ئالماشتۇرۇش">
+      <div class="balance-chip" onclick="toggleCurrencyMode()" title="پۇل بىرلىكىنى ئالماشتۇرۇش">
         <span class="plus-symbol" onclick="event.stopPropagation(); checkAuthAndAction(() => switchView('view-add-balance'));">+</span>
         <span id="headerBalance">$ 0.00</span>
       </div>
@@ -1502,7 +793,6 @@
             <div class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')" style="flex:1; text-align:center; padding:10px; font-weight:bold; cursor:pointer; color:#94a3b8;">يېڭى ھېسابات ئېچىش</div>
           </div>
 
-          <!-- Forms Area -->
           <div id="authLoginForm">
             <div class="form-group">
               <label class="form-label">ئىشلەتكۈچى نامى، UID ياكى ئېلخەت (Email)</label>
@@ -1548,7 +838,6 @@
             </button>
           </div>
 
-          <!-- Beautiful Google Login at Bottom -->
           <div style="display: flex; align-items: center; margin: 20px 0 14px; gap: 10px;">
             <div style="flex: 1; height: 1px; background: #1a3c68;"></div>
             <span style="font-size: 0.78rem; color: #94a3b8;">ياكى تېز كىرىش</span>
@@ -1564,6 +853,56 @@
 
     <!-- VIEW 1: HOME -->
     <section id="view-home" class="page-view">
+      
+      <!-- ADMIN FOLDER HUB ON HOME PAGE (Visible only for admin) -->
+      <div class="admin-home-hub" id="adminHomeHub">
+        <div class="admin-hub-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size: 20px;">📂</span>
+            <strong style="color: #fca5a5; font-size: 0.95rem;">باشقۇرۇش مەركىزى (Admin Hub)</strong>
+          </div>
+          <span class="badge badge-danger">ھۆججەت تەڭشەكلىرى</span>
+        </div>
+        <div class="admin-hub-grid">
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-orders')">
+            <div class="admin-folder-icon">📋</div>
+            <div class="admin-folder-title">زاكازلار</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-deposits')">
+            <div class="admin-folder-icon">📥</div>
+            <div class="admin-folder-title">پۇل قاچىلاش</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-users')">
+            <div class="admin-folder-icon">👥</div>
+            <div class="admin-folder-title">ئابونتلار</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-vip-rates')">
+            <div class="admin-folder-icon">👑</div>
+            <div class="admin-folder-title">VIP باھا</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-prods')">
+            <div class="admin-folder-icon">🎁</div>
+            <div class="admin-folder-title">مەھسۇلاتلار</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-cats')">
+            <div class="admin-folder-icon">📁</div>
+            <div class="admin-folder-title">تۈرلەر</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-settings')">
+            <div class="admin-folder-icon">💱</div>
+            <div class="admin-folder-title">لىرا نىسبىتى</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-payments')">
+            <div class="admin-folder-icon">💳</div>
+            <div class="admin-folder-title">قاچىلاش يولى</div>
+          </div>
+          <div class="admin-folder-card" onclick="openAdminDirectSection('admin-ai')">
+            <div class="admin-folder-icon">🤖</div>
+            <div class="admin-folder-title">ئالىي AI</div>
+          </div>
+        </div>
+      </div>
+
       <div class="banner-carousel">
         <div class="carousel-track" id="carouselTrack"></div>
         <div class="carousel-indicators" id="carouselIndicators"></div>
@@ -1738,13 +1077,42 @@
       <div id="ordersList"></div>
     </section>
 
-    <!-- VIEW 5: ADD BALANCE -->
+    <!-- VIEW 5: WALLET & BALANCE (With User Account Info & Stats Embedded) -->
     <section id="view-add-balance" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 14px;">
         <h2 class="section-title" style="font-size: 1.2rem;">
-          <span>💰</span> سومما قاچىلاش
+          <span>👛</span> ھەميان & سومما قاچىلاش
         </h2>
         <span class="user-wallet-val" id="rechargePageBalance">$ 0.00</span>
+      </div>
+
+      <!-- Account Stats embedded in Wallet Page -->
+      <div style="background: linear-gradient(135deg, #0d274c 0%, #081d38 100%); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <img id="walletUserAvatar" src="" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold);">
+          <div>
+            <div style="font-weight: 800; color: #fff; font-size: 1rem;" id="walletUsername">مېھمان</div>
+            <div style="font-size: 0.78rem; color: var(--primary-light); font-family: monospace;" id="walletUidText">UID: #—</div>
+          </div>
+        </div>
+        <div class="stat-dashboard-grid" style="margin: 0;">
+          <div class="stat-card-box">
+            <div style="color:#94a3b8; font-size:0.75rem;">ئەزالىق دەرىجىسى</div>
+            <div class="stat-card-val" id="walletTierVal" style="color:#fbbf24; font-size: 1rem;">مىس</div>
+          </div>
+          <div class="stat-card-box">
+            <div style="color:#94a3b8; font-size:0.75rem;">جەمئىي زاكاس</div>
+            <div class="stat-card-val" id="walletTotalOrdersVal" style="font-size: 1rem;">0</div>
+          </div>
+          <div class="stat-card-box">
+            <div style="color:#94a3b8; font-size:0.75rem;">جەمئىي قاچىلاش</div>
+            <div class="stat-card-val" id="walletTotalDepositsVal" style="font-size: 1rem;">0</div>
+          </div>
+          <div class="stat-card-box">
+            <div style="color:#94a3b8; font-size:0.75rem;">جەمئىي ئىستېمال</div>
+            <div class="stat-card-val" id="walletTotalSpentVal" style="font-size: 1rem; color: #34d399;">$ 0.00</div>
+          </div>
+        </div>
       </div>
 
       <div style="background: rgba(2, 132, 199, 0.12); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #cbd5e1;">
@@ -1753,7 +1121,7 @@
       </div>
 
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-        تۆۋەندىكى قاچىلاش ئۇسۇللىرىنىڭ بىرىنى تاللاپ، دوللار ياكى سۈرىيە لىراسى بويىچە ئاسانلا ھېساباتىڭىزغا سومما قاچىلاڭ:
+        تۆۋەندىكى قاچىلاش ئۇسۇللىرىنىڭ بىرىنى تاللاپ سومما قاچىلاڭ:
       </p>
 
       <div class="payment-methods-grid" id="rechargeMethodsGrid"></div>
@@ -1767,7 +1135,6 @@
         </h2>
       </div>
 
-      <!-- Luxury VIP Card -->
       <div class="vip-dashboard-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <div>
@@ -1797,29 +1164,29 @@
       <div id="vipTiersList"></div>
     </section>
 
-    <!-- VIEW 7: ADMIN -->
+    <!-- VIEW 7: ADMIN CENTER -->
     <section id="view-admin" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 14px;">
         <h2 class="section-title" style="font-size: 1.2rem; color: #f87171;">
-          <span>⚙️</span> باشقۇرۇش مەركىزى
+          <span>⚙️</span> باشقۇرۇش مەركىزى (Admin Center)
         </h2>
-        <span class="badge badge-danger">Admin Panel</span>
+        <button class="header-back-btn" onclick="switchView('view-home')">‹ باش بەتكە قايتىش</button>
       </div>
 
       <div class="admin-tab-bar">
-        <button class="admin-tab-btn active" onclick="switchAdminTab('admin-orders', this)">📋 زاكازلار</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-deposits', this)">📥 سومما قاچىلاش</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-users', this)">👥 بارلىق ئابونتلار</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-vip-rates', this)">👑 VIP چېگىرمە & باھا</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-cats', this)">📁 تۈرلەر (CRUD)</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-payments', this)">💳 پۇل قاچىلاش شەكلى</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-settings', this)">🛠️ بېكەت & لىرا نىسبىتى</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-welcome', this)">🎉 قارشى ئېلىش تەڭشىكى</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-prods', this)">🎁 مەھسۇلات & باھا</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-banners', this)">🖼️ سىيرىلما رەسىملەر</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-vip-logos', this)">👑 VIP لوگولار</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-texts', this)">✏️ توربەت تېكىستلىرى</button>
-        <button class="admin-tab-btn" onclick="switchAdminTab('admin-ai', this)">🤖 ئالىي AI ياردەمچىسى</button>
+        <button class="admin-tab-btn active" id="tabBtn-admin-orders" onclick="switchAdminTab('admin-orders', this)">📋 زاكازلار</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-deposits" onclick="switchAdminTab('admin-deposits', this)">📥 سومما قاچىلاش</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-users" onclick="switchAdminTab('admin-users', this)">👥 بارلىق ئابونتلار</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-vip-rates" onclick="switchAdminTab('admin-vip-rates', this)">👑 VIP چېگىرمە & باھا</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-cats" onclick="switchAdminTab('admin-cats', this)">📁 تۈرلەر (CRUD)</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-payments" onclick="switchAdminTab('admin-payments', this)">💳 پۇل قاچىلاش شەكلى</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-settings" onclick="switchAdminTab('admin-settings', this)">🛠️ بېكەت & لىرا نىسبىتى</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-welcome" onclick="switchAdminTab('admin-welcome', this)">🎉 قارشى ئېلىش تەڭشىكى</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-prods" onclick="switchAdminTab('admin-prods', this)">🎁 مەھسۇلات & باھا</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-banners" onclick="switchAdminTab('admin-banners', this)">🖼️ سىيرىلما رەسىملەر</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-vip-logos" onclick="switchAdminTab('admin-vip-logos', this)">👑 VIP لوگولار</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-texts" onclick="switchAdminTab('admin-texts', this)">✏️ توربەت تېكىستلىرى</button>
+        <button class="admin-tab-btn" id="tabBtn-admin-ai" onclick="switchAdminTab('admin-ai', this)">🤖 ئالىي AI ياردەمچىسى</button>
       </div>
 
       <div id="admin-orders" class="admin-subview">
@@ -1846,7 +1213,6 @@
         <div id="adminUsersList"></div>
       </div>
 
-      <!-- VIP Rates Customization Tab -->
       <div id="admin-vip-rates" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 14px;">👑 VIP چېگىرمە پىرسەنتى & تەلەپ سوممىسى تەڭشىكى</h4>
         <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">بۇ يەردە ھەر بىر دەرىجىدىكى چېگىرمە پىرسەنتىنى ئۆزگەرتەلەيسىز:</p>
@@ -1964,7 +1330,7 @@
 
   </main>
 
-  <!-- QUICK ACTION / BIG VIEW MODAL WITH 1-CLICK COPY -->
+  <!-- QUICK ACTION / VIEW MODAL -->
   <div class="modal-backdrop" id="modalAdminQuickAction">
     <div class="modal-card" style="border: 2px solid #38bdf8; max-width: 520px;">
       <div class="modal-header" style="background: #061f42;">
@@ -1976,7 +1342,7 @@
     </div>
   </div>
 
-  <!-- USER STATS & DASHBOARD MODAL -->
+  <!-- USER STATS & DASHBOARD MODAL (Only here: Edit info, Logout, Switch account) -->
   <div class="modal-backdrop" id="modalUserStatsDashboard">
     <div class="modal-card">
       <div class="modal-header">
@@ -2026,7 +1392,7 @@
     </div>
   </div>
 
-  <!-- Drawer Sidebar -->
+  <!-- Drawer Sidebar (Sleek Modern Glass Design) -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
   <aside class="drawer-sidebar" id="drawerSidebar">
     <div class="drawer-header">
@@ -2046,7 +1412,7 @@
       </div>
       <div class="user-uid-text" id="sidebarUidText">UID: #مېھمان</div>
       
-      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;" title="پۇل بىرلىكىنى دوللار/لىرا ئالماشتۇرۇش">$ 0.00</div>
+      <div class="user-wallet-val" id="sidebarBalance" onclick="toggleCurrencyMode()" style="cursor: pointer;" title="پۇل بىرلىكىنى ئالماشتۇرۇش">$ 0.00</div>
 
       <div class="profile-quick-actions">
         <div class="quick-btn" title="سومما قاچىلاش" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">💲</div>
@@ -2059,6 +1425,9 @@
       <li class="drawer-menu-item" onclick="switchView('view-home'); toggleDrawer(false);">
         <div class="item-left"><span>🏠</span><span>باش بەت</span></div>
       </li>
+      <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">
+        <div class="item-left"><span>👛</span><span>ھەميان & قاچىلاش</span></div>
+      </li>
       <li class="drawer-menu-item" onclick="toggleCurrencyMode();">
         <div class="item-left"><span>💱</span><span>پۇل بىرلىكى: <strong id="sidebarCurrencyStateText" style="color: #38bdf8;">دوللار ($)</strong></span></div>
       </li>
@@ -2068,17 +1437,14 @@
       <li class="drawer-menu-item" onclick="switchView('view-favorites'); toggleDrawer(false);">
         <div class="item-left"><span>❤️</span><span>ياقتۇرغانلىرىم</span></div>
       </li>
-      <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">
-        <div class="item-left"><span>💳</span><span>سومما قاچىلاش</span></div>
-      </li>
       <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-orders'); toggleDrawer(false); });">
         <div class="item-left"><span>📋</span><span>مېنىڭ تەلەپلىرىم</span></div>
       </li>
       <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-payments'); toggleDrawer(false); });">
-        <div class="item-left"><span>👛</span><span>پۇل تۆلەشلىرىم</span></div>
+        <div class="item-left"><span>💳</span><span>پۇل تۆلەشلىرىم</span></div>
       </li>
       <li class="drawer-menu-item" id="adminMenuEntry" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444;" onclick="switchView('view-admin'); toggleDrawer(false);">
-        <div class="item-left"><span>🛠️</span><span style="color: #fca5a5; font-weight: bold;">باشقۇرۇش مەركىزى</span></div>
+        <div class="item-left"><span>🛠️</span><span style="color: #fca5a5; font-weight: bold;">باشقۇرۇش مەركىزى (Admin)</span></div>
       </li>
       <li class="drawer-menu-item" style="color: #f87171; margin-top: 8px;" id="sidebarLogoutItem" onclick="logoutUser();">
         <div class="item-left"><span>🚪</span><span id="sidebarLogoutText">ھېساباتتىن چېكىنىش</span></div>
@@ -2086,24 +1452,28 @@
     </ul>
   </aside>
 
-  <!-- Bottom Nav -->
+  <!-- Bottom Nav: Wallet on the RIGHT, Home in the CENTER -->
   <nav class="bottom-nav">
-    <div class="nav-item active" id="nav-home" onclick="switchView('view-home')">
-      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      <span>باش بەت</span>
-    </div>
-    <div class="nav-item" id="nav-favorites" onclick="switchView('view-favorites')">
-      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-      <span>ياقتۇرغانلار</span>
-    </div>
     <div class="nav-item" id="nav-add-balance" onclick="checkAuthAndAction(() => switchView('view-add-balance'))">
       <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
       <span>ھەميان</span>
     </div>
+    
+    <div class="nav-item" id="nav-favorites" onclick="switchView('view-favorites')">
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span>ياقتۇرغانلار</span>
+    </div>
+
+    <!-- Home Button in Center -->
+    <div class="nav-item nav-center-btn active" id="nav-home" onclick="switchView('view-home')">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </div>
+
     <div class="nav-item" id="nav-orders" onclick="checkAuthAndAction(() => switchView('view-orders'))">
       <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
       <span>تەلەپلىرىم</span>
     </div>
+
     <div class="nav-item" id="nav-vip" onclick="switchView('view-vip')">
       <svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg>
       <span>دەرىجە</span>
@@ -2134,7 +1504,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">تۈر رەسىمىنىڭ ئۇلانمىسى</label>
-          <input type="text" id="adminCatImageUrlInput" class="form-control" placeholder="بوش قالسا سۈكۈتتىكى چىرايلىق سىنبەلگە چىقىدۇ">
+          <input type="text" id="adminCatImageUrlInput" class="form-control">
         </div>
       </div>
       <div class="modal-footer">
@@ -2351,7 +1721,7 @@
 
   <!-- JAVASCRIPT REALTIME REST ENGINE -->
   <script>
-    const STORAGE_KEY = "autocash_app_state_v23";
+    const STORAGE_KEY = "autocash_app_state_v24";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
@@ -2492,12 +1862,9 @@
       return adminSection && adminSection.contains(activeEl) && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.tagName === "SELECT");
     }
 
-    /* VIP Auto Calculation Logic */
     function evaluateUserTier(user) {
       if (!user) return "bronze";
-      // قاچىلانغان ياكى سەرپ قىلىنغان جەمئىي سومما
       const metric = Math.max(parseFloat(user.totalSpent || 0), parseFloat(user.balance || 0));
-      
       const tiers = state.siteSettings.vipTiers;
       const dTier = tiers.find(t => t.id === 'diamond') || { req: 1000 };
       const gTier = tiers.find(t => t.id === 'gold') || { req: 500 };
@@ -2513,7 +1880,7 @@
       let changed = false;
       Object.keys(state.users).forEach(k => {
         const u = state.users[k];
-        if (u && !u.manualTier) { // ئەگەر باشقۇرغۇچى ئۆزى قولدا بېكىتمىگەن بولسا ئاپتوماتىك دەرىجىگە ئايرىيدۇ
+        if (u && !u.manualTier) {
           const newTier = evaluateUserTier(u);
           if (u.tier !== newTier) {
             u.tier = newTier;
@@ -2745,6 +2112,8 @@
     function renderAll() {
       applySiteBranding();
       renderHeaderAndProfile();
+      renderWalletPageEmbeddedInfo();
+      renderAdminHomeHub();
       renderCarousel();
       renderCategories();
       renderProducts();
@@ -2791,7 +2160,53 @@
       }
     }
 
-    /* AUTHENTICATION & EMAIL/GOOGLE LOGIN */
+    /* RENDER EMBEDDED ACCOUNT INFO IN WALLET VIEW */
+    function renderWalletPageEmbeddedInfo() {
+      const u = getCurrentUser();
+      if (!u) {
+        document.getElementById("walletUsername").innerText = "مېھمان ئابونت";
+        document.getElementById("walletUidText").innerText = "UID: #مېھمان";
+        document.getElementById("walletUserAvatar").src = fastIcons.userDefaultAvatar;
+        document.getElementById("walletTierVal").innerText = "مېھمان";
+        document.getElementById("walletTotalOrdersVal").innerText = "0";
+        document.getElementById("walletTotalDepositsVal").innerText = "0";
+        document.getElementById("walletTotalSpentVal").innerText = "$ 0.00";
+        return;
+      }
+
+      document.getElementById("walletUsername").innerText = u.username;
+      document.getElementById("walletUidText").innerText = "UID: #" + u.uid + (u.email ? " | ✉️ " + u.email : "");
+      document.getElementById("walletUserAvatar").src = u.avatar || fastIcons.userDefaultAvatar;
+
+      const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || state.siteSettings.vipTiers[0];
+      document.getElementById("walletTierVal").innerText = currentTierObj.name;
+
+      const myOrders = getOrdersList().filter(o => o.userUid === u.uid);
+      const myDeposits = getPaymentsList().filter(p => p.userUid === u.uid);
+
+      document.getElementById("walletTotalOrdersVal").innerText = myOrders.length;
+      document.getElementById("walletTotalDepositsVal").innerText = myDeposits.length;
+      document.getElementById("walletTotalSpentVal").innerText = formatCurrency(u.totalSpent || 0);
+    }
+
+    /* RENDER ADMIN HUB ON HOME PAGE */
+    function renderAdminHomeHub() {
+      const hub = document.getElementById("adminHomeHub");
+      const u = getCurrentUser();
+      if (u && u.role === "admin") {
+        hub.classList.add("active");
+      } else {
+        hub.classList.remove("active");
+      }
+    }
+
+    function openAdminDirectSection(tabId) {
+      switchView("view-admin");
+      const targetBtn = document.getElementById(`tabBtn-${tabId}`);
+      switchAdminTab(tabId, targetBtn);
+    }
+
+    /* AUTHENTICATION & LOGIN */
     function switchAuthTab(tab) {
       document.getElementById('tabBtnLogin').classList.toggle('active', tab === 'login');
       document.getElementById('tabBtnRegister').classList.toggle('active', tab === 'register');
@@ -3060,7 +2475,6 @@
       });
     }
 
-    /* Only Admin Can Approve/Reject */
     function openAdminActionModal(type, itemId) {
       const modalTitle = document.getElementById("quickActionModalTitle");
       const content = document.getElementById("quickActionContent");
@@ -3264,7 +2678,7 @@
       });
     }
 
-    /* ADMIN: USERS (With Tier Selector) */
+    /* ADMIN: USERS */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -3301,7 +2715,6 @@
                 قالدۇقى: ${formatDualCurrency(u.balance)}
               </div>
               
-              <!-- VIP Tier Controller -->
               <div style="margin-top: 6px; display:flex; align-items:center; gap:6px;">
                 <label style="font-size:0.75rem; color:#fbbf24;">👑 دەرىجىسى:</label>
                 <select style="background:#071a33; color:#fff; border:1px solid #1a3c68; border-radius:6px; font-size:0.75rem; padding:2px 6px;" onchange="adminChangeUserTier('${u.uid}', this.value)">
@@ -3327,7 +2740,7 @@
       const u = state.users["user_" + uid];
       if (!u) return;
       u.tier = newTier;
-      u.manualTier = true; // باشقۇرغۇچى مەخسۇس ئۆزگەرتتى
+      u.manualTier = true;
       saveState();
       alert(`ئابونت ${u.username} نىڭ ئەزالىق دەرىجىسى ${newTier} گە ئۆزگەرتىلدى.`);
     }
@@ -3336,7 +2749,7 @@
       const u = state.users["user_" + uid];
       if (!u) return;
 
-      if (confirm(`ئابونت ${u.username} (UID: #${uid}) نى راستىنلا يۇيامسىز (ئۆچۈرەمسىز)؟`)) {
+      if (confirm(`ئابونت ${u.username} (UID: #${uid}) نى راستىنلا يۇيامسىز؟`)) {
         delete state.users["user_" + uid];
 
         await fetch(`${FIREBASE_URL}/users/user_${uid}.json`, {
@@ -3364,7 +2777,7 @@
         }
         u.balance = parseFloat(newBalance.toFixed(3));
         u.totalSpent = Math.max(u.totalSpent, u.balance);
-        if (!u.manualTier) u.tier = evaluateUserTier(u); // دەرىجىنى ئاپتوماتىك كۆتۈرۈش
+        if (!u.manualTier) u.tier = evaluateUserTier(u);
         state.users["user_" + uid] = u;
         saveState();
         alert(`ئابونت ${u.username} نىڭ قالدۇقى يېڭىلاندى:\n${formatDualCurrency(u.balance)}`);
@@ -4213,7 +3626,7 @@
       if (u) {
         u.balance += parseFloat(p.amount);
         u.totalSpent = Math.max(u.totalSpent || 0, u.balance);
-        if (!u.manualTier) u.tier = evaluateUserTier(u); // كۆتۈرۈلۈش تەستىقلاندى
+        if (!u.manualTier) u.tier = evaluateUserTier(u);
         p.status = 'approved';
         p.processedAt = getCurrentTimeString();
         state.payments[payId] = p;
@@ -4286,7 +3699,7 @@
       saveState();
     }
 
-    /* VIP TIERS (Automatic tier progress) */
+    /* VIP TIERS */
     function renderVipTiersPage() {
       const container = document.getElementById("vipTiersList");
       if (!container) return;
@@ -4637,7 +4050,7 @@
         const num = c.match(/(\d+(\.\d+)?)/);
         if (num) {
           state.siteSettings.syrianPoundRate = parseFloat(num[0]);
-          return `💱 **سۈرىيە لىرا پېرېۋوت نىسبىتى 1 $ = ${state.siteSettings.syrianPoundRate} لىرا قىلىپ بوشلۇققا تەكشىلەندى.**`;
+          return `💱 **سۈرىيە لىرا پېرېۋوت نىسبىتى 1 $ = ${state.siteSettings.syrianPoundRate} لىرا قىلىپ تەڭشەلدى.**`;
         }
       }
 
@@ -4659,7 +4072,7 @@
             });
           }
         });
-        return `📉 **بارلىق مەھسۇلات بولاق باھالىرى دەل ۋاقتىدا %${percent} ${isReduce ? 'چۈشۈرۈلدى' : 'ئۆستۈرۈلدى'}.**`;
+        return `📉 **بارلىق مەھسۇلات باھالىرى %${percent} ${isReduce ? 'چۈشۈرۈلدى' : 'ئۆستۈرۈلدى'}.**`;
       }
 
       if (c.includes("دوللار") || c.includes("قالدۇق")) {
@@ -4670,15 +4083,14 @@
         target.totalSpent = Math.max(target.totalSpent || 0, target.balance);
         if (!target.manualTier) target.tier = evaluateUserTier(target);
         state.users["user_" + target.uid] = target;
-        return `💰 **ئابونت ${target.username} غا +${amt} $ پۇل تەڭشەلدى.**`;
+        return `💰 **ئابونت ${target.username} غا +${amt} $ پۇل قوشۇلدى.**`;
       }
 
-      return "🤖 **بۇيرۇقىڭىز پۈتۈن بوشلۇقتە ئىجرا قىلىندى!**";
+      return "🤖 **بۇيرۇقىڭىز ئىجرا قىلىندى!**";
     }
 
     /* ACCOUNT DETAILS */
     let tempSelectedAvatarDataUrl = null;
-
     function openAccountDetailsModal() {
       const u = getCurrentUser();
       if (!u) return;
@@ -4736,7 +4148,7 @@
       }
     }
 
-    /* NAVIGATION (Fixed JS Bug) */
+    /* NAVIGATION */
     function switchView(viewId) {
       document.querySelectorAll(".page-view").forEach(el => el.style.display = "none");
       const target = document.getElementById(viewId);
