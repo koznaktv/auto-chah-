@@ -362,7 +362,7 @@
     }
     .slide-title { font-size: 1.15rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
     .carousel-indicators { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 3; }
-    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transition: all 0.3s ease; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); cursor: pointer; transition: all 0.3s ease; }
     .carousel-dot.active { width: 22px; border-radius: 6px; background: var(--primary-light); box-shadow: 0 0 8px var(--primary-light); }
 
     /* Announcement */
@@ -692,7 +692,6 @@
     }
     .drawer-menu-item .item-left { display: flex; align-items: center; gap: 12px; }
 
-    /* Modals */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 120; display: none; align-items: center; justify-content: center; padding: 16px; }
     .modal-backdrop.active { display: flex; }
     .modal-card { background: #092040; border: 1px solid var(--border-color); border-radius: var(--radius-lg); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 35px rgba(0,0,0,0.6); }
@@ -714,7 +713,6 @@
     .btn-secondary { background: #1a3c68; color: #cbd5e1; }
     .btn-google { background: #ffffff; color: #1e293b; font-weight: 800; width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-    /* Categorized Admin Navigation */
     .admin-category-selector-bar {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -777,7 +775,6 @@
     .admin-price-table th, .admin-price-table td { padding: 8px; border: 1px solid #1a3c68; text-align: center; }
     .admin-price-table th { background: #071930; color: #94a3b8; font-size: 0.8rem; }
 
-    /* AI Chat box */
     .ai-chat-box { background: #06172d; border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; height: 380px; }
     .ai-chat-messages { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
     .ai-msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 0.88rem; line-height: 1.5; }
@@ -800,7 +797,6 @@
     .empty-state-icon { font-size: 40px; margin-bottom: 8px; }
     .hidden-file-input { display: none; }
 
-    /* Easy Package Tool Box */
     .package-tool-segmented {
       display: flex;
       background: #051428;
@@ -1074,7 +1070,7 @@
       <div class="product-detail-hero">
         <button class="detail-fav-btn" id="productPageFavBtn" onclick="toggleCurrentProductFav()">🤍</button>
         <div class="detail-avatar-circle">
-          <img id="productPageAvatarImg" src="" alt="Product Icon">
+          <img id="productPageAvatarImg" src="" alt="Product Icon" onerror="this.src=fastIcons.gameCover">
         </div>
         <h2 class="detail-prod-title" id="productPageTitle">~ روبوتى PUBG</h2>
       </div>
@@ -1209,7 +1205,7 @@
 
       <div style="background: linear-gradient(135deg, #0d274c 0%, #081d38 100%); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-          <img id="walletUserAvatar" src="" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold);">
+          <img id="walletUserAvatar" src="" onerror="this.src=fastIcons.userDefaultAvatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold);">
           <div>
             <div style="font-weight: 800; color: #fff; font-size: 1rem;" id="walletUsername">مېھمان</div>
             <div style="font-size: 0.78rem; color: var(--primary-light); font-family: monospace;" id="walletUidText">UID: #—</div>
@@ -1293,7 +1289,6 @@
         <button class="header-back-btn" onclick="switchView('view-home')">‹ باش بەتكە قايتىش</button>
       </div>
 
-      <!-- 4 High-Level Master Category Sections -->
       <div class="admin-category-selector-bar">
         <div class="admin-master-cat-btn active" id="mcat-ops" onclick="selectAdminMasterCat('cat-ops')">
           <span>📋</span> <span>زاكاز ۋە نەق پۇل</span>
@@ -1309,13 +1304,11 @@
         </div>
       </div>
 
-      <!-- Group 1: Ops (Orders & Deposits) -->
       <div class="admin-sub-tab-bar" id="subtabs-cat-ops">
         <button class="admin-tab-btn active" id="tabBtn-admin-orders" onclick="switchAdminTab('admin-orders', this)">📋 زاكازلار</button>
         <button class="admin-tab-btn" id="tabBtn-admin-deposits" onclick="switchAdminTab('admin-deposits', this)">📥 سومما قاچىلاش ئىلتىماسلىرى</button>
       </div>
 
-      <!-- Group 2: Users & Finance (Users, VIP Tiers, Lira Rate, VIP Badges) -->
       <div class="admin-sub-tab-bar" id="subtabs-cat-users-finance" style="display: none;">
         <button class="admin-tab-btn" id="tabBtn-admin-users" onclick="switchAdminTab('admin-users', this)">👥 بارلىق ئابونتلار</button>
         <button class="admin-tab-btn" id="tabBtn-admin-vip-rates" onclick="switchAdminTab('admin-vip-rates', this)">👑 VIP چېگىرمە & باھا</button>
@@ -1323,13 +1316,11 @@
         <button class="admin-tab-btn" id="tabBtn-admin-vip-logos" onclick="switchAdminTab('admin-vip-logos', this)">🎖️ VIP دەرىجە بەلگىلىرى</button>
       </div>
 
-      <!-- Group 3: Products (Products, Categories) -->
       <div class="admin-sub-tab-bar" id="subtabs-cat-products" style="display: none;">
         <button class="admin-tab-btn" id="tabBtn-admin-prods" onclick="switchAdminTab('admin-prods', this)">🎁 بارلىق مەھسۇلات & باھالار</button>
         <button class="admin-tab-btn" id="tabBtn-admin-cats" onclick="switchAdminTab('admin-cats', this)">📁 تۈرلەرنى باشقۇرۇش</button>
       </div>
 
-      <!-- Group 4: System (Payments, Banners, Welcome, Texts, AI) -->
       <div class="admin-sub-tab-bar" id="subtabs-cat-system" style="display: none;">
         <button class="admin-tab-btn" id="tabBtn-admin-payments" onclick="switchAdminTab('admin-payments', this)">💳 قاچىلاش شەكىللىرى</button>
         <button class="admin-tab-btn" id="tabBtn-admin-banners" onclick="switchAdminTab('admin-banners', this)">🖼️ سىيرىلما ئېلانلار</button>
@@ -1338,7 +1329,6 @@
         <button class="admin-tab-btn" id="tabBtn-admin-ai" onclick="switchAdminTab('admin-ai', this)">🤖 ئالىي AI ياردەمچىسى</button>
       </div>
 
-      <!-- Subviews -->
       <div id="admin-orders" class="admin-subview">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h4 style="color: #fff;">بارلىق كەلگەن زاكازلار</h4>
@@ -1405,7 +1395,6 @@
 
       <div id="admin-settings" class="admin-subview" style="display: none;">
         <h4 style="color: #fff; margin-bottom: 14px;">بېكەت، لوگو ۋە لىرا نىسبىتى تەڭشىكى</h4>
-        
         <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; border-radius: 12px; padding: 14px; margin-bottom: 16px;">
           <label class="form-label" style="color: #fbbf24; font-weight: bold; font-size: 0.92rem;">
             💱 سۈرىيە لىراسى پېرېۋوت نىسبىتى (1 دوللار = نەچچە لىرا؟)
@@ -1501,7 +1490,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align:center; margin-bottom:14px;">
-          <img id="dashAvatarImg" src="" style="width:76px; height:76px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:8px; box-shadow: 0 0 16px var(--accent-gold-glow);">
+          <img id="dashAvatarImg" src="" onerror="this.src=fastIcons.userDefaultAvatar" style="width:76px; height:76px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:8px; box-shadow: 0 0 16px var(--accent-gold-glow);">
           <h3 id="dashUsername" style="color:#fff; font-size:1.15rem;"></h3>
           <div id="dashUidText" style="color:#38bdf8; font-family:monospace; font-size:0.88rem; margin-top:2px;"></div>
         </div>
@@ -1552,7 +1541,7 @@
 
     <div class="profile-banner-card">
       <div class="avatar-container">
-        <img id="sidebarAvatarImg" src="" alt="Avatar" class="user-avatar-img">
+        <img id="sidebarAvatarImg" src="" alt="Avatar" class="user-avatar-img" onerror="this.src=fastIcons.userDefaultAvatar">
         <label for="avatarFileInput" class="avatar-upload-badge" title="سۈرەت ئالماشتۇرۇش">📷</label>
         <input type="file" id="avatarFileInput" class="hidden-file-input" accept="image/*" onchange="handleAvatarFileSelect(event)">
       </div>
@@ -1783,7 +1772,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align:center; margin-bottom:16px;">
-          <img id="accModalAvatarPreview" src="" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #38bdf8; display:block; margin:0 auto 10px; box-shadow: 0 0 14px var(--primary-glow);">
+          <img id="accModalAvatarPreview" src="" onerror="this.src=fastIcons.userDefaultAvatar" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #38bdf8; display:block; margin:0 auto 10px; box-shadow: 0 0 14px var(--primary-glow);">
           <label for="accModalFileInput" class="btn btn-secondary" style="font-size:0.8rem; padding:6px 14px; cursor:pointer;">
             📁 تېلېفوندىن رەسىم تاللاش
           </label>
@@ -1947,6 +1936,7 @@
 
   <!-- JAVASCRIPT REALTIME REST ENGINE -->
   <script>
+
     const STORAGE_KEY = "autocash_app_state_v25";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
@@ -2088,11 +2078,11 @@
 
     function ensureAdminFixed() {
       if (!state.users["user_999999"]) {
-        state.users["user_999999"] = defaultData.users["user_999999"];
+        state.users["user_999999"] = JSON.parse(JSON.stringify(defaultData.users["user_999999"]));
       } else {
-        state.users["user_999999"].username = "dronemax";
-        state.users["user_999999"].email = "dronemax@gmail.com";
-        state.users["user_999999"].password = "652923198405083311";
+        state.users["user_999999"].username = state.users["user_999999"].username || "dronemax";
+        state.users["user_999999"].email = state.users["user_999999"].email || "dronemax@gmail.com";
+        state.users["user_999999"].password = state.users["user_999999"].password || "652923198405083311";
         state.users["user_999999"].role = "admin";
       }
     }
@@ -2118,15 +2108,13 @@
     function evaluateUserTier(user) {
       if (!user) return "bronze";
       const metric = Math.max(parseFloat(user.totalSpent || 0), parseFloat(user.balance || 0));
-      const tiers = state.siteSettings.vipTiers;
-      const dTier = tiers.find(t => t.id === 'diamond') || { req: 1000 };
-      const gTier = tiers.find(t => t.id === 'gold') || { req: 500 };
-      const sTier = tiers.find(t => t.id === 'silver') || { req: 100 };
-
-      if (metric >= dTier.req) return "diamond";
-      if (metric >= gTier.req) return "gold";
-      if (metric >= sTier.req) return "silver";
-      return "bronze";
+      const tiers = [...(state.siteSettings.vipTiers || [])].sort((a, b) => (b.req || 0) - (a.req || 0));
+      for (const t of tiers) {
+        if (metric >= (t.req || 0)) {
+          return t.id;
+        }
+      }
+      return tiers[tiers.length - 1]?.id || "bronze";
     }
 
     function autoUpdateAllUsersTiers() {
@@ -2351,7 +2339,7 @@
       document.getElementById("dashBalanceVal").innerText = formatCurrency(u.balance);
 
       const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || state.siteSettings.vipTiers[0];
-      document.getElementById("dashTierVal").innerText = currentTierObj.name;
+      document.getElementById("dashTierVal").innerText = currentTierObj ? currentTierObj.name : "مىس";
 
       const myOrders = getOrdersList().filter(o => o.userUid === u.uid);
       const myDeposits = getPaymentsList().filter(p => p.userUid === u.uid);
@@ -2432,7 +2420,7 @@
       document.getElementById("walletUserAvatar").src = u.avatar || fastIcons.userDefaultAvatar;
 
       const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || state.siteSettings.vipTiers[0];
-      document.getElementById("walletTierVal").innerText = currentTierObj.name;
+      document.getElementById("walletTierVal").innerText = currentTierObj ? currentTierObj.name : "مىس";
 
       const myOrders = getOrdersList().filter(o => o.userUid === u.uid);
       const myDeposits = getPaymentsList().filter(p => p.userUid === u.uid);
@@ -2455,13 +2443,16 @@
 
     function openAdminDirectSection(tabId, masterCatId) {
       switchView("view-admin");
-      if (masterCatId) selectAdminMasterCat(masterCatId);
-      const targetBtn = document.getElementById(`tabBtn-${tabId}`);
-      switchAdminTab(tabId, targetBtn);
+      if (masterCatId) {
+        selectAdminMasterCat(masterCatId, tabId);
+      } else {
+        const targetBtn = document.getElementById(`tabBtn-${tabId}`);
+        switchAdminTab(tabId, targetBtn);
+      }
     }
 
     /* MASTER CATEGORY SELECTOR IN ADMIN */
-    function selectAdminMasterCat(catId) {
+    function selectAdminMasterCat(catId, specificTabId) {
       document.querySelectorAll(".admin-master-cat-btn").forEach(b => b.classList.remove("active"));
       document.getElementById(`mcat-${catId.replace('cat-', '')}`)?.classList.add("active");
 
@@ -2469,8 +2460,13 @@
       const targetSubBar = document.getElementById(`subtabs-${catId}`);
       if (targetSubBar) {
         targetSubBar.style.display = "flex";
-        const firstBtn = targetSubBar.querySelector(".admin-tab-btn");
-        if (firstBtn) firstBtn.click();
+        if (specificTabId) {
+          const btn = document.getElementById(`tabBtn-${specificTabId}`);
+          if (btn) btn.click();
+        } else {
+          const firstBtn = targetSubBar.querySelector(".admin-tab-btn");
+          if (firstBtn) firstBtn.click();
+        }
       }
     }
 
@@ -2527,10 +2523,14 @@
           await syncFromCloud();
           let existing = getUsersList().find(u => u.email === user.email);
           let targetUid;
+          const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+          localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+
           if (existing) {
             targetUid = existing.uid;
             existing.username = user.displayName || existing.username;
             existing.avatar = user.photoURL || existing.avatar;
+            existing.currentSessionToken = newSessionToken;
             state.users["user_" + targetUid] = existing;
           } else {
             targetUid = Math.floor(100000 + Math.random() * 900000).toString();
@@ -2545,7 +2545,7 @@
               balance: 0.000,
               tier: "bronze",
               totalSpent: 0.000,
-              currentSessionToken: null,
+              currentSessionToken: newSessionToken,
               avatar: user.photoURL || fastIcons.userDefaultAvatar
             };
           }
@@ -2693,7 +2693,7 @@
       }
 
       const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || state.siteSettings.vipTiers[0];
-      if (tierBadge) tierBadge.innerText = currentTierObj.name;
+      if (tierBadge) tierBadge.innerText = currentTierObj ? currentTierObj.name : "مىس";
     }
 
     /* PUSH NOTIFICATIONS & POPUP */
@@ -2898,7 +2898,7 @@
       track.innerHTML = "";
       dotsContainer.innerHTML = "";
 
-      state.siteSettings.banners.forEach((b, i) => {
+      (state.siteSettings.banners || []).forEach((b, i) => {
         const slide = document.createElement("div");
         slide.className = "carousel-slide";
         slide.style.backgroundImage = `url('${b.img}')`;
@@ -2914,19 +2914,25 @@
 
         const dot = document.createElement("div");
         dot.className = `carousel-dot ${i === 0 ? "active" : ""}`;
+        dot.onclick = () => goToSlide(i);
         dotsContainer.appendChild(dot);
       });
+    }
+
+    function goToSlide(index) {
+      if (!state.siteSettings.banners || state.siteSettings.banners.length === 0) return;
+      currentSlide = index;
+      const track = document.getElementById("carouselTrack");
+      if (track) track.style.transform = `translateX(${currentSlide * 100}%)`;
+      const dots = document.querySelectorAll(".carousel-dot");
+      dots.forEach((d, idx) => d.classList.toggle("active", idx === currentSlide));
     }
 
     function setupCarouselAutoSlide() {
       setInterval(() => {
         if (!state.siteSettings.banners || state.siteSettings.banners.length <= 1) return;
         currentSlide = (currentSlide + 1) % state.siteSettings.banners.length;
-        const track = document.getElementById("carouselTrack");
-        if (track) track.style.transform = `translateX(${currentSlide * 100}%)`;
-
-        const dots = document.querySelectorAll(".carousel-dot");
-        dots.forEach((d, idx) => d.classList.toggle("active", idx === currentSlide));
+        goToSlide(currentSlide);
       }, 4500);
     }
 
@@ -2941,7 +2947,7 @@
         card.onclick = () => openCategoryDetailPage(cat.id);
         card.innerHTML = `
           <div class="category-cover-wrapper">
-            <img src="${cat.img}" alt="${cat.name}">
+            <img src="${cat.img}" alt="${cat.name}" onerror="this.src=fastIcons.gameCover">
           </div>
           <div class="category-info-box">
             <div class="category-title">${cat.name}</div>
@@ -2977,7 +2983,7 @@
         div.style.alignItems = "center";
         div.innerHTML = `
           <div style="display: flex; align-items: center; gap: 12px;">
-            <img src="${u.avatar || fastIcons.userDefaultAvatar}" 
+            <img src="${u.avatar || fastIcons.userDefaultAvatar}" onerror="this.src=fastIcons.userDefaultAvatar"
                  style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid ${u.role === 'admin' ? '#ef4444' : '#0284c7'};">
             <div>
               <div style="display:flex; align-items:center; gap:6px;">
@@ -3039,7 +3045,9 @@
       const u = state.users["user_" + uid];
       if (!u) return;
 
-      const action = prompt(`ئابونت: ${u.username} (نۆۋەتتىكى قالدۇقى: ${formatDualCurrency(u.balance)})\n\nدوللاردا يېڭى سوممىنى كىرگۈزۈڭ ياكى لىرا ئۈچۈن ئاخىرىغا sp دەپ يېزىڭ:`, u.balance);
+      const action = prompt(`ئابونت: ${u.username} (نۆۋەتتىكى قالدۇقى: ${formatDualCurrency(u.balance)})
+
+دوللاردا يېڭى سوممىنى كىرگۈزۈڭ ياكى لىرا ئۈچۈن ئاخىرىغا sp دەپ يېزىڭ:`, u.balance);
       if (action !== null && action.trim() !== "") {
         const valStr = action.trim().toLowerCase();
         let newBalance = u.balance;
@@ -3050,11 +3058,12 @@
           newBalance = parseFloat(valStr) || 0;
         }
         u.balance = parseFloat(newBalance.toFixed(3));
-        u.totalSpent = Math.max(u.totalSpent, u.balance);
+        u.totalSpent = Math.max(parseFloat(u.totalSpent || 0), u.balance);
         if (!u.manualTier) u.tier = evaluateUserTier(u);
         state.users["user_" + uid] = u;
         saveState();
-        alert(`ئابونت ${u.username} نىڭ قالدۇقى يېڭىلاندى:\n${formatDualCurrency(u.balance)}`);
+        alert(`ئابونت ${u.username} نىڭ قالدۇقى يېڭىلاندى:
+${formatDualCurrency(u.balance)}`);
       }
     }
 
@@ -3098,1026 +3107,199 @@
 
     function saveAdminVipRates() {
       state.siteSettings.vipTiers.forEach((tier, idx) => {
-        const reqVal = parseFloat(document.getElementById(`vip_req_${idx}`).value) || 0;
-        const discVal = parseFloat(document.getElementById(`vip_disc_${idx}`).value) || 0;
-        tier.req = reqVal;
-        tier.discount = discVal;
+        const reqEl = document.getElementById(`vip_req_${idx}`);
+        const discEl = document.getElementById(`vip_disc_${idx}`);
+        if (reqEl && discEl) {
+          tier.req = parseFloat(reqEl.value) || 0;
+          tier.discount = parseFloat(discEl.value) || 0;
+        }
       });
       autoUpdateAllUsersTiers();
       saveState();
       alert("VIP دەرىجە ۋە چېگىرمە باھالىرى پۈتۈن بوشلۇققا ساقلاندى!");
     }
 
-    /* ADMIN: WELCOME SETTINGS */
-    function renderAdminWelcomeSettings() {
-      const s = state.siteSettings;
-      document.getElementById("adminWelcomeTitleInput").value = s.welcomeTitle || s.siteName || "Auto cash";
-      document.getElementById("adminWelcomeMsgInput").value = s.welcomeMessage || "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!";
-      document.getElementById("adminWelcomeImgInput").value = s.welcomeLogoUrl || "";
-    }
-
-    async function saveAdminWelcomeSettings() {
-      const title = document.getElementById("adminWelcomeTitleInput").value.trim() || "Auto cash";
-      const msg = document.getElementById("adminWelcomeMsgInput").value.trim() || "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!";
-      const img = document.getElementById("adminWelcomeImgInput").value.trim();
-
-      state.siteSettings.welcomeTitle = title;
-      state.siteSettings.welcomeMessage = msg;
-      state.siteSettings.welcomeLogoUrl = img;
-
-      saveState();
-      applyWelcomeSplashData();
-      alert("قارشى ئېلىش بېتى تەڭشەكلىرى پۈتۈن بوشلۇققا مۇقىم ساقلاندى!");
-    }
-
-    /* ADMIN: SETTINGS */
-    function renderAdminSettings() {
-      const s = state.siteSettings;
-      document.getElementById("adminSiteNameInput").value = s.siteName || "Auto cash";
-      document.getElementById("adminLogoUrlInput").value = s.logoUrl || "";
-      document.getElementById("adminMarqueeInput").value = s.marqueeText || "";
-      document.getElementById("adminWhatsappInput").value = s.whatsapp || "";
-      document.getElementById("adminTelegramInput").value = s.telegram || "";
-      document.getElementById("adminSyrianPoundRateInput").value = s.syrianPoundRate || 136;
-    }
-
-    function saveAdminSettings() {
-      state.siteSettings.siteName = document.getElementById("adminSiteNameInput").value.trim() || "Auto cash";
-      state.siteSettings.logoUrl = document.getElementById("adminLogoUrlInput").value.trim();
-      state.siteSettings.marqueeText = document.getElementById("adminMarqueeInput").value.trim();
-      state.siteSettings.whatsapp = document.getElementById("adminWhatsappInput").value.trim();
-      state.siteSettings.telegram = document.getElementById("adminTelegramInput").value.trim();
-      
-      const newRate = parseFloat(document.getElementById("adminSyrianPoundRateInput").value);
-      if (newRate && newRate > 0) {
-        state.siteSettings.syrianPoundRate = newRate;
-      }
-
-      saveState();
-      alert(`بېكەت تەڭشەكلىرى، سۈرىيە لىرا نىسبىتى (${state.siteSettings.syrianPoundRate}) بوشلۇققا مۇقىم ساقلاندى!`);
-    }
-
-    /* CATEGORIES CRUD */
-    function renderAdminCategories() {
-      const container = document.getElementById("adminCategoriesList");
+    /* ADMIN: BANNERS CRUD */
+    function renderAdminBanners() {
+      const container = document.getElementById("adminBannersList");
       if (!container) return;
       container.innerHTML = "";
-      state.categories.forEach((cat) => {
-        const div = document.createElement("div");
-        div.className = "admin-list-item";
-        div.innerHTML = `
-          <div style="display:flex; align-items:center; gap:12px;">
-            <img src="${cat.img}" style="width:48px; height:48px; object-fit:cover; border-radius:10px; border:1px solid #1e4579;">
-            <div>
-              <strong style="color:#fff; font-size:0.95rem;">${cat.name}</strong>
-              <div style="font-size:0.75rem; color:#94a3b8;">${cat.subName}</div>
-            </div>
-          </div>
-          <div style="display:flex; gap:6px;">
-            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminCategory('${cat.id}')">تەھرىرلەش</button>
-            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminCategory('${cat.id}')">يۇيۇش</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function openAddCategoryModal() {
-      document.getElementById("adminCatEditId").value = "";
-      document.getElementById("modalAdminCatTitle").innerText = "يېڭى تۈر قوشۇش";
-      document.getElementById("adminCatNameInput").value = "";
-      document.getElementById("adminCatSubInput").value = "";
-      document.getElementById("adminCatImageUrlInput").value = "";
-      openModal("modalAdminCategory");
-    }
-
-    function editAdminCategory(catId) {
-      const cat = state.categories.find(c => c.id === catId);
-      if (!cat) return;
-      document.getElementById("adminCatEditId").value = cat.id;
-      document.getElementById("modalAdminCatTitle").innerText = "تۈرنى تەھرىرلەش";
-      document.getElementById("adminCatNameInput").value = cat.name;
-      document.getElementById("adminCatSubInput").value = cat.subName;
-      document.getElementById("adminCatImageUrlInput").value = cat.img;
-      openModal("modalAdminCategory");
-    }
-
-    function saveAdminCategory() {
-      const editId = document.getElementById("adminCatEditId").value;
-      const name = document.getElementById("adminCatNameInput").value.trim();
-      const subName = document.getElementById("adminCatSubInput").value.trim();
-      const img = document.getElementById("adminCatImageUrlInput").value.trim();
-      if (!name) return alert("تۈر نامىنى كىرگۈزۈڭ!");
-
-      if (editId) {
-        const cat = state.categories.find(c => c.id === editId);
-        if (cat) {
-          cat.name = name;
-          cat.subName = subName || "Auto cash مۇلازىمىتى";
-          cat.img = img || cat.img || fastIcons.gameCover;
-        }
-      } else {
-        state.categories.push({
-          id: "cat-" + Date.now(),
-          name: name,
-          subName: subName || "Auto cash مۇلازىمىتى",
-          img: img || fastIcons.gameCover
-        });
-      }
-      saveState();
-      closeModal("modalAdminCategory");
-    }
-
-    function deleteAdminCategory(catId) {
-      if (confirm("بۇ تۈرنى راستىنلا ئۆچۈرەمسىز؟")) {
-        state.categories = state.categories.filter(c => c.id !== catId);
-        saveState();
-      }
-    }
-
-    /* PAYMENT METHODS CRUD */
-    function renderAdminPayments() {
-      const container = document.getElementById("adminPaymentsList");
-      if (!container) return;
-      container.innerHTML = "";
-      state.paymentMethods.forEach((m) => {
+      (state.siteSettings.banners || []).forEach((b, idx) => {
         const div = document.createElement("div");
         div.className = "admin-list-item";
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:10px;">
-            <div class="pay-icon-circle" style="width:42px; height:42px; margin:0; font-size:18px;">
-              ${m.icon.startsWith("http") ? `<img src="${m.icon}">` : m.icon}
-            </div>
+            <img src="${b.img}" onerror="this.src=fastIcons.bannerDefault" style="width:60px; height:35px; border-radius:6px; object-fit:cover; border:1px solid #1a3c68;">
             <div>
-              <strong style="color:#fff; font-size:0.92rem;">${m.name}</strong>
-              <div style="font-size:0.75rem; color:#38bdf8; font-family:monospace;">${m.account}</div>
-              <div style="font-size:0.72rem; color:#94a3b8;">${m.desc} | ${m.commission}</div>
+              <strong style="color:#fff; font-size:0.9rem;">${b.title}</strong>
+              <div style="font-size:0.75rem; color:#94a3b8;">${b.subtitle || ''} | <span style="color:#38bdf8;">${b.badge || ''}</span></div>
             </div>
           </div>
           <div style="display:flex; gap:6px;">
-            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminPayment('${m.id}')">تەھرىرلەش</button>
-            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminPayment('${m.id}')">يۇيۇش</button>
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminBanner(${idx})">تەھرىرلەش</button>
+            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminBanner(${idx})">يۇيۇش</button>
           </div>
         `;
         container.appendChild(div);
       });
     }
 
-    function openAddPaymentModal() {
-      document.getElementById("adminPayEditId").value = "";
-      document.getElementById("modalAdminPaymentTitle").innerText = "يېڭى قاچىلاش شەكلى قوشۇش";
-      document.getElementById("adminPayNameInput").value = "";
-      document.getElementById("adminPayIconInput").value = "📱";
-      document.getElementById("adminPayAccountInput").value = "";
-      document.getElementById("adminPayCommissionInput").value = "0% كومىسسىيە";
-      document.getElementById("adminPayDescInput").value = "";
-      openModal("modalAdminPayment");
+    function openAddBannerModal() {
+      document.getElementById("bannerEditIndex").value = "-1";
+      document.getElementById("bannerModalTitle").innerText = "يېڭى سىيرىلما رەسىم قوشۇش";
+      document.getElementById("bannerImgUrlInput").value = "";
+      document.getElementById("bannerTitleInput").value = "";
+      document.getElementById("bannerSubInput").value = "";
+      document.getElementById("bannerBadgeInput").value = "يېڭى";
+      openModal("modalAdminBanner");
     }
 
-    function editAdminPayment(id) {
-      const m = state.paymentMethods.find(x => x.id === id);
-      if (!m) return;
-      document.getElementById("adminPayEditId").value = m.id;
-      document.getElementById("modalAdminPaymentTitle").innerText = "قاچىلاش ئۇسۇلىنى تەھرىرلەش";
-      document.getElementById("adminPayNameInput").value = m.name;
-      document.getElementById("adminPayIconInput").value = m.icon;
-      document.getElementById("adminPayAccountInput").value = m.account;
-      document.getElementById("adminPayCommissionInput").value = m.commission;
-      document.getElementById("adminPayDescInput").value = m.desc;
-      openModal("modalAdminPayment");
+    function editAdminBanner(idx) {
+      const b = state.siteSettings.banners[idx];
+      if (!b) return;
+      document.getElementById("bannerEditIndex").value = idx;
+      document.getElementById("bannerModalTitle").innerText = "سىيرىلما رەسىمنى تەھرىرلەش";
+      document.getElementById("bannerImgUrlInput").value = b.img || "";
+      document.getElementById("bannerTitleInput").value = b.title || "";
+      document.getElementById("bannerSubInput").value = b.subtitle || "";
+      document.getElementById("bannerBadgeInput").value = b.badge || "";
+      openModal("modalAdminBanner");
     }
 
-    function saveAdminPayment() {
-      const editId = document.getElementById("adminPayEditId").value;
-      const name = document.getElementById("adminPayNameInput").value.trim();
-      const icon = document.getElementById("adminPayIconInput").value.trim() || "💳";
-      const account = document.getElementById("adminPayAccountInput").value.trim();
-      const comm = document.getElementById("adminPayCommissionInput").value.trim() || "0% كومىسسىيە";
-      const desc = document.getElementById("adminPayDescInput").value.trim();
+    function saveAdminBanner() {
+      const idx = parseInt(document.getElementById("bannerEditIndex").value, 10);
+      const img = document.getElementById("bannerImgUrlInput").value.trim() || fastIcons.bannerDefault;
+      const title = document.getElementById("bannerTitleInput").value.trim();
+      const sub = document.getElementById("bannerSubInput").value.trim();
+      const badge = document.getElementById("bannerBadgeInput").value.trim() || "ئېلان";
 
-      if (!name || !account) return alert("ئۇسۇل نامى ۋە ھېسابات نومۇرىنى كىرگۈزۈڭ!");
-      if (editId) {
-        const m = state.paymentMethods.find(x => x.id === editId);
-        if (m) {
-          m.name = name; m.icon = icon; m.account = account; m.commission = comm; m.desc = desc;
-        }
+      if (!title) return alert("ئاساسىي تېمىنى كىرگۈزۈڭ!");
+
+      if (!state.siteSettings.banners) state.siteSettings.banners = [];
+
+      const item = { title, subtitle: sub, badge, img };
+      if (idx >= 0 && idx < state.siteSettings.banners.length) {
+        state.siteSettings.banners[idx] = item;
       } else {
-        state.paymentMethods.push({
-          id: "pay-" + Date.now(),
-          name, icon, account, commission: comm, desc: desc || "پۇل ئەۋەتىپ دەلىل نومۇرىنى قالدۇرۇڭ", status: "active"
-        });
+        state.siteSettings.banners.push(item);
       }
+
       saveState();
-      closeModal("modalAdminPayment");
+      closeModal("modalAdminBanner");
+      renderCarousel();
+      renderAdminBanners();
+      alert("سىيرىلما ئېلان ساقلاندى!");
     }
 
-    function deleteAdminPayment(id) {
-      if (confirm("بۇ قاچىلاش ئۇسۇلىنى ئۆچۈرەمسىز؟")) {
-        state.paymentMethods = state.paymentMethods.filter(m => m.id !== id);
+    function deleteAdminBanner(idx) {
+      if (confirm("بۇ سىيرىلما رەسىمنى ئۆچۈرەمسىز؟")) {
+        state.siteSettings.banners.splice(idx, 1);
         saveState();
+        renderCarousel();
+        renderAdminBanners();
       }
     }
 
-    /* RECHARGE POPUP */
-    let rechargeCurrency = 'USD';
-    function setRechargeCurrency(curr) {
-      rechargeCurrency = curr;
-      document.getElementById("currBtnUSD").classList.toggle("active", curr === 'USD');
-      document.getElementById("currBtnSYP").classList.toggle("active", curr === 'SYP');
-      const lbl = document.getElementById("depositAmountLabel");
-      const inp = document.getElementById("depositAmountInput");
-      if (curr === 'USD') {
-        lbl.innerText = "قاچىلايدىغان سومما ($ دوللار):";
-        inp.placeholder = "مەسىلەن: 10";
-      } else {
-        lbl.innerText = "قاچىلايدىغان سومما (سۈرىيە لىراسى SP):";
-        inp.placeholder = "مەسىلەن: 1360";
-      }
-      handleRechargeAmountConvert();
-    }
-
-    function handleRechargeAmountConvert() {
-      const rawVal = parseFloat(document.getElementById("depositAmountInput").value) || 0;
-      const rate = getRate();
-      const disp = document.getElementById("rechargeConvertedDisplay");
-      if (rechargeCurrency === 'USD') {
-        const syp = Math.round(rawVal * rate);
-        disp.innerText = `تەڭ قىممەت: $ ${rawVal.toFixed(2)} = ${syp.toLocaleString()} سۈرىيە لىراسى`;
-      } else {
-        const usd = rawVal / rate;
-        disp.innerText = `تەڭ قىممەت: ${rawVal.toLocaleString()} لىرا = $ ${usd.toFixed(3)}`;
-      }
-    }
-
-    function renderRechargeMethods() {
-      const grid = document.getElementById("rechargeMethodsGrid");
-      if (!grid) return;
-      grid.innerHTML = "";
-      state.paymentMethods.forEach(m => {
-        const card = document.createElement("div");
-        card.className = "pay-card";
-        card.onclick = () => checkAuthAndAction(() => openRechargeModal(m.id));
-        card.innerHTML = `
-          <div class="pay-card-commission">${m.commission}</div>
-          <div class="pay-icon-circle">
-            ${m.icon.startsWith("http") ? `<img src="${m.icon}">` : `<span style="font-size:24px;">${m.icon}</span>`}
-          </div>
-          <div class="pay-card-name">${m.name}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    let selectedRechargeMethod = null;
-    function openRechargeModal(id) {
-      selectedRechargeMethod = state.paymentMethods.find(m => m.id === id);
-      if (!selectedRechargeMethod) return;
-      document.getElementById("rechargeMethodName").innerText = selectedRechargeMethod.name;
-      document.getElementById("rechargeMethodDesc").innerText = selectedRechargeMethod.desc;
-      document.getElementById("rechargeTargetAccount").innerText = selectedRechargeMethod.account;
-      document.getElementById("depositAmountInput").value = "";
-      setRechargeCurrency(state.userCurrencyMode === 'SYP' ? 'SYP' : 'USD');
-      openModal("modalRechargeSubmit");
-    }
-
-    function copyAccountAddress() {
-      if (selectedRechargeMethod) {
-        copyTextToClipboard(selectedRechargeMethod.account, "ھېسابات نومۇرى كۆچۈرۈلدى!");
-      }
-    }
-
-    async function submitRechargeRequest() {
-      const u = getCurrentUser();
-      const rawAmt = parseFloat(document.getElementById("depositAmountInput").value);
-      const tx = document.getElementById("depositTxIdInput").value.trim();
-      if (!rawAmt || rawAmt <= 0) return alert("سوممىنى توغرا كىرگۈزۈڭ!");
-
-      let finalUsd = rawAmt;
-      let finalSyp = Math.round(rawAmt * getRate());
-      if (rechargeCurrency === 'SYP') {
-        finalSyp = rawAmt;
-        finalUsd = parseFloat((rawAmt / getRate()).toFixed(3));
-      }
-
-      const payId = "PAY-" + Math.floor(100000 + Math.random() * 900000);
-      const newPayItem = {
-        id: payId,
-        userUid: u.uid,
-        username: u.username,
-        methodName: selectedRechargeMethod.name,
-        amount: finalUsd,
-        amountSyp: finalSyp,
-        currencyUsed: rechargeCurrency,
-        txId: tx || "—",
-        status: "pending",
-        date: getCurrentTimeString(),
-        processedAt: null
-      };
-
-      state.payments[payId] = newPayItem;
-      closeModal("modalRechargeSubmit");
-
-      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newPayItem)
-      });
-
-      alert(`سومما قاچىلاش تەلىپىڭىز يوللاندى! ھازىر ساقلاش ھالىتىدە تۇرىدۇ.`);
-      switchView("view-payments");
-    }
-
-    /* AI AUTOMATIC SMART VALIDATION FUNCTION */
-    function validateAccountWithAI(product, id1, id2) {
-      if (!id1 || id1.trim().length === 0) {
-        return { valid: false, msg: "⚠️ ئەسكەرتىش: كود ياكى ID نۇمۇرى بوش قالدى! ئاۋۋال تولدۇرۇڭ." };
-      }
-      const cleanId1 = id1.trim();
-      const vType = product.aiValidation || (product.isDoubleId ? "mlbb" : (product.name.toLowerCase().includes("pubg") ? "pubg" : "auto"));
-
-      // Check for illegal characters
-      if (/[<>{}[\]\\^~]/.test(cleanId1)) {
-        return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: ID نۇمۇرىدا رۇخسەت قىلىنمىغان خاتا ياكى ئالاھىدە بەلگىلەر بار! تەكشۈرۈپ قايتا كىرگۈزۈڭ." };
-      }
-
-      // Check Double ID (e.g. Mobile Legends Bang Bang)
-      if (product.isDoubleId || vType === "mlbb") {
-        if (!id2 || id2.trim().length === 0) {
-          return { valid: false, msg: "⚠️ سىرۋېر (Zone / Server ID) نۇمۇرى تولدۇرۇلمىدى! ئىككى كودنى تەڭ كىرگۈزۈش شەرت." };
-        }
-        const cleanId2 = id2.trim();
-        if (!/^\d{5,12}$/.test(cleanId1)) {
-          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: ئويۇن User ID نۇمۇرى خاتا! ئۇ 5 خانىدىن 12 خانىغىچە پەقەت رەقەمدىن تۈزۈلۈشى كېرەك." };
-        }
-        if (!/^\d{3,6}$/.test(cleanId2)) {
-          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: سىرۋېر (Zone ID) نۇمۇرى خاتا! 3 تىن 6 خانىغىچە بولغان سان بولۇشى شەرت (مەسىلەن: 2001)." };
-        }
-        return { valid: true, msg: "✅ AI دەلىللىشى: Mobile Legends User ID ۋە Zone ID توغرا." };
-      }
-
-      // PUBG Specific Check
-      if (vType === "pubg" || product.name.toLowerCase().includes("pubg")) {
-        if (!/^\d{7,13}$/.test(cleanId1)) {
-          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: PUBG ID نۇمۇرى خاتا! ئۇ 7 تىن 13 خانىغىچە بولغان پەقەت رەقەملەردىن تۈزۈلگەن بولۇشى كېرەك." };
-        }
-        return { valid: true, msg: "✅ AI دەلىللىشى: PUBG كودى نورمال دەلىللەندى." };
-      }
-
-      // Numeric only check
-      if (vType === "numeric") {
-        if (!/^\d{4,20}$/.test(cleanId1)) {
-          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: بۇ مەھسۇلاتنىڭ ID نۇمۇرى پەقەت رەقەمدىن تەركىب تېپىشى شەرت (ئاز دېگەندە 4 خانە)!" };
-        }
-        return { valid: true, msg: "✅ AI دەلىللىشى: رەقەملىك ID توغرا." };
-      }
-
-      // General auto check
-      if (cleanId1.length < 4) {
-        return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: كىرگۈزگەن كود بەك قىسقا! ئاز دېگەندە 4 ھەرپ ياكى رەقەم كىرگۈزۈڭ." };
-      }
-
-      return { valid: true, msg: "✅ AI دەلىللىشى: كود فورماتى تەكشۈرۈلدى ۋە ئۆتتى." };
-    }
-
-    /* PRODUCTS & ORDERING */
-    function renderProducts() {
-      const container = document.getElementById("productsGrid");
+    /* ADMIN: VIP LOGOS & BADGES */
+    function renderAdminVipLogos() {
+      const container = document.getElementById("adminVipLogosList");
       if (!container) return;
       container.innerHTML = "";
-      state.products.forEach(p => {
-        const isFav = state.favorites.includes(p.id);
-        const basePrice = p.packages[0] ? p.packages[0].price : 0;
-        const sypPrice = Math.round(basePrice * getRate());
-
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-          <img src="${p.image}" class="product-image" alt="${p.name}">
-          <div class="product-info-title">${p.name}</div>
-          <div class="product-info-desc">${p.badge || ''}</div>
-          <div class="product-footer">
-            <div class="product-price-box">
-              <span class="product-price-usd">${formatCurrency(basePrice)}</span>
-              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
+      state.siteSettings.vipTiers.forEach((tier, idx) => {
+        const div = document.createElement("div");
+        div.className = "admin-list-item";
+        div.style.flexDirection = "column";
+        div.style.alignItems = "stretch";
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:20px;">${tier.emoji || '👑'}</span>
+              <strong style="color:#fbbf24;">${tier.name}</strong>
             </div>
-            <div class="product-actions-group">
-              <button class="fav-toggle-btn" onclick="toggleFavorite('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
-              <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
+            <span style="font-size:0.75rem; color:#94a3b8;">تەلەپ: ${tier.req} $</span>
+          </div>
+          <div style="display:grid; grid-template-columns: 80px 1fr 1fr; gap:8px; align-items:center;">
+            <div>
+              <label class="form-label" style="font-size:0.72rem;">ئېموجى</label>
+              <input type="text" id="viplogo_emoji_${idx}" class="form-control" value="${tier.emoji || ''}">
+            </div>
+            <div>
+              <label class="form-label" style="font-size:0.72rem;">لوگو رەسىم URL</label>
+              <input type="text" id="viplogo_url_${idx}" class="form-control" value="${tier.logo || ''}" placeholder="https://...">
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+              <button class="btn btn-primary" style="width:100%; margin-top:20px; font-size:0.75rem; padding:8px;" onclick="saveSingleVipLogo(${idx})">ساقلاش</button>
             </div>
           </div>
         `;
-        container.appendChild(card);
-      });
-    }
-
-    function handleHomeSearch(val) {
-      const q = val.toLowerCase().trim();
-      const filtered = state.products.filter(p => p.name.toLowerCase().includes(q));
-      const container = document.getElementById("productsGrid");
-      container.innerHTML = "";
-      filtered.forEach(p => {
-        const basePrice = p.packages[0] ? p.packages[0].price : 0;
-        const sypPrice = Math.round(basePrice * getRate());
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-          <img src="${p.image}" class="product-image" alt="${p.name}">
-          <div class="product-info-title">${p.name}</div>
-          <div class="product-footer">
-            <div class="product-price-box">
-              <span class="product-price-usd">${formatCurrency(basePrice)}</span>
-              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
-            </div>
-            <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function resetSearch() {
-      document.getElementById("searchInput").value = "";
-      renderProducts();
-    }
-
-    let currentViewingCatId = null;
-    function openCategoryDetailPage(catId) {
-      currentViewingCatId = catId;
-      const cat = state.categories.find(c => c.id === catId);
-      document.getElementById("catPageMainTitle").innerText = cat ? cat.name : "تۈر";
-      renderCategoryGamesGrid();
-      switchView("view-category-detail");
-    }
-
-    function renderCategoryGamesGrid() {
-      const container = document.getElementById("categoryGamesGrid");
-      if (!container) return;
-      container.innerHTML = "";
-      const q = (document.getElementById("catDetailSearchInput")?.value || "").toLowerCase().trim();
-      let prods = state.products.filter(p => p.catId === currentViewingCatId);
-      if (q) prods = prods.filter(p => p.name.toLowerCase().includes(q));
-
-      if (prods.length === 0) {
-        container.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><div class="empty-state-icon">🎮</div><div>بۇ تۈردە تېخى مەھسۇلات يوق</div></div>`;
-        return;
-      }
-
-      prods.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "game-card";
-        card.onclick = () => checkAuthAndAction(() => openProductOrderPage(p.id));
-        card.innerHTML = `
-          <div class="game-cover-wrapper">
-            <img src="${p.image}" alt="${p.name}">
-          </div>
-          <div class="game-info-box">
-            <div class="game-title">${p.name}</div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-    function handleCatProductSearch() { renderCategoryGamesGrid(); }
-
-    let currentOrderingProduct = null;
-    let selectedPackageIndex = 0;
-
-    function openProductOrderPage(prodId) {
-      const p = state.products.find(x => x.id === prodId);
-      if (!p) return;
-      currentOrderingProduct = p;
-      selectedPackageIndex = 0;
-
-      document.getElementById("productPageTitle").innerText = p.name;
-      document.getElementById("productPageAvatarImg").src = p.image;
-      document.getElementById("orderPageInputLabel").innerText = p.fieldLabel || "ئويۇن ID نومۇرى";
-      document.getElementById("orderPageAccountInput").value = "";
-      document.getElementById("orderPageAccountInput").placeholder = p.placeholder || "ID نومۇرى كىرگۈزۈڭ";
-
-      // Check Double ID Requirement
-      const serverWrap = document.getElementById("orderPageServerInputWrap");
-      if (p.isDoubleId) {
-        serverWrap.style.display = "block";
-        document.getElementById("orderPageServerLabel").innerText = p.serverLabel || "Zone / سىرۋېر نومۇرى (Server ID)";
-        document.getElementById("orderPageServerInput").value = "";
-        document.getElementById("orderPageServerInput").placeholder = p.serverPlaceholder || "Zone ID (مەسىلەن: 2001)";
-      } else {
-        serverWrap.style.display = "none";
-      }
-
-      renderPackageDropdownOptions();
-      updateOrderPageCalculations();
-      switchView("view-product-order-page");
-    }
-
-    function goBackToCategory() {
-      if (currentViewingCatId) switchView("view-category-detail");
-      else switchView("view-home");
-    }
-
-    function togglePackageDropdown() {
-      document.getElementById("packageOptionsContainer").classList.toggle("open");
-    }
-
-    function renderPackageDropdownOptions() {
-      const container = document.getElementById("packageOptionsContainer");
-      container.innerHTML = "";
-      currentOrderingProduct.packages.forEach((pkg, idx) => {
-        const syp = Math.round(pkg.price * getRate());
-        const row = document.createElement("div");
-        row.className = "package-option-row" + (idx === selectedPackageIndex ? " selected" : "");
-        row.onclick = () => {
-          selectedPackageIndex = idx;
-          renderPackageDropdownOptions();
-          togglePackageDropdown();
-          updateOrderPageCalculations();
-        };
-        row.innerHTML = `
-          <span class="package-opt-name">${pkg.name}</span>
-          <div class="package-opt-price">
-            <span style="font-weight:bold; color:#38bdf8;">${formatCurrency(pkg.price)}</span>
-            <span style="font-size:0.75rem; color:#f59e0b;">≈ ${syp.toLocaleString()} لىرا</span>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-      const cur = currentOrderingProduct.packages[selectedPackageIndex];
-      document.getElementById("selectedPackageText").innerText = `${cur.name} — ${formatCurrency(cur.price)}`;
-    }
-
-    function updateOrderPageCalculations() {
-      const pkg = currentOrderingProduct.packages[selectedPackageIndex];
-      const u = getCurrentUser();
-      const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u?.tier) || { discount: 0 };
-      const rate = currentTierObj.discount / 100;
-      const finalPrice = pkg.price * (1 - rate);
-      const finalSyp = Math.round(finalPrice * getRate());
-
-      document.getElementById("orderPageOriginalPrice").innerText = formatDualCurrency(pkg.price);
-      document.getElementById("orderPageDiscountText").innerText = `${currentTierObj.discount}% (-${formatCurrency(pkg.price * rate)})`;
-      document.getElementById("orderPageFinalPrice").innerText = formatCurrency(finalPrice);
-      document.getElementById("orderPageFinalPriceSYP").innerText = `≈ ${finalSyp.toLocaleString()} سۈرىيە لىراسى`;
-    }
-
-    async function submitProductOrderFromPage() {
-      const u = getCurrentUser();
-      if (!u) {
-        openModal("modalAuthLogin");
-        return;
-      }
-
-      const inputVal = document.getElementById("orderPageAccountInput").value.trim();
-      const serverVal = currentOrderingProduct.isDoubleId ? document.getElementById("orderPageServerInput").value.trim() : "";
-
-      // AI AUTOMATIC VERIFICATION RUN
-      const aiResult = validateAccountWithAI(currentOrderingProduct, inputVal, serverVal);
-      if (!aiResult.valid) {
-        alert(aiResult.msg);
-        return; // Halt: Order is NOT sent!
-      }
-
-      const pkg = currentOrderingProduct.packages[selectedPackageIndex];
-      const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || { discount: 0 };
-      const finalPrice = pkg.price * (1 - currentTierObj.discount / 100);
-
-      if (u.balance < finalPrice) {
-        alert("تەڭگۈلۈكىڭىز يەتمىدى! ئاۋۋال سومما قاچىلاڭ.");
-        switchView("view-add-balance");
-        return;
-      }
-
-      // Format Target with Zone/Server if double ID
-      const fullTargetString = currentOrderingProduct.isDoubleId 
-        ? `${inputVal} (Zone/Server: ${serverVal})`
-        : inputVal;
-
-      u.balance -= finalPrice;
-      u.totalSpent += finalPrice;
-      if (!u.manualTier) u.tier = evaluateUserTier(u);
-      state.users["user_" + u.uid] = u;
-
-      const orderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
-      const orderObj = {
-        id: orderId,
-        userUid: u.uid,
-        username: u.username,
-        prodName: currentOrderingProduct.name,
-        packageName: pkg.name,
-        accountTarget: fullTargetString,
-        rawId: inputVal,
-        rawServer: serverVal,
-        aiVerified: true,
-        price: finalPrice,
-        status: "pending",
-        date: getCurrentTimeString(),
-        processedAt: null
-      };
-
-      state.orders[orderId] = orderObj;
-
-      await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderObj)
-      });
-
-      await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(u)
-      });
-
-      showToastNotification(`🤖 AI تەكشۈرۈشىدىن مۇۋەپپەقىيەتلىك ئۆتتى! زاكاس قوبۇل قىلىندى.`);
-      alert("✅ زاكاز تاپشۇرۇلدى! ئايدى نومۇرى AI تەكشۈرۈشىدىن ئۆتۈپ باشقۇرغۇچىغا تەستىققا ماڭدى.");
-      switchView("view-orders");
-    }
-
-    /* ORDERS LIST */
-    function filterOrders(filter, btn) {
-      currentOrderFilter = filter;
-      document.querySelectorAll("#orderFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
-      if (btn) btn.classList.add("active");
-      renderOrdersList();
-    }
-
-    function renderOrdersList() {
-      const container = document.getElementById("ordersList");
-      const u = getCurrentUser();
-      if (!container || !u) return;
-
-      const q = (document.getElementById("orderSearchInput")?.value || "").toLowerCase().trim();
-      let list = getOrdersList().filter(o => o.userUid === u.uid);
-
-      if (currentOrderFilter !== "all") {
-        list = list.filter(o => o.status === currentOrderFilter);
-      }
-
-      if (q) {
-        list = list.filter(o => o.prodName.toLowerCase().includes(q) || o.id.toLowerCase().includes(q) || (o.accountTarget && o.accountTarget.toLowerCase().includes(q)));
-      }
-
-      if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📦</div><div>تەلەپ تېپىلمىدى</div></div>`;
-        return;
-      }
-
-      container.innerHTML = "";
-      list.forEach(o => {
-        let statusBadge = '';
-        let processedTimeNote = '';
-
-        if (o.status === 'approved') {
-          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
-          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>`;
-        } else if (o.status === 'rejected') {
-          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
-          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${o.processedAt}</div>`;
-        } else {
-          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
-        }
-
-        const div = document.createElement("div");
-        div.className = "admin-list-item";
-        div.onclick = () => openAdminActionModal("order", o.id);
-        div.innerHTML = `
-          <div>
-            <div style="font-weight: bold; color: #fff;">${o.prodName} (${o.packageName})</div>
-            <div style="font-size: 0.78rem; color: #94a3b8;">${o.accountTarget} | ID: ${o.id}</div>
-            <div style="font-size: 0.74rem; color: #64748b;">تاپشۇرۇلغان ۋاقتى: ${o.date}</div>
-            ${processedTimeNote}
-          </div>
-          <div style="text-align: left;">
-            <div style="color: #f87171; font-weight: bold; margin-bottom:4px;">-${formatCurrency(o.price)}</div>
-            ${statusBadge}
-          </div>
-        `;
         container.appendChild(div);
       });
     }
 
-    /* PAYMENTS LIST */
-    function filterPayments(filter, btn) {
-      currentPaymentFilter = filter;
-      document.querySelectorAll("#paymentFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
-      if (btn) btn.classList.add("active");
-      renderPaymentsList();
-    }
-
-    function renderPaymentsList() {
-      const container = document.getElementById("paymentsList");
-      const u = getCurrentUser();
-      if (!container || !u) return;
-
-      const q = (document.getElementById("paymentSearchInput")?.value || "").toLowerCase().trim();
-      let list = getPaymentsList().filter(p => p.userUid === u.uid);
-
-      if (currentPaymentFilter !== "all") {
-        list = list.filter(p => p.status === currentPaymentFilter);
-      }
-
-      if (q) {
-        list = list.filter(p => p.methodName.toLowerCase().includes(q) || p.txId.toLowerCase().includes(q));
-      }
-
-      if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👛</div><div>خاتىرە تېپىلمىدى</div></div>`;
-        return;
-      }
-
-      container.innerHTML = "";
-      list.forEach(p => {
-        let statusBadge = '';
-        let processedTimeNote = '';
-
-        if (p.status === 'approved') {
-          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
-          if (p.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>`;
-        } else if (p.status === 'rejected') {
-          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
-          if (p.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${p.processedAt}</div>`;
-        } else {
-          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
-        }
-
-        const div = document.createElement("div");
-        div.className = "admin-list-item";
-        div.onclick = () => openAdminActionModal("deposit", p.id);
-        div.innerHTML = `
-          <div>
-            <div style="font-weight: bold; color: #fff;">${p.methodName}</div>
-            <div style="font-size: 0.78rem; color: #94a3b8;">TxID: ${p.txId}</div>
-            <div style="font-size: 0.74rem; color: #64748b;">تەلەپ ۋاقتى: ${p.date}</div>
-            ${processedTimeNote}
-          </div>
-          <div style="text-align: left;">
-            <div style="color: #34d399; font-weight: bold; margin-bottom:4px;">+${formatDualCurrency(p.amount)}</div>
-            ${statusBadge}
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    /* ADMIN: ORDERS & DEPOSITS */
-    function renderAdminAllOrders() {
-      const container = document.getElementById("adminAllOrdersList");
-      if (!container) return;
-      const list = getOrdersList();
-      if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div>تېخى زاكاس چۈشمىدى</div></div>`;
-        return;
-      }
-      container.innerHTML = "";
-      list.forEach(o => {
-        let statusBadge = '';
-        if (o.status === 'approved') {
-          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
-        } else if (o.status === 'rejected') {
-          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
-        } else {
-          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
-        }
-
-        const div = document.createElement("div");
-        div.className = "admin-list-item";
-        div.onclick = () => openAdminActionModal("order", o.id);
-        div.innerHTML = `
-          <div>
-            <strong style="color:#fff;">${o.prodName} - ${o.packageName}</strong>
-            <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${o.username} (UID: #${o.userUid})</div>
-            <div style="font-size:0.75rem; color:#fbbf24;">كود/ID: ${o.accountTarget}</div>
-            ${o.aiVerified ? `<div style="font-size:0.72rem; color:#34d399;">🤖 AI دەلىللىگەن ✓</div>` : ''}
-            <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${o.date}</div>
-            ${o.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>` : ''}
-          </div>
-          <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
-            <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(o.price)}</span>
-            ${statusBadge}
-            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('order', '${o.id}')">🔍 چوڭ كۆرۈش</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    async function adminUpdateOrderStatus(orderId, status) {
-      const ord = state.orders[orderId];
-      if (!ord) return;
-      ord.status = status;
-      ord.processedAt = getCurrentTimeString();
-
-      if (status === 'rejected') {
-        const u = state.users["user_" + ord.userUid];
-        if (u) {
-          u.balance += ord.price;
-          state.users["user_" + ord.userUid] = u;
-          await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(u)
-          });
-          alert(`زاكاس رەت قىلىندى ۋە پۇل ئابونت ھېساباتىغا تولۇق قايتۇرۇلدى.`);
-        }
-      } else if (status === 'approved') {
-        alert(`زاكاس تەستىقلاندى! ۋاقتى: ${ord.processedAt}`);
-      }
-
-      state.orders[orderId] = ord;
-
-      await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(ord)
-      });
-
-      renderAll();
-    }
-
-    function renderAdminDeposits() {
-      const container = document.getElementById("adminDepositsList");
-      if (!container) return;
-      const list = getPaymentsList();
-      if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div>تېخى سومما قاچىلاش تەلىپى يوق</div></div>`;
-        return;
-      }
-      container.innerHTML = "";
-      list.forEach(p => {
-        let statusBadge = '';
-        if (p.status === 'approved') {
-          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
-        } else if (p.status === 'rejected') {
-          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
-        } else {
-          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
-        }
-
-        const div = document.createElement("div");
-        div.className = "admin-list-item";
-        div.onclick = () => openAdminActionModal("deposit", p.id);
-        div.innerHTML = `
-          <div>
-            <strong style="color:#fff;">${p.methodName}</strong>
-            <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${p.username} (UID: #${p.userUid})</div>
-            <div style="font-size:0.75rem; color:#fbbf24;">TxID: ${p.txId}</div>
-            <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${p.date}</div>
-            ${p.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>` : ''}
-          </div>
-          <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
-            <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(p.amount)}</span>
-            ${statusBadge}
-            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('deposit', '${p.id}')">🔍 چوڭ كۆرۈش</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    async function adminApproveDeposit(payId) {
-      const p = state.payments[payId];
-      if (!p || p.status === 'approved') return;
-      const u = state.users["user_" + p.userUid];
-      if (u) {
-        u.balance += parseFloat(p.amount);
-        u.totalSpent = Math.max(u.totalSpent || 0, u.balance);
-        if (!u.manualTier) u.tier = evaluateUserTier(u);
-        p.status = 'approved';
-        p.processedAt = getCurrentTimeString();
-        state.payments[payId] = p;
-        state.users["user_" + p.userUid] = u;
-
-        await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(p)
-        });
-
-        await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(u)
-        });
-
-        renderAll();
-        alert(`سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
-      }
-    }
-
-    async function adminRejectDeposit(payId) {
-      const p = state.payments[payId];
-      if (!p) return;
-      p.status = 'rejected';
-      p.processedAt = getCurrentTimeString();
-      state.payments[payId] = p;
-
-      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(p)
-      });
-
-      renderAll();
-      alert(`سومما قاچىلاش تەلىپى رەت قىلىندى.`);
-    }
-
-    function renderFavorites() {
-      const container = document.getElementById("favListContainer");
-      if (!container) return;
-      const favs = state.products.filter(p => state.favorites.includes(p.id));
-      if (favs.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🤍</div><div>ياقتۇرغانلار يوق</div></div>`;
-        return;
-      }
-      container.innerHTML = `<div class="product-grid" id="favGrid"></div>`;
-      const grid = document.getElementById("favGrid");
-      favs.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-          <img src="${p.image}" class="product-image" alt="${p.name}">
-          <div class="product-info-title">${p.name}</div>
-          <div class="product-footer">
-            <span class="product-price-usd">${p.packages[0] ? formatCurrency(p.packages[0].price) : '$ 0.00'}</span>
-            <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function toggleFavorite(id, e) {
-      if (e) e.stopPropagation();
-      const idx = state.favorites.indexOf(id);
-      if (idx > -1) state.favorites.splice(idx, 1);
-      else state.favorites.push(id);
+    function saveSingleVipLogo(idx) {
+      const tier = state.siteSettings.vipTiers[idx];
+      if (!tier) return;
+      const emoji = document.getElementById(`viplogo_emoji_${idx}`).value.trim();
+      const logoUrl = document.getElementById(`viplogo_url_${idx}`).value.trim();
+      tier.emoji = emoji || tier.emoji;
+      tier.logo = logoUrl;
       saveState();
+      renderVipTiersPage();
+      renderAdminVipLogos();
+      alert(`${tier.name} دەرىجىسىنىڭ بەلگىسى ساقلاندى!`);
     }
 
-    /* VIP TIERS */
-    function renderVipTiersPage() {
-      const container = document.getElementById("vipTiersList");
+    /* ADMIN: DYNAMIC TEXTS */
+    function renderAdminTexts() {
+      const container = document.getElementById("adminTextsFormList");
       if (!container) return;
       container.innerHTML = "";
-      const u = getCurrentUser();
-      const curTierId = u?.tier || "bronze";
-      const totalMetric = Math.max(parseFloat(u?.totalSpent || 0), parseFloat(u?.balance || 0));
+      const dt = state.siteSettings.dynamicTexts || {
+        authSubtitle: "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز",
+        categoriesTitle: "مۇلازىمەت ۋە تۈرلەر",
+        featuredTitle: "تەۋسىيە قىلىنغان مەھسۇلاتلار"
+      };
 
-      const tiers = state.siteSettings.vipTiers;
-      const currentTierIndex = tiers.findIndex(t => t.id === curTierId);
-      const curTierObj = tiers[currentTierIndex] || tiers[0];
-      const nextTierObj = tiers[currentTierIndex + 1] || null;
+      const labels = {
+        authSubtitle: "كىرىش بېتى قوشۇمچە تېمىسى",
+        categoriesTitle: "تۈرلەر بۆلىكى تېمىسى",
+        featuredTitle: "تەۋسىيە مەھسۇلاتلار تېمىسى"
+      };
 
-      document.getElementById("vipCurrentLevelName").innerText = curTierObj.name;
-      document.getElementById("vipDiscountRate").innerText = curTierObj.discount + "% چېگىرمە";
-      document.getElementById("vipTotalSpent").innerText = formatDualCurrency(totalMetric);
-
-      const nextHint = document.getElementById("vipNextTierHint");
-      const nextPercent = document.getElementById("vipNextTierPercent");
-      const barFill = document.getElementById("vipProgressBarFill");
-
-      if (nextTierObj) {
-        const currentReq = curTierObj.req;
-        const nextReq = nextTierObj.req;
-        const progress = Math.min(Math.max((totalMetric - currentReq) / (nextReq - currentReq), 0), 1) * 100;
-        if (nextHint) nextHint.innerText = `كېيىنكى دەرىجە: ${nextTierObj.name} (تەلەپ: ${nextTierObj.req} $)`;
-        if (nextPercent) nextPercent.innerText = `${Math.round(progress)}%`;
-        if (barFill) barFill.style.width = `${progress}%`;
-      } else {
-        if (nextHint) nextHint.innerText = "🎉 سىز ئەڭ يۇقىرى VIP دەرىجىگە يەتتىڭىز!";
-        if (nextPercent) nextPercent.innerText = "100%";
-        if (barFill) barFill.style.width = "100%";
-      }
-
-      tiers.forEach(t => {
+      Object.keys(dt).forEach(k => {
         const div = document.createElement("div");
-        div.className = `vip-tier-card ${t.id === curTierId ? 'active' : ''}`;
+        div.className = "form-group";
         div.innerHTML = `
-          <div class="vip-left-info">
-            <div class="vip-medal-icon">
-              ${t.logo ? `<img src="${t.logo}">` : `<span>${t.emoji}</span>`}
-            </div>
-            <div class="vip-details">
-              <h4>${t.name}</h4>
-              <p>تەلەپ قىلىنىدىغان سومما: <strong>${t.req} $</strong> | كۈچىگە ئىگە ئېتىبار: <strong>${t.discount}%</strong></p>
-            </div>
-          </div>
-          ${t.id === curTierId ? '<span class="badge badge-success">✓ ھازىرقى سەۋىيە</span>' : ''}
+          <label class="form-label">${labels[k] || k}</label>
+          <input type="text" id="dyn_text_${k}" class="form-control" value="${dt[k]}">
         `;
         container.appendChild(div);
       });
     }
 
-    /* ADMIN PRODUCTS MANAGEMENT */
+    function saveDynamicTexts() {
+      if (!state.siteSettings.dynamicTexts) state.siteSettings.dynamicTexts = {};
+      const keys = ["authSubtitle", "categoriesTitle", "featuredTitle"];
+      keys.forEach(k => {
+        const inp = document.getElementById(`dyn_text_${k}`);
+        if (inp) state.siteSettings.dynamicTexts[k] = inp.value.trim();
+      });
+      saveState();
+      applySiteBranding();
+      alert("توربەت تېكىستلىرى مۇۋەپپەقىيەتلىك ساقلاندى!");
+    }
+
+    /* PRODUCTS CRUD */
     function renderAdminProducts() {
       const container = document.getElementById("adminProductsList");
       if (!container) return;
       container.innerHTML = "";
-      state.products.forEach((p, idx) => {
+      state.products.forEach((p) => {
         const div = document.createElement("div");
         div.className = "admin-list-item";
         div.innerHTML = `
           <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${p.image}" style="width:44px; height:44px; border-radius:8px; object-fit:cover;">
+            <img src="${p.image}" onerror="this.src=fastIcons.gameCover" style="width:44px; height:44px; border-radius:8px; object-fit:cover;">
             <div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <strong style="color:#fff;">${p.name}</strong>
@@ -4128,7 +3310,7 @@
           </div>
           <div style="display:flex; gap:6px;">
             <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminProduct('${p.id}')">✏️ تەھرىرلەش</button>
-            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminProduct(${idx})">ئۆچۈرۈش</button>
+            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminProduct('${p.id}')">ئۆچۈرۈش</button>
           </div>
         `;
         container.appendChild(div);
@@ -4354,11 +3536,1019 @@
       alert("مەھسۇلات مۇۋەپپەقىيەتلىك ساقلاندى!");
     }
 
-    function deleteAdminProduct(idx) {
+    function deleteAdminProduct(prodId) {
       if (confirm("بۇ مەھسۇلاتنى ئۆچۈرەمسىز؟")) {
-        state.products.splice(idx, 1);
+        state.products = state.products.filter(p => p.id !== prodId);
         saveState();
       }
+    }
+
+    /* ADMIN: ORDERS & DEPOSITS */
+    function renderAdminAllOrders() {
+      const container = document.getElementById("adminAllOrdersList");
+      if (!container) return;
+      const list = getOrdersList();
+      if (list.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div>تېخى زاكاس چۈشمىدى</div></div>`;
+        return;
+      }
+      container.innerHTML = "";
+      list.forEach(o => {
+        let statusBadge = '';
+        if (o.status === 'approved') {
+          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
+        } else if (o.status === 'rejected') {
+          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
+        } else {
+          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
+        }
+
+        const div = document.createElement("div");
+        div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("order", o.id);
+        div.innerHTML = `
+          <div>
+            <strong style="color:#fff;">${o.prodName} - ${o.packageName}</strong>
+            <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${o.username} (UID: #${o.userUid})</div>
+            <div style="font-size:0.75rem; color:#fbbf24;">كود/ID: ${o.accountTarget}</div>
+            ${o.aiVerified ? `<div style="font-size:0.72rem; color:#34d399;">🤖 AI دەلىللىگەن ✓</div>` : ''}
+            <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${o.date}</div>
+            ${o.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>` : ''}
+          </div>
+          <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
+            <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(o.price)}</span>
+            ${statusBadge}
+            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('order', '${o.id}')">🔍 چوڭ كۆرۈش</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function adminUpdateOrderStatus(orderId, status) {
+      const ord = state.orders[orderId];
+      if (!ord || ord.status === status) return;
+
+      if (status === 'rejected' && ord.status === 'pending') {
+        const u = state.users["user_" + ord.userUid];
+        if (u) {
+          u.balance = parseFloat((u.balance + ord.price).toFixed(3));
+          u.totalSpent = Math.max(0, parseFloat((u.totalSpent - ord.price).toFixed(3)));
+          if (!u.manualTier) u.tier = evaluateUserTier(u);
+          state.users["user_" + ord.userUid] = u;
+          await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(u)
+          });
+          alert(`زاكاس رەت قىلىندى ۋە پۇل ئابونت ھېساباتىغا تولۇق قايتۇرۇلدى.`);
+        }
+      } else if (status === 'approved') {
+        alert(`زاكاس تەستىقلاندى!`);
+      }
+
+      ord.status = status;
+      ord.processedAt = getCurrentTimeString();
+      state.orders[orderId] = ord;
+
+      await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ord)
+      });
+
+      renderAll();
+    }
+
+    function renderAdminDeposits() {
+      const container = document.getElementById("adminDepositsList");
+      if (!container) return;
+      const list = getPaymentsList();
+      if (list.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div>تېخى سومما قاچىلاش تەلىپى يوق</div></div>`;
+        return;
+      }
+      container.innerHTML = "";
+      list.forEach(p => {
+        let statusBadge = '';
+        if (p.status === 'approved') {
+          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
+        } else if (p.status === 'rejected') {
+          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
+        } else {
+          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
+        }
+
+        const div = document.createElement("div");
+        div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("deposit", p.id);
+        div.innerHTML = `
+          <div>
+            <strong style="color:#fff;">${p.methodName}</strong>
+            <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${p.username} (UID: #${p.userUid})</div>
+            <div style="font-size:0.75rem; color:#fbbf24;">TxID: ${p.txId}</div>
+            <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${p.date}</div>
+            ${p.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>` : ''}
+          </div>
+          <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
+            <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(p.amount)}</span>
+            ${statusBadge}
+            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('deposit', '${p.id}')">🔍 چوڭ كۆرۈش</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function adminApproveDeposit(payId) {
+      const p = state.payments[payId];
+      if (!p || p.status !== 'pending') return;
+      const u = state.users["user_" + p.userUid];
+      if (u) {
+        u.balance = parseFloat((u.balance + parseFloat(p.amount)).toFixed(3));
+        u.totalSpent = Math.max(u.totalSpent || 0, u.balance);
+        if (!u.manualTier) u.tier = evaluateUserTier(u);
+        p.status = 'approved';
+        p.processedAt = getCurrentTimeString();
+        state.payments[payId] = p;
+        state.users["user_" + p.userUid] = u;
+
+        await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(p)
+        });
+
+        await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(u)
+        });
+
+        renderAll();
+        alert(`سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
+      }
+    }
+
+    async function adminRejectDeposit(payId) {
+      const p = state.payments[payId];
+      if (!p || p.status !== 'pending') return;
+      p.status = 'rejected';
+      p.processedAt = getCurrentTimeString();
+      state.payments[payId] = p;
+
+      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(p)
+      });
+
+      renderAll();
+      alert(`سومما قاچىلاش تەلىپى رەت قىلىندى.`);
+    }
+
+    function renderFavorites() {
+      const container = document.getElementById("favListContainer");
+      if (!container) return;
+      const favs = state.products.filter(p => state.favorites.includes(p.id));
+      if (favs.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🤍</div><div>ياقتۇرغانلار يوق</div></div>`;
+        return;
+      }
+      container.innerHTML = `<div class="product-grid" id="favGrid"></div>`;
+      const grid = document.getElementById("favGrid");
+      favs.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${p.image}" class="product-image" alt="${p.name}" onerror="this.src=fastIcons.gameCover">
+          <div class="product-info-title">${p.name}</div>
+          <div class="product-footer">
+            <span class="product-price-usd">${p.packages[0] ? formatCurrency(p.packages[0].price) : '$ 0.00'}</span>
+            <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function toggleFavorite(id, e) {
+      if (e) e.stopPropagation();
+      const idx = state.favorites.indexOf(id);
+      if (idx > -1) state.favorites.splice(idx, 1);
+      else state.favorites.push(id);
+      saveState();
+    }
+
+    /* VIP TIERS */
+    function renderVipTiersPage() {
+      const container = document.getElementById("vipTiersList");
+      if (!container) return;
+      container.innerHTML = "";
+      const u = getCurrentUser();
+      const curTierId = u?.tier || "bronze";
+      const totalMetric = Math.max(parseFloat(u?.totalSpent || 0), parseFloat(u?.balance || 0));
+
+      const tiers = state.siteSettings.vipTiers || [];
+      const currentTierIndex = tiers.findIndex(t => t.id === curTierId);
+      const curTierObj = tiers[currentTierIndex] || tiers[0] || { name: "مىس", discount: 0, req: 0 };
+      const nextTierObj = tiers[currentTierIndex + 1] || null;
+
+      document.getElementById("vipCurrentLevelName").innerText = curTierObj.name;
+      document.getElementById("vipDiscountRate").innerText = curTierObj.discount + "% چېگىرمە";
+      document.getElementById("vipTotalSpent").innerText = formatDualCurrency(totalMetric);
+
+      const nextHint = document.getElementById("vipNextTierHint");
+      const nextPercent = document.getElementById("vipNextTierPercent");
+      const barFill = document.getElementById("vipProgressBarFill");
+
+      if (nextTierObj) {
+        const currentReq = curTierObj.req;
+        const nextReq = nextTierObj.req;
+        const progress = Math.min(Math.max((totalMetric - currentReq) / (nextReq - currentReq), 0), 1) * 100;
+        if (nextHint) nextHint.innerText = `كېيىنكى دەرىجە: ${nextTierObj.name} (تەلەپ: ${nextTierObj.req} $)`;
+        if (nextPercent) nextPercent.innerText = `${Math.round(progress)}%`;
+        if (barFill) barFill.style.width = `${progress}%`;
+      } else {
+        if (nextHint) nextHint.innerText = "🎉 سىز ئەڭ يۇقىرى VIP دەرىجىگە يەتتىڭىز!";
+        if (nextPercent) nextPercent.innerText = "100%";
+        if (barFill) barFill.style.width = "100%";
+      }
+
+      tiers.forEach(t => {
+        const div = document.createElement("div");
+        div.className = `vip-tier-card ${t.id === curTierId ? 'active' : ''}`;
+        div.innerHTML = `
+          <div class="vip-left-info">
+            <div class="vip-medal-icon">
+              ${t.logo ? `<img src="${t.logo}" onerror="this.src=fastIcons.userDefaultAvatar">` : `<span>${t.emoji || '👑'}</span>`}
+            </div>
+            <div class="vip-details">
+              <h4>${t.name}</h4>
+              <p>تەلەپ قىلىنىدىغان سومما: <strong>${t.req} $</strong> | كۈچىگە ئىگە ئېتىبار: <strong>${t.discount}%</strong></p>
+            </div>
+          </div>
+          ${t.id === curTierId ? '<span class="badge badge-success">✓ ھازىرقى سەۋىيە</span>' : ''}
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    /* AI AUTOMATIC SMART VALIDATION FUNCTION */
+    function validateAccountWithAI(product, id1, id2) {
+      if (!id1 || id1.trim().length === 0) {
+        return { valid: false, msg: "⚠️ ئەسكەرتىش: كود ياكى ID نۇمۇرى بوش قالدى! ئاۋۋال تولدۇرۇڭ." };
+      }
+      const cleanId1 = id1.trim();
+      const vType = product.aiValidation || (product.isDoubleId ? "mlbb" : (product.name.toLowerCase().includes("pubg") ? "pubg" : "auto"));
+
+      if (/[<>{}[\]\^~]/.test(cleanId1)) {
+        return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: ID نۇمۇرىدا رۇخسەت قىلىنمىغان خاتا ياكى ئالاھىدە بەلگىلەر بار! تەكشۈرۈپ قايتا كىرگۈزۈڭ." };
+      }
+
+      if (product.isDoubleId || vType === "mlbb") {
+        if (!id2 || id2.trim().length === 0) {
+          return { valid: false, msg: "⚠️ سىرۋېر (Zone / Server ID) نۇمۇرى تولدۇرۇلمىدى! ئىككى كودنى تەڭ كىرگۈزۈش شەرت." };
+        }
+        const cleanId2 = id2.trim();
+        if (!/^\d{5,12}$/.test(cleanId1)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: ئويۇن User ID نۇمۇرى خاتا! ئۇ 5 خانىدىن 12 خانىغىچە پەقەت رەقەمدىن تۈزۈلۈشى كېرەك." };
+        }
+        if (!/^\d{3,6}$/.test(cleanId2)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: سىرۋېر (Zone ID) نۇمۇرى خاتا! 3 تىن 6 خانىغىچە بولغان سان بولۇشى شەرت (مەسىلەن: 2001)." };
+        }
+        return { valid: true, msg: "✅ AI دەلىللىشى: Mobile Legends User ID ۋە Zone ID توغرا." };
+      }
+
+      if (vType === "pubg" || product.name.toLowerCase().includes("pubg")) {
+        if (!/^\d{7,13}$/.test(cleanId1)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: PUBG ID نۇمۇرى خاتا! ئۇ 7 تىن 13 خانىغىچە بولغان پەقەت رەقەملەردىن تۈزۈلگەن بولۇشى كېرەك." };
+        }
+        return { valid: true, msg: "✅ AI دەلىللىشى: PUBG كودى نورمال دەلىللەندى." };
+      }
+
+      if (vType === "numeric") {
+        if (!/^\d{4,20}$/.test(cleanId1)) {
+          return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: بۇ مەھسۇلاتنىڭ ID نۇمۇرى پەقەت رەقەمدىن تەركىب تېپىشى شەرت (ئاز دېگەندە 4 خانە)!" };
+        }
+        return { valid: true, msg: "✅ AI دەلىللىشى: رەقەملىك ID توغرا." };
+      }
+
+      if (cleanId1.length < 4) {
+        return { valid: false, msg: "⚠️ AI تەكشۈرۈشى: كىرگۈزگەن كود بەك قىسقا! ئاز دېگەندە 4 ھەرپ ياكى رەقەم كىرگۈزۈڭ." };
+      }
+
+      return { valid: true, msg: "✅ AI دەلىللىشى: كود فورماتى تەكشۈرۈلدى ۋە ئۆتتى." };
+    }
+
+    /* PRODUCTS & ORDERING */
+    function renderProducts() {
+      const container = document.getElementById("productsGrid");
+      if (!container) return;
+      container.innerHTML = "";
+      state.products.forEach(p => {
+        const isFav = state.favorites.includes(p.id);
+        const basePrice = p.packages[0] ? p.packages[0].price : 0;
+        const sypPrice = Math.round(basePrice * getRate());
+
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${p.image}" class="product-image" alt="${p.name}" onerror="this.src=fastIcons.gameCover">
+          <div class="product-info-title">${p.name}</div>
+          <div class="product-info-desc">${p.badge || ''}</div>
+          <div class="product-footer">
+            <div class="product-price-box">
+              <span class="product-price-usd">${formatCurrency(basePrice)}</span>
+              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
+            </div>
+            <div class="product-actions-group">
+              <button class="fav-toggle-btn" onclick="toggleFavorite('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
+              <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function handleHomeSearch(val) {
+      const q = val.toLowerCase().trim();
+      const filtered = state.products.filter(p => p.name.toLowerCase().includes(q));
+      const container = document.getElementById("productsGrid");
+      container.innerHTML = "";
+      filtered.forEach(p => {
+        const basePrice = p.packages[0] ? p.packages[0].price : 0;
+        const sypPrice = Math.round(basePrice * getRate());
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${p.image}" class="product-image" alt="${p.name}" onerror="this.src=fastIcons.gameCover">
+          <div class="product-info-title">${p.name}</div>
+          <div class="product-footer">
+            <div class="product-price-box">
+              <span class="product-price-usd">${formatCurrency(basePrice)}</span>
+              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
+            </div>
+            <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function resetSearch() {
+      document.getElementById("searchInput").value = "";
+      renderProducts();
+    }
+
+    let currentViewingCatId = null;
+    function openCategoryDetailPage(catId) {
+      currentViewingCatId = catId;
+      const cat = state.categories.find(c => c.id === catId);
+      document.getElementById("catPageMainTitle").innerText = cat ? cat.name : "تۈر";
+      renderCategoryGamesGrid();
+      switchView("view-category-detail");
+    }
+
+    function renderCategoryGamesGrid() {
+      const container = document.getElementById("categoryGamesGrid");
+      if (!container) return;
+      container.innerHTML = "";
+      const q = (document.getElementById("catDetailSearchInput")?.value || "").toLowerCase().trim();
+      let prods = state.products.filter(p => p.catId === currentViewingCatId);
+      if (q) prods = prods.filter(p => p.name.toLowerCase().includes(q));
+
+      if (prods.length === 0) {
+        container.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><div class="empty-state-icon">🎮</div><div>بۇ تۈردە تېخى مەھسۇلات يوق</div></div>`;
+        return;
+      }
+
+      prods.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "game-card";
+        card.onclick = () => checkAuthAndAction(() => openProductOrderPage(p.id));
+        card.innerHTML = `
+          <div class="game-cover-wrapper">
+            <img src="${p.image}" alt="${p.name}" onerror="this.src=fastIcons.gameCover">
+          </div>
+          <div class="game-info-box">
+            <div class="game-title">${p.name}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    function handleCatProductSearch() { renderCategoryGamesGrid(); }
+
+    let currentOrderingProduct = null;
+    let selectedPackageIndex = 0;
+
+    function openProductOrderPage(prodId) {
+      const p = state.products.find(x => x.id === prodId);
+      if (!p) return;
+      currentOrderingProduct = p;
+      selectedPackageIndex = 0;
+
+      document.getElementById("productPageTitle").innerText = p.name;
+      document.getElementById("productPageAvatarImg").src = p.image;
+      document.getElementById("orderPageInputLabel").innerText = p.fieldLabel || "ئويۇن ID نومۇرى";
+      document.getElementById("orderPageAccountInput").value = "";
+      document.getElementById("orderPageAccountInput").placeholder = p.placeholder || "ID نومۇرى كىرگۈزۈڭ";
+
+      const isFav = state.favorites.includes(p.id);
+      const favBtn = document.getElementById("productPageFavBtn");
+      if (favBtn) favBtn.innerText = isFav ? "❤️" : "🤍";
+
+      const serverWrap = document.getElementById("orderPageServerInputWrap");
+      if (p.isDoubleId) {
+        serverWrap.style.display = "block";
+        document.getElementById("orderPageServerLabel").innerText = p.serverLabel || "Zone / سىرۋېر نومۇرى (Server ID)";
+        document.getElementById("orderPageServerInput").value = "";
+        document.getElementById("orderPageServerInput").placeholder = p.serverPlaceholder || "Zone ID (مەسىلەن: 2001)";
+      } else {
+        serverWrap.style.display = "none";
+      }
+
+      renderPackageDropdownOptions();
+      updateOrderPageCalculations();
+      switchView("view-product-order-page");
+    }
+
+    function toggleCurrentProductFav() {
+      if (!currentOrderingProduct) return;
+      toggleFavorite(currentOrderingProduct.id);
+      const isFav = state.favorites.includes(currentOrderingProduct.id);
+      const favBtn = document.getElementById("productPageFavBtn");
+      if (favBtn) favBtn.innerText = isFav ? "❤️" : "🤍";
+    }
+
+    function goBackToCategory() {
+      if (currentViewingCatId) switchView("view-category-detail");
+      else switchView("view-home");
+    }
+
+    function togglePackageDropdown() {
+      document.getElementById("packageOptionsContainer").classList.toggle("open");
+    }
+
+    function renderPackageDropdownOptions() {
+      const container = document.getElementById("packageOptionsContainer");
+      container.innerHTML = "";
+      currentOrderingProduct.packages.forEach((pkg, idx) => {
+        const syp = Math.round(pkg.price * getRate());
+        const row = document.createElement("div");
+        row.className = "package-option-row" + (idx === selectedPackageIndex ? " selected" : "");
+        row.onclick = () => {
+          selectedPackageIndex = idx;
+          renderPackageDropdownOptions();
+          togglePackageDropdown();
+          updateOrderPageCalculations();
+        };
+        row.innerHTML = `
+          <span class="package-opt-name">${pkg.name}</span>
+          <div class="package-opt-price">
+            <span style="font-weight:bold; color:#38bdf8;">${formatCurrency(pkg.price)}</span>
+            <span style="font-size:0.75rem; color:#f59e0b;">≈ ${syp.toLocaleString()} لىرا</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+      const cur = currentOrderingProduct.packages[selectedPackageIndex] || { name: 'بۇيۇم', price: 0 };
+      document.getElementById("selectedPackageText").innerText = `${cur.name} — ${formatCurrency(cur.price)}`;
+    }
+
+    function updateOrderPageCalculations() {
+      const pkg = currentOrderingProduct.packages[selectedPackageIndex] || { name: 'ئۆلچەملىك', price: 0 };
+      const u = getCurrentUser();
+      const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u?.tier) || { discount: 0 };
+      const rate = (currentTierObj.discount || 0) / 100;
+      const finalPrice = pkg.price * (1 - rate);
+      const finalSyp = Math.round(finalPrice * getRate());
+
+      document.getElementById("orderPageOriginalPrice").innerText = formatDualCurrency(pkg.price);
+      document.getElementById("orderPageDiscountText").innerText = `${currentTierObj.discount || 0}% (-${formatCurrency(pkg.price * rate)})`;
+      document.getElementById("orderPageFinalPrice").innerText = formatCurrency(finalPrice);
+      document.getElementById("orderPageFinalPriceSYP").innerText = `≈ ${finalSyp.toLocaleString()} سۈرىيە لىراسى`;
+    }
+
+    async function submitProductOrderFromPage() {
+      const u = getCurrentUser();
+      if (!u) {
+        openModal("modalAuthLogin");
+        return;
+      }
+
+      const inputVal = document.getElementById("orderPageAccountInput").value.trim();
+      const serverVal = currentOrderingProduct.isDoubleId ? document.getElementById("orderPageServerInput").value.trim() : "";
+
+      const aiResult = validateAccountWithAI(currentOrderingProduct, inputVal, serverVal);
+      if (!aiResult.valid) {
+        alert(aiResult.msg);
+        return;
+      }
+
+      const pkg = currentOrderingProduct.packages[selectedPackageIndex];
+      const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || { discount: 0 };
+      const finalPrice = pkg.price * (1 - (currentTierObj.discount || 0) / 100);
+
+      if (u.balance < finalPrice) {
+        alert("تەڭگۈلۈكىڭىز يەتمىدى! ئاۋۋال سومما قاچىلاڭ.");
+        switchView("view-add-balance");
+        return;
+      }
+
+      const fullTargetString = currentOrderingProduct.isDoubleId 
+        ? `${inputVal} (Zone/Server: ${serverVal})`
+        : inputVal;
+
+      u.balance = parseFloat((u.balance - finalPrice).toFixed(3));
+      u.totalSpent = parseFloat(((parseFloat(u.totalSpent || 0)) + finalPrice).toFixed(3));
+      if (!u.manualTier) u.tier = evaluateUserTier(u);
+      state.users["user_" + u.uid] = u;
+
+      const orderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+      const orderObj = {
+        id: orderId,
+        userUid: u.uid,
+        username: u.username,
+        prodName: currentOrderingProduct.name,
+        packageName: pkg.name,
+        accountTarget: fullTargetString,
+        rawId: inputVal,
+        rawServer: serverVal,
+        aiVerified: true,
+        price: finalPrice,
+        status: "pending",
+        date: getCurrentTimeString(),
+        processedAt: null
+      };
+
+      state.orders[orderId] = orderObj;
+
+      await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderObj)
+      });
+
+      await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(u)
+      });
+
+      showToastNotification(`🤖 AI تەكشۈرۈشىدىن مۇۋەپپەقىيەتلىك ئۆتتى! زاكاس قوبۇل قىلىندى.`);
+      alert("✅ زاكاز تاپشۇرۇلدى! ئايدى نومۇرى AI تەكشۈرۈشىدىن ئۆتۈپ باشقۇرغۇچىغا تەستىققا ماڭدى.");
+      switchView("view-orders");
+    }
+
+    /* ORDERS LIST */
+    function filterOrders(filter, btn) {
+      currentOrderFilter = filter;
+      document.querySelectorAll("#orderFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      renderOrdersList();
+    }
+
+    function renderOrdersList() {
+      const container = document.getElementById("ordersList");
+      const u = getCurrentUser();
+      if (!container || !u) return;
+
+      const q = (document.getElementById("orderSearchInput")?.value || "").toLowerCase().trim();
+      let list = getOrdersList().filter(o => o.userUid === u.uid);
+
+      if (currentOrderFilter !== "all") {
+        list = list.filter(o => o.status === currentOrderFilter);
+      }
+
+      if (q) {
+        list = list.filter(o => o.prodName.toLowerCase().includes(q) || o.id.toLowerCase().includes(q) || (o.accountTarget && o.accountTarget.toLowerCase().includes(q)));
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📦</div><div>تەلەپ تېپىلمىدى</div></div>`;
+        return;
+      }
+
+      container.innerHTML = "";
+      list.forEach(o => {
+        let statusBadge = '';
+        let processedTimeNote = '';
+
+        if (o.status === 'approved') {
+          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
+          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>`;
+        } else if (o.status === 'rejected') {
+          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
+          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${o.processedAt}</div>`;
+        } else {
+          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
+        }
+
+        const div = document.createElement("div");
+        div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("order", o.id);
+        div.innerHTML = `
+          <div>
+            <div style="font-weight: bold; color: #fff;">${o.prodName} (${o.packageName})</div>
+            <div style="font-size: 0.78rem; color: #94a3b8;">${o.accountTarget} | ID: ${o.id}</div>
+            <div style="font-size: 0.74rem; color: #64748b;">تاپشۇرۇلغان ۋاقتى: ${o.date}</div>
+            ${processedTimeNote}
+          </div>
+          <div style="text-align: left;">
+            <div style="color: #f87171; font-weight: bold; margin-bottom:4px;">-${formatCurrency(o.price)}</div>
+            ${statusBadge}
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    /* PAYMENTS LIST */
+    function filterPayments(filter, btn) {
+      currentPaymentFilter = filter;
+      document.querySelectorAll("#paymentFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      renderPaymentsList();
+    }
+
+    function renderPaymentsList() {
+      const container = document.getElementById("paymentsList");
+      const u = getCurrentUser();
+      if (!container || !u) return;
+
+      const q = (document.getElementById("paymentSearchInput")?.value || "").toLowerCase().trim();
+      let list = getPaymentsList().filter(p => p.userUid === u.uid);
+
+      if (currentPaymentFilter !== "all") {
+        list = list.filter(p => p.status === currentPaymentFilter);
+      }
+
+      if (q) {
+        list = list.filter(p => p.methodName.toLowerCase().includes(q) || p.txId.toLowerCase().includes(q));
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👛</div><div>خاتىرە تېپىلمىدى</div></div>`;
+        return;
+      }
+
+      container.innerHTML = "";
+      list.forEach(p => {
+        let statusBadge = '';
+        let processedTimeNote = '';
+
+        if (p.status === 'approved') {
+          statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
+          if (p.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>`;
+        } else if (p.status === 'rejected') {
+          statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
+          if (p.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${p.processedAt}</div>`;
+        } else {
+          statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
+        }
+
+        const div = document.createElement("div");
+        div.className = "admin-list-item";
+        div.onclick = () => openAdminActionModal("deposit", p.id);
+        div.innerHTML = `
+          <div>
+            <div style="font-weight: bold; color: #fff;">${p.methodName}</div>
+            <div style="font-size: 0.78rem; color: #94a3b8;">TxID: ${p.txId}</div>
+            <div style="font-size: 0.74rem; color: #64748b;">تەلەپ ۋاقتى: ${p.date}</div>
+            ${processedTimeNote}
+          </div>
+          <div style="text-align: left;">
+            <div style="color: #34d399; font-weight: bold; margin-bottom:4px;">+${formatDualCurrency(p.amount)}</div>
+            ${statusBadge}
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderRechargeMethods() {
+      const grid = document.getElementById("rechargeMethodsGrid");
+      if (!grid) return;
+      grid.innerHTML = "";
+      state.paymentMethods.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "pay-card";
+        card.onclick = () => checkAuthAndAction(() => openRechargeModal(m.id));
+        card.innerHTML = `
+          <div class="pay-card-commission">${m.commission}</div>
+          <div class="pay-icon-circle">
+            ${m.icon.startsWith("http") ? `<img src="${m.icon}" onerror="this.src=fastIcons.userDefaultAvatar">` : `<span style="font-size:24px;">${m.icon}</span>`}
+          </div>
+          <div class="pay-card-name">${m.name}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    let selectedRechargeMethod = null;
+    function openRechargeModal(id) {
+      selectedRechargeMethod = state.paymentMethods.find(m => m.id === id);
+      if (!selectedRechargeMethod) return;
+      document.getElementById("rechargeMethodName").innerText = selectedRechargeMethod.name;
+      document.getElementById("rechargeMethodDesc").innerText = selectedRechargeMethod.desc;
+      document.getElementById("rechargeTargetAccount").innerText = selectedRechargeMethod.account;
+      document.getElementById("depositAmountInput").value = "";
+      setRechargeCurrency(state.userCurrencyMode === 'SYP' ? 'SYP' : 'USD');
+      openModal("modalRechargeSubmit");
+    }
+
+    function copyAccountAddress() {
+      if (selectedRechargeMethod) {
+        copyTextToClipboard(selectedRechargeMethod.account, "ھېسابات نومۇرى كۆچۈرۈلدى!");
+      }
+    }
+
+    async function submitRechargeRequest() {
+      const u = getCurrentUser();
+      if (!u) {
+        openModal("modalAuthLogin");
+        return;
+      }
+      const rawAmt = parseFloat(document.getElementById("depositAmountInput").value);
+      const tx = document.getElementById("depositTxIdInput").value.trim();
+      if (!rawAmt || rawAmt <= 0) return alert("سوممىنى توغرا كىرگۈزۈڭ!");
+
+      let finalUsd = rawAmt;
+      let finalSyp = Math.round(rawAmt * getRate());
+      if (rechargeCurrency === 'SYP') {
+        finalSyp = rawAmt;
+        finalUsd = parseFloat((rawAmt / getRate()).toFixed(3));
+      }
+
+      const payId = "PAY-" + Math.floor(100000 + Math.random() * 900000);
+      const newPayItem = {
+        id: payId,
+        userUid: u.uid,
+        username: u.username,
+        methodName: selectedRechargeMethod.name,
+        amount: finalUsd,
+        amountSyp: finalSyp,
+        currencyUsed: rechargeCurrency,
+        txId: tx || "—",
+        status: "pending",
+        date: getCurrentTimeString(),
+        processedAt: null
+      };
+
+      state.payments[payId] = newPayItem;
+      closeModal("modalRechargeSubmit");
+
+      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPayItem)
+      });
+
+      alert(`سومما قاچىلاش تەلىپىڭىز يوللاندى! ھازىر ساقلاش ھالىتىدە تۇرىدۇ.`);
+      switchView("view-payments");
+    }
+
+    let rechargeCurrency = 'USD';
+    function setRechargeCurrency(curr) {
+      rechargeCurrency = curr;
+      document.getElementById("currBtnUSD").classList.toggle("active", curr === 'USD');
+      document.getElementById("currBtnSYP").classList.toggle("active", curr === 'SYP');
+      const lbl = document.getElementById("depositAmountLabel");
+      const inp = document.getElementById("depositAmountInput");
+      if (curr === 'USD') {
+        lbl.innerText = "قاچىلايدىغان سومما ($ دوللار):";
+        inp.placeholder = "مەسىلەن: 10";
+      } else {
+        lbl.innerText = "قاچىلايدىغان سومما (سۈرىيە لىراسى SP):";
+        inp.placeholder = "مەسىلەن: 1360";
+      }
+      handleRechargeAmountConvert();
+    }
+
+    function handleRechargeAmountConvert() {
+      const rawVal = parseFloat(document.getElementById("depositAmountInput").value) || 0;
+      const rate = getRate();
+      const disp = document.getElementById("rechargeConvertedDisplay");
+      if (rechargeCurrency === 'USD') {
+        const syp = Math.round(rawVal * rate);
+        disp.innerText = `تەڭ قىممەت: $ ${rawVal.toFixed(2)} = ${syp.toLocaleString()} سۈرىيە لىراسى`;
+      } else {
+        const usd = rawVal / rate;
+        disp.innerText = `تەڭ قىممەت: ${rawVal.toLocaleString()} لىرا = $ ${usd.toFixed(3)}`;
+      }
+    }
+
+    /* ADMIN: SETTINGS */
+    function renderAdminSettings() {
+      const s = state.siteSettings;
+      document.getElementById("adminSiteNameInput").value = s.siteName || "Auto cash";
+      document.getElementById("adminLogoUrlInput").value = s.logoUrl || "";
+      document.getElementById("adminMarqueeInput").value = s.marqueeText || "";
+      document.getElementById("adminWhatsappInput").value = s.whatsapp || "";
+      document.getElementById("adminTelegramInput").value = s.telegram || "";
+      document.getElementById("adminSyrianPoundRateInput").value = s.syrianPoundRate || 136;
+    }
+
+    function saveAdminSettings() {
+      state.siteSettings.siteName = document.getElementById("adminSiteNameInput").value.trim() || "Auto cash";
+      state.siteSettings.logoUrl = document.getElementById("adminLogoUrlInput").value.trim();
+      state.siteSettings.marqueeText = document.getElementById("adminMarqueeInput").value.trim();
+      state.siteSettings.whatsapp = document.getElementById("adminWhatsappInput").value.trim();
+      state.siteSettings.telegram = document.getElementById("adminTelegramInput").value.trim();
+      
+      const newRate = parseFloat(document.getElementById("adminSyrianPoundRateInput").value);
+      if (newRate && newRate > 0) {
+        state.siteSettings.syrianPoundRate = newRate;
+      }
+
+      saveState();
+      alert(`بېكەت تەڭشەكلىرى، سۈرىيە لىرا نىسبىتى (${state.siteSettings.syrianPoundRate}) بوشلۇققا مۇقىم ساقلاندى!`);
+    }
+
+    /* CATEGORIES CRUD */
+    function renderAdminCategories() {
+      const container = document.getElementById("adminCategoriesList");
+      if (!container) return;
+      container.innerHTML = "";
+      state.categories.forEach((cat) => {
+        const div = document.createElement("div");
+        div.className = "admin-list-item";
+        div.innerHTML = `
+          <div style="display:flex; align-items:center; gap:12px;">
+            <img src="${cat.img}" onerror="this.src=fastIcons.gameCover" style="width:48px; height:48px; object-fit:cover; border-radius:10px; border:1px solid #1e4579;">
+            <div>
+              <strong style="color:#fff; font-size:0.95rem;">${cat.name}</strong>
+              <div style="font-size:0.75rem; color:#94a3b8;">${cat.subName}</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminCategory('${cat.id}')">تەھرىرلەش</button>
+            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminCategory('${cat.id}')">يۇيۇش</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function openAddCategoryModal() {
+      document.getElementById("adminCatEditId").value = "";
+      document.getElementById("modalAdminCatTitle").innerText = "يېڭى تۈر قوشۇش";
+      document.getElementById("adminCatNameInput").value = "";
+      document.getElementById("adminCatSubInput").value = "";
+      document.getElementById("adminCatImageUrlInput").value = "";
+      openModal("modalAdminCategory");
+    }
+
+    function editAdminCategory(catId) {
+      const cat = state.categories.find(c => c.id === catId);
+      if (!cat) return;
+      document.getElementById("adminCatEditId").value = cat.id;
+      document.getElementById("modalAdminCatTitle").innerText = "تۈرنى تەھرىرلەش";
+      document.getElementById("adminCatNameInput").value = cat.name;
+      document.getElementById("adminCatSubInput").value = cat.subName;
+      document.getElementById("adminCatImageUrlInput").value = cat.img;
+      openModal("modalAdminCategory");
+    }
+
+    function saveAdminCategory() {
+      const editId = document.getElementById("adminCatEditId").value;
+      const name = document.getElementById("adminCatNameInput").value.trim();
+      const subName = document.getElementById("adminCatSubInput").value.trim();
+      const img = document.getElementById("adminCatImageUrlInput").value.trim();
+      if (!name) return alert("تۈر نامىنى كىرگۈزۈڭ!");
+
+      if (editId) {
+        const cat = state.categories.find(c => c.id === editId);
+        if (cat) {
+          cat.name = name;
+          cat.subName = subName || "Auto cash مۇلازىمىتى";
+          cat.img = img || cat.img || fastIcons.gameCover;
+        }
+      } else {
+        state.categories.push({
+          id: "cat-" + Date.now(),
+          name: name,
+          subName: subName || "Auto cash مۇلازىمىتى",
+          img: img || fastIcons.gameCover
+        });
+      }
+      saveState();
+      closeModal("modalAdminCategory");
+    }
+
+    function deleteAdminCategory(catId) {
+      if (confirm("بۇ تۈرنى راستىنلا ئۆچۈرەمسىز؟")) {
+        state.categories = state.categories.filter(c => c.id !== catId);
+        saveState();
+      }
+    }
+
+    /* PAYMENT METHODS CRUD */
+    function renderAdminPayments() {
+      const container = document.getElementById("adminPaymentsList");
+      if (!container) return;
+      container.innerHTML = "";
+      state.paymentMethods.forEach((m) => {
+        const div = document.createElement("div");
+        div.className = "admin-list-item";
+        div.innerHTML = `
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="pay-icon-circle" style="width:42px; height:42px; margin:0; font-size:18px;">
+              ${m.icon.startsWith("http") ? `<img src="${m.icon}" onerror="this.src=fastIcons.userDefaultAvatar">` : m.icon}
+            </div>
+            <div>
+              <strong style="color:#fff; font-size:0.92rem;">${m.name}</strong>
+              <div style="font-size:0.75rem; color:#38bdf8; font-family:monospace;">${m.account}</div>
+              <div style="font-size:0.72rem; color:#94a3b8;">${m.desc} | ${m.commission}</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="editAdminPayment('${m.id}')">تەھرىرلەش</button>
+            <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteAdminPayment('${m.id}')">يۇيۇش</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function openAddPaymentModal() {
+      document.getElementById("adminPayEditId").value = "";
+      document.getElementById("modalAdminPaymentTitle").innerText = "يېڭى قاچىلاش شەكلى قوشۇش";
+      document.getElementById("adminPayNameInput").value = "";
+      document.getElementById("adminPayIconInput").value = "📱";
+      document.getElementById("adminPayAccountInput").value = "";
+      document.getElementById("adminPayCommissionInput").value = "0% كومىسسىيە";
+      document.getElementById("adminPayDescInput").value = "";
+      openModal("modalAdminPayment");
+    }
+
+    function editAdminPayment(id) {
+      const m = state.paymentMethods.find(x => x.id === id);
+      if (!m) return;
+      document.getElementById("adminPayEditId").value = m.id;
+      document.getElementById("modalAdminPaymentTitle").innerText = "قاچىلاش ئۇسۇلىنى تەھرىرلەش";
+      document.getElementById("adminPayNameInput").value = m.name;
+      document.getElementById("adminPayIconInput").value = m.icon;
+      document.getElementById("adminPayAccountInput").value = m.account;
+      document.getElementById("adminPayCommissionInput").value = m.commission;
+      document.getElementById("adminPayDescInput").value = m.desc;
+      openModal("modalAdminPayment");
+    }
+
+    function saveAdminPayment() {
+      const editId = document.getElementById("adminPayEditId").value;
+      const name = document.getElementById("adminPayNameInput").value.trim();
+      const icon = document.getElementById("adminPayIconInput").value.trim() || "💳";
+      const account = document.getElementById("adminPayAccountInput").value.trim();
+      const comm = document.getElementById("adminPayCommissionInput").value.trim() || "0% كومىسسىيە";
+      const desc = document.getElementById("adminPayDescInput").value.trim();
+
+      if (!name || !account) return alert("ئۇسۇل نامى ۋە ھېسابات نومۇرىنى كىرگۈزۈڭ!");
+      if (editId) {
+        const m = state.paymentMethods.find(x => x.id === editId);
+        if (m) {
+          m.name = name; m.icon = icon; m.account = account; m.commission = comm; m.desc = desc;
+        }
+      } else {
+        state.paymentMethods.push({
+          id: "pay-" + Date.now(),
+          name, icon, account, commission: comm, desc: desc || "پۇل ئەۋەتىپ دەلىل نومۇرىنى قالدۇرۇڭ", status: "active"
+        });
+      }
+      saveState();
+      closeModal("modalAdminPayment");
+    }
+
+    function deleteAdminPayment(id) {
+      if (confirm("بۇ قاچىلاش ئۇسۇلىنى ئۆچۈرەمسىز؟")) {
+        state.paymentMethods = state.paymentMethods.filter(m => m.id !== id);
+        saveState();
+      }
+    }
+
+    /* ADMIN: WELCOME SETTINGS */
+    function renderAdminWelcomeSettings() {
+      const s = state.siteSettings;
+      document.getElementById("adminWelcomeTitleInput").value = s.welcomeTitle || s.siteName || "Auto cash";
+      document.getElementById("adminWelcomeMsgInput").value = s.welcomeMessage || "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!";
+      document.getElementById("adminWelcomeImgInput").value = s.welcomeLogoUrl || "";
+    }
+
+    async function saveAdminWelcomeSettings() {
+      const title = document.getElementById("adminWelcomeTitleInput").value.trim() || "Auto cash";
+      const msg = document.getElementById("adminWelcomeMsgInput").value.trim() || "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز!";
+      const img = document.getElementById("adminWelcomeImgInput").value.trim();
+
+      state.siteSettings.welcomeTitle = title;
+      state.siteSettings.welcomeMessage = msg;
+      state.siteSettings.welcomeLogoUrl = img;
+
+      saveState();
+      applyWelcomeSplashData();
+      alert("قارشى ئېلىش بېتى تەڭشەكلىرى پۈتۈن بوشلۇققا مۇقىم ساقلاندى!");
     }
 
     /* AI COMMAND EXECUTOR */
@@ -4423,7 +4613,7 @@
         const num = c.match(/(\d+(\.\d+)?)/);
         const amt = num ? parseFloat(num[0]) : 50;
         const target = getUsersList().find(u => c.includes(u.username.toLowerCase())) || state.users["user_999999"];
-        target.balance += amt;
+        target.balance = parseFloat((target.balance + amt).toFixed(3));
         target.totalSpent = Math.max(target.totalSpent || 0, target.balance);
         if (!target.manualTier) target.tier = evaluateUserTier(target);
         state.users["user_" + target.uid] = target;
@@ -4515,14 +4705,20 @@
 
     function switchAdminTab(tabId, el) {
       document.querySelectorAll(".admin-subview").forEach(s => s.style.display = "none");
-      document.getElementById(tabId).style.display = "block";
+      const target = document.getElementById(tabId);
+      if (target) target.style.display = "block";
       document.querySelectorAll(".admin-tab-btn").forEach(b => b.classList.remove("active"));
       if (el) el.classList.add("active");
     }
 
     function openModal(id) { document.getElementById(id).classList.add("active"); }
     function closeModal(id) { document.getElementById(id).classList.remove("active"); }
-    function openSupportChat() { window.open(`https://t.me/${state.siteSettings.telegram}`, "_blank"); }
+    function openSupportChat() { 
+      const tg = (state.siteSettings.telegram || "KOZNAK_USD").replace(/^@/, '');
+      window.open(`https://t.me/${tg}`, "_blank"); 
+    }
+  
   </script>
 </body>
 </html>
+
