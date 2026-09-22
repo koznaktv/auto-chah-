@@ -1778,20 +1778,15 @@
           تەڭ قىممەت: $ 0.00 = 0 سۈرىيە لىراسى
         </div>
 
-        <!-- Item 7: Receipt Number & Receipt Document / Screenshot Upload with AI Auto-Check -->
+        <!-- تالون ھۆججىتىنى يوللاش (پەقەت 9 خانىلىق تالون نومۇرى) -->
         <div class="form-group">
           <label class="form-label" style="font-weight: bold; color: #f59e0b;">
-            📄 تالون ھۆججىتىنى يوللاڭ (تالون نومۇرى):
+            📄 تالون ھۆججىتىنى يوللاڭ (9 خانىلىق تالون نومۇرى):
           </label>
-          <input type="text" id="depositTxIdInput" class="form-control" placeholder="شامكەش تالون نومۇرىنى كىرگۈزۈڭ (مەسىلەن: 839201948)">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" style="font-size: 0.8rem; color: #94a3b8;">
-            📷 تالون ئىسپات نومۇرىنى رەسىمگە تارتىپ يوللاڭ:
-          </label>
-          <input type="file" id="depositReceiptFileInput" class="form-control" accept="image/*" onchange="handleReceiptFileSelect(event)" style="padding: 8px;">
-          <div id="receiptFilePreviewNote" style="font-size: 0.75rem; color: #38bdf8; margin-top: 4px; display: none;"></div>
+          <input type="text" id="depositTxIdInput" class="form-control" maxlength="9" placeholder="مەسىلەن: 467890306 (پەقەت 9 خانىلىق سان)">
+          <div style="font-size: 0.75rem; color: #38bdf8; margin-top: 5px;">
+            ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلارنى AI قوبۇل قىلمايدۇ.
+          </div>
         </div>
 
         <!-- Item 8: Official Required Warning Note -->
@@ -2463,51 +2458,41 @@
     }
 
     // ==========================================
-    // ITEM 7 & 10: AI SHAM CASH RECEIPT VALIDATOR
+    // ITEM 7 & 10: AI SHAM CASH 9-DIGIT RECEIPT VALIDATOR
     // ==========================================
-    let selectedReceiptDataUrl = null;
-    function handleReceiptFileSelect(event) {
-      const file = event.target.files[0];
-      const note = document.getElementById("receiptFilePreviewNote");
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          selectedReceiptDataUrl = e.target.result;
-          if (note) {
-            note.style.display = "block";
-            note.innerText = `📎 تالون ھۆججىتى تاللاندى (${file.name}, ${(file.size / 1024).toFixed(1)} KB)`;
-          }
-        };
-        reader.readAsDataURL(file);
-      } else {
-        selectedReceiptDataUrl = null;
-        if (note) note.style.display = "none";
-      }
-    }
-
-    function validateRechargeReceiptWithAI(txId, receiptImgData, amount, currency) {
+    function validateRechargeReceiptWithAI(txId, amount, currency) {
       if (!txId || txId.trim().length === 0) {
         return {
           valid: false,
-          reason: "⚠️ شامكەش تالون نومۇرى كىرگۈزۈلمىدى! تالون نومۇرىنى ياكى ئىسپات ھۆججىتىنى تولۇق كىرگۈزۈڭ."
+          reason: "⚠️ شامكەش تالون ھۆججىتى (تالون نومۇرى) كىرگۈزۈلمىدى! 9 خانىلىق تالون نومۇرىنى كىرگۈزۈڭ."
         };
       }
 
-      const cleanTx = txId.trim();
+      // Remove any accidental spaces
+      const cleanTx = txId.trim().replace(/\s+/g, '');
 
-      // Check for clearly bogus inputs
-      if (cleanTx.length < 6 || /^(.)\1+$/.test(cleanTx) || /^(1234|0000|test|fake|asdf|qwer)/i.test(cleanTx)) {
+      // Strict AI Rule: Receipt number must be EXACTLY 9 digits like 467890306
+      if (!/^\d{9}$/.test(cleanTx)) {
         return {
           valid: false,
-          reason: "⚠️ كىرگۈزگەن تالون نومۇرى خاتا ياكى ئىناۋەتسىز. شامكەشتىكى ھەقىقىي تالون نومۇرىنى تولۇق كىرگۈزۈڭ."
+          reason: `⚠️ AI ئەقلىي تەكشۈرۈشى: رەت قىلىندى! تالون نومۇرى چوقۇم 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). سىز كىرگۈزگەن نومۇر ${cleanTx.length} خانە بولۇپ قالدى، 9 خانىدىن ئارتۇق ياكى كەم نومۇر قوللانمايدۇ.`
+        };
+      }
+
+      // Reject fake repeating patterns (e.g. 000000000, 111111111) or ascending/descending sequences
+      if (/^(.)\1{8}$/.test(cleanTx) || cleanTx === "123456789" || cleanTx === "987654321") {
+        return {
+          valid: false,
+          reason: "⚠️ AI ئەقلىي تەكشۈرۈشى: رەت قىلىندى! كىرگۈزگەن تالون نومۇرى ساختا ياكى ئىناۋەتسىز. شامكەشتىكى ھەقىقىي 9 خانىلىق تالون نومۇرىنى كىرگۈزۈڭ."
         };
       }
 
       return {
         valid: true,
+        cleanTx: cleanTx,
         recipient: "N. Muhsin",
         account: "efe8a2b200d66411c7c7e296369cbba8",
-        msg: "✅ AI ئەقلىي دەلىللىشى: تالون نومۇرى ۋە تاپشۇرۇۋالغۇچى (N. Muhsin) دەلىللەندى."
+        msg: "✅ AI ئەقلىي دەلىللىشى: 9 خانىلىق تالون نومۇرى ۋە تاپشۇرۇۋالغۇچى (N. Muhsin) توغرا دەلىللەندى."
       };
     }
 
@@ -4987,7 +4972,7 @@ ${formatDualCurrency(u.balance)}`);
       // ==========================================
       // ITEM 7 & 10: AI SMART VERIFICATION & REPEATED FAKE ATTEMPT ALERT
       // ==========================================
-      const aiResult = validateRechargeReceiptWithAI(tx, selectedReceiptDataUrl, (rechargeCurrency === 'USD' ? finalUsd : finalSyp), rechargeCurrency);
+      const aiResult = validateRechargeReceiptWithAI(tx, (rechargeCurrency === 'USD' ? finalUsd : finalSyp), rechargeCurrency);
 
       if (!aiResult.valid) {
         u.failedRechargeAttempts = (u.failedRechargeAttempts || 0) + 1;
@@ -5064,8 +5049,7 @@ ${formatDualCurrency(u.balance)}`);
         amount: finalUsd,
         amountSyp: finalSyp,
         currencyUsed: rechargeCurrency,
-        txId: tx,
-        receiptImg: selectedReceiptDataUrl || "",
+        txId: aiResult.cleanTx || tx,
         receiptAiVerified: true,
         recipientName: "N. Muhsin",
         status: "pending",
@@ -5084,14 +5068,13 @@ ${formatDualCurrency(u.balance)}`);
 
       showCustomConfirm({
         title: "✅ تەلەپ يوللاندى",
-        message: `✅ AI ئەقلىي تەكشۈرۈشىدىن ئۆتتى (تاپشۇرۇۋالغۇچى: N. Muhsin)!\nسومما قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا يوللاندى، تەكشۈرۈلگەندىن كېيىن دەرھال تەستىقلىنىدۇ.`,
+        message: `✅ AI ئەقلىي تەكشۈرۈشىدىن ئۆتتى (9 خانىلىق تالون نومۇرى دەلىللەندى)!\nسومما قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا يوللاندى، تەكشۈرۈلگەندىن كېيىن دەرھال تەستىقلىنىدۇ.`,
         icon: "✅",
         okText: "ماقۇل",
         cancelText: "",
         okClass: "btn-success"
       });
 
-      selectedReceiptDataUrl = null;
       renderAll();
       switchView("view-payments");
     }
