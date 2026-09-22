@@ -1095,12 +1095,12 @@
 
         <!-- AI Verification Badge Indicator -->
         <div id="orderAiStatusNote" style="background: rgba(2, 132, 199, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.78rem; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-          <span>🤖 AI ئەقلىي تەكشۈرۈش ئوچۇق: ئايدى نومۇرى بىۋاسىتە تەكشۈرۈلۈپ تەستىققا ماڭىدۇ.</span>
+          <span>🤖 ID نومۇرى بىۋاسىتە تەكشۈرۈلۈپ تەستىقلاشقا يوللىنىدۇ.</span>
         </div>
 
         <div class="order-input-wrapper">
           <label class="order-input-label">
-            <span>بۇ_پاكېتنى_تاللاڭ</span>
+            <span>خالىغان جەدۋەلنى تاللاڭ</span>
           </label>
           
           <div class="package-dropdown-btn" id="packageDropdownBtn" onclick="togglePackageDropdown()">
@@ -1117,7 +1117,7 @@
             <span id="orderPageOriginalPrice" style="color: #fff; font-weight: bold;">$ 0.00</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 6px;">
-            <span style="color: #94a3b8;">VIP چېگىرمە:</span>
+            <span style="color: #94a3b8;">ئەزالىقىڭىزدىن ئېتىبار باھا تۆۋەندىكىچە:</span>
             <span id="orderPageDiscountText" style="color: #38bdf8; font-weight: bold;">0% (-$ 0.00)</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 800; border-top: 1px solid #16365f; padding-top: 8px; margin-top: 8px;">
@@ -1330,15 +1330,21 @@
       </div>
 
       <div id="admin-orders" class="admin-subview">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
           <h4 style="color: #fff;">بارلىق كەلگەن زاكازلار</h4>
-          <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.78rem;" onclick="requestNotificationPermission()">🔔 تېلېفون ئۇقتۇرۇشىنى ئېچىش</button>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-danger" style="padding: 5px 12px; font-size: 0.78rem;" onclick="adminClearProcessedOrders()">🗑️ بىر تەرەپ قىلىنغانلارنى تازىلاش</button>
+            <button class="btn btn-primary" style="padding: 5px 12px; font-size: 0.78rem;" onclick="requestNotificationPermission()">🔔 تېلېفون ئۇقتۇرۇشى</button>
+          </div>
         </div>
         <div id="adminAllOrdersList"></div>
       </div>
 
       <div id="admin-deposits" class="admin-subview" style="display: none;">
-        <h4 style="color: #fff; margin-bottom: 12px;">سومما قاچىلاش ئىلتىماسلىرى</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <h4 style="color: #fff;">سومما قاچىلاش ئىلتىماسلىرى</h4>
+          <button class="btn btn-danger" style="padding: 5px 12px; font-size: 0.78rem;" onclick="adminClearProcessedDeposits()">🗑️ بىر تەرەپ قىلىنغانلارنى تازىلاش</button>
+        </div>
         <div id="adminDepositsList"></div>
       </div>
 
@@ -1782,7 +1788,7 @@
 
         <div class="form-group">
           <label class="form-label" style="font-size: 0.8rem; color: #94a3b8;">
-            📷 تالوننىڭ رەسىمى / ئىسپات ھۆججىتى (تاللىسىڭىز AI دەرھال تەكشۈرىدۇ):
+            📷 تالون ئىسپات نومۇرىنى رەسىمگە تارتىپ يوللاڭ:
           </label>
           <input type="file" id="depositReceiptFileInput" class="form-control" accept="image/*" onchange="handleReceiptFileSelect(event)" style="padding: 8px;">
           <div id="receiptFilePreviewNote" style="font-size: 0.75rem; color: #38bdf8; margin-top: 4px; display: none;"></div>
@@ -2131,7 +2137,7 @@
         }
       ],
       paymentMethods: [
-        { id: "pay-shamcash", name: "Sham Cash (شام كاش)", commission: "0% كومىسسىيە", account: "efe8a2b200d66411c7c7e296369cbba8", desc: "شامكەش نومۇرىنى كۆچۈرۈۋېلىپ ئەڭ تۆۋەن سومما 1$ ياكى 135 سۈرىيە لىراسى", icon: "🪙", status: "active" },
+        { id: "pay-shamcash", name: "Sham Cash (شام كاش)", commission: "0% كومىسسىيە", account: "efe8a2b200d66411c7c7e296369cbba8", desc: "شامكەش نومۇرىنى كۆچۈرۈۋېلىڭ", icon: "🪙", status: "active" },
         { id: "pay-usdt", name: "USDT BEP20 (دوللار)", commission: "0% كومىسسىيە", account: "0x71C3928BEP20NetworkAddress", desc: "USDT ئارقىلىق تېز كىرىم قىلىش", icon: "₮", status: "active" }
       ],
       orders: {},
@@ -2184,10 +2190,37 @@
       return Object.values(state.users || {}).filter(u => u && typeof u === 'object'); 
     }
     function getOrdersList() { 
-      return Object.values(state.orders || {}).filter(o => o && typeof o === 'object').reverse(); 
+      const list = Object.values(state.orders || {}).filter(o => o && typeof o === 'object');
+      return list.sort((a, b) => {
+        // Pending orders ALWAYS at the very top!
+        const aPending = (a.status === 'pending') ? 1 : 0;
+        const bPending = (b.status === 'pending') ? 1 : 0;
+        if (aPending !== bPending) return bPending - aPending;
+
+        // Security alerts next
+        const aAlert = a.isSecurityAlert ? 1 : 0;
+        const bAlert = b.isSecurityAlert ? 1 : 0;
+        if (aAlert !== bAlert) return bAlert - aAlert;
+
+        // Newest timestamp first
+        const tA = (a.date || "") + (a.id || "");
+        const tB = (b.date || "") + (b.id || "");
+        return tB.localeCompare(tA);
+      });
     }
+
     function getPaymentsList() { 
-      return Object.values(state.payments || {}).filter(p => p && typeof p === 'object').reverse(); 
+      const list = Object.values(state.payments || {}).filter(p => p && typeof p === 'object');
+      return list.sort((a, b) => {
+        // Pending deposits ALWAYS at the very top!
+        const aPending = (a.status === 'pending') ? 1 : 0;
+        const bPending = (b.status === 'pending') ? 1 : 0;
+        if (aPending !== bPending) return bPending - aPending;
+
+        const tA = (a.date || "") + (a.id || "");
+        const tB = (b.date || "") + (b.id || "");
+        return tB.localeCompare(tA);
+      });
     }
 
     function getCurrentTimeString() {
@@ -2552,6 +2585,15 @@
       }
       if (!state.users || Array.isArray(state.users) || typeof state.users !== 'object') {
         state.users = JSON.parse(JSON.stringify(defaultData.users));
+      }
+      if (Array.isArray(state.paymentMethods)) {
+        state.paymentMethods.forEach(m => {
+          if (m && (m.id === 'pay-shamcash' || m.id === 'pay-syriatel' || (m.name && m.name.includes('Sham')))) {
+            m.name = "Sham Cash (شام كاش)";
+            m.account = "efe8a2b200d66411c7c7e296369cbba8";
+            m.desc = "شامكەش نومۇرىنى كۆچۈرۈۋېلىڭ";
+          }
+        });
       }
       state.orders = toSafeObjectMap(state.orders, "id");
       state.payments = toSafeObjectMap(state.payments, "id");
@@ -3977,6 +4019,139 @@ ${formatDualCurrency(u.balance)}`);
     }
 
     /* ADMIN: ORDERS & DEPOSITS */
+    
+    // ==========================================
+    // ITEM 8: ADMIN CLEAR PROCESSED ORDERS & DEPOSITS
+    // ==========================================
+    async function adminClearProcessedOrders() {
+      const processedCount = Object.values(state.orders || {}).filter(o => o && o.status !== 'pending').length;
+      if (processedCount === 0) {
+        showCustomConfirm({
+          title: "ئەسكەرتىش",
+          message: "بىر تەرەپ قىلىنغان (ماقۇللانغان ياكى رەت قىلىنغان) كونا زاكاس يوق.",
+          icon: "ℹ️",
+          okText: "ماقۇل",
+          cancelText: "",
+          okClass: "btn-primary"
+        });
+        return;
+      }
+
+      showCustomConfirm({
+        title: "بىر تەرەپ قىلىنغانلارنى تازىلاش",
+        message: `بىر تەرەپ قىلىنىپ بولغان جەمئىي ${processedCount} تال كونا زاكاسنى پۈتۈنلەي يۇيۇپ تازىلىۋېتەمسىز؟\n\n(ساقلاشتىكى يېڭى زاكاسلار بىخەتەر ساقلىنىپ قالىدۇ).`,
+        icon: "🗑️",
+        okText: "ھەئە، تازىلاش",
+        cancelText: "ياق (بىكار قىلىش)",
+        okClass: "btn-danger",
+        onOk: async () => {
+          const toDeleteKeys = [];
+          Object.keys(state.orders || {}).forEach(k => {
+            const ord = state.orders[k];
+            if (ord && ord.status !== 'pending') {
+              toDeleteKeys.push(k);
+              delete state.orders[k];
+            }
+          });
+
+          await pushToCloud();
+          toDeleteKeys.forEach(k => {
+            fetch(`${FIREBASE_URL}/orders/${k}.json`, { method: "DELETE" }).catch(() => {});
+          });
+
+          showToastNotification(`🗑️ ${processedCount} تال بىر تەرەپ قىلىنغان كونا زاكاس پۈتۈنلەي تازىلاندى.`);
+          renderAll();
+        }
+      });
+    }
+
+    async function adminDeleteSingleOrder(orderId, event) {
+      if (event) event.stopPropagation();
+      const ord = state.orders[orderId];
+      if (!ord) return;
+
+      showCustomConfirm({
+        title: "زاكاسنى ئۆچۈرۈش",
+        message: `بۇ زاكاسنى (${ord.prodName || ''} - ${ord.id}) راستىنلا ئۆچۈرەمسىز؟`,
+        icon: "🗑️",
+        okText: "ھەئە، ئۆچۈرۈش",
+        cancelText: "ياق",
+        okClass: "btn-danger",
+        onOk: async () => {
+          delete state.orders[orderId];
+          await pushToCloud();
+          fetch(`${FIREBASE_URL}/orders/${orderId}.json`, { method: "DELETE" }).catch(() => {});
+          showToastNotification("زاكاس مۇۋەپپەقىيەتلىك ئۆچۈرۈلدى.");
+          renderAll();
+        }
+      });
+    }
+
+    async function adminClearProcessedDeposits() {
+      const processedCount = Object.values(state.payments || {}).filter(p => p && p.status !== 'pending').length;
+      if (processedCount === 0) {
+        showCustomConfirm({
+          title: "ئەسكەرتىش",
+          message: "بىر تەرەپ قىلىنغان كونا سومما قاچىلاش تەلىپى يوق.",
+          icon: "ℹ️",
+          okText: "ماقۇل",
+          cancelText: "",
+          okClass: "btn-primary"
+        });
+        return;
+      }
+
+      showCustomConfirm({
+        title: "بىر تەرەپ قىلىنغانلارنى تازىلاش",
+        message: `بىر تەرەپ قىلىنىپ بولغان جەمئىي ${processedCount} تال قاچىلاش تالونىنى پۈتۈنلەي تازىلىۋېتەمسىز؟\n\n(ساقلاشتىكى يېڭى تەلەپلەر ساقلىنىپ قالىدۇ).`,
+        icon: "🗑️",
+        okText: "ھەئە، تازىلاش",
+        cancelText: "ياق (بىكار قىلىش)",
+        okClass: "btn-danger",
+        onOk: async () => {
+          const toDeleteKeys = [];
+          Object.keys(state.payments || {}).forEach(k => {
+            const p = state.payments[k];
+            if (p && p.status !== 'pending') {
+              toDeleteKeys.push(k);
+              delete state.payments[k];
+            }
+          });
+
+          await pushToCloud();
+          toDeleteKeys.forEach(k => {
+            fetch(`${FIREBASE_URL}/payments/${k}.json`, { method: "DELETE" }).catch(() => {});
+          });
+
+          showToastNotification(`🗑️ ${processedCount} تال بىر تەرەپ قىلىنغان كونا قاچىلاش تالونى تازىلاندى.`);
+          renderAll();
+        }
+      });
+    }
+
+    async function adminDeleteSingleDeposit(payId, event) {
+      if (event) event.stopPropagation();
+      const p = state.payments[payId];
+      if (!p) return;
+
+      showCustomConfirm({
+        title: "تالوننى ئۆچۈرۈش",
+        message: `بۇ قاچىلاش تالونىنى (${p.methodName || ''} - ${p.id}) راستىنلا ئۆچۈرەمسىز؟`,
+        icon: "🗑️",
+        okText: "ھەئە، ئۆچۈرۈش",
+        cancelText: "ياق",
+        okClass: "btn-danger",
+        onOk: async () => {
+          delete state.payments[payId];
+          await pushToCloud();
+          fetch(`${FIREBASE_URL}/payments/${payId}.json`, { method: "DELETE" }).catch(() => {});
+          showToastNotification("تالون مۇۋەپپەقىيەتلىك ئۆچۈرۈلدى.");
+          renderAll();
+        }
+      });
+    }
+
+
     function renderAdminAllOrders() {
       const container = document.getElementById("adminAllOrdersList");
       if (!container) return;
@@ -4037,6 +4212,7 @@ ${formatDualCurrency(u.balance)}`);
             <span style="color:#34d399; font-weight:bold;">${formatDualCurrency(o.price)}</span>
             ${statusBadge}
             <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('order', '${o.id}')">🔍 چوڭ كۆرۈش</button>
+            ${o.status !== 'pending' ? `<button class="btn btn-danger" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="adminDeleteSingleOrder('${o.id}', event)">🗑️ ئۆچۈرۈش</button>` : ''}
           </div>
         `;
         container.appendChild(div);
@@ -4112,6 +4288,7 @@ ${formatDualCurrency(u.balance)}`);
             <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(p.amount)}</span>
             ${statusBadge}
             <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('deposit', '${p.id}')">🔍 چوڭ كۆرۈش</button>
+            ${p.status !== 'pending' ? `<button class="btn btn-danger" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="adminDeleteSingleDeposit('${p.id}', event)">🗑️ ئۆچۈرۈش</button>` : ''}
           </div>
         `;
         container.appendChild(div);
@@ -4506,7 +4683,14 @@ ${formatDualCurrency(u.balance)}`);
 
       const aiResult = validateAccountWithAI(currentOrderingProduct, inputVal, serverVal);
       if (!aiResult.valid) {
-        alert(aiResult.msg);
+        showCustomConfirm({
+          title: "ئەسكەرتىش",
+          message: aiResult.msg,
+          icon: "⚠️",
+          okText: "تۈزىتىش",
+          cancelText: "",
+          okClass: "btn-warning"
+        });
         return;
       }
 
@@ -4515,8 +4699,15 @@ ${formatDualCurrency(u.balance)}`);
       const finalPrice = pkg.price * (1 - (currentTierObj.discount || 0) / 100);
 
       if (u.balance < finalPrice) {
-        alert("تەڭگۈلۈكىڭىز يەتمىدى! ئاۋۋال سومما قاچىلاڭ.");
-        switchView("view-add-balance");
+        showCustomConfirm({
+          title: "قالدۇق سومما يەتمىدى",
+          message: `تەڭگۈلۈكىڭىز بۇ زاكاسقا يەتمىدى!\nتۆلەيدىغان سومما: ${formatDualCurrency(finalPrice)}\nنۆۋەتتىكى قالدۇقىڭىز: ${formatDualCurrency(u.balance)}\n\nئاۋۋال ھەميانغا پۇل قاچىلاڭ.`,
+          icon: "👛",
+          okText: "پۇل قاچىلاش ➔",
+          cancelText: "بىكار قىلىش",
+          okClass: "btn-primary",
+          onOk: () => switchView("view-add-balance")
+        });
         return;
       }
 
@@ -4562,8 +4753,16 @@ ${formatDualCurrency(u.balance)}`);
         body: JSON.stringify(u)
       });
 
-      showToastNotification(`🤖 AI تەكشۈرۈشىدىن مۇۋەپپەقىيەتلىك ئۆتتى! زاكاس قوبۇل قىلىندى.`);
-      alert("✅ زاكاز تاپشۇرۇلدى! ئايدى نومۇرى AI تەكشۈرۈشىدىن ئۆتۈپ باشقۇرغۇچىغا تەستىققا ماڭدى.");
+      showCustomConfirm({
+        title: "✅ زاكاس تاپشۇرۇلدى",
+        message: "زاكاس تاپشۇرۇلدى، سەل ساقلاڭ تەلەپلىرىڭىز تېزدىن قوشۇلىدۇ.",
+        icon: "✅",
+        okText: "تەلەپلىرىمنى كۆرۈش ➔",
+        cancelText: "",
+        okClass: "btn-success",
+        onOk: () => switchView("view-orders")
+      });
+      showToastNotification("زاكاس تاپشۇرۇلدى، سەل ساقلاڭ تەلەپلىرىڭىز تېزدىن قوشۇلىدۇ.");
       switchView("view-orders");
     }
 
