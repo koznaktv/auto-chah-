@@ -824,7 +824,7 @@
 <body>
 
   <!-- Welcome / Splash Screen -->
-  <div id="splashScreen">
+  <div id="splashScreen" onclick="hideSplashScreen()" title="چېكىپ دەرھال ئېچىش" style="cursor: pointer;">
     <div class="splash-logo-circle" id="splashLogoWrap">
       <span style="font-size: 44px;">⚡</span>
     </div>
@@ -2134,8 +2134,11 @@
 
     /* CLOUD SYNC */
     async function syncFromCloud() {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4500);
       try {
-        const res = await fetch(`${FIREBASE_URL}.json`);
+        const res = await fetch(`${FIREBASE_URL}.json`, { signal: controller.signal });
+        clearTimeout(timeoutId);
         if (res.ok) {
           const remote = await res.json();
           if (remote) {
@@ -2208,6 +2211,8 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderAll();
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
       try {
         await fetch(`${FIREBASE_URL}.json`, {
           method: "PUT",
@@ -2220,10 +2225,13 @@
             users: state.users,
             orders: state.orders,
             payments: state.payments
-          })
+          }),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
       } catch (err) {
-        console.error("Cloud push error:", err);
+        clearTimeout(timeoutId);
+        console.warn("Cloud push error (saved locally):", err);
       }
     }
 
@@ -2264,17 +2272,68 @@
       showToastNotification(`پۇل بىرلىكى: ${state.userCurrencyMode === 'SYP' ? '🇸🇾 سۈرىيە لىراسى (SP)' : '💵 دوللار ($)'}`);
     }
 
-    document.addEventListener("DOMContentLoaded", async () => {
-      applyWelcomeSplashData();
-      await syncFromCloud();
-      initApp();
+    function hideSplashScreen() {
+      const splash = document.getElementById("splashScreen");
+      if (splash && !splash.classList.contains("hide")) {
+        splash.classList.add("hide");
+        setTimeout(() => {
+          splash.style.display = "none";
+        }, 400);
+      }
+    }
 
-      setTimeout(() => {
-        const splash = document.getElementById("splashScreen");
-        if (splash) splash.classList.add("hide");
-      }, 600);
+    // Safety fallback: Unconditionally dismiss splash screen after 1.2s max no matter what!
+    setTimeout(hideSplashScreen, 1200);
 
-      setInterval(syncFromCloud, 3500);
+    function sanitizeState() {
+      if (!state || typeof state !== 'object') state = JSON.parse(JSON.stringify(defaultData));
+      state.siteSettings = Object.assign({}, defaultData.siteSettings, state.siteSettings || {});
+      if (!Array.isArray(state.siteSettings.banners) || state.siteSettings.banners.length === 0) {
+        state.siteSettings.banners = JSON.parse(JSON.stringify(defaultData.siteSettings.banners));
+      }
+      if (!Array.isArray(state.siteSettings.vipTiers) || state.siteSettings.vipTiers.length === 0) {
+        state.siteSettings.vipTiers = JSON.parse(JSON.stringify(defaultData.siteSettings.vipTiers));
+      }
+      if (!Array.isArray(state.categories) || state.categories.length === 0) {
+        state.categories = JSON.parse(JSON.stringify(defaultData.categories));
+      }
+      if (!Array.isArray(state.products) || state.products.length === 0) {
+        state.products = JSON.parse(JSON.stringify(defaultData.products));
+      }
+      if (!Array.isArray(state.paymentMethods) || state.paymentMethods.length === 0) {
+        state.paymentMethods = JSON.parse(JSON.stringify(defaultData.paymentMethods));
+      }
+      if (!state.users || Array.isArray(state.users) || typeof state.users !== 'object') {
+        state.users = JSON.parse(JSON.stringify(defaultData.users));
+      }
+      if (!state.orders || typeof state.orders !== 'object') state.orders = {};
+      if (!state.payments || typeof state.payments !== 'object') state.payments = {};
+      if (!Array.isArray(state.favorites)) state.favorites = [];
+      ensureAdminFixed();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Sanitize local data
+      sanitizeState();
+
+      // 2. Render UI immediately from local storage so page opens instantly without delay
+      try {
+        applyWelcomeSplashData();
+        initApp();
+      } catch (err) {
+        console.error("Initialization error:", err);
+      }
+
+      // 3. Dismiss splash screen smoothly after 500ms
+      setTimeout(hideSplashScreen, 500);
+
+      // 4. Perform cloud sync in the background asynchronously (NON-BLOCKING)
+      syncFromCloud().catch(err => console.warn("Background initial cloud sync failed:", err));
+
+      // 5. Periodic background sync every 5 seconds
+      setInterval(() => {
+        syncFromCloud().catch(e => {});
+      }, 5000);
     });
 
     function applyWelcomeSplashData() {
