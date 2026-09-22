@@ -2088,9 +2088,37 @@
     }
     ensureAdminFixed();
 
-    function getUsersList() { return Object.values(state.users || {}); }
-    function getOrdersList() { return Object.values(state.orders || {}).reverse(); }
-    function getPaymentsList() { return Object.values(state.payments || {}).reverse(); }
+    function toSafeObjectMap(data, keyField = "id") {
+      if (!data) return {};
+      if (Array.isArray(data)) {
+        const obj = {};
+        data.forEach(item => {
+          if (item && typeof item === "object") {
+            const k = item[keyField] || ("item_" + Math.random().toString(36).substring(2, 9));
+            obj[k] = item;
+          }
+        });
+        return obj;
+      }
+      if (typeof data === "object") return data;
+      return {};
+    }
+
+    function findUserByUid(uid) {
+      if (!uid) return null;
+      const cleanUid = String(uid).replace(/^user_/, '');
+      return state.users["user_" + cleanUid] || Object.values(state.users || {}).find(u => u && String(u.uid) === cleanUid) || null;
+    }
+
+    function getUsersList() { 
+      return Object.values(state.users || {}).filter(u => u && typeof u === 'object'); 
+    }
+    function getOrdersList() { 
+      return Object.values(state.orders || {}).filter(o => o && typeof o === 'object').reverse(); 
+    }
+    function getPaymentsList() { 
+      return Object.values(state.payments || {}).filter(p => p && typeof p === 'object').reverse(); 
+    }
 
     function getCurrentTimeString() {
       const d = new Date();
@@ -2149,9 +2177,9 @@
             state.categories = remote.categories || state.categories;
             state.products = remote.products || state.products;
             state.paymentMethods = remote.paymentMethods || state.paymentMethods;
-            state.users = remote.users || state.users;
-            state.orders = remote.orders || state.orders;
-            state.payments = remote.payments || state.payments;
+            state.users = toSafeObjectMap(remote.users || state.users, "uid");
+            state.orders = toSafeObjectMap(remote.orders || state.orders, "id");
+            state.payments = toSafeObjectMap(remote.payments || state.payments, "id");
 
             state.currentUserId = myUid;
             state.userCurrencyMode = myCurr;
@@ -2306,8 +2334,9 @@
       if (!state.users || Array.isArray(state.users) || typeof state.users !== 'object') {
         state.users = JSON.parse(JSON.stringify(defaultData.users));
       }
-      if (!state.orders || typeof state.orders !== 'object') state.orders = {};
-      if (!state.payments || typeof state.payments !== 'object') state.payments = {};
+      state.orders = toSafeObjectMap(state.orders, "id");
+      state.payments = toSafeObjectMap(state.payments, "id");
+      state.users = toSafeObjectMap(state.users, "uid");
       if (!Array.isArray(state.favorites)) state.favorites = [];
       ensureAdminFixed();
     }
@@ -2330,7 +2359,27 @@
       // 4. Perform cloud sync in the background asynchronously (NON-BLOCKING)
       syncFromCloud().catch(err => console.warn("Background initial cloud sync failed:", err));
 
-      // 5. Periodic background sync every 5 seconds
+      // 5. Close modals on backdrop click
+      document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+        backdrop.addEventListener("click", (e) => {
+          if (e.target === backdrop) {
+            backdrop.classList.remove("active");
+          }
+        });
+      });
+
+      // 6. Close package options dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        const pkgContainer = document.getElementById("packageOptionsContainer");
+        const pkgBtn = document.getElementById("packageDropdownBtn");
+        if (pkgContainer && pkgContainer.classList.contains("open")) {
+          if (!pkgContainer.contains(e.target) && !pkgBtn.contains(e.target)) {
+            pkgContainer.classList.remove("open");
+          }
+        }
+      });
+
+      // 7. Periodic background sync every 5 seconds
       setInterval(() => {
         syncFromCloud().catch(e => {});
       }, 5000);
@@ -2817,7 +2866,14 @@
         content.innerHTML = `
           <div style="background:#061a33; border:1px solid var(--border-color); border-radius:12px; padding:14px; margin-bottom:12px;">
             <div style="font-size:1.15rem; font-weight:bold; color:#fff; margin-bottom:6px;">${order.prodName} (${order.packageName})</div>
-            <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px;">ئابونت: <strong>${order.username}</strong> (UID: #${order.userUid})</div>
+            <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+              <span>ئابونت: <strong>${order.username}</strong> (UID: #${order.userUid})</span>
+              ${order.userPhone && order.userPhone !== 'يوق' ? `
+                <a href="https://wa.me/${order.userPhone.replace(/[^0-9]/g, '')}" target="_blank" class="btn btn-success" style="padding:2px 8px; font-size:0.75rem; text-decoration:none;">
+                  💬 WhatsApp
+                </a>` : ''}
+            </div>
+            ${order.userPhone ? `<div style="font-size:0.75rem; color:#94a3b8;">📞 تېلېفون: ${order.userPhone}</div>` : ''}
             
             <div style="margin: 10px 0;">
               <label style="font-size:0.8rem; color:#94a3b8;">ئويۇن / ئەپ كودى (ID):</label>
@@ -2856,7 +2912,14 @@
         content.innerHTML = `
           <div style="background:#061a33; border:1px solid var(--border-color); border-radius:12px; padding:14px; margin-bottom:12px;">
             <div style="font-size:1.15rem; font-weight:bold; color:#fff; margin-bottom:6px;">${pay.methodName}</div>
-            <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px;">ئابونت: <strong>${pay.username}</strong> (UID: #${pay.userUid})</div>
+            <div style="color:#38bdf8; font-size:0.9rem; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+              <span>ئابونت: <strong>${pay.username}</strong> (UID: #${pay.userUid})</span>
+              ${pay.userPhone && pay.userPhone !== 'يوق' ? `
+                <a href="https://wa.me/${pay.userPhone.replace(/[^0-9]/g, '')}" target="_blank" class="btn btn-success" style="padding:2px 8px; font-size:0.75rem; text-decoration:none;">
+                  💬 WhatsApp
+                </a>` : ''}
+            </div>
+            ${pay.userPhone ? `<div style="font-size:0.75rem; color:#94a3b8;">📞 تېلېفون: ${pay.userPhone}</div>` : ''}
             
             <div style="margin: 10px 0;">
               <label style="font-size:0.8rem; color:#94a3b8;">سودا تەرتىپ نومۇرى (TxID):</label>
@@ -4009,6 +4072,10 @@ ${formatDualCurrency(u.balance)}`);
       currentOrderingProduct = p;
       selectedPackageIndex = 0;
 
+      const curCat = state.categories.find(c => c.id === p.catId);
+      const breadcrumbEl = document.getElementById("orderPageCatBreadcrumb");
+      if (breadcrumbEl) breadcrumbEl.innerText = curCat ? curCat.name : "مەھسۇلات";
+
       document.getElementById("productPageTitle").innerText = p.name;
       document.getElementById("productPageAvatarImg").src = p.image;
       document.getElementById("orderPageInputLabel").innerText = p.fieldLabel || "ئويۇن ID نومۇرى";
@@ -4131,6 +4198,8 @@ ${formatDualCurrency(u.balance)}`);
         id: orderId,
         userUid: u.uid,
         username: u.username,
+        userPhone: u.phone || "",
+        userCountry: u.country || "",
         prodName: currentOrderingProduct.name,
         packageName: pkg.name,
         accountTarget: fullTargetString,
@@ -4347,6 +4416,8 @@ ${formatDualCurrency(u.balance)}`);
         id: payId,
         userUid: u.uid,
         username: u.username,
+        userPhone: u.phone || "",
+        userCountry: u.country || "",
         methodName: selectedRechargeMethod.name,
         amount: finalUsd,
         amountSyp: finalSyp,
@@ -4677,6 +4748,46 @@ ${formatDualCurrency(u.balance)}`);
         if (!target.manualTier) target.tier = evaluateUserTier(target);
         state.users["user_" + target.uid] = target;
         return `💰 **ئابونت ${target.username} غا +${amt} $ پۇل قوشۇلدى.**`;
+      }
+
+      if (c.includes("تەستىقلا") || c.includes("ماقۇللا")) {
+        if (c.includes("زاكاس") || c.includes("زاكاز") || c.includes("تەلەپ")) {
+          let count = 0;
+          Object.values(state.orders || {}).forEach(o => {
+            if (o.status === "pending") {
+              o.status = "approved";
+              o.processedAt = getCurrentTimeString();
+              count++;
+            }
+          });
+          return `✅ **بارلىق ساقلاشتىكى ${count} تال زاكاز تەستىقلاندى!**`;
+        }
+        if (c.includes("قاچىلاش") || c.includes("پۇل")) {
+          let count = 0;
+          Object.values(state.payments || {}).forEach(p => {
+            if (p.status === "pending") {
+              const u = findUserByUid(p.userUid);
+              if (u) {
+                u.balance = parseFloat((u.balance + parseFloat(p.amount)).toFixed(3));
+                u.totalSpent = Math.max(u.totalSpent || 0, u.balance);
+                if (!u.manualTier) u.tier = evaluateUserTier(u);
+              }
+              p.status = "approved";
+              p.processedAt = getCurrentTimeString();
+              count++;
+            }
+          });
+          return `✅ **بارلىق ساقلاشتىكى ${count} تال سومما قاچىلاش تەستىقلاندى ۋە ھېساباتلارغا قوشۇلدى!**`;
+        }
+      }
+
+      if (c.includes("ئۇقتۇرۇش") && c.includes("ئۆزگەرت")) {
+        const parts = cmd.split(/[:：]/);
+        if (parts.length > 1) {
+          state.siteSettings.marqueeText = parts[1].trim();
+          applySiteBranding();
+          return `📢 **سىيرىلما ئۇقتۇرۇش يېڭىلاندى:** ${state.siteSettings.marqueeText}`;
+        }
       }
 
       return "🤖 **بۇيرۇقىڭىز ئىجرا قىلىندى!**";
