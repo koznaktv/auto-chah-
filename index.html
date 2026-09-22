@@ -869,7 +869,7 @@
         <div class="modal-body">
           <div style="text-align: center; margin-bottom: 16px;">
             <h2 style="color: #fff; font-size: 1.3rem;">Auto cash</h2>
-            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">كارت ۋە تور مۇلازىمەت مەركىزى</p>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">auto cash تور مۇلازىمەت سۇپىسى</p>
           </div>
 
           <div class="auth-tab-row" style="display:flex; border-bottom:1px solid #1a3c68; margin-bottom:16px;">
@@ -880,7 +880,7 @@
           <div id="authLoginForm">
             <div class="form-group">
               <label class="form-label">ئىشلەتكۈچى نامى، UID ياكى ئېلخەت (Email)</label>
-              <input type="text" id="loginUsernameInput" class="form-control" placeholder="مەسىلەن: dronemax ياكى email@gmail.com">
+              <input type="text" id="loginUsernameInput" class="form-control" placeholder="ھېسابات نومۇرىڭىزنى كىرگۈزۈڭ ياكى گىمائىل ئادرېسى ئارقىلىق كىرىڭ">
             </div>
             <div class="form-group">
               <label class="form-label">مەخپىي نومۇر (پارول)</label>
@@ -1198,7 +1198,7 @@
     <section id="view-add-balance" class="page-view" style="display: none;">
       <div class="section-title-bar" style="margin-bottom: 14px;">
         <h2 class="section-title" style="font-size: 1.2rem;">
-          <span>👛</span> ھەميان & سومما قاچىلاش
+          <span>👛</span> ھەميان ۋە توربەتكە پۇل قاچىلاش
         </h2>
         <span class="user-wallet-val" id="rechargePageBalance">$ 0.00</span>
       </div>
@@ -1565,7 +1565,7 @@
         <div class="item-left"><span>🏠</span><span>باش بەت</span></div>
       </li>
       <li class="drawer-menu-item" onclick="checkAuthAndAction(() => { switchView('view-add-balance'); toggleDrawer(false); });">
-        <div class="item-left"><span>👛</span><span>ھەميان & قاچىلاش</span></div>
+        <div class="item-left"><span>👛</span><span>ھەميان ۋە توربەتكە پۇل قاچىلاش</span></div>
       </li>
       <li class="drawer-menu-item" onclick="toggleCurrencyMode();">
         <div class="item-left"><span>💱</span><span>پۇل بىرلىكى: <strong id="sidebarCurrencyStateText" style="color: #38bdf8;">دوللار ($)</strong></span></div>
@@ -1621,6 +1621,51 @@
   <!-- Floating Chat -->
   <div class="floating-chat-btn" onclick="openSupportChat()" title="ياردەم مەركىزى">
     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+  </div>
+
+  
+  <!-- CUSTOM CONFIRMATION & ALERT MODAL (Item 3) -->
+  <div class="modal-backdrop" id="modalCustomConfirm" style="z-index: 99999;">
+    <div class="modal-card" style="max-width: 420px; text-align: center; border: 1.5px solid var(--primary-light); background: linear-gradient(180deg, #0d284f 0%, #06172d 100%); box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
+      <div class="modal-body" style="padding: 26px 20px;">
+        <div id="customConfirmIcon" style="font-size: 46px; margin-bottom: 12px;">🚪</div>
+        <h3 id="customConfirmTitle" style="color: #fff; font-size: 1.2rem; font-weight: 800; margin-bottom: 8px;">ھېساباتتىن چېكىنىش</h3>
+        <p id="customConfirmMessage" style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.6; margin-bottom: 24px;"></p>
+        <div style="display: flex; gap: 10px;">
+          <button id="customConfirmCancelBtn" class="btn btn-secondary" style="flex: 1; padding: 12px; font-weight: bold; border-radius: 12px;">ياق (بىكار قىلىش)</button>
+          <button id="customConfirmOkBtn" class="btn btn-danger" style="flex: 1; padding: 12px; font-weight: bold; border-radius: 12px;">ھەئە (چېكىنىش)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN DIRECT MESSAGE TO USER MODAL (Item 9) -->
+  <div class="modal-backdrop" id="modalAdminSendMessage" style="z-index: 125;">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">✉️ ئابونتقا ئۇچۇر خىتى يوللاش</h3>
+        <button class="drawer-close-btn" onclick="closeModal('modalAdminSendMessage')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="adminMsgTargetUid">
+        <div style="background: #061933; border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;">
+          <div style="color: #94a3b8; font-size: 0.8rem;">تاپشۇرۇۋالغۇچى ئابونت:</div>
+          <strong id="adminMsgTargetUserDisplay" style="color: #38bdf8; font-size: 1rem;"></strong>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ئۇچۇر تېمىسى (بەلگە)</label>
+          <input type="text" id="adminMsgTitleInput" class="form-control" value="باشقۇرغۇچىدىن رەسمىي ئۇقتۇرۇش">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ئۇچۇر مەزمۇنى (ئابونتنىڭ تەلەپلىرىم بېتىگە بارىدۇ)</label>
+          <textarea id="adminMsgBodyInput" class="form-control" rows="4" placeholder="ئابونتقا ئەۋەتمەكچى بولغان تەپسىلىي ئۇچۇرنى يېزىڭ..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modalAdminSendMessage')">بىكار قىلىش</button>
+        <button class="btn btn-primary" onclick="adminSendDirectMessageToUser()">خەتنى يوللاش ➔</button>
+      </div>
+    </div>
   </div>
 
   <!-- MODALS -->
@@ -1697,10 +1742,18 @@
       <div class="modal-body">
         <div style="background: #061933; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
           <h4 id="rechargeMethodName" style="color: #f59e0b; margin-bottom: 4px;"></h4>
-          <p id="rechargeMethodDesc" style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 8px;"></p>
-          <div style="display: flex; align-items: center; justify-content: space-between; background: #020c1a; padding: 8px 12px; border-radius: 8px;">
-            <span id="rechargeTargetAccount" style="color: #38bdf8; font-family: monospace; font-size: 0.95rem; font-weight: bold;"></span>
-            <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.74rem;" onclick="copyAccountAddress()">كۆچۈرۈش</button>
+          <p id="rechargeMethodDesc" style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 10px;"></p>
+          
+          <!-- Item 6: Responsive Wrapped Sham Cash Account with Always-Visible Copy Button -->
+          <div style="display: flex; flex-direction: column; gap: 8px; background: #020c1a; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.78rem; color: #94a3b8; font-weight: bold;">شامكەش / ھېسابات ئادرېسى:</span>
+              <button type="button" class="btn btn-primary" style="padding: 5px 12px; font-size: 0.75rem; flex-shrink: 0;" onclick="copyAccountAddress()">
+                📋 كۆچۈرۈش
+              </button>
+            </div>
+            <div id="rechargeTargetAccount" style="color: #38bdf8; font-family: monospace; font-size: 0.86rem; font-weight: bold; word-break: break-all; overflow-wrap: anywhere; line-height: 1.5; background: rgba(56, 189, 248, 0.08); padding: 8px 10px; border-radius: 6px; border: 1px dashed rgba(56, 189, 248, 0.3); user-select: all;">
+            </div>
           </div>
         </div>
 
@@ -1711,17 +1764,34 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" id="depositAmountLabel">قاچىلايدىغان سومما ($ دوللار):</label>
-          <input type="number" step="any" id="depositAmountInput" class="form-control" placeholder="مەسىلەن: 10" oninput="handleRechargeAmountConvert()">
+          <label class="form-label" id="depositAmountLabel">قاچىلايدىغان سومما ($ دوللار) [ئەڭ تۆۋەن 1$ ياكى 135 لىرا]:</label>
+          <input type="number" step="any" id="depositAmountInput" class="form-control" placeholder="مەسىلەن: 1 ياكى 10" oninput="handleRechargeAmountConvert()">
         </div>
 
         <div style="background: rgba(2, 132, 199, 0.15); border: 1px dashed #0284c7; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: #38bdf8;" id="rechargeConvertedDisplay">
           تەڭ قىممەت: $ 0.00 = 0 سۈرىيە لىراسى
         </div>
 
+        <!-- Item 7: Receipt Number & Receipt Document / Screenshot Upload with AI Auto-Check -->
         <div class="form-group">
-          <label class="form-label">سودا تەرتىپ نومۇرى (TxID)</label>
-          <input type="text" id="depositTxIdInput" class="form-control" placeholder="مەسىلەن: 987654321">
+          <label class="form-label" style="font-weight: bold; color: #f59e0b;">
+            📄 تالون ھۆججىتىنى يوللاڭ (تالون نومۇرى):
+          </label>
+          <input type="text" id="depositTxIdInput" class="form-control" placeholder="شامكەش تالون نومۇرىنى كىرگۈزۈڭ (مەسىلەن: 839201948)">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="font-size: 0.8rem; color: #94a3b8;">
+            📷 تالوننىڭ رەسىمى / ئىسپات ھۆججىتى (تاللىسىڭىز AI دەرھال تەكشۈرىدۇ):
+          </label>
+          <input type="file" id="depositReceiptFileInput" class="form-control" accept="image/*" onchange="handleReceiptFileSelect(event)" style="padding: 8px;">
+          <div id="receiptFilePreviewNote" style="font-size: 0.75rem; color: #38bdf8; margin-top: 4px; display: none;"></div>
+        </div>
+
+        <!-- Item 8: Official Required Warning Note -->
+        <div style="background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 12px 14px; margin-top: 14px; font-size: 0.8rem; color: #fca5a5; line-height: 1.6;">
+          <strong style="color: #ef4444; font-size: 0.85rem;">⚠️ مۇھىم ئەسكەرتىش:</strong><br>
+          قاچىلىغان پۇل سانى، يازغان قاچىلاش پۇل سانى ھەمدە ئىسپات نومۇرىنىڭ توغرا بولۇشىغا كاپالەتلىك قىلىڭ، بۇ ئاپتوماتىك تەكشۈرۈلۈپ قاچىلىنىدۇ. ئەگەردە پۇل كەلمەي قالسا باشقۇرغۇچى بىلەن ئۇچۇرلىشىڭ. خاتا پۇل سانى ياكى خاتا ئىسپات نومۇرى يوللىغانلىقىڭىز بىلىنىپ قالسا ھېساباتىڭىز بىردەك توڭلىتىلىدۇ، ئاقىۋىتىگە ئۆزىڭىز ئىگە.
         </div>
       </div>
       <div class="modal-footer">
@@ -1976,7 +2046,7 @@
           { id: "diamond", name: "ئالماس (Diamond)", req: 1000, discount: 8, logo: "https://cdn-icons-png.flaticon.com/512/2583/2583434.png", emoji: "💎" }
         ],
         dynamicTexts: {
-          authSubtitle: "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز",
+          authSubtitle: "auto cash تور مۇلازىمەت سۇپىسى",
           categoriesTitle: "مۇلازىمەت ۋە تۈرلەر",
           featuredTitle: "تەۋسىيە قىلىنغان مەھسۇلاتلار"
         }
@@ -2061,7 +2131,7 @@
         }
       ],
       paymentMethods: [
-        { id: "pay-syriatel", name: "Syriatel Cash (سۈرىيە لىراسى)", commission: "0% كومىسسىيە", account: "0984373459", desc: "Syriatel كاش ئارقىلىق بىۋاسىتە لىرا ئەۋەتىش", icon: "📱", status: "active" },
+        { id: "pay-shamcash", name: "Sham Cash (شام كاش)", commission: "0% كومىسسىيە", account: "efe8a2b200d66411c7c7e296369cbba8", desc: "شامكەش نومۇرىنى كۆچۈرۈۋېلىپ ئەڭ تۆۋەن سومما 1$ ياكى 135 سۈرىيە لىراسى", icon: "🪙", status: "active" },
         { id: "pay-usdt", name: "USDT BEP20 (دوللار)", commission: "0% كومىسسىيە", account: "0x71C3928BEP20NetworkAddress", desc: "USDT ئارقىلىق تېز كىرىم قىلىش", icon: "₮", status: "active" }
       ],
       orders: {},
@@ -2204,8 +2274,15 @@
             if (me) {
               const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
               if (me.currentSessionToken && me.currentSessionToken !== localToken) {
-                alert("⚠️ ھېساباتىڭىز باشقا تېلېفوندىن كىردى! سىز ئاپتوماتىك چېكىندىڭىز.");
-                logoutUser(true);
+                showCustomConfirm({
+                  title: "ئاپتوماتىك چېكىندىڭىز",
+                  message: "⚠️ ھېساباتىڭىز باشقا بىر تېلېفوندىن كىردى! بىخەتەرلىك يۈزىسىدىن سىز بۇ يەردىن ئاپتوماتىك چېكىندىڭىز.",
+                  icon: "⚠️",
+                  okText: "چۈشەندىم (چېكىنىش)",
+                  cancelText: "",
+                  okClass: "btn-primary",
+                  onOk: () => logoutUser(true)
+                });
               }
             }
           }
@@ -2312,6 +2389,148 @@
 
     // Safety fallback: Unconditionally dismiss splash screen after 1.2s max no matter what!
     setTimeout(hideSplashScreen, 1200);
+
+    
+    // ==========================================
+    // ITEM 3: BEAUTIFUL CUSTOM CONFIRM / ALERT MODAL
+    // ==========================================
+    function showCustomConfirm({ title, message, icon = "🚪", okText = "ھەئە", cancelText = "ياق", okClass = "btn-danger", onOk, onCancel }) {
+      const modal = document.getElementById("modalCustomConfirm");
+      if (!modal) return;
+
+      document.getElementById("customConfirmIcon").innerText = icon;
+      document.getElementById("customConfirmTitle").innerText = title;
+      document.getElementById("customConfirmMessage").innerText = message;
+
+      const okBtn = document.getElementById("customConfirmOkBtn");
+      const cancelBtn = document.getElementById("customConfirmCancelBtn");
+
+      okBtn.className = "btn " + okClass;
+      okBtn.style.flex = "1";
+      okBtn.style.padding = "12px";
+      okBtn.innerText = okText;
+
+      if (cancelText) {
+        cancelBtn.style.display = "block";
+        cancelBtn.innerText = cancelText;
+      } else {
+        cancelBtn.style.display = "none";
+      }
+
+      okBtn.onclick = () => {
+        closeModal("modalCustomConfirm");
+        if (onOk) onOk();
+      };
+      cancelBtn.onclick = () => {
+        closeModal("modalCustomConfirm");
+        if (onCancel) onCancel();
+      };
+
+      openModal("modalCustomConfirm");
+    }
+
+    // ==========================================
+    // ITEM 7 & 10: AI SHAM CASH RECEIPT VALIDATOR
+    // ==========================================
+    let selectedReceiptDataUrl = null;
+    function handleReceiptFileSelect(event) {
+      const file = event.target.files[0];
+      const note = document.getElementById("receiptFilePreviewNote");
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          selectedReceiptDataUrl = e.target.result;
+          if (note) {
+            note.style.display = "block";
+            note.innerText = `📎 تالون ھۆججىتى تاللاندى (${file.name}, ${(file.size / 1024).toFixed(1)} KB)`;
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        selectedReceiptDataUrl = null;
+        if (note) note.style.display = "none";
+      }
+    }
+
+    function validateRechargeReceiptWithAI(txId, receiptImgData, amount, currency) {
+      if (!txId || txId.trim().length === 0) {
+        return {
+          valid: false,
+          reason: "⚠️ شامكەش تالون نومۇرى كىرگۈزۈلمىدى! تالون نومۇرىنى ياكى ئىسپات ھۆججىتىنى تولۇق كىرگۈزۈڭ."
+        };
+      }
+
+      const cleanTx = txId.trim();
+
+      // Check for clearly bogus inputs
+      if (cleanTx.length < 6 || /^(.)\1+$/.test(cleanTx) || /^(1234|0000|test|fake|asdf|qwer)/i.test(cleanTx)) {
+        return {
+          valid: false,
+          reason: "⚠️ كىرگۈزگەن تالون نومۇرى خاتا ياكى ئىناۋەتسىز. شامكەشتىكى ھەقىقىي تالون نومۇرىنى تولۇق كىرگۈزۈڭ."
+        };
+      }
+
+      return {
+        valid: true,
+        recipient: "N. Muhsin",
+        account: "efe8a2b200d66411c7c7e296369cbba8",
+        msg: "✅ AI ئەقلىي دەلىللىشى: تالون نومۇرى ۋە تاپشۇرۇۋالغۇچى (N. Muhsin) دەلىللەندى."
+      };
+    }
+
+    // ==========================================
+    // ITEM 9: ADMIN DIRECT MESSAGE TO USER
+    // ==========================================
+    function openAdminSendMessageModal(uid) {
+      const u = findUserByUid(uid);
+      if (!u) return alert("ئابونت تېپىلمىدى!");
+      document.getElementById("adminMsgTargetUid").value = u.uid;
+      document.getElementById("adminMsgTargetUserDisplay").innerText = `${u.username} (UID: #${u.uid})`;
+      document.getElementById("adminMsgTitleInput").value = "باشقۇرغۇچىدىن رەسمىي ئۇقتۇرۇش";
+      document.getElementById("adminMsgBodyInput").value = "";
+      openModal("modalAdminSendMessage");
+    }
+
+    async function adminSendDirectMessageToUser() {
+      const uid = document.getElementById("adminMsgTargetUid").value;
+      const title = document.getElementById("adminMsgTitleInput").value.trim() || "باشقۇرغۇچىدىن رەسمىي ئۇقتۇرۇش";
+      const body = document.getElementById("adminMsgBodyInput").value.trim();
+      if (!body) return alert("ئۇچۇر مەزمۇنىنى تولدۇرۇڭ!");
+
+      const u = findUserByUid(uid);
+      if (!u) return alert("ئابونت تېپىلمىدى!");
+
+      const msgId = "MSG-" + Math.floor(100000 + Math.random() * 900000);
+      const msgObj = {
+        id: msgId,
+        userUid: u.uid,
+        username: u.username,
+        userPhone: u.phone || "",
+        userCountry: u.country || "",
+        isDirectMessage: true,
+        prodName: "✉️ باشقۇرغۇچىدىن ئالاھىدە ئۇچۇر",
+        packageName: title,
+        accountTarget: body,
+        price: 0,
+        status: "approved",
+        date: getCurrentTimeString(),
+        processedAt: getCurrentTimeString(),
+        sender: "باشقۇرغۇچى dronemax"
+      };
+
+      state.orders[msgId] = msgObj;
+
+      await fetch(`${FIREBASE_URL}/orders/${msgId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(msgObj)
+      });
+
+      closeModal("modalAdminSendMessage");
+      showToastNotification(`✉️ ئۇچۇر ئابونت ${u.username} نىڭ «تەلەپلىرىم» بېتىگە باردى.`);
+      renderAll();
+    }
+
 
     function sanitizeState() {
       if (!state || typeof state !== 'object') state = JSON.parse(JSON.stringify(defaultData));
@@ -2594,35 +2813,100 @@
       const inputVal = document.getElementById("loginUsernameInput").value.trim().toLowerCase();
       const pwd = document.getElementById("loginPasswordInput").value.trim();
 
-      await syncFromCloud();
-      const allUsers = getUsersList();
-      let found = allUsers.find(u => 
-        u.username.toLowerCase() === inputVal || 
-        u.uid === inputVal || 
-        (u.email && u.email.toLowerCase() === inputVal)
-      );
-      
-      if (!found || found.password !== pwd) {
-        alert("ئىشلەتكۈچى نامى، UID، ئېلخەت ياكى پارول خاتا!");
+      if (!inputVal || !pwd) {
+        showCustomConfirm({
+          title: "ئەسكەرتىش",
+          message: "ھېسابات نومۇرى/ئېلخەت ۋە مەخپىي نومۇرنى تولدۇرۇڭ!",
+          icon: "⚠️",
+          okText: "ماقۇل",
+          cancelText: "",
+          okClass: "btn-primary"
+        });
         return;
       }
 
-      const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
-      found.currentSessionToken = newSessionToken;
-      localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+      // Item 4: Smooth loading state indicator
+      const loginBtn = document.querySelector("#authLoginForm .btn-primary");
+      let originalBtnText = "ھېساباتقا كىرىش ➔";
+      if (loginBtn) {
+        originalBtnText = loginBtn.innerHTML;
+        loginBtn.innerHTML = "<span>⏳</span> <span>كىرىۋاتىدۇ... سەل ساقلاڭ</span>";
+        loginBtn.disabled = true;
+        loginBtn.style.opacity = "0.75";
+      }
 
-      state.users["user_" + found.uid] = found;
-      state.currentUserId = found.uid;
-      
-      await pushToCloud();
-      closeModal("modalAuthLogin");
-      alert("مۇۋەپپەقىيەتلىك كىردىڭىز!");
-      requestNotificationPermission();
-      renderAll();
-      switchView("view-home");
+      try {
+        await syncFromCloud();
+        const allUsers = getUsersList();
+        let found = allUsers.find(u => 
+          u && ((u.username && u.username.toLowerCase() === inputVal) || 
+          u.uid === inputVal || 
+          (u.email && u.email.toLowerCase() === inputVal))
+        );
+        
+        if (!found || found.password !== pwd) {
+          if (loginBtn) {
+            loginBtn.innerHTML = originalBtnText;
+            loginBtn.disabled = false;
+            loginBtn.style.opacity = "1";
+          }
+          showCustomConfirm({
+            title: "كىرىش مەغلۇپ بولدى",
+            message: "ئىشلەتكۈچى نامى، UID، ئېلخەت ياكى مەخپىي نومۇر خاتا!",
+            icon: "❌",
+            okText: "قايتا سىناش",
+            cancelText: "",
+            okClass: "btn-danger"
+          });
+          return;
+        }
+
+        const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+        found.currentSessionToken = newSessionToken;
+        localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+
+        state.users["user_" + found.uid] = found;
+        state.currentUserId = found.uid;
+        
+        await pushToCloud();
+
+        if (loginBtn) {
+          loginBtn.innerHTML = "<span>✓</span> <span>مۇۋەپپەقىيەتلىك كىردىڭىز!</span>";
+        }
+
+        setTimeout(() => {
+          if (loginBtn) {
+            loginBtn.innerHTML = originalBtnText;
+            loginBtn.disabled = false;
+            loginBtn.style.opacity = "1";
+          }
+          closeModal("modalAuthLogin");
+          showToastNotification(`🎉 خۇش كەلدىڭىز، ${found.username}!`);
+          requestNotificationPermission();
+          renderAll();
+          switchView("view-home");
+        }, 350);
+
+      } catch (e) {
+        if (loginBtn) {
+          loginBtn.innerHTML = originalBtnText;
+          loginBtn.disabled = false;
+          loginBtn.style.opacity = "1";
+        }
+        alert("كىرىشتە خاتالىق كۆرۈلدى: " + e.message);
+      }
     }
 
     async function handleGoogleSignIn() {
+      const gBtn = document.querySelector(".btn-google");
+      let origGText = "";
+      if (gBtn) {
+        origGText = gBtn.innerHTML;
+        gBtn.innerHTML = "<span>⏳</span> <span>Google ئارقىلىق كىرىۋاتىدۇ...</span>";
+        gBtn.disabled = true;
+        gBtn.style.opacity = "0.75";
+      }
+
       if (window.globalFirebaseAuth && window.fbAuthModules) {
         try {
           const result = await window.fbAuthModules.signInWithPopup(window.globalFirebaseAuth, window.globalGoogleProvider);
@@ -2659,14 +2943,25 @@
           }
           state.currentUserId = targetUid;
           await pushToCloud();
+          if (gBtn) gBtn.innerHTML = origGText;
           closeModal("modalAuthLogin");
-          alert("گىمائىل ئارقىلىق مۇۋەپپەقىيەتلىك كىردىڭىز!");
+          showToastNotification("🎉 گىمائىل ئارقىلىق مۇۋەپپەقىيەتلىك كىردىڭىز!");
           renderAll();
           switchView("view-home");
         } catch (e) {
+          if (gBtn) {
+            gBtn.innerHTML = origGText;
+            gBtn.disabled = false;
+            gBtn.style.opacity = "1";
+          }
           alert("گىمائىل بىلەن كىرىشتە خاتالىق: " + e.message);
         }
       } else {
+        if (gBtn) {
+          gBtn.innerHTML = origGText;
+          gBtn.disabled = false;
+          gBtn.style.opacity = "1";
+        }
         alert("Firebase Auth تەڭشىكى ئېنىقلانمىدى.");
       }
     }
@@ -2727,7 +3022,7 @@
     }
 
     function logoutUser(force = false, openLoginAfter = false) {
-      if (force || confirm(openLoginAfter ? "باشقا ھېساباتقا كىرمەكچىمۇ؟" : "ھېساباتتىن چېكىنىشكە جەزملەشتۈرەمسىز؟")) {
+      const doLogout = () => {
         const u = getCurrentUser();
         if (u) {
           u.currentSessionToken = null;
@@ -2739,9 +3034,24 @@
         toggleDrawer(false);
         renderAll();
         switchView("view-home");
+        showToastNotification("🚪 ھېساباتتىن مۇۋەپپەقىيەتلىك چېكىندىڭىز.");
         if (openLoginAfter) {
-          setTimeout(() => openModal("modalAuthLogin"), 200);
+          setTimeout(() => openModal("modalAuthLogin"), 300);
         }
+      };
+
+      if (force) {
+        doLogout();
+      } else {
+        showCustomConfirm({
+          title: openLoginAfter ? "باشقا ھېساباتقا كىرىش" : "ھېساباتتىن چېكىنىش",
+          message: openLoginAfter ? "نۆۋەتتىكى ھېساباتتىن چىقىپ، باشقا ھېسابات بىلەن كىرمەكچىمۇ؟" : "ھېساباتىڭىزدىن راستىنلا چېكىنمەكچىمۇ؟",
+          icon: "🚪",
+          okText: "ھەئە، چېكىنىش",
+          cancelText: "ياق (بىكار قىلىش)",
+          okClass: "btn-danger",
+          onOk: doLogout
+        });
       }
     }
 
@@ -3129,6 +3439,7 @@
             </div>
           </div>
           <div style="display:flex; flex-direction:column; gap:6px;">
+            <button class="btn btn-primary" style="padding:4px 10px; font-size:0.75rem;" onclick="openAdminSendMessageModal('${u.uid}')">✉️ ئۇچۇر يوللاش</button>
             <button class="btn btn-warning" style="padding:4px 10px; font-size:0.75rem;" onclick="adminAdjustUserBalance('${u.uid}')">💰 پۇل تەڭشەش</button>
             <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.72rem;" onclick="adminEditUserInfo('${u.uid}')">✏️ تەھرىرلەش</button>
             ${u.role !== 'admin' ? `<button class="btn btn-danger" style="padding:4px 10px; font-size:0.72rem;" onclick="adminDeleteUser('${u.uid}')">🗑️ يۇيۇش</button>` : ''}
@@ -3377,7 +3688,7 @@ ${formatDualCurrency(u.balance)}`);
       if (!container) return;
       container.innerHTML = "";
       const dt = state.siteSettings.dynamicTexts || {
-        authSubtitle: "كارت ۋە تور مۇلازىمەت مەركىزىگە خۇش كېلىپسىز",
+        authSubtitle: "auto cash تور مۇلازىمەت سۇپىسى",
         categoriesTitle: "مۇلازىمەت ۋە تۈرلەر",
         featuredTitle: "تەۋسىيە قىلىنغان مەھسۇلاتلار"
       };
@@ -3676,6 +3987,31 @@ ${formatDualCurrency(u.balance)}`);
       }
       container.innerHTML = "";
       list.forEach(o => {
+        // ITEM 9: Direct Admin Official Message Card
+        if (o.isDirectMessage) {
+          const div = document.createElement("div");
+          div.className = "admin-list-item";
+          div.style.background = "linear-gradient(135deg, #0f2d59 0%, #071933 100%)";
+          div.style.border = "1.5px solid #38bdf8";
+          div.style.boxShadow = "0 6px 20px rgba(56, 189, 248, 0.25)";
+          div.innerHTML = `
+            <div style="width: 100%;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <div style="font-weight: 800; color: #38bdf8; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+                  <span>✉️</span> <span>${o.packageName}</span>
+                </div>
+                <span class="badge badge-success">باشقۇرغۇچىدىن ئۇچۇر ✓</span>
+              </div>
+              <div style="background: rgba(4, 16, 33, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 12px; color: #fff; font-size: 0.92rem; line-height: 1.6; margin: 8px 0; white-space: pre-wrap;">${o.accountTarget}</div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: #94a3b8;">
+                <span>يوللىغۇچى: ${o.sender || 'باشقۇرغۇچى'}</span>
+                <span>ۋاقتى: ${o.date}</span>
+              </div>
+            </div>
+          `;
+          container.appendChild(div);
+          return;
+        }
         let statusBadge = '';
         if (o.status === 'approved') {
           statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
@@ -4402,7 +4738,18 @@ ${formatDualCurrency(u.balance)}`);
       }
       const rawAmt = parseFloat(document.getElementById("depositAmountInput").value);
       const tx = document.getElementById("depositTxIdInput").value.trim();
-      if (!rawAmt || rawAmt <= 0) return alert("سوممىنى توغرا كىرگۈزۈڭ!");
+
+      if (!rawAmt || rawAmt <= 0) {
+        showCustomConfirm({
+          title: "ئەسكەرتىش",
+          message: "قاچىلايدىغان سوممىنى توغرا سان بىلەن كىرگۈزۈڭ!",
+          icon: "⚠️",
+          okText: "ماقۇل",
+          cancelText: "",
+          okClass: "btn-primary"
+        });
+        return;
+      }
 
       let finalUsd = rawAmt;
       let finalSyp = Math.round(rawAmt * getRate());
@@ -4410,6 +4757,102 @@ ${formatDualCurrency(u.balance)}`);
         finalSyp = rawAmt;
         finalUsd = parseFloat((rawAmt / getRate()).toFixed(3));
       }
+
+      // ==========================================
+      // ITEM 5: MINIMUM AMOUNT VALIDATION (Min 1$ or 135 SYP)
+      // ==========================================
+      if (rechargeCurrency === 'USD' && finalUsd < 1.0) {
+        showCustomConfirm({
+          title: "تۆۋەن سومما رەت قىلىندى",
+          message: "⚠️ ئەڭ تۆۋەن قاچىلاش سوممىسى 1$ (دوللار) بولۇشى شەرت!",
+          icon: "⚠️",
+          okText: "تۈزىتىش",
+          cancelText: "",
+          okClass: "btn-warning"
+        });
+        return;
+      }
+
+      if (rechargeCurrency === 'SYP' && finalSyp < 135) {
+        showCustomConfirm({
+          title: "تۆۋەن سومما رەت قىلىندى",
+          message: "⚠️ ئەڭ تۆۋەن قاچىلاش سوممىسى 135 سۈرىيە لىراسى بولۇشى شەرت!",
+          icon: "⚠️",
+          okText: "تۈزىتىش",
+          cancelText: "",
+          okClass: "btn-warning"
+        });
+        return;
+      }
+
+      // ==========================================
+      // ITEM 7 & 10: AI SMART VERIFICATION & REPEATED FAKE ATTEMPT ALERT
+      // ==========================================
+      const aiResult = validateRechargeReceiptWithAI(tx, selectedReceiptDataUrl, (rechargeCurrency === 'USD' ? finalUsd : finalSyp), rechargeCurrency);
+
+      if (!aiResult.valid) {
+        u.failedRechargeAttempts = (u.failedRechargeAttempts || 0) + 1;
+        state.users["user_" + u.uid] = u;
+
+        // Save attempt update to Firebase
+        fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(u)
+        }).catch(e => {});
+
+        // ITEM 10: If user fails 2 or 3 times, directly notify admin via AI security alert!
+        if (u.failedRechargeAttempts >= 2) {
+          const alertId = "SEC-" + Date.now();
+          const alertObj = {
+            id: alertId,
+            userUid: u.uid,
+            username: u.username,
+            userPhone: u.phone || "",
+            isSecurityAlert: true,
+            prodName: "🚨 AI خەتەرلىك ھەرىكەت ئاگاھلاندۇرۇشى",
+            packageName: `ئابونت كۆپ قېتىم خاتا تالون يوللىدى (${u.failedRechargeAttempts}-قېتىم)`,
+            accountTarget: `ئابونت: ${u.username} (UID: #${u.uid}) | تېلېفون: ${u.phone || 'يوق'} | كىرگۈزگەن خاتا تالون: "${tx}" | ئالدامچىلىق گۇمانى بايقالدى!`,
+            price: finalUsd,
+            status: "pending",
+            date: getCurrentTimeString(),
+            processedAt: null
+          };
+          state.orders[alertId] = alertObj;
+
+          fetch(`${FIREBASE_URL}/orders/${alertId}.json`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(alertObj)
+          }).catch(e => {});
+
+          triggerAdminActionNotification("order", alertObj);
+          appendAiMessage(`🚨 **جىددىي بىخەتەرلىك ئۇقتۇرۇشى:** ئابونت **${u.username}** (UID: #${u.uid}) ${u.failedRechargeAttempts} قېتىم خاتا تالون يوللىدى! باشقۇرغۇچى بۆلىكىگە ئەۋەتىلدى.`, "bot");
+
+          showCustomConfirm({
+            title: "⚠️ تەكشۈرۈش نەتىجىسى: رەت قىلىندى!",
+            message: `${aiResult.reason}\n\n🚨 سىز ئاللىقاچان ${u.failedRechargeAttempts} قېتىم خاتا تالون يوللىدىڭىز! بۇ ئەھۋال باشقۇرغۇچىغا بىۋاسىتە AI ئارقىلىق مەلۇم قىلىندى. ھېساباتىڭىز تەكشۈرۈلۈۋاتىدۇ.`,
+            icon: "🚨",
+            okText: "چۈشەندىم",
+            cancelText: "",
+            okClass: "btn-danger"
+          });
+        } else {
+          showCustomConfirm({
+            title: "⚠️ تەكشۈرۈش نەتىجىسى: رەت قىلىندى!",
+            message: `${aiResult.reason}\n\nتوغرا بولغان شامكەش تالون ھۆججىتى (تاپشۇرۇۋالغۇچى: N. Muhsin) يوللاڭ.`,
+            icon: "⚠️",
+            okText: "تۈزىتىش",
+            cancelText: "",
+            okClass: "btn-warning"
+          });
+        }
+        return;
+      }
+
+      // If valid, reset failed counter
+      u.failedRechargeAttempts = 0;
+      state.users["user_" + u.uid] = u;
 
       const payId = "PAY-" + Math.floor(100000 + Math.random() * 900000);
       const newPayItem = {
@@ -4422,7 +4865,10 @@ ${formatDualCurrency(u.balance)}`);
         amount: finalUsd,
         amountSyp: finalSyp,
         currencyUsed: rechargeCurrency,
-        txId: tx || "—",
+        txId: tx,
+        receiptImg: selectedReceiptDataUrl || "",
+        receiptAiVerified: true,
+        recipientName: "N. Muhsin",
         status: "pending",
         date: getCurrentTimeString(),
         processedAt: null
@@ -4437,7 +4883,17 @@ ${formatDualCurrency(u.balance)}`);
         body: JSON.stringify(newPayItem)
       });
 
-      alert(`سومما قاچىلاش تەلىپىڭىز يوللاندى! ھازىر ساقلاش ھالىتىدە تۇرىدۇ.`);
+      showCustomConfirm({
+        title: "✅ تەلەپ يوللاندى",
+        message: `✅ AI ئەقلىي تەكشۈرۈشىدىن ئۆتتى (تاپشۇرۇۋالغۇچى: N. Muhsin)!\nسومما قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا يوللاندى، تەكشۈرۈلگەندىن كېيىن دەرھال تەستىقلىنىدۇ.`,
+        icon: "✅",
+        okText: "ماقۇل",
+        cancelText: "",
+        okClass: "btn-success"
+      });
+
+      selectedReceiptDataUrl = null;
+      renderAll();
       switchView("view-payments");
     }
 
