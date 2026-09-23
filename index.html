@@ -7,6 +7,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="pageHeaderTitle">Auto cash | كارت ۋە ئويۇن مۇلازىمىتى</title>
 
+  <!-- Supabase JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <!-- Google Identity Services / Firebase Auth SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
@@ -1629,7 +1632,6 @@
     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
   </div>
 
-  
   <!-- CUSTOM CONFIRMATION & ALERT MODAL (Item 3) -->
   <div class="modal-backdrop" id="modalCustomConfirm" style="z-index: 99999;">
     <div class="modal-card" style="max-width: 420px; text-align: center; border: 1.5px solid var(--primary-light); background: linear-gradient(180deg, #0d284f 0%, #06172d 100%); box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
@@ -2005,8 +2007,12 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT REALTIME REST ENGINE -->
+  <!-- JAVASCRIPT REALTIME REST ENGINE & SUPABASE AUTH -->
   <script>
+    // 1. SUPABASE CLIENT CONFIGURATION
+    const SUPABASE_URL = "https://yqyriivdceqaoqcsmssp.supabase.co";
+    const SUPABASE_ANON_KEY = "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxeXJpaXZkY2VxYW9xY3Ntc3NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNjUyNjQsImV4cCI6MjEwNTc0MTI2NH0.CigNibikTEADHNB9T6BX0q9OFCdam9KyUlumzN-e5uY";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const STORAGE_KEY = "autocash_app_state_v25";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
@@ -2187,17 +2193,14 @@
     function getOrdersList() { 
       const list = Object.values(state.orders || {}).filter(o => o && typeof o === 'object');
       return list.sort((a, b) => {
-        // Pending orders ALWAYS at the very top!
         const aPending = (a.status === 'pending') ? 1 : 0;
         const bPending = (b.status === 'pending') ? 1 : 0;
         if (aPending !== bPending) return bPending - aPending;
 
-        // Security alerts next
         const aAlert = a.isSecurityAlert ? 1 : 0;
         const bAlert = b.isSecurityAlert ? 1 : 0;
         if (aAlert !== bAlert) return bAlert - aAlert;
 
-        // Newest timestamp first
         const tA = (a.date || "") + (a.id || "");
         const tB = (b.date || "") + (b.id || "");
         return tB.localeCompare(tA);
@@ -2207,7 +2210,6 @@
     function getPaymentsList() { 
       const list = Object.values(state.payments || {}).filter(p => p && typeof p === 'object');
       return list.sort((a, b) => {
-        // Pending deposits ALWAYS at the very top!
         const aPending = (a.status === 'pending') ? 1 : 0;
         const bPending = (b.status === 'pending') ? 1 : 0;
         if (aPending !== bPending) return bPending - aPending;
@@ -2256,6 +2258,67 @@
         }
       });
       return changed;
+    }
+
+    /* SUPABASE PROFILE LOADER & REALTIME SYNC */
+    async function loadSupabaseProfile(authUser) {
+      if (!authUser) return null;
+      try {
+        const { data: profile, error } = await supabaseClient
+          .from('profiles')
+          .select('*')
+          .eq('id', authUser.id)
+          .maybeSingle();
+
+        if (error) {
+          console.warn("Supabase profiles query notice:", error);
+        }
+
+        let userUid = authUser.user_metadata?.uid || authUser.id.replace(/-/g, '').substring(0, 6);
+        let uname = authUser.user_metadata?.username || (authUser.email ? authUser.email.split('@')[0] : "user");
+        let balance = 0.00;
+        let vipLevel = "bronze";
+        let role = (uname.toLowerCase() === "dronemax") ? "admin" : "user";
+        let phone = authUser.user_metadata?.phone || "يوق";
+        let country = authUser.user_metadata?.country || "سوريا";
+
+        if (profile) {
+          userUid = profile.uid ? String(profile.uid) : userUid;
+          uname = profile.username || uname;
+          balance = parseFloat(profile.balance || 0);
+          vipLevel = profile.vip_level || profile.tier || "bronze";
+          role = profile.role || ((uname.toLowerCase() === "dronemax") ? "admin" : "user");
+          phone = profile.phone || phone;
+          country = profile.country || country;
+        }
+
+        const userObj = {
+          uid: userUid,
+          supabaseId: authUser.id,
+          username: uname,
+          email: authUser.email || "",
+          password: "supabase_auth_user",
+          country: country,
+          phone: phone,
+          role: role,
+          balance: balance,
+          tier: vipLevel,
+          totalSpent: parseFloat(profile?.total_spent || profile?.totalSpent || 0),
+          currentSessionToken: "sess_" + Date.now(),
+          avatar: profile?.avatar || authUser.user_metadata?.avatar || fastIcons.userDefaultAvatar
+        };
+
+        state.users["user_" + userUid] = userObj;
+        state.currentUserId = userUid;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+        // Realtime update balance ($0.00 places) and VIP
+        renderAll();
+        return userObj;
+      } catch (err) {
+        console.error("loadSupabaseProfile err:", err);
+        return null;
+      }
     }
 
     /* CLOUD SYNC */
@@ -2415,13 +2478,8 @@
       }
     }
 
-    // Safety fallback: Unconditionally dismiss splash screen after 1.2s max no matter what!
     setTimeout(hideSplashScreen, 1200);
 
-    
-    // ==========================================
-    // ITEM 3: BEAUTIFUL CUSTOM CONFIRM / ALERT MODAL
-    // ==========================================
     function showCustomConfirm({ title, message, icon = "🚪", okText = "ھەئە", cancelText = "ياق", okClass = "btn-danger", onOk, onCancel }) {
       const modal = document.getElementById("modalCustomConfirm");
       if (!modal) return;
@@ -2457,9 +2515,6 @@
       openModal("modalCustomConfirm");
     }
 
-    // ==========================================
-    // ITEM 7 & 10: AI SHAM CASH 9-DIGIT RECEIPT VALIDATOR
-    // ==========================================
     function validateRechargeReceiptWithAI(txId, amount, currency) {
       if (!txId || txId.trim().length === 0) {
         return {
@@ -2468,10 +2523,8 @@
         };
       }
 
-      // Remove any accidental spaces
       const cleanTx = txId.trim().replace(/\s+/g, '');
 
-      // Strict AI Rule: Receipt number must be EXACTLY 9 digits like 467890306
       if (!/^\d{9}$/.test(cleanTx)) {
         return {
           valid: false,
@@ -2479,7 +2532,6 @@
         };
       }
 
-      // Reject fake repeating patterns (e.g. 000000000, 111111111) or ascending/descending sequences
       if (/^(.)\1{8}$/.test(cleanTx) || cleanTx === "123456789" || cleanTx === "987654321") {
         return {
           valid: false,
@@ -2496,9 +2548,6 @@
       };
     }
 
-    // ==========================================
-    // ITEM 9: ADMIN DIRECT MESSAGE TO USER
-    // ==========================================
     function openAdminSendMessageModal(uid) {
       const u = findUserByUid(uid);
       if (!u) return alert("ئابونت تېپىلمىدى!");
@@ -2549,7 +2598,6 @@
       renderAll();
     }
 
-
     function sanitizeState() {
       if (!state || typeof state !== 'object') state = JSON.parse(JSON.stringify(defaultData));
       state.siteSettings = Object.assign({}, defaultData.siteSettings, state.siteSettings || {});
@@ -2588,10 +2636,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Sanitize local data
       sanitizeState();
 
-      // 2. Render UI immediately from local storage so page opens instantly without delay
       try {
         applyWelcomeSplashData();
         initApp();
@@ -2599,13 +2645,26 @@
         console.error("Initialization error:", err);
       }
 
-      // 3. Dismiss splash screen smoothly after 500ms
       setTimeout(hideSplashScreen, 500);
 
-      // 4. Perform cloud sync in the background asynchronously (NON-BLOCKING)
+      // Check active Supabase Auth Session
+      try {
+        supabaseClient.auth.getSession().then(({ data: { session } }) => {
+          if (session?.user) {
+            loadSupabaseProfile(session.user);
+          }
+        });
+        supabaseClient.auth.onAuthStateChange(async (event, session) => {
+          if (event === 'SIGNED_IN' && session?.user) {
+            await loadSupabaseProfile(session.user);
+          }
+        });
+      } catch (e) {
+        console.warn("Supabase auth session check notice:", e);
+      }
+
       syncFromCloud().catch(err => console.warn("Background initial cloud sync failed:", err));
 
-      // 5. Close modals on backdrop click
       document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
         backdrop.addEventListener("click", (e) => {
           if (e.target === backdrop) {
@@ -2614,7 +2673,6 @@
         });
       });
 
-      // 6. Close package options dropdown when clicking outside
       document.addEventListener("click", (e) => {
         const pkgContainer = document.getElementById("packageOptionsContainer");
         const pkgBtn = document.getElementById("packageDropdownBtn");
@@ -2625,7 +2683,6 @@
         }
       });
 
-      // 7. Periodic background sync every 5 seconds
       setInterval(() => {
         syncFromCloud().catch(e => {});
       }, 5000);
@@ -2755,7 +2812,6 @@
       }
     }
 
-    /* RENDER EMBEDDED ACCOUNT INFO IN WALLET VIEW */
     function renderWalletPageEmbeddedInfo() {
       const u = getCurrentUser();
       if (!u) {
@@ -2784,7 +2840,6 @@
       document.getElementById("walletTotalSpentVal").innerText = formatCurrency(u.totalSpent || 0);
     }
 
-    /* RENDER ADMIN HUB ON HOME PAGE */
     function renderAdminHomeHub() {
       const hub = document.getElementById("adminHomeHub");
       const u = getCurrentUser();
@@ -2805,7 +2860,6 @@
       }
     }
 
-    /* MASTER CATEGORY SELECTOR IN ADMIN */
     function selectAdminMasterCat(catId, specificTabId) {
       document.querySelectorAll(".admin-master-cat-btn").forEach(b => b.classList.remove("active"));
       document.getElementById(`mcat-${catId.replace('cat-', '')}`)?.classList.add("active");
@@ -2824,7 +2878,7 @@
       }
     }
 
-    /* AUTHENTICATION & LOGIN */
+    /* AUTHENTICATION & LOGIN WITH SUPABASE INTEGRATION */
     function switchAuthTab(tab) {
       document.getElementById('tabBtnLogin').classList.toggle('active', tab === 'login');
       document.getElementById('tabBtnRegister').classList.toggle('active', tab === 'register');
@@ -2837,7 +2891,7 @@
     }
 
     async function handleUserLogin() {
-      const inputVal = document.getElementById("loginUsernameInput").value.trim().toLowerCase();
+      const inputVal = document.getElementById("loginUsernameInput").value.trim();
       const pwd = document.getElementById("loginPasswordInput").value.trim();
 
       if (!inputVal || !pwd) {
@@ -2852,7 +2906,6 @@
         return;
       }
 
-      // Item 4: Smooth loading state indicator
       const loginBtn = document.querySelector("#authLoginForm .btn-primary");
       let originalBtnText = "ھېساباتقا كىرىش ➔";
       if (loginBtn) {
@@ -2863,39 +2916,78 @@
       }
 
       try {
-        await syncFromCloud();
-        const allUsers = getUsersList();
-        let found = allUsers.find(u => 
-          u && ((u.username && u.username.toLowerCase() === inputVal) || 
-          u.uid === inputVal || 
-          (u.email && u.email.toLowerCase() === inputVal))
-        );
-        
-        if (!found || found.password !== pwd) {
-          if (loginBtn) {
-            loginBtn.innerHTML = originalBtnText;
-            loginBtn.disabled = false;
-            loginBtn.style.opacity = "1";
+        let authEmail = inputVal;
+        if (!authEmail.includes("@")) {
+          try {
+            const { data: profileFound } = await supabaseClient
+              .from('profiles')
+              .select('email')
+              .or(`username.ilike.${inputVal},uid.eq.${inputVal}`)
+              .maybeSingle();
+
+            if (profileFound && profileFound.email) {
+              authEmail = profileFound.email;
+            } else {
+              authEmail = `${inputVal.toLowerCase().replace(/[^a-z0-9]/g, '')}@autocash.local`;
+            }
+          } catch (e) {
+            authEmail = `${inputVal.toLowerCase().replace(/[^a-z0-9]/g, '')}@autocash.local`;
           }
-          showCustomConfirm({
-            title: "كىرىش مەغلۇپ بولدى",
-            message: "ئىشلەتكۈچى نامى، UID، ئېلخەت ياكى مەخپىي نومۇر خاتا!",
-            icon: "❌",
-            okText: "قايتا سىناش",
-            cancelText: "",
-            okClass: "btn-danger"
-          });
-          return;
         }
 
-        const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
-        found.currentSessionToken = newSessionToken;
-        localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+        // 1. Supabase SignInWithPassword
+        let supabaseSuccess = false;
+        let authUser = null;
 
-        state.users["user_" + found.uid] = found;
-        state.currentUserId = found.uid;
-        
-        await pushToCloud();
+        const { data: sbData, error: sbError } = await supabaseClient.auth.signInWithPassword({
+          email: authEmail,
+          password: pwd
+        });
+
+        if (!sbError && sbData?.user) {
+          supabaseSuccess = true;
+          authUser = sbData.user;
+        }
+
+        // 2. Compatibility check with existing local accounts
+        if (!supabaseSuccess) {
+          await syncFromCloud();
+          const allUsers = getUsersList();
+          let found = allUsers.find(u => 
+            u && ((u.username && u.username.toLowerCase() === inputVal.toLowerCase()) || 
+            u.uid === inputVal || 
+            (u.email && u.email.toLowerCase() === inputVal.toLowerCase()))
+          );
+          
+          if (!found || found.password !== pwd) {
+            if (loginBtn) {
+              loginBtn.innerHTML = originalBtnText;
+              loginBtn.disabled = false;
+              loginBtn.style.opacity = "1";
+            }
+            showCustomConfirm({
+              title: "كىرىش مەغلۇپ بولدى",
+              message: sbError ? ("Supabase خاتالىقى: " + sbError.message) : "ئىشلەتكۈچى نامى، UID، ئېلخەت ياكى مەخپىي نومۇر خاتا!",
+              icon: "❌",
+              okText: "قايتا سىناش",
+              cancelText: "",
+              okClass: "btn-danger"
+            });
+            return;
+          }
+
+          const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+          found.currentSessionToken = newSessionToken;
+          localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+          state.users["user_" + found.uid] = found;
+          state.currentUserId = found.uid;
+          await pushToCloud();
+        } else {
+          // Load Supabase profile (reads balance & vip_level and updates page automatically)
+          await loadSupabaseProfile(authUser);
+          const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+          localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+        }
 
         if (loginBtn) {
           loginBtn.innerHTML = "<span>✓</span> <span>مۇۋەپپەقىيەتلىك كىردىڭىز!</span>";
@@ -2908,7 +3000,8 @@
             loginBtn.style.opacity = "1";
           }
           closeModal("modalAuthLogin");
-          showToastNotification(`🎉 خۇش كەلدىڭىز، ${found.username}!`);
+          const cu = getCurrentUser();
+          showToastNotification(`🎉 خۇش كەلدىڭىز، ${cu ? cu.username : ''}!`);
           requestNotificationPermission();
           renderAll();
           switchView("view-home");
@@ -3005,51 +3098,116 @@
         return;
       }
 
-      await syncFromCloud();
-      const allUsers = getUsersList();
-      if (allUsers.some(u => u.username.toLowerCase() === uname.toLowerCase() || (email && u.email === email))) {
-        alert("بۇ ئىشلەتكۈچى نامى ياكى ئېلخەت ئاللىقاچان بار! باشقا نام/ئېلخەت تاللاڭ.");
-        return;
+      let authEmail = email;
+      if (!authEmail || !authEmail.includes("@")) {
+        authEmail = `${uname.toLowerCase().replace(/[^a-z0-9]/g, '')}@autocash.local`;
       }
 
-      const uid = Math.floor(100000 + Math.random() * 900000).toString();
-      const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+      const regBtn = document.querySelector("#authRegisterForm .btn-success");
+      let originalBtnText = regBtn ? regBtn.innerHTML : "";
+      if (regBtn) {
+        regBtn.innerHTML = "<span>⏳</span> <span>ھېسابات ئېچىلىۋاتىدۇ...</span>";
+        regBtn.disabled = true;
+        regBtn.style.opacity = "0.75";
+      }
 
-      const newUser = {
-        uid: uid,
-        username: uname,
-        email: email,
-        password: pwd,
-        country: country,
-        phone: phone || "يوق",
-        role: "user",
-        balance: 0.000,
-        tier: "bronze",
-        totalSpent: 0.000,
-        currentSessionToken: newSessionToken,
-        avatar: fastIcons.userDefaultAvatar
-      };
+      try {
+        const uid = Math.floor(100000 + Math.random() * 900000).toString();
 
-      state.users["user_" + uid] = newUser;
-      state.currentUserId = uid;
-      localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+        // 1. Supabase Auth signUp
+        const { data: sbData, error: sbError } = await supabaseClient.auth.signUp({
+          email: authEmail,
+          password: pwd,
+          options: {
+            data: {
+              username: uname,
+              phone: phone || "يوق",
+              country: country,
+              uid: uid
+            }
+          }
+        });
 
-      await fetch(`${FIREBASE_URL}/users/user_${uid}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newUser)
-      });
+        if (sbError) {
+          throw sbError;
+        }
 
-      pushToCloud();
-      closeModal("modalAuthLogin");
-      alert("ھېساباتىڭىز مۇۋەپپەقىيەتلىك ئېچىلدى! كودىڭىز (UID): #" + uid);
-      requestNotificationPermission();
-      renderAll();
-      switchView("view-home");
+        const authUser = sbData.user;
+        const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+
+        // 2. Initialize in Supabase 'profiles' table
+        if (authUser) {
+          try {
+            await supabaseClient.from('profiles').upsert([
+              {
+                id: authUser.id,
+                uid: uid,
+                username: uname,
+                email: authEmail,
+                phone: phone || "يوق",
+                country: country,
+                role: uname.toLowerCase() === "dronemax" ? "admin" : "user",
+                balance: 0.00,
+                vip_level: "bronze",
+                tier: "bronze"
+              }
+            ]);
+          } catch (e) {
+            console.warn("Supabase profiles table notice:", e);
+          }
+        }
+
+        const newUser = {
+          uid: uid,
+          supabaseId: authUser ? authUser.id : null,
+          username: uname,
+          email: authEmail,
+          password: pwd,
+          country: country,
+          phone: phone || "يوق",
+          role: uname.toLowerCase() === "dronemax" ? "admin" : "user",
+          balance: 0.000,
+          tier: "bronze",
+          totalSpent: 0.000,
+          currentSessionToken: newSessionToken,
+          avatar: fastIcons.userDefaultAvatar
+        };
+
+        state.users["user_" + uid] = newUser;
+        state.currentUserId = uid;
+        localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+
+        fetch(`${FIREBASE_URL}/users/user_${uid}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newUser)
+        }).catch(e => {});
+
+        pushToCloud();
+
+        if (regBtn) regBtn.innerHTML = originalBtnText;
+        closeModal("modalAuthLogin");
+        alert("ھېساباتىڭىز مۇۋەپپەقىيەتلىك ئېچىلدى! كودىڭىز (UID): #" + uid);
+        requestNotificationPermission();
+        renderAll();
+        switchView("view-home");
+      } catch (err) {
+        if (regBtn) {
+          regBtn.innerHTML = originalBtnText;
+          regBtn.disabled = false;
+          regBtn.style.opacity = "1";
+        }
+        alert("تىزىملىتىش مەغلۇپ بولدى: " + (err.message || err));
+      }
     }
 
-    function logoutUser(force = false, openLoginAfter = false) {
-      const doLogout = () => {
+    async function logoutUser(force = false, openLoginAfter = false) {
+      const doLogout = async () => {
+        try {
+          await supabaseClient.auth.signOut();
+        } catch (e) {
+          console.warn("Supabase signOut notice:", e);
+        }
         const u = getCurrentUser();
         if (u) {
           u.currentSessionToken = null;
@@ -3068,7 +3226,7 @@
       };
 
       if (force) {
-        doLogout();
+        await doLogout();
       } else {
         showCustomConfirm({
           title: openLoginAfter ? "باشقا ھېساباتقا كىرىش" : "ھېساباتتىن چېكىنىش",
@@ -3141,7 +3299,6 @@
       if (tierBadge) tierBadge.innerText = currentTierObj ? currentTierObj.name : "مىس";
     }
 
-    /* PUSH NOTIFICATIONS & POPUP */
     function requestNotificationPermission() {
       if ("Notification" in window && Notification.permission !== "granted") {
         Notification.requestPermission();
@@ -3349,7 +3506,6 @@
       }, 5500);
     }
 
-    /* CAROUSEL */
     let currentSlide = 0;
     function renderCarousel() {
       const track = document.getElementById("carouselTrack");
@@ -3395,7 +3551,6 @@
       }, 4500);
     }
 
-    /* CATEGORIES */
     function renderCategories() {
       const container = document.getElementById("categoryGrid");
       if (!container) return;
@@ -3417,7 +3572,6 @@
       });
     }
 
-    /* ADMIN: USERS */
     function renderAdminUsers() {
       const container = document.getElementById("adminUsersList");
       if (!container) return;
@@ -3536,7 +3690,6 @@ ${formatDualCurrency(u.balance)}`);
       saveState();
     }
 
-    /* ADMIN: VIP DISCOUNT RATES CRUD */
     function renderAdminVipRates() {
       const container = document.getElementById("adminVipRatesContainer");
       if (!container) return;
@@ -3579,7 +3732,6 @@ ${formatDualCurrency(u.balance)}`);
       alert("VIP دەرىجە ۋە چېگىرمە باھالىرى پۈتۈن بوشلۇققا ساقلاندى!");
     }
 
-    /* ADMIN: BANNERS CRUD */
     function renderAdminBanners() {
       const container = document.getElementById("adminBannersList");
       if (!container) return;
@@ -3660,7 +3812,6 @@ ${formatDualCurrency(u.balance)}`);
       }
     }
 
-    /* ADMIN: VIP LOGOS & BADGES */
     function renderAdminVipLogos() {
       const container = document.getElementById("adminVipLogosList");
       if (!container) return;
@@ -3709,7 +3860,6 @@ ${formatDualCurrency(u.balance)}`);
       alert(`${tier.name} دەرىجىسىنىڭ بەلگىسى ساقلاندى!`);
     }
 
-    /* ADMIN: DYNAMIC TEXTS */
     function renderAdminTexts() {
       const container = document.getElementById("adminTextsFormList");
       if (!container) return;
@@ -3749,7 +3899,6 @@ ${formatDualCurrency(u.balance)}`);
       alert("توربەت تېكىستلىرى مۇۋەپپەقىيەتلىك ساقلاندى!");
     }
 
-    /* PRODUCTS CRUD */
     function renderAdminProducts() {
       const container = document.getElementById("adminProductsList");
       if (!container) return;
@@ -3847,7 +3996,6 @@ ${formatDualCurrency(u.balance)}`);
       }
     }
 
-    /* EASY PACKAGE TOOLS: Table, Batch Paste, Presets */
     function switchPackageInputMode(mode) {
       document.getElementById("pkgToolTabTable").classList.toggle("active", mode === 'table');
       document.getElementById("pkgToolTabBatch").classList.toggle("active", mode === 'batch');
@@ -4003,11 +4151,6 @@ ${formatDualCurrency(u.balance)}`);
       }
     }
 
-    /* ADMIN: ORDERS & DEPOSITS */
-    
-    // ==========================================
-    // ITEM 8: ADMIN CLEAR PROCESSED ORDERS & DEPOSITS
-    // ==========================================
     async function adminClearProcessedOrders() {
       const processedCount = Object.values(state.orders || {}).filter(o => o && o.status !== 'pending').length;
       if (processedCount === 0) {
@@ -4136,7 +4279,6 @@ ${formatDualCurrency(u.balance)}`);
       });
     }
 
-
     function renderAdminAllOrders() {
       const container = document.getElementById("adminAllOrdersList");
       if (!container) return;
@@ -4147,7 +4289,6 @@ ${formatDualCurrency(u.balance)}`);
       }
       container.innerHTML = "";
       list.forEach(o => {
-        // ITEM 9: Direct Admin Official Message Card
         if (o.isDirectMessage) {
           const div = document.createElement("div");
           div.className = "admin-list-item";
@@ -4220,6 +4361,9 @@ ${formatDualCurrency(u.balance)}`);
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(u)
           });
+          if (u.supabaseId) {
+            supabaseClient.from('profiles').update({ balance: u.balance }).eq('id', u.supabaseId).then(() => {}).catch(() => {});
+          }
           alert(`زاكاس رەت قىلىندى ۋە پۇل ئابونت ھېساباتىغا تولۇق قايتۇرۇلدى.`);
         }
       } else if (status === 'approved') {
@@ -4305,6 +4449,10 @@ ${formatDualCurrency(u.balance)}`);
           body: JSON.stringify(u)
         });
 
+        if (u.supabaseId) {
+          supabaseClient.from('profiles').update({ balance: u.balance }).eq('id', u.supabaseId).then(() => {}).catch(() => {});
+        }
+
         renderAll();
         alert(`سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
       }
@@ -4360,7 +4508,6 @@ ${formatDualCurrency(u.balance)}`);
       saveState();
     }
 
-    /* VIP TIERS */
     function renderVipTiersPage() {
       const container = document.getElementById("vipTiersList");
       if (!container) return;
@@ -4414,7 +4561,6 @@ ${formatDualCurrency(u.balance)}`);
       });
     }
 
-    /* AI AUTOMATIC SMART VALIDATION FUNCTION */
     function validateAccountWithAI(product, id1, id2) {
       if (!id1 || id1.trim().length === 0) {
         return { valid: false, msg: "⚠️ ئەسكەرتىش: كود ياكى ID نۇمۇرى بوش قالدى! ئاۋۋال تولدۇرۇڭ." };
@@ -4461,7 +4607,6 @@ ${formatDualCurrency(u.balance)}`);
       return { valid: true, msg: "✅ AI دەلىللىشى: كود فورماتى تەكشۈرۈلدى ۋە ئۆتتى." };
     }
 
-    /* PRODUCTS & ORDERING */
     function renderProducts() {
       const container = document.getElementById("productsGrid");
       if (!container) return;
@@ -4738,6 +4883,10 @@ ${formatDualCurrency(u.balance)}`);
         body: JSON.stringify(u)
       });
 
+      if (u.supabaseId) {
+        supabaseClient.from('profiles').update({ balance: u.balance }).eq('id', u.supabaseId).then(() => {}).catch(() => {});
+      }
+
       showCustomConfirm({
         title: "✅ زاكاس تاپشۇرۇلدى",
         message: "زاكاس تاپشۇرۇلدى، سەل ساقلاڭ تەلەپلىرىڭىز تېزدىن قوشۇلىدۇ.",
@@ -4751,7 +4900,6 @@ ${formatDualCurrency(u.balance)}`);
       switchView("view-orders");
     }
 
-    /* ORDERS LIST */
     function filterOrders(filter, btn) {
       currentOrderFilter = filter;
       document.querySelectorAll("#orderFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
@@ -4814,7 +4962,6 @@ ${formatDualCurrency(u.balance)}`);
       });
     }
 
-    /* PAYMENTS LIST */
     function filterPayments(filter, btn) {
       currentPaymentFilter = filter;
       document.querySelectorAll("#paymentFilterTabs .filter-tab-pill").forEach(p => p.classList.remove("active"));
@@ -4942,9 +5089,6 @@ ${formatDualCurrency(u.balance)}`);
         finalUsd = parseFloat((rawAmt / getRate()).toFixed(3));
       }
 
-      // ==========================================
-      // ITEM 5: MINIMUM AMOUNT VALIDATION (Min 1$ or 135 SYP)
-      // ==========================================
       if (rechargeCurrency === 'USD' && finalUsd < 1.0) {
         showCustomConfirm({
           title: "تۆۋەن سومما رەت قىلىندى",
@@ -4969,23 +5113,18 @@ ${formatDualCurrency(u.balance)}`);
         return;
       }
 
-      // ==========================================
-      // ITEM 7 & 10: AI SMART VERIFICATION & REPEATED FAKE ATTEMPT ALERT
-      // ==========================================
       const aiResult = validateRechargeReceiptWithAI(tx, (rechargeCurrency === 'USD' ? finalUsd : finalSyp), rechargeCurrency);
 
       if (!aiResult.valid) {
         u.failedRechargeAttempts = (u.failedRechargeAttempts || 0) + 1;
         state.users["user_" + u.uid] = u;
 
-        // Save attempt update to Firebase
         fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(u)
         }).catch(e => {});
 
-        // ITEM 10: If user fails 2 or 3 times, directly notify admin via AI security alert!
         if (u.failedRechargeAttempts >= 2) {
           const alertId = "SEC-" + Date.now();
           const alertObj = {
@@ -5034,7 +5173,6 @@ ${formatDualCurrency(u.balance)}`);
         return;
       }
 
-      // If valid, reset failed counter
       u.failedRechargeAttempts = 0;
       state.users["user_" + u.uid] = u;
 
@@ -5109,7 +5247,6 @@ ${formatDualCurrency(u.balance)}`);
       }
     }
 
-    /* ADMIN: SETTINGS */
     function renderAdminSettings() {
       const s = state.siteSettings;
       document.getElementById("adminSiteNameInput").value = s.siteName || "Auto cash";
@@ -5136,7 +5273,6 @@ ${formatDualCurrency(u.balance)}`);
       alert(`بېكەت تەڭشەكلىرى، سۈرىيە لىرا نىسبىتى (${state.siteSettings.syrianPoundRate}) بوشلۇققا مۇقىم ساقلاندى!`);
     }
 
-    /* CATEGORIES CRUD */
     function renderAdminCategories() {
       const container = document.getElementById("adminCategoriesList");
       if (!container) return;
@@ -5214,7 +5350,6 @@ ${formatDualCurrency(u.balance)}`);
       }
     }
 
-    /* PAYMENT METHODS CRUD */
     function renderAdminPayments() {
       const container = document.getElementById("adminPaymentsList");
       if (!container) return;
@@ -5297,7 +5432,6 @@ ${formatDualCurrency(u.balance)}`);
       }
     }
 
-    /* ADMIN: WELCOME SETTINGS */
     function renderAdminWelcomeSettings() {
       const s = state.siteSettings;
       document.getElementById("adminWelcomeTitleInput").value = s.welcomeTitle || s.siteName || "Auto cash";
@@ -5319,7 +5453,6 @@ ${formatDualCurrency(u.balance)}`);
       alert("قارشى ئېلىش بېتى تەڭشەكلىرى پۈتۈن بوشلۇققا مۇقىم ساقلاندى!");
     }
 
-    /* AI COMMAND EXECUTOR */
     function handleAiInputKeyPress(e) {
       if (e.key === "Enter") submitAiPrompt();
     }
@@ -5385,6 +5518,9 @@ ${formatDualCurrency(u.balance)}`);
         target.totalSpent = Math.max(target.totalSpent || 0, target.balance);
         if (!target.manualTier) target.tier = evaluateUserTier(target);
         state.users["user_" + target.uid] = target;
+        if (target.supabaseId) {
+          supabaseClient.from('profiles').update({ balance: target.balance }).eq('id', target.supabaseId).then(() => {}).catch(() => {});
+        }
         return `💰 **ئابونت ${target.username} غا +${amt} $ پۇل قوشۇلدى.**`;
       }
 
@@ -5409,6 +5545,9 @@ ${formatDualCurrency(u.balance)}`);
                 u.balance = parseFloat((u.balance + parseFloat(p.amount)).toFixed(3));
                 u.totalSpent = Math.max(u.totalSpent || 0, u.balance);
                 if (!u.manualTier) u.tier = evaluateUserTier(u);
+                if (u.supabaseId) {
+                  supabaseClient.from('profiles').update({ balance: u.balance }).eq('id', u.supabaseId).then(() => {}).catch(() => {});
+                }
               }
               p.status = "approved";
               p.processedAt = getCurrentTimeString();
@@ -5431,7 +5570,6 @@ ${formatDualCurrency(u.balance)}`);
       return "🤖 **بۇيرۇقىڭىز ئىجرا قىلىندى!**";
     }
 
-    /* ACCOUNT DETAILS */
     let tempSelectedAvatarDataUrl = null;
     function openAccountDetailsModal() {
       const u = getCurrentUser();
@@ -5470,6 +5608,11 @@ ${formatDualCurrency(u.balance)}`);
 
       state.users["user_" + u.uid] = u;
       saveState();
+
+      if (u.supabaseId) {
+        supabaseClient.from('profiles').update({ username: un, phone: ph, avatar: u.avatar }).eq('id', u.supabaseId).then(() => {}).catch(() => {});
+      }
+
       closeModal("modalAccountDetails");
       alert("ھېسابات ئۇچۇرلىرى يېڭىلاندى!");
     }
@@ -5484,13 +5627,15 @@ ${formatDualCurrency(u.balance)}`);
             u.avatar = e.target.result;
             state.users["user_" + u.uid] = u;
             saveState();
+            if (u.supabaseId) {
+              supabaseClient.from('profiles').update({ avatar: u.avatar }).eq('id', u.supabaseId).then(() => {}).catch(() => {});
+            }
           }
         };
         reader.readAsDataURL(file);
       }
     }
 
-    /* NAVIGATION */
     function switchView(viewId) {
       document.querySelectorAll(".page-view").forEach(el => el.style.display = "none");
       const target = document.getElementById(viewId);
@@ -5525,7 +5670,6 @@ ${formatDualCurrency(u.balance)}`);
       const tg = (state.siteSettings.telegram || "KOZNAK_USD").replace(/^@/, '');
       window.open(`https://t.me/${tg}`, "_blank"); 
     }
-  
   </script>
 </body>
 </html>
