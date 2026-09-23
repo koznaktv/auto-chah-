@@ -2011,7 +2011,7 @@
   <script>
     // 1. SUPABASE CLIENT CONFIGURATION
     const SUPABASE_URL = "https://yqyriivdceqaoqcsmssp.supabase.co";
-    const SUPABASE_ANON_KEY = "EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxeXJpaXZkY2VxYW9xY3Ntc3NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNjUyNjQsImV4cCI6MjEwNTc0MTI2NH0.CigNibikTEADHNB9T6BX0q9OFCdam9KyUlumzN-e5uY";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxeXJpaXZkY2VxYW9xY3Ntc3NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNjUyNjQsImV4cCI6MjEwNTc0MTI2NH0.CigNibikTEADHNB9T6BX0q9OFCdam9KyUlumzN-e5uY";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const STORAGE_KEY = "autocash_app_state_v25";
@@ -2274,29 +2274,19 @@
           console.warn("Supabase profiles query notice:", error);
         }
 
-        let userUid = authUser.user_metadata?.uid || authUser.id.replace(/-/g, '').substring(0, 6);
-        let uname = authUser.user_metadata?.username || (authUser.email ? authUser.email.split('@')[0] : "user");
-        let balance = 0.00;
-        let vipLevel = "bronze";
-        let role = (uname.toLowerCase() === "dronemax") ? "admin" : "user";
-        let phone = authUser.user_metadata?.phone || "يوق";
-        let country = authUser.user_metadata?.country || "سوريا";
-
-        if (profile) {
-          userUid = profile.uid ? String(profile.uid) : userUid;
-          uname = profile.username || uname;
-          balance = parseFloat(profile.balance || 0);
-          vipLevel = profile.vip_level || profile.tier || "bronze";
-          role = profile.role || ((uname.toLowerCase() === "dronemax") ? "admin" : "user");
-          phone = profile.phone || phone;
-          country = profile.country || country;
-        }
+        let userUid = profile?.uid || authUser.user_metadata?.uid || authUser.id.replace(/-/g, '').substring(0, 6);
+        let uname = profile?.username || authUser.user_metadata?.username || (authUser.email ? authUser.email.split('@')[0] : "user");
+        let balance = profile ? parseFloat(profile.balance || 0) : 0.00;
+        let vipLevel = profile?.vip_level || profile?.tier || "bronze";
+        let role = profile?.role || ((uname.toLowerCase() === "dronemax") ? "admin" : "user");
+        let phone = profile?.phone || authUser.user_metadata?.phone || "يوق";
+        let country = profile?.country || authUser.user_metadata?.country || "سوريا";
 
         const userObj = {
-          uid: userUid,
+          uid: String(userUid),
           supabaseId: authUser.id,
           username: uname,
-          email: authUser.email || "",
+          email: authUser.email || profile?.email || "",
           password: "supabase_auth_user",
           country: country,
           phone: phone,
@@ -2309,10 +2299,10 @@
         };
 
         state.users["user_" + userUid] = userObj;
-        state.currentUserId = userUid;
+        state.currentUserId = String(userUid);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
-        // Realtime update balance ($0.00 places) and VIP
+        // Realtime update balance ($0.00 places) and VIP across the page
         renderAll();
         return userObj;
       } catch (err) {
@@ -2686,6 +2676,28 @@
       setInterval(() => {
         syncFromCloud().catch(e => {});
       }, 5000);
+
+      // Realtime listener for Supabase profiles changes
+      try {
+        supabaseClient
+          .channel('public:profiles_realtime')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, payload => {
+            const me = getCurrentUser();
+            if (me && payload.new && (payload.new.id === me.supabaseId || String(payload.new.uid) === String(me.uid))) {
+              if (payload.new.balance !== undefined && payload.new.balance !== null) {
+                me.balance = parseFloat(payload.new.balance || 0);
+              }
+              if (payload.new.vip_level) me.tier = payload.new.vip_level;
+              if (payload.new.username) me.username = payload.new.username;
+              state.users["user_" + me.uid] = me;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+              renderAll();
+            }
+          })
+          .subscribe();
+      } catch (e) {
+        console.warn("Supabase realtime subscription notice:", e);
+      }
     });
 
     function applyWelcomeSplashData() {
@@ -2916,26 +2928,53 @@
       }
 
       try {
-        let authEmail = inputVal;
-        if (!authEmail.includes("@")) {
+        const cleanInput = inputVal.replace(/\s+/g, '');
+        let authEmail = null;
+
+        if (cleanInput.includes("@") && cleanInput.includes(".")) {
+          authEmail = cleanInput.toLowerCase();
+        } else if (cleanInput.includes("@") && !cleanInput.includes(".")) {
+          authEmail = cleanInput.toLowerCase() + ".com";
+        } else {
+          // 1. Look up profile in Supabase to find their associated email
           try {
             const { data: profileFound } = await supabaseClient
               .from('profiles')
-              .select('email')
-              .or(`username.ilike.${inputVal},uid.eq.${inputVal}`)
+              .select('email, uid, username')
+              .or(`username.eq.${inputVal},uid.eq.${inputVal},username.ilike.${inputVal}`)
               .maybeSingle();
 
             if (profileFound && profileFound.email) {
               authEmail = profileFound.email;
-            } else {
-              authEmail = `${inputVal.toLowerCase().replace(/[^a-z0-9]/g, '')}@autocash.local`;
             }
           } catch (e) {
-            authEmail = `${inputVal.toLowerCase().replace(/[^a-z0-9]/g, '')}@autocash.local`;
+            console.warn("Profile query notice:", e);
+          }
+
+          // 2. Check local/cloud users list if not found yet
+          if (!authEmail) {
+            const localUser = getUsersList().find(u => 
+              u && ((u.username && u.username.toLowerCase() === inputVal.toLowerCase()) || 
+              String(u.uid) === String(inputVal) || 
+              (u.email && u.email.toLowerCase() === inputVal.toLowerCase()))
+            );
+            if (localUser && localUser.email) {
+              authEmail = localUser.email;
+            }
+          }
+
+          // 3. Fallback to standard constructed email
+          if (!authEmail) {
+            if (/^\d{6}$/.test(cleanInput)) {
+              authEmail = `user_${cleanInput}_${cleanInput}@autocash.store`;
+            } else {
+              const safeName = cleanInput.toLowerCase().replace(/[^a-z0-9]/g, '') || 'user';
+              authEmail = `${safeName}@autocash.store`;
+            }
           }
         }
 
-        // 1. Supabase SignInWithPassword
+        // Attempt Supabase SignInWithPassword
         let supabaseSuccess = false;
         let authUser = null;
 
@@ -2949,13 +2988,13 @@
           authUser = sbData.user;
         }
 
-        // 2. Compatibility check with existing local accounts
+        // Fallback/Compatibility check with existing local accounts
         if (!supabaseSuccess) {
           await syncFromCloud();
           const allUsers = getUsersList();
           let found = allUsers.find(u => 
             u && ((u.username && u.username.toLowerCase() === inputVal.toLowerCase()) || 
-            u.uid === inputVal || 
+            String(u.uid) === String(inputVal) || 
             (u.email && u.email.toLowerCase() === inputVal.toLowerCase()))
           );
           
@@ -2967,7 +3006,7 @@
             }
             showCustomConfirm({
               title: "كىرىش مەغلۇپ بولدى",
-              message: sbError ? ("Supabase خاتالىقى: " + sbError.message) : "ئىشلەتكۈچى نامى، UID، ئېلخەت ياكى مەخپىي نومۇر خاتا!",
+              message: sbError ? ("خاتالىق: " + sbError.message) : "ئىشلەتكۈچى نامى، UID، ئېلخەت ياكى مەخپىي نومۇر خاتا!",
               icon: "❌",
               okText: "قايتا سىناش",
               cancelText: "",
@@ -2983,7 +3022,7 @@
           state.currentUserId = found.uid;
           await pushToCloud();
         } else {
-          // Load Supabase profile (reads balance & vip_level and updates page automatically)
+          // Load Supabase profile (reads balance & vip_level and updates all page views)
           await loadSupabaseProfile(authUser);
           const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
           localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
@@ -3093,14 +3132,25 @@
       const phone = document.getElementById("regPhoneInput").value.trim();
       const country = document.getElementById("regCountrySelect").value;
 
-      if (uname.length < 4 || pwd.length < 6) {
-        alert("ئىشلەتكۈچى نامى ئاز دېگەندە 4، پارول ئاز دېگەندە 6 خانىلىق بولسۇن!");
+      if (uname.length < 3 || pwd.length < 6) {
+        alert("ئىشلەتكۈچى نامى ئاز دېگەندە 3، پارول ئاز دېگەندە 6 خانىلىق بولسۇن!");
         return;
       }
 
-      let authEmail = email;
-      if (!authEmail || !authEmail.includes("@")) {
-        authEmail = `${uname.toLowerCase().replace(/[^a-z0-9]/g, '')}@autocash.local`;
+      const uid = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Normalize email for Supabase Auth to ensure valid RFC format
+      let authEmail = "";
+      const cleanEmail = email ? email.replace(/\s+/g, '').toLowerCase() : "";
+      if (cleanEmail && cleanEmail.includes("@") && cleanEmail.includes(".")) {
+        authEmail = cleanEmail;
+      } else if (cleanEmail && cleanEmail.includes("@") && !cleanEmail.includes(".")) {
+        authEmail = cleanEmail + ".com";
+      } else if (cleanEmail) {
+        authEmail = `${cleanEmail}@autocash.store`;
+      } else {
+        const safeName = uname.toLowerCase().replace(/[^a-z0-9]/g, '') || 'user';
+        authEmail = `${safeName}_${uid}@autocash.store`;
       }
 
       const regBtn = document.querySelector("#authRegisterForm .btn-success");
@@ -3112,8 +3162,6 @@
       }
 
       try {
-        const uid = Math.floor(100000 + Math.random() * 900000).toString();
-
         // 1. Supabase Auth signUp
         const { data: sbData, error: sbError } = await supabaseClient.auth.signUp({
           email: authEmail,
@@ -3123,7 +3171,8 @@
               username: uname,
               phone: phone || "يوق",
               country: country,
-              uid: uid
+              uid: uid,
+              email: authEmail
             }
           }
         });
