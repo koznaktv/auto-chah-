@@ -153,8 +153,8 @@
     }
     @media (min-width: 1240px) {
       .top-header {
-        padding-left: calc((100vw - 1200px) / 2 + 16px);
-        padding-right: calc((100vw - 1200px) / 2 + 16px);
+        padding-left: calc(max(16px, (100vw - 1200px) / 2 + 16px));
+        padding-right: calc(max(16px, (100vw - 1200px) / 2 + 16px));
       }
     }
 
@@ -288,12 +288,16 @@
       background: linear-gradient(135deg, #140e26 0%, #0a1b38 100%);
       border: 1.5px solid rgba(239, 68, 68, 0.4);
       border-radius: var(--radius-lg);
-      padding: 16px;
+      padding: 14px 12px;
       margin-bottom: 20px;
       box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
       display: none;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
-    .admin-home-hub.active { display: block; }
+    .admin-home-hub.active { display: block !important; }
     .admin-hub-header {
       display: flex;
       justify-content: space-between;
@@ -301,6 +305,7 @@
       margin-bottom: 12px;
       padding-bottom: 8px;
       border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+      width: 100%;
     }
     .admin-hub-category-title {
       font-size: 0.82rem;
@@ -313,21 +318,28 @@
     }
     .admin-hub-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
       margin-bottom: 8px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .admin-folder-card {
       background: rgba(14, 43, 82, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 12px;
-      padding: 10px 8px;
+      padding: 12px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
     }
     .admin-folder-card:hover {
       background: #153866;
@@ -1155,7 +1167,7 @@
     <section id="view-home" class="page-view">
       
       <!-- CATEGORIZED ADMIN FOLDER HUB ON HOME PAGE -->
-      <div class="admin-home-hub" id="adminHomeHub">
+      <div class="admin-home-hub" id="adminHomeHub" style="display: none !important;">
         <div class="admin-hub-header">
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="font-size: 20px;">📂</span>
@@ -2535,7 +2547,10 @@
         let userUid = authUser.user_metadata?.uid || authUser.id.replace(/[^0-9]/g, '').substring(0, 6) || Math.floor(100000 + Math.random() * 900000).toString();
         let phone = authUser.user_metadata?.phone || "يوق";
         let country = authUser.user_metadata?.country || "سوريا";
-        let role = (uname.toLowerCase() === "dronemax" || (authUser.email && authUser.email.toLowerCase().includes("dronemax"))) ? "admin" : "user";
+        const userEmailLower = (authUser.email || "").toLowerCase().trim();
+        const userNameLower = (uname || "").toLowerCase().trim();
+        const isAdminCred = userEmailLower === "dronemax0996@gmail.com" || userEmailLower === "dronemax@gmail.com" || (userNameLower === "dronemax" && authUser.user_metadata?.uid === "999999");
+        let role = isAdminCred ? "admin" : "user";
         let avatar = authUser.user_metadata?.avatar_url || authUser.user_metadata?.picture || authUser.user_metadata?.avatar || fastIcons.userDefaultAvatar;
 
         if (profile) {
@@ -2549,7 +2564,7 @@
           }
           if (profile.username) uname = profile.username;
           if (profile.uid) userUid = String(profile.uid);
-          if (profile.role) role = profile.role;
+          if (profile.role && isAdminCred) role = profile.role; else role = isAdminCred ? "admin" : "user";
           if (profile.phone) phone = profile.phone;
           if (profile.country) country = profile.country;
           if (profile.avatar) avatar = profile.avatar;
@@ -2711,7 +2726,7 @@
               renderAdminDeposits();
             }
 
-            if (getCurrentUser()?.role === "admin") {
+            if (isUserAdmin(getCurrentUser())) {
               checkAndNotifyAdminForNewPending();
             }
 
@@ -3172,7 +3187,7 @@
       renderPaymentsList();
       renderFavorites();
       renderVipTiersPage();
-      if (getCurrentUser()?.role === "admin") {
+      if (isUserAdmin(getCurrentUser())) {
         renderAdminUsers();
         renderAdminCategories();
         renderAdminPayments();
@@ -3238,12 +3253,31 @@
       document.getElementById("walletTotalSpentVal").innerText = formatCurrency(u.totalSpent || 0);
     }
 
+    // STRICT ADMINISTRATOR AUTHORIZATION CHECK (Only real admin allowed)
+    function isUserAdmin(u) {
+      if (!u) return false;
+      const adminEmails = ["dronemax0996@gmail.com", "dronemax@gmail.com"];
+      const userEmail = (u.email || "").toLowerCase().trim();
+      const userName = (u.username || "").toLowerCase().trim();
+      const uid = String(u.uid || "").trim();
+
+      // Only real admin email or exact dronemax credentials
+      if (adminEmails.includes(userEmail)) return true;
+      if (userName === "dronemax" && (uid === "999999" || adminEmails.includes(userEmail))) return true;
+      return false;
+    }
+
     function renderAdminHomeHub() {
       const hub = document.getElementById("adminHomeHub");
+      if (!hub) return;
       const u = getCurrentUser();
-      if (u && u.role === "admin") {
+      const adminAuthorized = isUserAdmin(u);
+
+      if (adminAuthorized) {
+        hub.style.setProperty("display", "block", "important");
         hub.classList.add("active");
       } else {
+        hub.style.setProperty("display", "none", "important");
         hub.classList.remove("active");
       }
     }
@@ -3714,7 +3748,8 @@
       document.getElementById("sidebarUidText").innerText = "UID: #" + u.uid + (u.email ? " | ✉️ " + u.email : "");
       document.getElementById("sidebarAvatarImg").src = u.avatar || fastIcons.userDefaultAvatar;
 
-      if (u.role === "admin") {
+      const isAdmin = isUserAdmin(u);
+      if (isAdmin) {
         roleBadge.className = "role-badge-pill role-admin";
         roleBadge.innerText = "باشقۇرغۇچى (Admin)";
         adminEntry.style.display = "flex";
@@ -6066,6 +6101,11 @@ ${formatDualCurrency(u.balance)}`);
     }
 
     function switchView(viewId) {
+      if (viewId === "view-admin" && !isUserAdmin(getCurrentUser())) {
+        showToastNotification("⚠️ سىزنىڭ بۇ بۆلۈمگە كىرىش ھوقۇقىڭىز يوق!");
+        switchView("view-home");
+        return;
+      }
       document.querySelectorAll(".page-view").forEach(el => el.style.display = "none");
       const target = document.getElementById(viewId);
       if (target) target.style.display = "block";
