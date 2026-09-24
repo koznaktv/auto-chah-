@@ -2260,28 +2260,111 @@
       return changed;
     }
 
-    /* SUPABASE PROFILE LOADER & REALTIME SYNC */
-    async function loadSupabaseProfile(authUser) {
-      if (!authUser) return null;
+        /* SUPABASE USER DATA & BALANCE LOADER */
+    async function updateUserData(passedUser = null) {
+      console.log("=== updateUserData() triggered ===");
       try {
-        const { data: profile, error } = await supabaseClient
+        let authUser = passedUser;
+        if (!authUser) {
+          const { data: userData, error: userError } = await supabaseClient.auth.getUser();
+          if (userError) {
+            console.warn("updateUserData: supabaseClient.auth.getUser() notice:", userError.message);
+          }
+          authUser = userData?.user;
+        }
+
+        if (!authUser) {
+          const { data: sessionData, error: sessError } = await supabaseClient.auth.getSession();
+          if (sessError) {
+            console.warn("updateUserData: supabaseClient.auth.getSession() notice:", sessError.message);
+          }
+          authUser = sessionData?.session?.user;
+        }
+
+        if (!authUser || !authUser.id) {
+          console.log("updateUserData: No authenticated user session found.");
+          return null;
+        }
+
+        console.log("updateUserData: Active authenticated user found:", authUser.id, authUser.email);
+        console.log("updateUserData: Querying 'profiles' table where id =", authUser.id);
+
+        let { data: profile, error: profileError } = await supabaseClient
           .from('profiles')
           .select('*')
           .eq('id', authUser.id)
           .maybeSingle();
 
-        if (error) {
-          console.warn("Supabase profiles query notice:", error);
+        if (profileError) {
+          console.error("updateUserData: Error fetching profile from 'profiles' table:", profileError.message, profileError.details || "");
         }
 
-        let userUid = profile?.uid || authUser.user_metadata?.uid || authUser.id.replace(/-/g, '').substring(0, 6);
-        let uname = profile?.username || authUser.user_metadata?.username || (authUser.email ? authUser.email.split('@')[0] : "user");
-        let balance = profile ? parseFloat(profile.balance || 0) : 0.00;
-        let vipLevel = profile?.vip_level || profile?.tier || "bronze";
-        let role = profile?.role || ((uname.toLowerCase() === "dronemax") ? "admin" : "user");
-        let phone = profile?.phone || authUser.user_metadata?.phone || "يوق";
-        let country = profile?.country || authUser.user_metadata?.country || "سوريا";
+        // Fallback search by email if profile was not found by UUID
+        if (!profile && authUser.email) {
+          console.warn("updateUserData: No profile found for id =", authUser.id, ". Attempting fallback query by email...");
+          const { data: pByEmail, error: emailError } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('email', authUser.email)
+            .maybeSingle();
 
+          if (pByEmail) {
+            console.log("updateUserData: Found profile by email:", pByEmail);
+            profile = pByEmail;
+            // Link authUser.id to this profile
+            supabaseClient.from('profiles').update({ id: authUser.id }).eq('email', authUser.email).then(() => {}).catch(() => {});
+          }
+        }
+
+        let balance = 0.00;
+        let vipLevel = "bronze";
+        let uname = authUser.user_metadata?.username || (authUser.email ? authUser.email.split('@')[0] : "user");
+        let userUid = authUser.user_metadata?.uid || authUser.id.replace(/-/g, '').substring(0, 6);
+        let phone = authUser.user_metadata?.phone || "يوق";
+        let country = authUser.user_metadata?.country || "سوريا";
+        let role = (uname.toLowerCase() === "dronemax") ? "admin" : "user";
+        let avatar = authUser.user_metadata?.avatar || fastIcons.userDefaultAvatar;
+
+        if (profile) {
+          console.log("updateUserData: Successfully retrieved profile from Supabase:", profile);
+          if (profile.balance !== undefined && profile.balance !== null) {
+            balance = parseFloat(profile.balance);
+            if (isNaN(balance)) balance = 0.00;
+          }
+          if (profile.vip_level || profile.tier) {
+            vipLevel = profile.vip_level || profile.tier;
+          }
+          if (profile.username) uname = profile.username;
+          if (profile.uid) userUid = String(profile.uid);
+          if (profile.role) role = profile.role;
+          if (profile.phone) phone = profile.phone;
+          if (profile.country) country = profile.country;
+          if (profile.avatar) avatar = profile.avatar;
+        } else {
+          console.warn("updateUserData: Profile not found in 'profiles' table. Creating default initial profile row...");
+          const newProfileRow = {
+            id: authUser.id,
+            uid: userUid,
+            username: uname,
+            email: authUser.email || "",
+            phone: phone,
+            country: country,
+            role: role,
+            balance: 0.00,
+            vip_level: "bronze",
+            tier: "bronze"
+          };
+          try {
+            await supabaseClient.from('profiles').upsert([newProfileRow]);
+            console.log("updateUserData: Default initial profile created in Supabase.");
+          } catch (upsertErr) {
+            console.warn("updateUserData: Upsert initial profile notice:", upsertErr);
+          }
+        }
+
+        console.log("updateUserData: Extracted balance =", balance, "| VIP tier =", vipLevel, "| Username =", uname);
+
+        // Update application state
         const userObj = {
           uid: String(userUid),
           supabaseId: authUser.id,
@@ -2294,21 +2377,75 @@
           balance: balance,
           tier: vipLevel,
           totalSpent: parseFloat(profile?.total_spent || profile?.totalSpent || 0),
-          currentSessionToken: "sess_" + Date.now(),
-          avatar: profile?.avatar || authUser.user_metadata?.avatar || fastIcons.userDefaultAvatar
+          currentSessionToken: localStorage.getItem(SESSION_TOKEN_KEY) || ("sess_" + Date.now()),
+          avatar: avatar
         };
 
         state.users["user_" + userUid] = userObj;
         state.currentUserId = String(userUid);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
-        // Realtime update balance ($0.00 places) and VIP across the page
+        // Format balances
+        const formattedUsd = "$ " + balance.toFixed(2);
+        const dualDisp = formatDualCurrency ? formatDualCurrency(balance) : formattedUsd;
+
+        console.log("updateUserData: Applying balance to UI elements ->", formattedUsd);
+
+        // 1. Direct update to header balance
+        const elHeaderBalance = document.getElementById("headerBalance");
+        if (elHeaderBalance) {
+          elHeaderBalance.innerText = formattedUsd;
+          console.log("updateUserData: #headerBalance updated to:", formattedUsd);
+        }
+
+        // 2. Direct update to sidebar balance
+        const elSidebarBalance = document.getElementById("sidebarBalance");
+        if (elSidebarBalance) {
+          elSidebarBalance.innerText = dualDisp;
+          console.log("updateUserData: #sidebarBalance updated to:", dualDisp);
+        }
+
+        // 3. Direct update to recharge page balance
+        const elRechargeBalance = document.getElementById("rechargePageBalance");
+        if (elRechargeBalance) {
+          elRechargeBalance.innerText = dualDisp;
+          console.log("updateUserData: #rechargePageBalance updated to:", dualDisp);
+        }
+
+        // 4. Direct update to dashboard stats modal balance
+        const elDashBalance = document.getElementById("dashBalanceVal");
+        if (elDashBalance) {
+          elDashBalance.innerText = formattedUsd;
+          console.log("updateUserData: #dashBalanceVal updated to:", formattedUsd);
+        }
+
+        // 5. Update header user avatar & hide login button
+        const headerAuthBtn = document.getElementById("headerAuthBtn");
+        const headerUserAvatar = document.getElementById("headerUserAvatar");
+        if (headerAuthBtn) headerAuthBtn.style.display = "none";
+        if (headerUserAvatar) {
+          headerUserAvatar.style.display = "block";
+          headerUserAvatar.src = userObj.avatar;
+        }
+
+        // 6. Update all .user-wallet-val classes across the DOM
+        document.querySelectorAll(".user-wallet-val").forEach(el => {
+          el.innerText = dualDisp;
+        });
+
+        // 7. Synchronize rest of UI (VIP progress, dashboard widgets, sidebar texts)
         renderAll();
+
+        console.log("updateUserData: UI update completed successfully for user:", uname);
         return userObj;
       } catch (err) {
-        console.error("loadSupabaseProfile err:", err);
+        console.error("updateUserData: Unexpected error during update:", err);
         return null;
       }
+    }
+
+    async function loadSupabaseProfile(authUser) {
+      return await updateUserData(authUser);
     }
 
     /* CLOUD SYNC */
@@ -2328,7 +2465,13 @@
             state.categories = remote.categories || state.categories;
             state.products = remote.products || state.products;
             state.paymentMethods = remote.paymentMethods || state.paymentMethods;
-            state.users = toSafeObjectMap(remote.users || state.users, "uid");
+            
+            const currentMe = getCurrentUser();
+            const remoteUsers = toSafeObjectMap(remote.users || state.users, "uid");
+            if (currentMe && (currentMe.supabaseId || currentMe.email)) {
+              remoteUsers["user_" + currentMe.uid] = currentMe;
+            }
+            state.users = remoteUsers;
             state.orders = toSafeObjectMap(remote.orders || state.orders, "id");
             state.payments = toSafeObjectMap(remote.payments || state.payments, "id");
 
@@ -2637,20 +2780,34 @@
 
       setTimeout(hideSplashScreen, 500);
 
-      // Check active Supabase Auth Session
+      // 1. Check active Supabase Auth Session and fetch real balance
       try {
-        supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        console.log("DOMContentLoaded: Checking Supabase authentication session...");
+        supabaseClient.auth.getSession().then(async ({ data: { session }, error: sessionError }) => {
+          if (sessionError) {
+            console.error("DOMContentLoaded: getSession error:", sessionError);
+          }
           if (session?.user) {
-            loadSupabaseProfile(session.user);
+            console.log("DOMContentLoaded: Active Supabase session found for user:", session.user.id);
+            await updateUserData(session.user);
+          } else {
+            console.log("DOMContentLoaded: No active Supabase session.");
           }
         });
+
+        // 2. Realtime listener for Auth State Changes
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
-          if (event === 'SIGNED_IN' && session?.user) {
-            await loadSupabaseProfile(session.user);
+          console.log("onAuthStateChange event:", event, session ? session.user.id : "no-session");
+          if (session?.user) {
+            console.log("onAuthStateChange: Triggering updateUserData() for user:", session.user.id);
+            await updateUserData(session.user);
+          } else if (event === 'SIGNED_OUT') {
+            console.log("onAuthStateChange: User signed out.");
+            renderAll();
           }
         });
       } catch (e) {
-        console.warn("Supabase auth session check notice:", e);
+        console.error("Supabase auth session check notice:", e);
       }
 
       syncFromCloud().catch(err => console.warn("Background initial cloud sync failed:", err));
@@ -3023,7 +3180,8 @@
           await pushToCloud();
         } else {
           // Load Supabase profile (reads balance & vip_level and updates all page views)
-          await loadSupabaseProfile(authUser);
+          console.log("handleUserLogin: Calling updateUserData() immediately...");
+          await updateUserData(authUser);
           const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
           localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
         }
@@ -3233,6 +3391,11 @@
         }).catch(e => {});
 
         pushToCloud();
+
+        if (authUser) {
+          console.log("handleUserRegister: Calling updateUserData() immediately after registration...");
+          await updateUserData(authUser);
+        }
 
         if (regBtn) regBtn.innerHTML = originalBtnText;
         closeModal("modalAuthLogin");
