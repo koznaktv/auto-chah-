@@ -36,6 +36,72 @@
   </script>
 
   <style>
+
+    /* ========================================================
+       STRICT MOBILE-FIRST VIEWPORT & FLUID LAYOUT (ZERO OVERFLOW)
+       ======================================================== */
+    html, body {
+      width: 100% !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      position: relative;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box !important;
+      max-width: 100% !important;
+    }
+
+    /* All layout containers strictly 100% flexible width */
+    .top-header,
+    .app-container,
+    .page-view,
+    .section-title-bar,
+    .search-box,
+    .banner-carousel,
+    .category-grid,
+    .product-grid,
+    .game-grid,
+    .order-form-panel,
+    .vip-dashboard-card,
+    .admin-home-hub,
+    .admin-hub-grid,
+    .admin-folder-card,
+    .filter-tabs-row,
+    .admin-sub-tab-bar,
+    .admin-category-selector-bar,
+    .payment-methods-grid,
+    .admin-price-table,
+    .stat-dashboard-grid,
+    .admin-subview {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden;
+    }
+
+    /* Text wrapping protection so long IDs/emails never stretch screen */
+    .user-uid-text,
+    .admin-folder-title,
+    .brand-name-title,
+    .balance-chip span,
+    .order-custom-field,
+    .form-control {
+      overflow-wrap: break-word !important;
+      word-break: break-word !important;
+    }
+
+    .user-uid-text {
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+    }
+
+
     :root {
       --bg-dark: #061325;
       --bg-surface: #0a1f3b;
@@ -142,14 +208,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 16px;
-      min-height: 62px;
+      padding: 10px 12px;
+      min-height: 58px;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      width: 100%;
-      max-width: 100vw;
-      box-sizing: border-box;
+      width: 100% !important;
+      max-width: 100vw !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
     }
     @media (min-width: 1240px) {
       .top-header {
@@ -161,9 +228,11 @@
     .brand-section-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       cursor: pointer;
-      flex-shrink: 0;
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .brand-logo {
@@ -185,20 +254,24 @@
     .brand-logo img { width: 100%; height: 100%; object-fit: contain; }
 
     .brand-name-title {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 900;
       background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 0.5px;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 135px;
     }
 
     .header-actions-left {
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
+      gap: 6px;
+      flex: 0 0 auto;
+      min-width: 0;
     }
 
     .balance-chip {
@@ -274,14 +347,17 @@
 
     /* App Container - Fully Adaptive & Responsive */
     .app-container {
-      width: 100%;
-      max-width: 1200px;
+      width: 100% !important;
+      max-width: 100% !important;
       margin: 0 auto;
-      padding: 14px 12px;
+      padding: 12px 10px;
+      padding-bottom: 75px;
       display: flex;
       flex-direction: column;
-      min-height: calc(100vh - 140px);
-     padding-bottom: 70px; }
+      min-height: calc(100vh - 130px);
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
 
     /* Admin Hub Categorized Folder Layout on Home */
     .admin-home-hub {
@@ -321,9 +397,9 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
       margin-bottom: 8px;
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
     .admin-folder-card {
       background: rgba(14, 43, 82, 0.7);
@@ -672,8 +748,9 @@
       position: fixed;
       top: 0;
       bottom: 0;
-      right: calc(-1 * min(var(--drawer-width), 88vw) - 30px);
-      width: min(var(--drawer-width), 88vw);
+      right: calc(-1 * min(var(--drawer-width), 85vw) - 30px);
+      width: min(var(--drawer-width), 85vw) !important;
+      max-width: 85vw !important;
       background: linear-gradient(180deg, rgba(12, 33, 62, 0.96) 0%, rgba(5, 16, 33, 0.98) 100%);
       border-left: 1px solid rgba(56, 189, 248, 0.2);
       z-index: 101;
@@ -681,9 +758,11 @@
       flex-direction: column;
       transition: right 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
       overflow-y: auto;
+      overflow-x: hidden !important;
       padding-top: var(--safe-top);
       padding-bottom: var(--safe-bottom);
       box-shadow: -10px 0 35px rgba(0,0,0,0.7);
+      box-sizing: border-box !important;
     }
     .drawer-sidebar.active { right: 0; }
 
@@ -902,13 +981,16 @@
 
     /* Fluid responsive container */
     .app-container {
-      width: 100%;
-      max-width: 1200px;
+      width: 100% !important;
+      max-width: 100% !important;
       margin: 0 auto;
-      padding: 16px 14px;
+      padding: 12px 10px;
+      padding-bottom: 75px;
       display: flex;
       flex-direction: column;
-      min-height: calc(100vh - 140px);
+      min-height: calc(100vh - 130px);
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
     }
 
     /* Responsive centering for Top Header & Bottom Nav on large screens */
@@ -956,9 +1038,17 @@
     /* --- Breakpoint: Tablet (601px to 1024px) --- */
     @media (min-width: 601px) {
       .app-container {
-        padding: 20px 18px;
-        max-width: 900px;
-      }
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto;
+      padding: 12px 10px;
+      padding-bottom: 75px;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 130px);
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
       .category-grid, .game-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 14px;
@@ -972,9 +1062,14 @@
         gap: 14px;
       }
       .admin-hub-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-      }
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
       .admin-category-selector-bar {
         grid-template-columns: repeat(4, 1fr);
         gap: 8px;
@@ -992,9 +1087,17 @@
     /* --- Breakpoint: Desktop (1025px and wider) --- */
     @media (min-width: 1025px) {
       .app-container {
-        padding: 26px 22px;
-        max-width: 1200px;
-      }
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto;
+      padding: 12px 10px;
+      padding-bottom: 75px;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 130px);
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
       .category-grid, .game-grid {
         grid-template-columns: repeat(6, 1fr);
         gap: 16px;
@@ -1008,9 +1111,14 @@
         gap: 16px;
       }
       .admin-hub-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-      }
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
       .admin-category-selector-bar {
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
@@ -1028,8 +1136,17 @@
     /* --- Breakpoint: Small Mobile (< 380px) --- */
     @media (max-width: 380px) {
       .app-container {
-        padding: 10px 8px;
-      }
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto;
+      padding: 12px 10px;
+      padding-bottom: 75px;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 130px);
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
       .category-grid, .game-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
