@@ -2318,12 +2318,12 @@
 
         let balance = 0.00;
         let vipLevel = "bronze";
-        let uname = authUser.user_metadata?.username || (authUser.email ? authUser.email.split('@')[0] : "user");
-        let userUid = authUser.user_metadata?.uid || authUser.id.replace(/-/g, '').substring(0, 6);
+        let uname = authUser.user_metadata?.full_name || authUser.user_metadata?.name || authUser.user_metadata?.username || (authUser.email ? authUser.email.split('@')[0] : "user");
+        let userUid = authUser.user_metadata?.uid || authUser.id.replace(/[^0-9]/g, '').substring(0, 6) || Math.floor(100000 + Math.random() * 900000).toString();
         let phone = authUser.user_metadata?.phone || "يوق";
         let country = authUser.user_metadata?.country || "سوريا";
-        let role = (uname.toLowerCase() === "dronemax") ? "admin" : "user";
-        let avatar = authUser.user_metadata?.avatar || fastIcons.userDefaultAvatar;
+        let role = (uname.toLowerCase() === "dronemax" || (authUser.email && authUser.email.toLowerCase().includes("dronemax"))) ? "admin" : "user";
+        let avatar = authUser.user_metadata?.avatar_url || authUser.user_metadata?.picture || authUser.user_metadata?.avatar || fastIcons.userDefaultAvatar;
 
         if (profile) {
           console.log("updateUserData: Successfully retrieved profile from Supabase:", profile);
@@ -2780,7 +2780,7 @@
 
       setTimeout(hideSplashScreen, 500);
 
-      // 1. Check active Supabase Auth Session and fetch real balance
+      // 1. Check active Supabase Auth Session and fetch real balance (handles Google OAuth redirect seamlessly)
       try {
         console.log("DOMContentLoaded: Checking Supabase authentication session...");
         supabaseClient.auth.getSession().then(async ({ data: { session }, error: sessionError }) => {
@@ -2790,17 +2790,30 @@
           if (session?.user) {
             console.log("DOMContentLoaded: Active Supabase session found for user:", session.user.id);
             await updateUserData(session.user);
+            closeModal("modalAuthLogin");
+
+            // Clean up OAuth tokens from URL hash so the address bar is clean
+            if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
+              showToastNotification("🎉 Google ئارقىلىق مۇۋەپپەقىيەتلىك كىردىڭىز!");
+              history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
           } else {
             console.log("DOMContentLoaded: No active Supabase session.");
           }
         });
 
-        // 2. Realtime listener for Auth State Changes
+        // 2. Realtime listener for Auth State Changes (fires on OAuth return)
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
           console.log("onAuthStateChange event:", event, session ? session.user.id : "no-session");
           if (session?.user) {
             console.log("onAuthStateChange: Triggering updateUserData() for user:", session.user.id);
             await updateUserData(session.user);
+            closeModal("modalAuthLogin");
+
+            if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
+              showToastNotification("🎉 Google ئارقىلىق مۇۋەپپەقىيەتلىك كىردىڭىز!");
+              history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
           } else if (event === 'SIGNED_OUT') {
             console.log("onAuthStateChange: User signed out.");
             renderAll();
@@ -3215,71 +3228,52 @@
     }
 
     async function handleGoogleSignIn() {
+      console.log("=== handleGoogleSignIn() called: Starting Supabase Google OAuth Redirect ===");
       const gBtn = document.querySelector(".btn-google");
       let origGText = "";
       if (gBtn) {
         origGText = gBtn.innerHTML;
-        gBtn.innerHTML = "<span>⏳</span> <span>Google ئارقىلىق كىرىۋاتىدۇ...</span>";
+        gBtn.innerHTML = "<span>⏳</span> <span>Google غا ئۇلىنىۋاتىدۇ... سەل ساقلاڭ</span>";
         gBtn.disabled = true;
         gBtn.style.opacity = "0.75";
       }
 
-      if (window.globalFirebaseAuth && window.fbAuthModules) {
-        try {
-          const result = await window.fbAuthModules.signInWithPopup(window.globalFirebaseAuth, window.globalGoogleProvider);
-          const user = result.user;
-          
-          await syncFromCloud();
-          let existing = getUsersList().find(u => u.email === user.email);
-          let targetUid;
-          const newSessionToken = "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
-          localStorage.setItem(SESSION_TOKEN_KEY, newSessionToken);
+      try {
+        const redirectUrl = window.location.origin;
+        console.log("handleGoogleSignIn: Initiating full-page redirect to Google with redirectTo:", redirectUrl);
 
-          if (existing) {
-            targetUid = existing.uid;
-            existing.username = user.displayName || existing.username;
-            existing.avatar = user.photoURL || existing.avatar;
-            existing.currentSessionToken = newSessionToken;
-            state.users["user_" + targetUid] = existing;
-          } else {
-            targetUid = Math.floor(100000 + Math.random() * 900000).toString();
-            state.users["user_" + targetUid] = {
-              uid: targetUid,
-              username: user.displayName || user.email.split('@')[0],
-              email: user.email,
-              password: "oauth_google_user",
-              country: "سوريا",
-              phone: "يوق",
-              role: "user",
-              balance: 0.000,
-              tier: "bronze",
-              totalSpent: 0.000,
-              currentSessionToken: newSessionToken,
-              avatar: user.photoURL || fastIcons.userDefaultAvatar
-            };
+        // Supabase OAuth with full browser redirect (no popups, mobile-friendly)
+        const { data, error } = await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: redirectUrl
           }
-          state.currentUserId = targetUid;
-          await pushToCloud();
-          if (gBtn) gBtn.innerHTML = origGText;
-          closeModal("modalAuthLogin");
-          showToastNotification("🎉 گىمائىل ئارقىلىق مۇۋەپپەقىيەتلىك كىردىڭىز!");
-          renderAll();
-          switchView("view-home");
-        } catch (e) {
+        });
+
+        if (error) {
+          console.error("handleGoogleSignIn: Supabase Google OAuth error:", error.message);
           if (gBtn) {
             gBtn.innerHTML = origGText;
             gBtn.disabled = false;
             gBtn.style.opacity = "1";
           }
-          alert("گىمائىل بىلەن كىرىشتە خاتالىق: " + e.message);
+          alert("Google بىلەن كىرىشتە خاتالىق كۆرۈلدى: " + error.message);
+          return;
         }
-      } else {
+
+        // If browser did not automatically redirect, navigate to data.url directly
+        if (data && data.url) {
+          console.log("handleGoogleSignIn: Redirecting window.location.href to:", data.url);
+          window.location.href = data.url;
+        }
+      } catch (err) {
+        console.error("handleGoogleSignIn: Unexpected exception during Google sign-in:", err);
         if (gBtn) {
           gBtn.innerHTML = origGText;
           gBtn.disabled = false;
           gBtn.style.opacity = "1";
         }
-        alert("Firebase Auth تەڭشىكى ئېنىقلانمىدى.");
+        alert("Google كىرىش جەريانىدا خاتالىق يۈز بەردى: " + (err.message || err));
       }
     }
 
