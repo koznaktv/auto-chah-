@@ -2473,20 +2473,13 @@
       <div class="top-controls-bar">
         <div class="lang-switcher-wrap">
           <div class="lang-dropdown-btn" id="langDropdownTrigger" onclick="toggleLangDropdown()">
-            <span class="lang-globe-icon">🌐</span>
             <span id="currentLangLabel">ئۇيغۇرچە</span>
             <span style="font-size: 11px;">▾</span>
           </div>
           <div class="lang-dropdown-menu" id="langDropdownMenu">
-            <div class="lang-opt-item active" id="langOpt-ug" onclick="changeLanguage('ug')">
-              <span>🇦🇿</span> <span>ئۇيغۇرچە</span>
-            </div>
-            <div class="lang-opt-item" id="langOpt-ar" onclick="changeLanguage('ar')">
-              <span>🇸🇦</span> <span>العربية</span>
-            </div>
-            <div class="lang-opt-item" id="langOpt-en" onclick="changeLanguage('en')">
-              <span>🇺🇸</span> <span>English</span>
-            </div>
+            <div class="lang-opt-item active" id="langOpt-ug" onclick="changeLanguage('ug')">ئۇيغۇرچە</div>
+            <div class="lang-opt-item" id="langOpt-ar" onclick="changeLanguage('ar')">ئەرەبچە</div>
+            <div class="lang-opt-item" id="langOpt-en" onclick="changeLanguage('en')">ئىنگلىزچە</div>
           </div>
         </div>
 
@@ -2604,15 +2597,15 @@
 
         <div style="background: rgba(4, 16, 33, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-top: 16px;">
           <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 6px;">
-            <span style="color: #94a3b8;">ئەسلى باھاسى:</span>
+            <span style="color: #94a3b8;" id="orderOrigLabel">ئەسلى باھاسى:</span>
             <span id="orderPageOriginalPrice" style="color: #fff; font-weight: bold;">$ 0.00</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 6px;">
-            <span style="color: #94a3b8;">ئەزالىقىڭىزدىن ئېتىبار باھا تۆۋەندىكىچە:</span>
+            <span style="color: #94a3b8;" id="orderDiscLabel">ئەزالىقىڭىزدىن ئېتىبار باھا تۆۋەندىكىچە:</span>
             <span id="orderPageDiscountText" style="color: #38bdf8; font-weight: bold;">0% (-$ 0.00)</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 800; border-top: 1px solid #16365f; padding-top: 8px; margin-top: 8px;">
-            <span style="color: #fff;">ئاخىرقى تۆلەيدىغان پۇل:</span>
+            <span style="color: #fff;" id="orderFinalLabel">ئاخىرقى تۆلەيدىغان پۇل:</span>
             <div style="text-align: left;">
               <span id="orderPageFinalPrice" style="color: #34d399;">$ 0.00</span>
               <div id="orderPageFinalPriceSYP" style="color: #f59e0b; font-size: 0.82rem; font-weight: normal;">≈ 0 لىرا</div>
@@ -3322,7 +3315,7 @@
           <!-- Item 6: Responsive Wrapped Sham Cash Account with Always-Visible Copy Button -->
           <div style="display: flex; flex-direction: column; gap: 8px; background: #020c1a; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 0.78rem; color: #94a3b8; font-weight: bold;">شامكەش / ھېسابات ئادرېسى:</span>
+              <span style="font-size: 0.78rem; color: #94a3b8; font-weight: bold;" id="rAccountLabel">شامكەش / ھېسابات ئادرېسى:</span>
               <button type="button" class="btn btn-primary" style="padding: 5px 12px; font-size: 0.75rem; flex-shrink: 0;" onclick="copyAccountAddress()">
                 📋 كۆچۈرۈش
               </button>
@@ -3332,7 +3325,7 @@
           </div>
         </div>
 
-        <label class="form-label" style="font-weight: bold; color: #fff;">قاچىلاش پۇل بىرلىكىنى تاللاڭ:</label>
+        <label class="form-label" style="font-weight: bold; color: #fff;" id="rChooseCurrLabel">قاچىلاش پۇل بىرلىكىنى تاللاڭ:</label>
         <div class="currency-selector-row">
           <div class="curr-btn active" id="currBtnUSD" onclick="setRechargeCurrency('USD')">💵 دوللار ($)</div>
           <div class="curr-btn" id="currBtnSYP" onclick="setRechargeCurrency('SYP')">سۈرىيە لىراسى (SP)</div>
@@ -3349,18 +3342,18 @@
 
         <!-- تالون ھۆججىتىنى يوللاش (پەقەت 9 خانىلىق تالون نومۇرى) -->
         <div class="form-group">
-          <label class="form-label" style="font-weight: bold; color: #f59e0b;">
+          <label class="form-label" style="font-weight: bold; color: #f59e0b;" id="rReceiptLabel">
             📄 تالون ھۆججىتىنى يوللاڭ (9 خانىلىق تالون نومۇرى):
           </label>
           <input type="text" id="depositTxIdInput" class="form-control" maxlength="9" placeholder="مەسىلەن: 467890306 (پەقەت 9 خانىلىق سان)">
-          <div style="font-size: 0.75rem; color: #38bdf8; margin-top: 5px;">
+          <div style="font-size: 0.75rem; color: #38bdf8; margin-top: 5px;" id="rReceiptHint">
             ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلارنى AI قوبۇل قىلمايدۇ.
           </div>
         </div>
 
         <!-- Item 8: Official Required Warning Note -->
         <div style="background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 12px 14px; margin-top: 14px; font-size: 0.8rem; color: #fca5a5; line-height: 1.6;">
-          <strong style="color: #ef4444; font-size: 0.85rem;">⚠️ مۇھىم ئەسكەرتىش:</strong><br>
+          <strong style="color: #ef4444; font-size: 0.85rem;" id="rWarnTitle">⚠️ مۇھىم ئەسكەرتىش:</strong><br>
           قاچىلىغان پۇل سانى، يازغان قاچىلاش پۇل سانى ھەمدە ئىسپات نومۇرىنىڭ توغرا بولۇشىغا كاپالەتلىك قىلىڭ، بۇ ئاپتوماتىك تەكشۈرۈلۈپ قاچىلىنىدۇ. ئەگەردە پۇل كەلمەي قالسا باشقۇرغۇچى بىلەن ئۇچۇرلىشىڭ. خاتا پۇل سانى ياكى خاتا ئىسپات نومۇرى يوللىغانلىقىڭىز بىلىنىپ قالسا ھېساباتىڭىز بىردەك توڭلىتىلىدۇ، ئاقىۋىتىگە ئۆزىڭىز ئىگە.
         </div>
       </div>
@@ -5420,16 +5413,18 @@
       if (!container) return;
       container.innerHTML = "";
       state.categories.forEach(cat => {
+        const catName = getI18nCategoryName(cat);
+        const catSub = getI18nCategorySubName(cat);
         const card = document.createElement("div");
         card.className = "category-card";
         card.onclick = () => openCategoryDetailPage(cat.id);
         card.innerHTML = `
           <div class="category-cover-wrapper">
-            <img src="${cat.img}" alt="${cat.name}" onerror="this.src=fastIcons.gameCover">
+            <img src="${cat.img || fastIcons.gameCover}" alt="${catName}" onerror="this.src=fastIcons.gameCover">
           </div>
           <div class="category-info-box">
-            <div class="category-title">${cat.name}</div>
-            <div class="category-subtitle">${cat.subName}</div>
+            <div class="category-title">${catName}</div>
+            <div class="category-subtitle">${catSub}</div>
           </div>
         `;
         container.appendChild(card);
@@ -6580,7 +6575,7 @@ ${formatDualCurrency(u.balance)}`);
     function openCategoryDetailPage(catId) {
       currentViewingCatId = catId;
       const cat = state.categories.find(c => c.id === catId);
-      document.getElementById("catPageMainTitle").innerText = cat ? cat.name : "تۈر";
+      document.getElementById("catPageMainTitle").innerText = cat ? getI18nCategoryName(cat) : t("category", "تۈر");
       renderCategoryGamesGrid();
       switchView("view-category-detail");
     }
@@ -6605,15 +6600,16 @@ ${formatDualCurrency(u.balance)}`);
       hideMissingItemFeedbackCard("catMissingItemFeedbackBox");
 
       prods.forEach(p => {
+        const prodName = getI18nProductName(p);
         const card = document.createElement("div");
         card.className = "game-card";
         card.onclick = () => checkAuthAndAction(() => openProductOrderPage(p.id));
         card.innerHTML = `
           <div class="game-cover-wrapper">
-            <img src="${p.image}" alt="${p.name}" onerror="this.src=fastIcons.gameCover">
+            <img src="${p.image}" alt="${prodName}" onerror="this.src=fastIcons.gameCover">
           </div>
           <div class="game-info-box">
-            <div class="game-title">${p.name}</div>
+            <div class="game-title">${prodName}</div>
           </div>
         `;
         container.appendChild(card);
@@ -6632,9 +6628,9 @@ ${formatDualCurrency(u.balance)}`);
 
       const curCat = state.categories.find(c => c.id === p.catId);
       const breadcrumbEl = document.getElementById("orderPageCatBreadcrumb");
-      if (breadcrumbEl) breadcrumbEl.innerText = curCat ? curCat.name : "مەھسۇلات";
+      if (breadcrumbEl) breadcrumbEl.innerText = curCat ? getI18nCategoryName(curCat) : t("product", "مەھسۇلات");
 
-      document.getElementById("productPageTitle").innerText = p.name;
+      document.getElementById("productPageTitle").innerText = getI18nProductName(p);
       document.getElementById("productPageAvatarImg").src = p.image;
       document.getElementById("orderPageInputLabel").innerText = p.fieldLabel || "ئويۇن ID نومۇرى";
       document.getElementById("orderPageAccountInput").value = "";
@@ -7799,8 +7795,10 @@ ${formatDualCurrency(u.balance)}`);
     }
 
   
+    
     /* ========================================================
-       MULTILINGUAL SYSTEM (Uyghur, Arabic, English)
+       COMPREHENSIVE MULTILINGUAL SYSTEM (Uyghur, Arabic, English)
+       Simultaneous live translation of all major website sections
        ======================================================== */
     const I18N_LANG_KEY = "autocash_app_language_pref";
     let currentAppLang = localStorage.getItem(I18N_LANG_KEY) || "ug";
@@ -7814,6 +7812,7 @@ ${formatDualCurrency(u.balance)}`);
         wallet: "ھەميان",
         orders: "تەلەپلىرىم",
         vip: "VIP ئەزالىق",
+        vipPill: "دەرىجە",
         favorites: "ياقتۇرغانلار",
         all: "ھەممىسى",
         servicesCategories: "مۇلازىمەت ۋە تۈرلەر",
@@ -7826,15 +7825,33 @@ ${formatDualCurrency(u.balance)}`);
         guestUser: "مېھمان ئابونت",
         notLoggedIn: "ھېساباتقا كىرمىگەن",
         recharge: "سومما قاچىلاش",
+        rechargePlus: "+ سومما قاچىلاش",
+        walletTitle: "ھەميان ۋە توربەتكە پۇل قاچىلاش",
         currency: "پۇل بىرلىكى",
         usdCurr: "دوللار ($)",
         sypCurr: "سۈرىيە لىراسى (SP)",
+        sypUnit: "سۈرىيە لىراسى",
         rememberMe: "مېنى ئەستە ساقلا",
         forgotPass: "پارولنى ئۇنتۇپ قالدىڭىزمۇ؟",
         noAccount: "تېخى ھېساباتىڭىز يوقمۇ؟",
         haveAccount: "ھېساباتىڭىز بارمۇ؟",
         createAccountNow: "يېڭى ھېسابات قۇرۇڭ",
-        signInToContinue: "داۋاملاشتۇرۇش ئۈچۈن كىرىڭ",
+        signInToContinue: "داۋاملاشتۇرۇش ئۈچۈن كىرىڭ (سجل دخولك للمتابعة)",
+        registerSubtitle: "يېڭى ئابونت بولۇپ تىزىملىتىڭ (إنشاء حساب جديد)",
+        loginUserLabel: "ئىشلەتكۈچى نامى ياكى ئېلېكترونلۇق خەت ئادرېسى",
+        loginUserPlaceholder: "ئىشلەتكۈچى ئىسمى ياكى ئېلخەت ئادرېسى...",
+        password: "پارول",
+        passwordPlaceholder: "پارولىڭىزنى كىرگۈزۈڭ...",
+        regUserLabel: "ئىشلەتكۈچى نامى (Username)",
+        regEmailLabel: "ئېلخەت ئادرېسى (Email - مەجبۇرىي ئەمەس)",
+        phone: "تېلېفون نومۇرى",
+        country: "دۆلەت",
+        loginBtn: "كىرىش (تسجيل الدخول)",
+        registerBtn: "ھېسابات قۇرۇش ۋە كىرىش ➔",
+        orQuickSignIn: "ياكى تېز كىرىش",
+        googleSignIn: "گىمائىل (Google) بىلەن كىرىش",
+        homeBackBtn: "ئاساسلىق بەت (الرئيسية)",
+        back: "كەينىگە",
         cancel: "بىكار قىلىش",
         submitRequest: "ئىلتىماسنى يوللاش",
         feedbackTitle: "باھا بېرىش & ئىنكاس (@autocash_UYGHUR)",
@@ -7849,21 +7866,49 @@ ${formatDualCurrency(u.balance)}`);
         vipDiscount: "ئەزالىقىڭىزدىن ئېتىبار باھا تۆۋەندىكىچە:",
         finalPayable: "ئاخىرقى تۆلەيدىغان پۇل:",
         submitOrderBtn: "تەلەپنى يوللاڭ ➔",
+        selectPackageCardsTitle: "بولاق ۋە باھا تاللاش كارتىلىرى:",
+        selectPackageDropdownTitle: "بولاق تىزىملىكى (تېز تاللاش)",
+        selectPackagePrompt: "بۇيۇمنى تاللاڭ",
+        orderAiNote: "ID نومۇرى بىۋاسىتە تەكشۈرۈلۈپ تەستىقلاشقا يوللىنىدۇ.",
         shamCashAccount: "شامكەش / ھېسابات ئادرېسى:",
         copy: "كۆچۈرۈش",
-        rechargeAmountLabel: "قاچىلايدىغان سومما:",
+        chooseRechargeCurrency: "قاچىلاش پۇل بىرلىكىنى تاللاڭ:",
+        rechargeAmountLabel: "قاچىلايدىغان سومما ($ دوللار) [ئەڭ تۆۋەن 1$ ياكى 135 لىرا]:",
+        rechargeConvertedPrefix: "تەڭ قىممەت:",
         receiptLabel: "تالون ھۆججىتىنى يوللاڭ (9 خانىلىق تالون نومۇرى):",
-        receiptHint: "ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت.",
-        warningImportant: "⚠️ مۇھىم ئەسكەرتىش:"
+        receiptHint: "ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلارنى AI قوبۇل قىلمايدۇ.",
+        warningImportant: "⚠️ مۇھىم ئەسكەرتىش:",
+        warningDesc: "قاچىلىغان پۇل سانى، يازغان قاچىلاش پۇل سانى ھەمدە ئىسپات نومۇرىنىڭ توغرا بولۇشىغا كاپالەتلىك قىلىڭ، بۇ ئاپتوماتىك تەكشۈرۈلۈپ قاچىلىنىدۇ. ئەگەردە پۇل كەلمەي قالسا باشقۇرغۇچى بىلەن ئۇچۇرلىشىڭ. خاتا پۇل سانى ياكى خاتا ئىسپات نومۇرى يوللىغانلىقىڭىز بىلىنىپ قالسا ھېساباتىڭىز بىردەك توڭلىتىلىدۇ، ئاقىۋىتىگە ئۆزىڭىز ئىگە.",
+        exchangeRate: "نەق پېرېۋوت نىسبىتى",
+        chooseRechargeMethod: "تۆۋەندىكى قاچىلاش ئۇسۇللىرىنىڭ بىرىنى تاللاپ سومما قاچىلاڭ:",
+        vipLevel: "ئەزالىق دەرىجىسى",
+        totalOrders: "جەمئىي زاكاس",
+        totalDeposits: "جەمئىي قاچىلاش",
+        totalSpent: "جەمئىي ئىستېمال",
+        yourVipLevel: "سىزنىڭ نۆۋەتتىكى ئەزالىقىڭىز:",
+        nextTierProgress: "كېيىنكى دەرىجىگە يېتىش سۈرئىتى",
+        allVipLevels: "بارلىق VIP دەرىجىلەر تىزىملىكى",
+        buyBtn: "سېتىۋېلىش",
+        selectedBadge: "✓ تاللاندى",
+        approved: "قوبۇل قىلىندى ✓",
+        rejected: "رەت قىلىندى ✕",
+        pending: "ساقلاشتا ⏳",
+        searchOrdersPlaceholder: "زاكاز نومۇرى، مەھسۇلات...",
+        searchPaymentsPlaceholder: "سودا نومۇرى، سوممىسى...",
+        noFavorites: "ياقتۇرغانلار يوق",
+        orderFeedbackTitle: "باھا بېرىش & ئىنكاس يېزىش",
+        orderFeedbackSub: "پىكىر، باھا ۋە تەلەپلىرىڭىزنى ئورتاقلىشىڭ: @autocash_UYGHUR",
+        writeFeedbackBtn: "ئىنكاس يېزىش"
       },
       ar: {
-        currentLangName: "العربية",
+        currentLangName: "ئەرەبچە",
         siteTitle: "Auto cash",
         pageHeaderTitle: "Auto cash | خدمات البطاقات وشحن الألعاب",
         home: "الرئيسية",
         wallet: "المحفظة",
         orders: "طلباتي",
         vip: "عضوية VIP",
+        vipPill: "المستوى",
         favorites: "المفضلة",
         all: "الكل",
         servicesCategories: "الخدمات والأقسام",
@@ -7876,15 +7921,33 @@ ${formatDualCurrency(u.balance)}`);
         guestUser: "مستخدم ضيف",
         notLoggedIn: "لم يتم تسجيل الدخول",
         recharge: "شحن رصيد",
+        rechargePlus: "+ شحن رصيد",
+        walletTitle: "المحفظة وشحن الرصيد في الموقع",
         currency: "العملة",
         usdCurr: "دولار ($)",
         sypCurr: "ليرة سورية (SP)",
+        sypUnit: "ليرة سورية",
         rememberMe: "تذكرني",
         forgotPass: "نسيت كلمة المرور؟",
         noAccount: "ليس لديك حساب؟",
         haveAccount: "لديك حساب بالفعل؟",
         createAccountNow: "إنشاء حساب جديد",
         signInToContinue: "سجل دخولك للمتابعة",
+        registerSubtitle: "إنشاء حساب مستخدم جديد",
+        loginUserLabel: "اسم المستخدم أو البريد الإلكتروني",
+        loginUserPlaceholder: "أدخل اسم المستخدم أو البريد...",
+        password: "كلمة المرور",
+        passwordPlaceholder: "أدخل كلمة المرور...",
+        regUserLabel: "اسم المستخدم (Username)",
+        regEmailLabel: "البريد الإلكتروني (Email - اختياري)",
+        phone: "رقم الهاتف",
+        country: "البلد",
+        loginBtn: "تسجيل الدخول",
+        registerBtn: "إنشاء الحساب والمتابعة ➔",
+        orQuickSignIn: "أو الدخول السريع عبر",
+        googleSignIn: "تسجيل الدخول بواسطة Google",
+        homeBackBtn: "الرئيسية",
+        back: "رجوع",
         cancel: "إلغاء",
         submitRequest: "إرسال الطلب",
         feedbackTitle: "التقييم والملاحظات (@autocash_UYGHUR)",
@@ -7894,26 +7957,54 @@ ${formatDualCurrency(u.balance)}`);
         missingItemPlaceholder: "أدخل اسم اللعبة أو الخدمة المطلوبة...",
         missingNotePlaceholder: "ملاحظات إضافية أو تفاصيل (اختياري)...",
         sendFeedbackBtn: "إرسال الطلب (ترك ملاحظة)",
-        feedbackSentSuccess: "شكراً لك! تم إرسال طلبك للإدارة وسنعمل على توفيره بأسرع وقت.",
+        feedbackSentSuccess: "شكراً لك! تم إرسال طلبك للإدارة وسنعمل على توفيره بأسرع وقت ممكن.",
         originalPrice: "السعر الأصلي:",
         vipDiscount: "خصم العضوية الخاص بك:",
         finalPayable: "المبلغ الإجمالي للدفع:",
         submitOrderBtn: "إرسال الطلب ➔",
+        selectPackageCardsTitle: "باقات وأسعار الشحن المتاحة:",
+        selectPackageDropdownTitle: "قائمة الباقات (اختيار سريع)",
+        selectPackagePrompt: "اختر الباقة المطلوبة",
+        orderAiNote: "يتم التحقق من معرف الحساب تلقائياً وإرساله للتنفيذ.",
         shamCashAccount: "عنوان حساب شام كاش:",
         copy: "نسخ",
-        rechargeAmountLabel: "المبلغ المراد شحنه:",
+        chooseRechargeCurrency: "اختر عملة الشحن:",
+        rechargeAmountLabel: "المبلغ المراد شحنه ($ دولار) [الحد الأدنى 1$ أو 135 ليرة]:",
+        rechargeConvertedPrefix: "القيمة المقابلة:",
         receiptLabel: "رقم إشعار التحويل (9 أرقام):",
-        receiptHint: "ℹ️ يجب أن يتكون رقم إشعار شام كاش من 9 أرقام بالضبط.",
-        warningImportant: "⚠️ تنبيه هام:"
+        receiptHint: "ℹ️ يجب أن يتكون رقم إشعار شام كاش من 9 أرقام بالضبط (مثال: 467890306). لن يتم قبول أي رقم مختلف.",
+        warningImportant: "⚠️ تنبيه هام:",
+        warningDesc: "يرجى التأكد من صحة المبلغ ورقم عملية التحويل، حيث يتم التحقق منها تلقائياً. في حال إرسال بيانات غير صحيحة سيتم تجميد الحساب فوراً.",
+        exchangeRate: "سعر الصرف الفعلي",
+        chooseRechargeMethod: "اختر إحدى طرق الدفع التالية لشحن رصيدك:",
+        vipLevel: "مستوى العضوية",
+        totalOrders: "إجمالي الطلبات",
+        totalDeposits: "إجمالي عمليات الشحن",
+        totalSpent: "إجمالي الاستهلاك",
+        yourVipLevel: "عضويتك الحالية:",
+        nextTierProgress: "التقدم نحو المستوى التالي",
+        allVipLevels: "قائمة جميع مستويات VIP",
+        buyBtn: "شراء الآن",
+        selectedBadge: "✓ تم الاختيار",
+        approved: "تمت الموافقة ✓",
+        rejected: "مرفوض ✕",
+        pending: "قيد الانتظار ⏳",
+        searchOrdersPlaceholder: "رقم الطلب، المنتج...",
+        searchPaymentsPlaceholder: "رقم المعاملة، المبلغ...",
+        noFavorites: "لا توجد عناصر مفضلة",
+        orderFeedbackTitle: "التقييم ومشاركة الرأي",
+        orderFeedbackSub: "شاركنا اقتراحاتك وتقييمك عبر: @autocash_UYGHUR",
+        writeFeedbackBtn: "إرسال رأي"
       },
       en: {
-        currentLangName: "English",
+        currentLangName: "ئىنگلىزچە",
         siteTitle: "Auto cash",
         pageHeaderTitle: "Auto cash | Cards & Game Top-Up Services",
         home: "Home",
         wallet: "Wallet",
         orders: "My Orders",
-        vip: "VIP Membership",
+        vip: "VIP Club",
+        vipPill: "Tier",
         favorites: "Favorites",
         all: "All",
         servicesCategories: "Services & Categories",
@@ -7926,15 +8017,33 @@ ${formatDualCurrency(u.balance)}`);
         guestUser: "Guest User",
         notLoggedIn: "Not signed in",
         recharge: "Top Up",
+        rechargePlus: "+ Top Up Balance",
+        walletTitle: "Wallet & Account Balance Top-Up",
         currency: "Currency",
         usdCurr: "USD ($)",
         sypCurr: "Syrian Pound (SP)",
+        sypUnit: "Syrian Pounds",
         rememberMe: "Remember me",
         forgotPass: "Forgot password?",
         noAccount: "Don't have an account?",
         haveAccount: "Already have an account?",
         createAccountNow: "Create an account",
         signInToContinue: "Sign in to continue",
+        registerSubtitle: "Register as a new customer",
+        loginUserLabel: "Username or Email Address",
+        loginUserPlaceholder: "Enter username or email...",
+        password: "Password",
+        passwordPlaceholder: "Enter password...",
+        regUserLabel: "Username",
+        regEmailLabel: "Email Address (optional)",
+        phone: "Phone Number",
+        country: "Country",
+        loginBtn: "Sign In",
+        registerBtn: "Create Account & Sign In ➔",
+        orQuickSignIn: "Or quick sign-in with",
+        googleSignIn: "Sign in with Google",
+        homeBackBtn: "Home",
+        back: "Back",
         cancel: "Cancel",
         submitRequest: "Submit Request",
         feedbackTitle: "Rating & Feedback (@autocash_UYGHUR)",
@@ -7944,23 +8053,110 @@ ${formatDualCurrency(u.balance)}`);
         missingItemPlaceholder: "Enter game or service name...",
         missingNotePlaceholder: "Additional notes or details (optional)...",
         sendFeedbackBtn: "Submit Request (Send Feedback)",
-        feedbackSentSuccess: "Thank you! Your request has been sent to our team, we will do our best to add it soon.",
+        feedbackSentSuccess: "Thank you! Your request has been sent to our team, we will add it as soon as possible.",
         originalPrice: "Original Price:",
         vipDiscount: "Your VIP Discount:",
         finalPayable: "Final Amount to Pay:",
         submitOrderBtn: "Submit Order ➔",
+        selectPackageCardsTitle: "Available Packages & Pricing:",
+        selectPackageDropdownTitle: "Packages List (Quick Select)",
+        selectPackagePrompt: "Select package",
+        orderAiNote: "Account ID is verified automatically and forwarded for fulfillment.",
         shamCashAccount: "Sham Cash Account Address:",
         copy: "Copy",
-        rechargeAmountLabel: "Recharge Amount:",
+        chooseRechargeCurrency: "Choose Recharge Currency:",
+        rechargeAmountLabel: "Amount to Recharge ($ USD) [Min $1 or 135 SP]:",
+        rechargeConvertedPrefix: "Equivalent Value:",
         receiptLabel: "Receipt Transaction ID (9 digits):",
-        receiptHint: "ℹ️ Sham Cash receipt number must be exactly 9 digits.",
-        warningImportant: "⚠️ Important Notice:"
+        receiptHint: "ℹ️ Sham Cash receipt number must be exactly 9 digits (e.g. 467890306). AI will reject other formats.",
+        warningImportant: "⚠️ Important Notice:",
+        warningDesc: "Ensure that the amount and transaction ID are accurate; they are verified automatically. Submitting false data will lead to permanent account suspension.",
+        exchangeRate: "Current Exchange Rate",
+        chooseRechargeMethod: "Choose one of the following payment methods to top up:",
+        vipLevel: "VIP Membership",
+        totalOrders: "Total Orders",
+        totalDeposits: "Total Deposits",
+        totalSpent: "Total Spent",
+        yourVipLevel: "Your Current Level:",
+        nextTierProgress: "Progress to Next Level",
+        allVipLevels: "All VIP Tiers List",
+        buyBtn: "Buy Now",
+        selectedBadge: "✓ Selected",
+        approved: "Approved ✓",
+        rejected: "Rejected ✕",
+        pending: "Pending ⏳",
+        searchOrdersPlaceholder: "Order ID, product name...",
+        searchPaymentsPlaceholder: "Transaction ID, amount...",
+        noFavorites: "No favorites yet",
+        orderFeedbackTitle: "Rating & Feedback",
+        orderFeedbackSub: "Share your rating and thoughts with us: @autocash_UYGHUR",
+        writeFeedbackBtn: "Write Review"
       }
     };
 
     function t(key, fallback = "") {
       const dict = i18nDict[currentAppLang] || i18nDict["ug"];
-      return dict[key] || fallback || key;
+      return dict[key] !== undefined ? dict[key] : (fallback || key);
+    }
+
+    // Dynamic Category Translations
+    const categoryTranslations = {
+      "cat-games": { ug: "ئويۇنلار", ar: "الألعاب", en: "Games" },
+      "cat-apps": { ug: "قوللىنىشچان بۆلۈمى", ar: "التطبيقات", en: "Apps" },
+      "cat-telecom": { ug: "تېلېكوملار", ar: "الاتصالات", en: "Telecom" }
+    };
+    const categorySubTranslations = {
+      "cat-games": { ug: "كود ۋە ئالماس شحن الألعاب", ar: "شحن الألعاب والبطاقات المباشرة", en: "Game Top-Up & Diamonds" },
+      "cat-apps": { ug: "پروگراممىلار ۋە پۇل قاچىلاش", ar: "برامج البث والاشتراكات الفورية", en: "App Subscriptions & Live Credits" },
+      "cat-telecom": { ug: "الرصيد والاتصالات كارتلىرى", ar: "بطاقات الشحن والاتصالات المتنوعة", en: "Mobile Credit & Calling Cards" }
+    };
+
+    function getI18nCategoryName(cat) {
+      if (!cat) return "";
+      const trans = categoryTranslations[cat.id];
+      if (trans && trans[currentAppLang]) return trans[currentAppLang];
+      return cat.name || "";
+    }
+
+    function getI18nCategorySubName(cat) {
+      if (!cat) return "";
+      const trans = categorySubTranslations[cat.id];
+      if (trans && trans[currentAppLang]) return trans[currentAppLang];
+      return cat.subName || "";
+    }
+
+    // Dynamic Product Translations
+    const productTranslations = {
+      "prod-pubg": {
+        name: { ug: "PUBG Mobile", ar: "ببجي موبايل (PUBG)", en: "PUBG Mobile" },
+        badge: { ug: "~ روبوتى PUBG", ar: "شحن فوري PUBG", en: "Fast PUBG Robot" },
+        label: { ug: "ئابددى جەڭچى 💣", ar: "معرف اللاعب (Player ID)", en: "Player ID 💣" }
+      },
+      "prod-mlbb": {
+        name: { ug: "Mobile Legends: Bang Bang", ar: "موبايل ليجندز (MLBB)", en: "Mobile Legends: Bang Bang" },
+        badge: { ug: "MLBB Diamonds", ar: "مجوهرات MLBB", en: "MLBB Diamonds" },
+        label: { ug: "ئويۇن User ID", ar: "معرف المستخدم (User ID)", en: "Game User ID" },
+        serverLabel: { ug: "Zone / سىرۋېر نومۇرى (Server ID)", ar: "معرف السيرفر (Zone ID)", en: "Zone / Server ID" }
+      },
+      "prod-freefire": {
+        name: { ug: "ئەركىن ئوت (Free Fire)", ar: "فري فاير (Free Fire)", en: "Free Fire" },
+        badge: { ug: "Free Fire", ar: "جواهر فري فاير", en: "Free Fire Gems" },
+        label: { ug: "Player ID", ar: "معرف اللاعب (Player ID)", en: "Player ID" }
+      }
+    };
+
+    function getI18nProductName(p) {
+      if (!p) return "";
+      const trans = productTranslations[p.id];
+      if (trans && trans.name && trans.name[currentAppLang]) return trans.name[currentAppLang];
+      return p.name || "";
+    }
+
+    function getI18nProductBadge(p) {
+      if (!p) return "";
+      const trans = productTranslations[p.id];
+      if (trans && trans.badge && trans.badge[currentAppLang]) return trans.badge[currentAppLang];
+      return p.badge || "";
     }
 
     function toggleLangDropdown() {
@@ -7976,12 +8172,13 @@ ${formatDualCurrency(u.balance)}`);
       }
     });
 
+    // SILENT & SEAMLESS SIMULTANEOUS LANGUAGE SWITCHER (NO TOAST/POPUP ALERTS)
     function changeLanguage(lang) {
       if (!i18nDict[lang]) lang = "ug";
       currentAppLang = lang;
       localStorage.setItem(I18N_LANG_KEY, lang);
 
-      // Update document direction and HTML lang
+      // 1. Update document direction and HTML lang
       document.documentElement.lang = lang;
       if (lang === "en") {
         document.documentElement.dir = "ltr";
@@ -7993,7 +8190,7 @@ ${formatDualCurrency(u.balance)}`);
         document.body.classList.remove("lang-en");
       }
 
-      // Update active option in dropdown
+      // 2. Update active option in dropdown (Pure clean text: ئۇيغۇرچە / ئەرەبچە / ئىنگلىزچە)
       document.querySelectorAll(".lang-opt-item").forEach(el => el.classList.remove("active"));
       document.getElementById(`langOpt-${lang}`)?.classList.add("active");
       const currentLbl = document.getElementById("currentLangLabel");
@@ -8003,22 +8200,226 @@ ${formatDualCurrency(u.balance)}`);
       const menu = document.getElementById("langDropdownMenu");
       if (menu) menu.classList.remove("open");
 
-      // Apply translations to all DOM elements with data-i18n
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const k = el.getAttribute("data-i18n");
-        if (k) el.innerText = t(k, el.innerText);
-      });
+      // 3. Update ALL static layout elements across all views
+      updateStaticPageTranslations();
 
-      // Apply placeholders with data-i18n-ph
-      document.querySelectorAll("[data-i18n-ph]").forEach(el => {
-        const k = el.getAttribute("data-i18n-ph");
-        if (k) el.placeholder = t(k, el.placeholder);
-      });
-
-      // Refresh site branding and current views
+      // 4. Refresh site branding, categories, and active subviews
       applySiteBranding();
       renderAll();
-      showToastNotification(`🌐 تىل ئالماشتۇرۇلدى: ${i18nDict[lang].currentLangName}`);
+      // NO TOAST / NO ALERT / NO POPUP: completely silent and instant!
+    }
+
+    function updateStaticPageTranslations() {
+      // Top Header
+      document.getElementById("pageHeaderTitle").innerText = t("pageHeaderTitle");
+      const hAuthBtn = document.getElementById("headerAuthBtn");
+      if (hAuthBtn) hAuthBtn.innerHTML = `<span>🔑</span> <span>${t("login")}</span>`;
+
+      // Top Controls
+      const chanBadge = document.querySelector(".top-channel-badge span[data-i18n='channelBadge']");
+      if (chanBadge) chanBadge.innerText = t("channelBadge");
+
+      // Search and Section Bar
+      const sInput = document.getElementById("searchInput");
+      if (sInput) sInput.placeholder = t("searchPlaceholder");
+      const catTitleDisp = document.querySelector("[data-key='categoriesTitle']");
+      if (catTitleDisp) catTitleDisp.innerText = t("servicesCategories");
+      const resetBtn = document.querySelector(".section-title-bar span[onclick='resetSearch()']");
+      if (resetBtn) resetBtn.innerText = t("all");
+
+      // Bottom Navigation Bar
+      const navHome = document.querySelector("#nav-home span");
+      if (navHome) navHome.innerText = t("home");
+      const navFav = document.querySelector("#nav-favorites span");
+      if (navFav) navFav.innerText = t("favorites");
+      const navBalance = document.querySelector("#nav-add-balance span");
+      if (navBalance) navBalance.innerText = t("wallet");
+      const navOrders = document.querySelector("#nav-orders span");
+      if (navOrders) navOrders.innerText = t("orders");
+      const navVip = document.querySelector("#nav-vip span");
+      if (navVip) navVip.innerText = t("vipPill");
+
+      // Drawer Sidebar
+      const dHome = document.querySelector(".drawer-menu-item[onclick*='view-home'] .item-left span:last-child");
+      if (dHome) dHome.innerText = t("home");
+      const dBalance = document.querySelector(".drawer-menu-item[onclick*='view-add-balance'] .item-left span:last-child");
+      if (dBalance) dBalance.innerText = t("walletTitle");
+      const dVip = document.querySelector(".drawer-menu-item[onclick*='view-vip'] .item-left span:last-child");
+      if (dVip) dVip.innerText = t("vip");
+      const dFav = document.querySelector(".drawer-menu-item[onclick*='view-favorites'] .item-left span:last-child");
+      if (dFav) dFav.innerText = t("favorites");
+      const dOrders = document.querySelector(".drawer-menu-item[onclick*='view-orders'] .item-left span:last-child");
+      if (dOrders) dOrders.innerText = t("orders");
+      const dPayments = document.querySelector(".drawer-menu-item[onclick*='view-payments'] .item-left span:last-child");
+      if (dPayments) dPayments.innerText = t("myPayments", "پۇل تۆلەشلىرىم");
+      const dLogout = document.getElementById("sidebarLogoutText");
+      if (dLogout) dLogout.innerText = t("logout");
+      const dLoginBtn = document.querySelector(".sidebar-video-login-btn span");
+      if (dLoginBtn) dLoginBtn.innerText = t("login");
+      const dRegBtn = document.querySelector(".sidebar-video-register-btn span:last-child");
+      if (dRegBtn) dRegBtn.innerText = t("register");
+
+      // Category Detail View
+      const catSearchInput = document.getElementById("catDetailSearchInput");
+      if (catSearchInput) catSearchInput.placeholder = t("searchCatPlaceholder");
+      const catBackBtn = document.querySelector("#view-category-detail .header-back-btn");
+      if (catBackBtn) catBackBtn.innerText = `‹ ${t("back")}`;
+
+      // Product Order Page
+      const orderBackBtn = document.querySelector("#view-product-order-page .header-back-btn");
+      if (orderBackBtn) orderBackBtn.innerText = `‹ ${t("back")}`;
+      const orderAiNoteEl = document.querySelector("#orderAiStatusNote span");
+      if (orderAiNoteEl) orderAiNoteEl.innerText = `🤖 ${t("orderAiNote")}`;
+      const orderCardsTitle = document.querySelector(".pkg-cards-grid-title span:last-child");
+      if (orderCardsTitle) orderCardsTitle.innerText = t("selectPackageCardsTitle");
+      const orderDropdownTitle = document.querySelector(".order-input-wrapper label[for='packageDropdownBtn'] span, .order-input-wrapper .order-input-label span:not(#orderPageInputLabel):not(#orderPageServerLabel)");
+      if (orderDropdownTitle && orderDropdownTitle.innerText.includes("بولاق")) orderDropdownTitle.innerText = t("selectPackageDropdownTitle");
+      const orderOrigLbl = document.querySelector("#view-product-order-page span[id='orderOrigLabel']");
+      if (orderOrigLbl) orderOrigLbl.innerText = t("originalPrice");
+      const orderDiscLbl = document.querySelector("#view-product-order-page span[id='orderDiscLabel']");
+      if (orderDiscLbl) orderDiscLbl.innerText = t("vipDiscount");
+      const orderFinalLbl = document.querySelector("#view-product-order-page span[id='orderFinalLabel']");
+      if (orderFinalLbl) orderFinalLbl.innerText = t("finalPayable");
+      const sendReqBtn = document.querySelector(".send-request-big-btn");
+      if (sendReqBtn) sendReqBtn.innerText = t("submitOrderBtn");
+
+      // Feedback banner on order page
+      const fbTitle = document.querySelector(".app-feedback-info div div:first-child");
+      if (fbTitle) fbTitle.innerText = t("orderFeedbackTitle");
+      const fbSub = document.querySelector(".app-feedback-info div div:last-child");
+      if (fbSub) fbSub.innerText = t("orderFeedbackSub");
+      const fbBtn = document.querySelector(".app-feedback-btn span:first-child");
+      if (fbBtn) fbBtn.innerText = t("writeFeedbackBtn");
+
+      // Recharge Modal
+      const rModalTitle = document.getElementById("rechargeModalTitle");
+      if (rModalTitle) rModalTitle.innerText = t("recharge");
+      const rAccountLbl = document.querySelector("#modalRechargeSubmit span[id='rAccountLabel']");
+      if (rAccountLbl) rAccountLbl.innerText = t("shamCashAccount");
+      const rCopyBtn = document.querySelector("#modalRechargeSubmit button[onclick='copyAccountAddress()']");
+      if (rCopyBtn) rCopyBtn.innerHTML = `📋 ${t("copy")}`;
+      const rCurrLbl = document.querySelector("#modalRechargeSubmit label[id='rChooseCurrLabel']");
+      if (rCurrLbl) rCurrLbl.innerText = t("chooseRechargeCurrency");
+      const rAmountLbl = document.getElementById("depositAmountLabel");
+      if (rAmountLbl) rAmountLbl.innerText = t("rechargeAmountLabel");
+      const rTxLbl = document.querySelector("#modalRechargeSubmit label[id='rReceiptLabel']");
+      if (rTxLbl) rTxLbl.innerText = `📄 ${t("receiptLabel")}`;
+      const rTxHint = document.querySelector("#modalRechargeSubmit div[id='rReceiptHint']");
+      if (rTxHint) rTxHint.innerText = t("receiptHint");
+      const rWarnTitle = document.querySelector("#modalRechargeSubmit strong[id='rWarnTitle']");
+      if (rWarnTitle) rWarnTitle.innerText = t("warningImportant");
+      const rWarnDesc = document.querySelector("#modalRechargeSubmit span[id='rWarnDesc']");
+      if (rWarnDesc) rWarnDesc.innerText = t("warningDesc");
+      const rCancelBtn = document.querySelector("#modalRechargeSubmit .modal-footer .btn-secondary");
+      if (rCancelBtn) rCancelBtn.innerText = t("cancel");
+      const rSubmitBtn = document.querySelector("#modalRechargeSubmit .modal-footer .btn-primary");
+      if (rSubmitBtn) rSubmitBtn.innerText = t("submitRequest");
+
+      // Login & Registration view
+      const lBackBtn = document.querySelector(".video-auth-back-link span:first-child");
+      if (lBackBtn) lBackBtn.innerText = t("homeBackBtn");
+      const lSubtitle = document.getElementById("vAuthSubtitle");
+      if (lSubtitle) {
+        const isReg = document.getElementById("vAuthRegisterForm")?.style.display === "flex";
+        lSubtitle.innerText = isReg ? t("registerSubtitle") : t("signInToContinue");
+      }
+      const lUserLbl = document.querySelector("#vAuthLoginForm .video-auth-form-group:first-child .video-auth-label");
+      if (lUserLbl) lUserLbl.innerText = t("loginUserLabel");
+      const lUserInp = document.getElementById("vLoginUser");
+      if (lUserInp) lUserInp.placeholder = t("loginUserPlaceholder");
+      const lPassLbl = document.querySelector("#vAuthLoginForm .video-auth-form-group:nth-child(2) .video-auth-label");
+      if (lPassLbl) lPassLbl.innerText = t("password");
+      const lPassInp = document.getElementById("vLoginPass");
+      if (lPassInp) lPassInp.placeholder = t("passwordPlaceholder");
+      const lRem = document.querySelector(".video-auth-remember span");
+      if (lRem) lRem.innerText = t("rememberMe");
+      const lForgot = document.querySelector(".video-auth-forgot-link");
+      if (lForgot) lForgot.innerText = t("forgotPass");
+      const lSubBtn = document.querySelector("#vSubmitLoginBtn span");
+      if (lSubBtn) lSubBtn.innerText = t("loginBtn");
+      const lDiv = document.querySelector("#vAuthLoginForm .video-auth-divider span");
+      if (lDiv) lDiv.innerText = t("orQuickSignIn");
+      const lGoogle = document.querySelector("#vAuthLoginForm .video-auth-google-btn span");
+      if (lGoogle) lGoogle.innerText = t("googleSignIn");
+      const lSwitchNo = document.querySelector("#vAuthLoginForm .video-auth-bottom-switch span");
+      if (lSwitchNo) lSwitchNo.innerText = t("noAccount");
+      const lSwitchCreate = document.querySelector("#vAuthLoginForm .video-auth-bottom-switch a");
+      if (lSwitchCreate) lSwitchCreate.innerText = t("createAccountNow");
+
+      // Register form labels
+      const rRegUserLbl = document.querySelector("#vAuthRegisterForm .video-auth-form-group:nth-child(1) .video-auth-label");
+      if (rRegUserLbl) rRegUserLbl.innerText = t("regUserLabel");
+      const rRegEmailLbl = document.querySelector("#vAuthRegisterForm .video-auth-form-group:nth-child(2) .video-auth-label");
+      if (rRegEmailLbl) rRegEmailLbl.innerText = t("regEmailLabel");
+      const rRegPassLbl = document.querySelector("#vAuthRegisterForm .video-auth-form-group:nth-child(3) .video-auth-label");
+      if (rRegPassLbl) rRegPassLbl.innerText = t("password");
+      const rRegPhoneLbl = document.querySelector("#vAuthRegisterForm .video-auth-form-group:nth-child(4) .video-auth-label");
+      if (rRegPhoneLbl) rRegPhoneLbl.innerText = t("phone");
+      const rRegCountryLbl = document.querySelector("#vAuthRegisterForm .video-auth-form-group:nth-child(5) .video-auth-label");
+      if (rRegCountryLbl) rRegCountryLbl.innerText = t("country");
+      const rRegBtn = document.querySelector("#vSubmitRegBtn span");
+      if (rRegBtn) rRegBtn.innerText = t("registerBtn");
+      const rSwitchHave = document.querySelector("#vAuthRegisterForm .video-auth-bottom-switch span");
+      if (rSwitchHave) rSwitchHave.innerText = t("haveAccount");
+      const rSwitchLogin = document.querySelector("#vAuthRegisterForm .video-auth-bottom-switch a");
+      if (rSwitchLogin) rSwitchLogin.innerText = t("login");
+
+      // Orders view
+      const ordersTitle = document.querySelector("#view-orders .section-title span:last-child");
+      if (ordersTitle) ordersTitle.innerText = t("orders");
+      const oTabs = document.querySelectorAll("#orderFilterTabs .filter-tab-pill");
+      if (oTabs.length >= 4) {
+        oTabs[0].innerText = t("all");
+        oTabs[1].innerText = t("approved");
+        oTabs[2].innerText = t("rejected");
+        oTabs[3].innerText = t("pending");
+      }
+      const oSearch = document.getElementById("orderSearchInput");
+      if (oSearch) oSearch.placeholder = t("searchOrdersPlaceholder");
+
+      // Payments view
+      const payTitle = document.querySelector("#view-payments .section-title span:last-child");
+      if (payTitle) payTitle.innerText = t("myPayments", "پۇل تۆلەشلىرىم");
+      const payAddBtn = document.querySelector("#view-payments .section-title-bar .btn-primary");
+      if (payAddBtn) payAddBtn.innerText = t("rechargePlus");
+      const pTabs = document.querySelectorAll("#paymentFilterTabs .filter-tab-pill");
+      if (pTabs.length >= 4) {
+        pTabs[0].innerText = t("all");
+        pTabs[1].innerText = t("approved");
+        pTabs[2].innerText = t("rejected");
+        pTabs[3].innerText = t("pending");
+      }
+      const pSearch = document.getElementById("paymentSearchInput");
+      if (pSearch) pSearch.placeholder = t("searchPaymentsPlaceholder");
+
+      // VIP view
+      const vipTitle = document.querySelector("#view-vip .section-title");
+      if (vipTitle) vipTitle.innerHTML = `<span>👑</span> ${t("vip")}`;
+      const vipCurLbl = document.querySelector(".vip-dashboard-card div div div");
+      if (vipCurLbl) vipCurLbl.innerText = t("yourVipLevel");
+      const vipSpentLbl = document.querySelector(".vip-dashboard-card > div:nth-child(2) span:first-child");
+      if (vipSpentLbl) vipSpentLbl.innerText = t("totalSpent");
+      const vipProgLbl = document.getElementById("vipNextTierHint");
+      if (vipProgLbl) vipProgLbl.innerText = t("nextTierProgress");
+      const vipAllTitle = document.querySelector("#view-vip h4");
+      if (vipAllTitle) vipAllTitle.innerText = t("allVipLevels");
+
+      // Favorites view
+      const favTitle = document.querySelector("#view-favorites .section-title");
+      if (favTitle) favTitle.innerHTML = `<span style="color: #ef4444;">❤️</span> ${t("favorites")}`;
+
+      // Wallet view
+      const wTitle = document.querySelector("#view-add-balance .section-title");
+      if (wTitle) wTitle.innerHTML = `<span>👛</span> ${t("walletTitle")}`;
+      const wStats = document.querySelectorAll(".stat-card-box div[style*='#94a3b8']");
+      if (wStats.length >= 4) {
+        wStats[0].innerText = t("vipLevel");
+        wStats[1].innerText = t("totalOrders");
+        wStats[2].innerText = t("totalDeposits");
+        wStats[3].innerText = t("totalSpent");
+      }
+      const wInst = document.querySelector("#view-add-balance p[style*='text-muted']");
+      if (wInst) wInst.innerText = t("chooseRechargeMethod");
     }
 
     /* ========================================================
