@@ -3728,7 +3728,7 @@
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxeXJpaXZkY2VxYW9xY3Ntc3NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNjUyNjQsImV4cCI6MjEwNTc0MTI2NH0.CigNibikTEADHNB9T6BX0q9OFCdam9KyUlumzN-e5uY";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const STORAGE_KEY = "autocash_app_state_v25";
+    const STORAGE_KEY = "autocash_app_state_master";
     const SESSION_TOKEN_KEY = "autocash_active_session_token";
     const FIREBASE_URL = "https://auto-chah-store-default-rtdb.firebaseio.com/autocash_store";
 
@@ -3811,7 +3811,8 @@
           packages: [
             { name: "PUBG GLOBAL 60 UC", price: 0.929 },
             { name: "PUBG GLOBAL 325 UC", price: 4.638 },
-            { name: "PUBG GLOBAL 660 UC", price: 9.276 }
+            { name: "PUBG GLOBAL 660 UC", price: 9.276 },
+            { name: "PUBG GLOBAL 1800 UC", price: 23.500 }
           ]
         },
         {
@@ -3847,7 +3848,119 @@
           image: fastIcons.gameCover,
           packages: [
             { name: "100+10 كۆك تاش", price: 0.950 },
-            { name: "210+21 كۆك تاش", price: 1.950 }
+            { name: "210+21 كۆك تاش", price: 1.950 },
+            { name: "530+53 كۆك تاش", price: 4.850 }
+          ]
+        },
+        {
+          id: "prod-arena",
+          catId: "cat-games",
+          name: "Arena Breakout (ئارېنا بىرېكئائۇت)",
+          badge: "Arena Breakout Bonds",
+          isDoubleId: false,
+          fieldLabel: "Player ID (ئويۇن كودى)",
+          placeholder: "ئويۇن ID كىرگۈزۈڭ (مەسىلەن: 10293847)",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "numeric",
+          image: fastIcons.gameCover,
+          packages: [
+            { name: "60 Bonds (ئوبلىگاتسىيە)", price: 0.990 },
+            { name: "310 Bonds (ئوبلىگاتسىيە)", price: 4.890 },
+            { name: "630 Bonds (ئوبلىگاتسىيە)", price: 9.750 },
+            { name: "3200 Bonds (ئوبلىگاتسىيە)", price: 48.500 }
+          ]
+        },
+        {
+          id: "prod-hok",
+          catId: "cat-games",
+          name: "Honor of Kings (پادىشاھلار شان-شەرىپى)",
+          badge: "HOK Tokens",
+          isDoubleId: false,
+          fieldLabel: "Player ID (UID)",
+          placeholder: "HOK Player ID كىرگۈزۈڭ",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "numeric",
+          image: fastIcons.gameCover,
+          packages: [
+            { name: "80+8 Tokens (پۇلى)", price: 1.150 },
+            { name: "240+17 Tokens (پۇلى)", price: 3.400 },
+            { name: "400+32 Tokens (پۇلى)", price: 5.600 },
+            { name: "800+68 Tokens (پۇلى)", price: 10.900 }
+          ]
+        },
+        {
+          id: "prod-tg-prem",
+          catId: "cat-apps",
+          name: "Telegram Premium & Stars (تېلېگرام)",
+          badge: "Telegram Premium & Stars",
+          isDoubleId: false,
+          fieldLabel: "Telegram Username (@username)",
+          placeholder: "@user (مەسىلەن: @dronemax)",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "auto",
+          image: fastIcons.appCover,
+          packages: [
+            { name: "تېلېگرام پىرىمىيۇم 3 ئايلىق", price: 11.500 },
+            { name: "تېلېگرام پىرىمىيۇم 6 ئايلىق", price: 17.500 },
+            { name: "تېلېگرام پىرىمىيۇم 12 ئايلىق (1 يىل)", price: 29.900 },
+            { name: "100 تېلېگرام يۇلتۇزى (Stars)", price: 2.100 },
+            { name: "250 تېلېگرام يۇلتۇزى (Stars)", price: 5.200 }
+          ]
+        },
+        {
+          id: "prod-whatsapp",
+          catId: "cat-apps",
+          name: "WhatsApp Tools & Top-up (ۋاتساپ)",
+          badge: "WhatsApp Activation",
+          isDoubleId: false,
+          fieldLabel: "تېلېفون نومۇرى",
+          placeholder: "+963... ياكى تېلېفون نومۇرىڭىز",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "auto",
+          image: fastIcons.appCover,
+          packages: [
+            { name: "ۋاتساپ نومۇر ئېچىش مۇلازىمىتى", price: 1.500 },
+            { name: "ۋاتساپ تېز ئۇلىنىش مۇلازىمىتى", price: 2.900 }
+          ]
+        },
+        {
+          id: "prod-telecom-syriatel",
+          catId: "cat-telecom",
+          name: "سۈرىيەتەل (Syriatel Cash & Cards)",
+          badge: "سۈرىيەتەل كارتىسى",
+          isDoubleId: false,
+          fieldLabel: "تېلېفون نومۇرى (Syriatel)",
+          placeholder: "09... سۈرىيەتەل نومۇرىڭىز",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "numeric",
+          image: fastIcons.telecomCover,
+          packages: [
+            { name: "سۈرىيەتەل 5,000 لىرا بېلەت", price: 3.700 },
+            { name: "سۈرىيەتەل 10,000 لىرا بېلەت", price: 7.400 },
+            { name: "سۈرىيەتەل 25,000 لىرا بېلەت", price: 18.500 }
+          ]
+        },
+        {
+          id: "prod-telecom-mtn",
+          catId: "cat-telecom",
+          name: "MTN سۈرىيە (MTN Cards & Units)",
+          badge: "MTN بېلەت كارتىسى",
+          isDoubleId: false,
+          fieldLabel: "تېلېفون نومۇرى (MTN)",
+          placeholder: "09... MTN نومۇرىڭىز",
+          serverLabel: "",
+          serverPlaceholder: "",
+          aiValidation: "numeric",
+          image: fastIcons.telecomCover,
+          packages: [
+            { name: "MTN 5,000 لىرا بېلەت", price: 3.700 },
+            { name: "MTN 10,000 لىرا بېلەت", price: 7.400 },
+            { name: "MTN 25,000 لىرا بېلەت", price: 18.500 }
           ]
         }
       ],
@@ -3860,7 +3973,159 @@
       favorites: []
     };
 
-    let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
+    const LEGACY_STORAGE_KEYS = [
+      "autocash_app_state_v25",
+      "autocash_app_state_v24",
+      "autocash_app_state_v23",
+      "autocash_app_state_v22",
+      "autocash_app_state_v21",
+      "autocash_app_state_v20",
+      "autocash_app_state",
+      "autocash_state",
+      "autocash_backup_state"
+    ];
+
+    function initializeAndMigrateState() {
+      console.log("=== initializeAndMigrateState: Starting safe state migration and restoration ===");
+      let masterState = null;
+      try {
+        const rawMaster = localStorage.getItem(STORAGE_KEY);
+        if (rawMaster) masterState = JSON.parse(rawMaster);
+      } catch (err) {
+        console.warn("Error reading master state:", err);
+      }
+
+      // Collect all candidate state snapshots across localStorage
+      const foundStates = [];
+      if (masterState && typeof masterState === 'object') {
+        foundStates.push({ key: STORAGE_KEY, data: masterState, ts: masterState._lastUpdated || 0 });
+      }
+
+      LEGACY_STORAGE_KEYS.forEach(k => {
+        try {
+          const raw = localStorage.getItem(k);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') {
+              foundStates.push({ key: k, data: parsed, ts: parsed._lastUpdated || 0 });
+            }
+          }
+        } catch(e) {}
+      });
+
+      // Scan any custom keys in localStorage
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && k.startsWith("autocash_") && !LEGACY_STORAGE_KEYS.includes(k) && k !== STORAGE_KEY) {
+            try {
+              const raw = localStorage.getItem(k);
+              if (raw && (raw.includes("categories") || raw.includes("products"))) {
+                const parsed = JSON.parse(raw);
+                if (parsed && typeof parsed === 'object') {
+                  foundStates.push({ key: k, data: parsed, ts: parsed._lastUpdated || 0 });
+                }
+              }
+            } catch(e) {}
+          }
+        }
+      } catch(e) {}
+
+      // Start with deep clone of defaultData
+      let resolved = JSON.parse(JSON.stringify(defaultData));
+
+      if (foundStates.length > 0) {
+        foundStates.sort((a, b) => b.ts - a.ts);
+        const best = foundStates[0].data;
+        resolved = Object.assign(resolved, best);
+      }
+
+      // Restore ALL historical products so custom products or edited prices are never lost
+      const allRecoveredProds = new Map();
+      (defaultData.products || []).forEach(p => {
+        allRecoveredProds.set(p.id, JSON.parse(JSON.stringify(p)));
+      });
+
+      foundStates.slice().reverse().forEach(({ data }) => {
+        const prods = toSafeArray(data.products, []);
+        prods.forEach(p => {
+          if (p && p.id) {
+            if (allRecoveredProds.has(p.id)) {
+              Object.assign(allRecoveredProds.get(p.id), p);
+            } else {
+              allRecoveredProds.set(p.id, p);
+            }
+          }
+        });
+      });
+      resolved.products = Array.from(allRecoveredProds.values());
+
+      // Restore ALL historical categories
+      const allRecoveredCats = new Map();
+      (defaultData.categories || []).forEach(c => {
+        allRecoveredCats.set(c.id, JSON.parse(JSON.stringify(c)));
+      });
+      foundStates.slice().reverse().forEach(({ data }) => {
+        const cats = toSafeArray(data.categories, []);
+        cats.forEach(c => {
+          if (c && c.id) {
+            if (allRecoveredCats.has(c.id)) {
+              Object.assign(allRecoveredCats.get(c.id), c);
+            } else {
+              allRecoveredCats.set(c.id, c);
+            }
+          }
+        });
+      });
+      resolved.categories = Array.from(allRecoveredCats.values());
+
+      // Restore payment methods
+      const allRecoveredPay = new Map();
+      (defaultData.paymentMethods || []).forEach(m => {
+        allRecoveredPay.set(m.id, JSON.parse(JSON.stringify(m)));
+      });
+      foundStates.slice().reverse().forEach(({ data }) => {
+        const methods = toSafeArray(data.paymentMethods, []);
+        methods.forEach(m => {
+          if (m && m.id) {
+            allRecoveredPay.set(m.id, m);
+          }
+        });
+      });
+      resolved.paymentMethods = Array.from(allRecoveredPay.values());
+
+      // Merge orders & payments
+      foundStates.forEach(({ data }) => {
+        const ords = toSafeObjectMap(data.orders, "id");
+        resolved.orders = Object.assign({}, resolved.orders || {}, ords);
+        const pays = toSafeObjectMap(data.payments, "id");
+        resolved.payments = Object.assign({}, resolved.payments || {}, pays);
+      });
+
+      // Merge users
+      foundStates.forEach(({ data }) => {
+        const usrs = toSafeObjectMap(data.users, "uid");
+        resolved.users = Object.assign({}, resolved.users || {}, usrs);
+      });
+
+      if (!resolved.users["user_999999"]) {
+        resolved.users["user_999999"] = JSON.parse(JSON.stringify(defaultData.users["user_999999"]));
+      }
+
+      try {
+        const stateJson = JSON.stringify(resolved);
+        localStorage.setItem(STORAGE_KEY, stateJson);
+        localStorage.setItem("autocash_app_state_v25", stateJson);
+        localStorage.setItem("autocash_backup_state", stateJson);
+      } catch (err) {
+        console.error("Error saving initial consolidated state:", err);
+      }
+
+      console.log(`=== initializeAndMigrateState: Complete. Products: ${resolved.products.length}, Categories: ${resolved.categories.length}, Orders: ${Object.keys(resolved.orders).length} ===`);
+      return resolved;
+    }
+
+    let state = initializeAndMigrateState();
     if (!state.users || Array.isArray(state.users)) state.users = defaultData.users;
 
     let notifiedPendingKeys = new Set();
@@ -4199,55 +4464,118 @@
     /* CLOUD SYNC */
     async function syncFromCloud() {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4500);
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
       try {
         const res = await fetch(`${FIREBASE_URL}.json`, { signal: controller.signal });
         clearTimeout(timeoutId);
         if (res.ok) {
           const remote = await res.json();
-          if (remote) {
+          if (remote && typeof remote === 'object') {
             const myUid = state.currentUserId;
             const myCurr = state.userCurrencyMode;
 
-            state.siteSettings = remote.siteSettings || state.siteSettings;
-            state.categories = toSafeArray(remote.categories, state.categories);
-            state.products = toSafeArray(remote.products, state.products);
-            state.paymentMethods = toSafeArray(remote.paymentMethods, state.paymentMethods);
-            if (state.categories) {
-              state.categories.forEach(cat => {
-                if (!cat.img || typeof cat.img !== 'string' || cat.img.trim() === '') {
-                  if (cat.id === 'cat-games') cat.img = fastIcons.gameCover;
-                  else if (cat.id === 'cat-apps') cat.img = fastIcons.appCover;
-                  else if (cat.id === 'cat-telecom') cat.img = fastIcons.telecomCover;
-                  else cat.img = fastIcons.gameCover;
+            // Anti-rollback check: Has local state been modified recently by admin?
+            const lastLocalSave = Math.max(state._lastUpdated || 0, parseInt(localStorage.getItem("autocash_last_admin_save") || "0", 10));
+            const remoteUpdated = remote._lastUpdated || 0;
+
+            if (lastLocalSave > remoteUpdated) {
+              console.log("syncFromCloud: Local state is newer than cloud. Preserving local modifications and syncing to cloud.");
+              pushToCloud().catch(e => {});
+              return;
+            }
+
+            // Safe Merge for siteSettings
+            if (remote.siteSettings) {
+              state.siteSettings = Object.assign({}, state.siteSettings, remote.siteSettings);
+            }
+
+            // Safe Merge for categories (never wipe local categories)
+            const remoteCats = toSafeArray(remote.categories, []);
+            if (remoteCats.length > 0) {
+              const localCatMap = new Map((state.categories || []).map(c => [c.id, c]));
+              remoteCats.forEach(rC => {
+                if (rC && rC.id) {
+                  if (state._deletedCatIds && state._deletedCatIds.includes(rC.id)) return;
+                  if (localCatMap.has(rC.id)) {
+                    if (remoteUpdated >= lastLocalSave) {
+                      Object.assign(localCatMap.get(rC.id), rC);
+                    }
+                  } else {
+                    state.categories.push(rC);
+                  }
                 }
               });
             }
-            
+
+            // Safe Merge for products (never wipe local custom products)
+            const remoteProds = toSafeArray(remote.products, []);
+            if (remoteProds.length > 0) {
+              const localProdMap = new Map((state.products || []).map(p => [p.id, p]));
+              remoteProds.forEach(rP => {
+                if (rP && rP.id) {
+                  if (state._deletedProdIds && state._deletedProdIds.includes(rP.id)) return;
+                  if (localProdMap.has(rP.id)) {
+                    if (remoteUpdated >= lastLocalSave) {
+                      Object.assign(localProdMap.get(rP.id), rP);
+                    }
+                  } else {
+                    state.products.push(rP);
+                  }
+                }
+              });
+            }
+
+            // Safe Merge for payment methods
+            const remoteMethods = toSafeArray(remote.paymentMethods, []);
+            if (remoteMethods.length > 0) {
+              const localPayMap = new Map((state.paymentMethods || []).map(m => [m.id, m]));
+              remoteMethods.forEach(rM => {
+                if (rM && rM.id) {
+                  if (state._deletedPayIds && state._deletedPayIds.includes(rM.id)) return;
+                  if (localPayMap.has(rM.id)) {
+                    if (remoteUpdated >= lastLocalSave) {
+                      Object.assign(localPayMap.get(rM.id), rM);
+                    }
+                  } else {
+                    state.paymentMethods.push(rM);
+                  }
+                }
+              });
+            }
+
+            // Merge orders and payments safely (union by ID)
+            state.orders = Object.assign({}, toSafeObjectMap(remote.orders, "id"), state.orders);
+            state.payments = Object.assign({}, toSafeObjectMap(remote.payments, "id"), state.payments);
+
+            // Safe Merge for users
             const currentMe = getCurrentUser();
             const remoteUsers = toSafeObjectMap(remote.users || state.users, "uid");
-            // Preserve local higher approved balances across cloud sync
             Object.keys(state.users || {}).forEach(k => {
               const lU = state.users[k];
               const rU = remoteUsers[k];
-              if (lU && rU && (parseFloat(lU.balance) || 0) > (parseFloat(rU.balance) || 0)) {
-                rU.balance = lU.balance;
-                rU.totalSpent = Math.max(rU.totalSpent || 0, lU.totalSpent || 0);
+              if (lU && rU) {
+                if ((parseFloat(lU.balance) || 0) > (parseFloat(rU.balance) || 0)) {
+                  rU.balance = lU.balance;
+                  rU.totalSpent = Math.max(rU.totalSpent || 0, lU.totalSpent || 0);
+                }
               }
             });
             if (currentMe) {
               remoteUsers["user_" + currentMe.uid] = currentMe;
             }
             state.users = remoteUsers;
-            state.orders = toSafeObjectMap(remote.orders || state.orders, "id");
-            state.payments = toSafeObjectMap(remote.payments || state.payments, "id");
 
             state.currentUserId = myUid;
             state.userCurrencyMode = myCurr;
             ensureAdminFixed();
             autoUpdateAllUsersTiers();
 
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            // Persist locally across all keys
+            const stateJson = JSON.stringify(state);
+            localStorage.setItem(STORAGE_KEY, stateJson);
+            localStorage.setItem("autocash_app_state_master", stateJson);
+            localStorage.setItem("autocash_app_state_v25", stateJson);
+            localStorage.setItem("autocash_backup_state", stateJson);
 
             if (!isAdminCurrentlyTyping()) {
               renderAll();
@@ -4259,17 +4587,6 @@
 
             if (isUserAdmin(getCurrentUser())) {
               checkAndNotifyAdminForNewPending();
-            }
-
-            const me = getCurrentUser();
-            if (me) {
-              // Harmonize session tokens smoothly without abrupt force logouts
-              const localToken = localStorage.getItem(SESSION_TOKEN_KEY);
-              if (!localToken && me.currentSessionToken) {
-                localStorage.setItem(SESSION_TOKEN_KEY, me.currentSessionToken);
-              } else if (localToken && !me.currentSessionToken) {
-                me.currentSessionToken = localToken;
-              }
             }
           }
         }
@@ -4296,19 +4613,34 @@
       });
     }
 
-    async function pushToCloud() {
-      ensureAdminFixed();
-      autoUpdateAllUsersTiers();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      renderAll();
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
+    async function saveState() {
       try {
-        await fetch(`${FIREBASE_URL}.json`, {
+        state._lastUpdated = Date.now();
+        state._adminEditSeq = (state._adminEditSeq || 0) + 1;
+
+        ensureAdminFixed();
+        autoUpdateAllUsersTiers();
+
+        // 1. Immediately synchronously persist across master and backup keys
+        const stateJson = JSON.stringify(state);
+        localStorage.setItem(STORAGE_KEY, stateJson);
+        localStorage.setItem("autocash_app_state_master", stateJson);
+        localStorage.setItem("autocash_app_state_v25", stateJson);
+        localStorage.setItem("autocash_backup_state", stateJson);
+        localStorage.setItem("autocash_last_admin_save", String(state._lastUpdated));
+
+        // 2. Immediately re-render all components
+        renderAll();
+
+        // 3. Asynchronously push to Firebase cloud with timeout & error logging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+        fetch(`${FIREBASE_URL}.json`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            _lastUpdated: state._lastUpdated,
             siteSettings: state.siteSettings,
             categories: state.categories,
             products: state.products,
@@ -4318,16 +4650,21 @@
             payments: state.payments
           }),
           signal: controller.signal
+        }).then(res => {
+          clearTimeout(timeoutId);
+          console.log("saveState: Cloud sync succeeded at", new Date().toISOString());
+        }).catch(err => {
+          clearTimeout(timeoutId);
+          console.warn("saveState: Cloud push notice (safely preserved in local storage):", err);
         });
-        clearTimeout(timeoutId);
+
       } catch (err) {
-        clearTimeout(timeoutId);
-        console.warn("Cloud push error (saved locally):", err);
+        console.error("Critical error in saveState:", err);
       }
     }
 
-    function saveState() {
-      pushToCloud();
+    async function pushToCloud() {
+      return await saveState();
     }
 
         function escapeHtml(str) {
@@ -4511,49 +4848,53 @@
 
     function sanitizeState() {
       if (!state || typeof state !== 'object') state = JSON.parse(JSON.stringify(defaultData));
-      if (!state.siteSettings.telegram || state.siteSettings.telegram === 'autocash_UYGHUR') {
-        state.siteSettings.telegram = 'autocash_UYGHUR';
-      }
+
       state.siteSettings = Object.assign({}, defaultData.siteSettings, state.siteSettings || {});
-      if (!Array.isArray(state.siteSettings.banners) || state.siteSettings.banners.length === 0) {
-        state.siteSettings.banners = JSON.parse(JSON.stringify(defaultData.siteSettings.banners));
-      }
-      if (!Array.isArray(state.siteSettings.vipTiers) || state.siteSettings.vipTiers.length === 0) {
-        state.siteSettings.vipTiers = JSON.parse(JSON.stringify(defaultData.siteSettings.vipTiers));
-      }
-      state.categories = toSafeArray(state.categories, defaultData.categories);
-      state.products = toSafeArray(state.products, defaultData.products);
-      state.paymentMethods = toSafeArray(state.paymentMethods, defaultData.paymentMethods);
-      if (state.siteSettings) {
-        state.siteSettings.banners = toSafeArray(state.siteSettings.banners, defaultData.siteSettings.banners);
-        state.siteSettings.vipTiers = toSafeArray(state.siteSettings.vipTiers, defaultData.siteSettings.vipTiers);
-      }
-      if (state.categories) {
-        state.categories.forEach(cat => {
-          if (!cat.img || typeof cat.img !== 'string' || cat.img.trim() === '') {
-            if (cat.id === 'cat-games') cat.img = fastIcons.gameCover;
-            else if (cat.id === 'cat-apps') cat.img = fastIcons.appCover;
-            else if (cat.id === 'cat-telecom') cat.img = fastIcons.telecomCover;
-            else cat.img = fastIcons.gameCover;
-          }
-        });
-      }
-      if (!state.users || Array.isArray(state.users) || typeof state.users !== 'object') {
-        state.users = JSON.parse(JSON.stringify(defaultData.users));
-      }
-      if (Array.isArray(state.paymentMethods)) {
-        state.paymentMethods.forEach(m => {
-          if (m && (m.id === 'pay-shamcash' || m.id === 'pay-syriatel' || (m.name && m.name.includes('Sham')))) {
-            m.name = "Sham Cash (شام كاش)";
-            m.account = "efe8a2b200d66411c7c7e296369cbba8";
-            m.desc = "شامكەش نومۇرىنى كۆچۈرۈۋېلىڭ";
-          }
-        });
-      }
+      state.siteSettings.banners = toSafeArray(state.siteSettings.banners, defaultData.siteSettings.banners);
+      state.siteSettings.vipTiers = toSafeArray(state.siteSettings.vipTiers, defaultData.siteSettings.vipTiers);
+
+      // Non-destructive category check: only add if missing, NEVER overwrite existing
+      state.categories = toSafeArray(state.categories, []);
+      const existingCatIds = new Set(state.categories.map(c => c.id));
+      defaultData.categories.forEach(defCat => {
+        if (!existingCatIds.has(defCat.id) && !(state._deletedCatIds && state._deletedCatIds.includes(defCat.id))) {
+          state.categories.push(JSON.parse(JSON.stringify(defCat)));
+        }
+      });
+
+      // Non-destructive product check: only add if missing, NEVER overwrite existing
+      state.products = toSafeArray(state.products, []);
+      const existingProdIds = new Set(state.products.map(p => p.id));
+      defaultData.products.forEach(defProd => {
+        if (!existingProdIds.has(defProd.id) && !(state._deletedProdIds && state._deletedProdIds.includes(defProd.id))) {
+          state.products.push(JSON.parse(JSON.stringify(defProd)));
+        }
+      });
+
+      // Non-destructive payment methods check
+      state.paymentMethods = toSafeArray(state.paymentMethods, []);
+      const existingPayIds = new Set(state.paymentMethods.map(m => m.id));
+      defaultData.paymentMethods.forEach(defPay => {
+        if (!existingPayIds.has(defPay.id) && !(state._deletedPayIds && state._deletedPayIds.includes(defPay.id))) {
+          state.paymentMethods.push(JSON.parse(JSON.stringify(defPay)));
+        }
+      });
+
+      // Ensure valid covers
+      state.categories.forEach(cat => {
+        if (!cat.img || typeof cat.img !== 'string' || cat.img.trim() === '') {
+          if (cat.id === 'cat-games') cat.img = fastIcons.gameCover;
+          else if (cat.id === 'cat-apps') cat.img = fastIcons.appCover;
+          else if (cat.id === 'cat-telecom') cat.img = fastIcons.telecomCover;
+          else cat.img = fastIcons.gameCover;
+        }
+      });
+
       state.orders = toSafeObjectMap(state.orders, "id");
       state.payments = toSafeObjectMap(state.payments, "id");
       state.users = toSafeObjectMap(state.users, "uid");
       if (!Array.isArray(state.favorites)) state.favorites = [];
+
       ensureAdminFixed();
     }
 
@@ -6381,7 +6722,10 @@ ${formatDualCurrency(u.balance)}`);
     function deleteAdminProduct(prodId) {
       if (confirm("بۇ مەھسۇلاتنى ئۆچۈرەمسىز؟")) {
         state.products = state.products.filter(p => p.id !== prodId);
+        state._deletedProdIds = state._deletedProdIds || [];
+        if (!state._deletedProdIds.includes(prodId)) state._deletedProdIds.push(prodId);
         saveState();
+        showToastNotification("🗑️ مەھسۇلات ئۆچۈرۈلدى.");
       }
     }
 
@@ -7841,7 +8185,10 @@ ${formatDualCurrency(u.balance)}`);
     function deleteAdminCategory(catId) {
       if (confirm("بۇ تۈرنى راستىنلا ئۆچۈرەمسىز؟")) {
         state.categories = state.categories.filter(c => c.id !== catId);
+        state._deletedCatIds = state._deletedCatIds || [];
+        if (!state._deletedCatIds.includes(catId)) state._deletedCatIds.push(catId);
         saveState();
+        showToastNotification("🗑️ تۈر ئۆچۈرۈلدى.");
       }
     }
 
@@ -7923,7 +8270,10 @@ ${formatDualCurrency(u.balance)}`);
     function deleteAdminPayment(id) {
       if (confirm("بۇ قاچىلاش ئۇسۇلىنى ئۆچۈرەمسىز؟")) {
         state.paymentMethods = state.paymentMethods.filter(m => m.id !== id);
+        state._deletedPayIds = state._deletedPayIds || [];
+        if (!state._deletedPayIds.includes(id)) state._deletedPayIds.push(id);
         saveState();
+        showToastNotification("🗑️ قاچىلاش ئۇسۇلى ئۆچۈرۈلدى.");
       }
     }
 
@@ -8676,6 +9026,36 @@ ${formatDualCurrency(u.balance)}`);
         name: { ug: "ئەركىن ئوت (Free Fire)", ar: "فري فاير (Free Fire)", en: "Free Fire" },
         badge: { ug: "Free Fire", ar: "جواهر فري فاير", en: "Free Fire Gems" },
         label: { ug: "Player ID", ar: "معرف اللاعب (Player ID)", en: "Player ID" }
+      },
+      "prod-arena": {
+        name: { ug: "Arena Breakout (ئارېنا بىرېكئائۇت)", ar: "أرينا بريك أوت (Arena Breakout)", en: "Arena Breakout" },
+        badge: { ug: "Arena Bonds", ar: "سندات أرينا", en: "Arena Bonds" },
+        label: { ug: "Player ID", ar: "معرف اللاعب (Player ID)", en: "Player ID" }
+      },
+      "prod-hok": {
+        name: { ug: "Honor of Kings (پادىشاھلار شان-شەرىپى)", ar: "أونور أوف كينغز (Honor of Kings)", en: "Honor of Kings" },
+        badge: { ug: "HOK Tokens", ar: "توكنز HOK", en: "HOK Tokens" },
+        label: { ug: "UID / Player ID", ar: "معرف اللاعب (Player ID)", en: "UID / Player ID" }
+      },
+      "prod-tg-prem": {
+        name: { ug: "Telegram Premium & Stars (تېلېگرام)", ar: "تيليجرام بريميوم ونجوم", en: "Telegram Premium & Stars" },
+        badge: { ug: "Telegram", ar: "تيليجرام", en: "Telegram" },
+        label: { ug: "Telegram Username", ar: "اسم مستخدم تيليجرام", en: "Telegram Username" }
+      },
+      "prod-whatsapp": {
+        name: { ug: "WhatsApp Tools (ۋاتساپ)", ar: "خدمات واتساب", en: "WhatsApp Tools" },
+        badge: { ug: "WhatsApp", ar: "واتساب", en: "WhatsApp" },
+        label: { ug: "تېلېفون نومۇرى", ar: "رقم الهاتف", en: "Phone Number" }
+      },
+      "prod-telecom-syriatel": {
+        name: { ug: "سۈرىيەتەل (Syriatel Cash)", ar: "سيريتل كاش وبطاقات", en: "Syriatel Cash & Cards" },
+        badge: { ug: "سۈرىيەتەل", ar: "سيريتل", en: "Syriatel" },
+        label: { ug: "تېلېفون نومۇرى", ar: "رقم سيريتل", en: "Syriatel Number" }
+      },
+      "prod-telecom-mtn": {
+        name: { ug: "MTN سۈرىيە (MTN Cards)", ar: "إم تي إن بطاقات", en: "MTN Syria Cards" },
+        badge: { ug: "MTN", ar: "إم تي إن", en: "MTN" },
+        label: { ug: "تېلېفون نومۇرى", ar: "رقم إم تي إن", en: "MTN Number" }
       }
     };
 
