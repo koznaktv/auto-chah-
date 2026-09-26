@@ -2103,6 +2103,78 @@
       transform: translateY(-1px);
     }
 
+
+    /* CRITICAL FIX: Recharge Modal Hidden by Default, Scrolling, Sticky Buttons & Padding */
+    #modalRechargeSubmit {
+      display: none !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px !important;
+      box-sizing: border-box !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    #modalRechargeSubmit.active {
+      display: flex !important;
+    }
+
+    #modalRechargeSubmit .modal-card {
+      max-height: 90vh !important;
+      max-height: min(90vh, calc(100dvh - 20px)) !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      display: flex !important;
+      flex-direction: column !important;
+      position: relative !important;
+      width: min(540px, 96vw) !important;
+      max-width: 540px !important;
+      margin: auto !important;
+      box-sizing: border-box !important;
+      border-radius: var(--radius-lg) !important;
+    }
+
+    #modalRechargeSubmit .modal-body {
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      flex: 1 1 auto !important;
+      padding: 16px !important;
+      padding-bottom: 25px !important;
+      min-height: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    #modalRechargeSubmit .modal-footer {
+      position: sticky !important;
+      bottom: 0 !important;
+      z-index: 150 !important;
+      background: #061833 !important;
+      border-top: 1.5px solid var(--border-color) !important;
+      padding: 14px 16px 25px 16px !important; /* padding-bottom: 25px strictly enforced */
+      display: flex !important;
+      gap: 12px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.75) !important;
+      flex-shrink: 0 !important;
+    }
+
+    #modalRechargeSubmit .modal-footer .btn {
+      flex: 1 !important;
+      padding: 12px 14px !important;
+      font-size: 0.95rem !important;
+      font-weight: 800 !important;
+      min-height: 48px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      cursor: pointer !important;
+      border-radius: 8px !important;
+      touch-action: manipulation !important;
+      box-sizing: border-box !important;
+    }
+
 </style>
 </head>
 <body>
@@ -3302,17 +3374,17 @@
   </div>
 
   <div class="modal-backdrop" id="modalRechargeSubmit">
-    <div class="modal-card">
+    <div class="modal-card" style="max-height: 90vh; max-height: min(90vh, calc(100dvh - 20px)); overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; position: relative; width: min(540px, 96vw); max-width: 540px; margin: auto; box-sizing: border-box;">
       <div class="modal-header">
         <h3 class="modal-title" id="rechargeModalTitle">سومما قاچىلاش</h3>
         <button class="drawer-close-btn" onclick="closeModal('modalRechargeSubmit')">✕</button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="overflow-y: auto; -webkit-overflow-scrolling: touch; flex: 1 1 auto; padding: 16px; padding-bottom: 25px; min-height: 0; box-sizing: border-box;">
         <div style="background: #061933; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
           <h4 id="rechargeMethodName" style="color: #f59e0b; margin-bottom: 4px;"></h4>
           <p id="rechargeMethodDesc" style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 10px;"></p>
           
-          <!-- Item 6: Responsive Wrapped Sham Cash Account with Always-Visible Copy Button -->
+          <!-- Responsive Wrapped Sham Cash Account with Always-Visible Copy Button -->
           <div style="display: flex; flex-direction: column; gap: 8px; background: #020c1a; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span style="font-size: 0.78rem; color: #94a3b8; font-weight: bold;" id="rAccountLabel">شامكەش / ھېسابات ئادرېسى:</span>
@@ -3347,7 +3419,46 @@
           </label>
           <input type="text" id="depositTxIdInput" class="form-control" maxlength="9" placeholder="مەسىلەن: 467890306 (پەقەت 9 خانىلىق سان)">
           <div style="font-size: 0.75rem; color: #38bdf8; margin-top: 5px;" id="rReceiptHint">
-            ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلارنى AI قوبۇل قىلمايدۇ.
+            ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلار قوبۇل قىلىنمايدۇ.
+          </div>
+        </div>
+
+        <!-- Official Required Warning Note -->
+        <div style="background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 12px 14px; margin-top: 14px; font-size: 0.8rem; color: #fca5a5; line-height: 1.6;">
+          <strong style="color: #ef4444; font-size: 0.85rem;" id="rWarnTitle">⚠️ مۇھىم ئەسكەرتىش:</strong><br>
+          <span id="rWarnDesc">قاچىلىغان پۇل سانى، يازغان قاچىلاش پۇل سانى ھەمدە ئىسپات نومۇرىنىڭ توغرا بولۇشىغا كاپالەتلىك قىلىڭ، بۇ ئاپتوماتىك تەكشۈرۈلۈپ قاچىلىنىدۇ. ئەگەردە پۇل كەلمەي قالسا باشقۇرغۇچى بىلەن ئۇچۇرلىشىڭ. خاتا پۇل سانى ياكى خاتا ئىسپات نومۇرى يوللىغانلىقىڭىز بىلىنىپ قالسا ھېساباتىڭىز بىردەك توڭلىتىلىدۇ، ئاقىۋىتىگە ئۆزىڭىز ئىگە.</span>
+        </div>
+      </div>
+      <div class="modal-footer" id="rechargeModalFooter" style="position: sticky; bottom: 0; z-index: 150; background: #061833; border-top: 1.5px solid var(--border-color); padding: 14px 16px 25px 16px; display: flex; gap: 12px; width: 100%; box-sizing: border-box; box-shadow: 0 -6px 20px rgba(0,0,0,0.75); flex-shrink: 0;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modalRechargeSubmit')" style="flex: 1; min-height: 48px; font-weight: bold; font-size: 0.95rem; cursor: pointer; touch-action: manipulation;">بىكار قىلىش</button>
+        <button type="button" class="btn btn-primary" onclick="submitRechargeRequest()" style="flex: 1; min-height: 48px; font-weight: bold; font-size: 0.95rem; cursor: pointer; touch-action: manipulation;">ئىلتىماسنى يوللاش</button>
+      </div>
+    </div>
+  </div>
+
+        <label class="form-label" style="font-weight: bold; color: #fff;" id="rChooseCurrLabel">قاچىلاش پۇل بىرلىكىنى تاللاڭ:</label>
+        <div class="currency-selector-row">
+          <div class="curr-btn active" id="currBtnUSD" onclick="setRechargeCurrency('USD')">💵 دوللار ($)</div>
+          <div class="curr-btn" id="currBtnSYP" onclick="setRechargeCurrency('SYP')">سۈرىيە لىراسى (SP)</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="depositAmountLabel">قاچىلايدىغان سومما ($ دوللار) [ئەڭ تۆۋەن 1$ ياكى 135 لىرا]:</label>
+          <input type="number" step="any" id="depositAmountInput" class="form-control" placeholder="مەسىلەن: 1 ياكى 10" oninput="handleRechargeAmountConvert()">
+        </div>
+
+        <div style="background: rgba(2, 132, 199, 0.15); border: 1px dashed #0284c7; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: #38bdf8;" id="rechargeConvertedDisplay">
+          تەڭ قىممەت: $ 0.00 = 0 سۈرىيە لىراسى
+        </div>
+
+        <!-- تالون ھۆججىتىنى يوللاش (پەقەت 9 خانىلىق تالون نومۇرى) -->
+        <div class="form-group">
+          <label class="form-label" style="font-weight: bold; color: #f59e0b;" id="rReceiptLabel">
+            📄 تالون ھۆججىتىنى يوللاڭ (9 خانىلىق تالون نومۇرى):
+          </label>
+          <input type="text" id="depositTxIdInput" class="form-control" maxlength="9" placeholder="مەسىلەن: 467890306 (پەقەت 9 خانىلىق سان)">
+          <div style="font-size: 0.75rem; color: #38bdf8; margin-top: 5px;" id="rReceiptHint">
+            ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلار قوبۇل قىلىنمايدۇ.
           </div>
         </div>
 
@@ -3903,6 +4014,17 @@
             balance = parseFloat(profile.balance);
             if (isNaN(balance)) balance = 0.00;
           }
+          // Ensure local approved balance is not wiped out by stale cloud cache
+          const localUserObj = state.users["user_" + userUid] || findUserByUid(userUid);
+          if (localUserObj && localUserObj.balance !== undefined) {
+            const localB = parseFloat(localUserObj.balance) || 0;
+            if (localB > balance) {
+              balance = localB;
+              if (profile && profile.id && typeof supabaseClient !== 'undefined') {
+                supabaseClient.from('profiles').update({ balance: balance }).eq('id', profile.id).then(() => {}).catch(() => {});
+              }
+            }
+          }
           if (profile.vip_level || profile.tier) {
             vipLevel = profile.vip_level || profile.tier;
           }
@@ -4048,7 +4170,16 @@
             
             const currentMe = getCurrentUser();
             const remoteUsers = toSafeObjectMap(remote.users || state.users, "uid");
-            if (currentMe && (currentMe.supabaseId || currentMe.email)) {
+            // Preserve local higher approved balances across cloud sync
+            Object.keys(state.users || {}).forEach(k => {
+              const lU = state.users[k];
+              const rU = remoteUsers[k];
+              if (lU && rU && (parseFloat(lU.balance) || 0) > (parseFloat(rU.balance) || 0)) {
+                rU.balance = lU.balance;
+                rU.totalSpent = Math.max(rU.totalSpent || 0, lU.totalSpent || 0);
+              }
+            });
+            if (currentMe) {
               remoteUsers["user_" + currentMe.uid] = currentMe;
             }
             state.users = remoteUsers;
@@ -4246,14 +4377,14 @@
       if (!/^\d{9}$/.test(cleanTx)) {
         return {
           valid: false,
-          reason: `⚠️ AI ئەقلىي تەكشۈرۈشى: رەت قىلىندى! تالون نومۇرى چوقۇم 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). سىز كىرگۈزگەن نومۇر ${cleanTx.length} خانە بولۇپ قالدى، 9 خانىدىن ئارتۇق ياكى كەم نومۇر قوللانمايدۇ.`
+          reason: `⚠️ تالون نومۇرى رەت قىلىندى: تالون نومۇرى چوقۇم 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). سىز كىرگۈزگەن نومۇر ${cleanTx.length} خانە بولۇپ قالدى، 9 خانىدىن ئارتۇق ياكى كەم نومۇر قوبۇل قىلىنمايدۇ.`
         };
       }
 
       if (/^(.)\1{8}$/.test(cleanTx) || cleanTx === "123456789" || cleanTx === "987654321") {
         return {
           valid: false,
-          reason: "⚠️ AI ئەقلىي تەكشۈرۈشى: رەت قىلىندى! كىرگۈزگەن تالون نومۇرى ساختا ياكى ئىناۋەتسىز. شامكەشتىكى ھەقىقىي 9 خانىلىق تالون نومۇرىنى كىرگۈزۈڭ."
+          reason: "⚠️ تالون نومۇرى رەت قىلىندى: كىرگۈزگەن تالون نومۇرى ئىناۋەتسىز. شامكەشتىكى ھەقىقىي 9 خانىلىق تالون نومۇرىنى كىرگۈزۈڭ."
         };
       }
 
@@ -4262,7 +4393,7 @@
         cleanTx: cleanTx,
         recipient: "N. Muhsin",
         account: "efe8a2b200d66411c7c7e296369cbba8",
-        msg: "✅ AI ئەقلىي دەلىللىشى: 9 خانىلىق تالون نومۇرى ۋە تاپشۇرۇۋالغۇچى (N. Muhsin) توغرا دەلىللەندى."
+        msg: "✅ تالون نومۇرى دەلىللەندى: 9 خانىلىق تالون نومۇرى ۋە تاپشۇرۇۋالغۇچى (N. Muhsin) توغرا تەكشۈرۈلدى."
       };
     }
 
@@ -6270,16 +6401,22 @@ ${formatDualCurrency(u.balance)}`);
         div.onclick = () => openAdminActionModal("deposit", p.id);
         div.innerHTML = `
           <div>
-            <strong style="color:#fff;">${p.methodName}</strong>
+            <strong style="color:#fff;">${p.methodName || 'شامكەش'}</strong>
             <div style="font-size:0.78rem; color:#38bdf8;">ئابونت: ${p.username} (UID: #${p.userUid})</div>
             <div style="font-size:0.75rem; color:#fbbf24;">TxID: ${p.txId}</div>
             <div style="font-size:0.72rem; color:#94a3b8;">تەلەپ ۋاقتى: ${p.date}</div>
             ${p.processedAt ? `<div style="font-size:0.72rem; color:#34d399;">ئورۇندالغان ۋاقتى: ${p.processedAt}</div>` : ''}
           </div>
-          <div style="text-align:left; display:flex; flex-direction:column; gap:4px;">
-            <span style="color:#34d399; font-weight:bold;">+${formatDualCurrency(p.amount)}</span>
+          <div style="text-align:left; display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
+            <span style="color:#34d399; font-weight:bold; font-size:0.95rem;">+${formatDualCurrency(p.amount)}</span>
             ${statusBadge}
-            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('deposit', '${p.id}')">🔍 چوڭ كۆرۈش</button>
+            ${p.status === 'pending' ? `
+              <div style="display:flex; gap:6px; margin-top:4px;">
+                <button class="btn btn-success" style="padding:4px 10px; font-size:0.75rem; font-weight:bold;" onclick="event.stopPropagation(); adminApproveDeposit('${p.id}')">✓ ماقۇللاش</button>
+                <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="event.stopPropagation(); adminRejectDeposit('${p.id}')">✕ رەت</button>
+              </div>
+            ` : ''}
+            <button class="btn btn-secondary" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="event.stopPropagation(); openAdminActionModal('deposit', '${p.id}')">🔍 تەپسىلاتى</button>
             ${p.status !== 'pending' ? `<button class="btn btn-danger" style="padding:2px 8px; font-size:0.7rem; margin-top:2px;" onclick="adminDeleteSingleDeposit('${p.id}', event)">🗑️ ئۆچۈرۈش</button>` : ''}
           </div>
         `;
@@ -6289,36 +6426,89 @@ ${formatDualCurrency(u.balance)}`);
 
     async function adminApproveDeposit(payId) {
       const p = state.payments[payId];
-      if (!p || p.status !== 'pending') return;
-      const u = state.users["user_" + p.userUid];
-      if (u) {
-        u.balance = parseFloat((u.balance + parseFloat(p.amount)).toFixed(3));
-        u.totalSpent = Math.max(u.totalSpent || 0, u.balance);
-        if (!u.manualTier) u.tier = evaluateUserTier(u);
-        p.status = 'approved';
-        p.processedAt = getCurrentTimeString();
-        state.payments[payId] = p;
-        state.users["user_" + p.userUid] = u;
+      if (!p) return;
+      if (p.status === 'approved') {
+        showToastNotification("⚠️ بۇ سومما قاچىلاش تەلىپى ئاللىقاچان تەستىقلانغان!");
+        return;
+      }
 
-        await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+      // 1. Locate user by UID
+      const cleanUid = String(p.userUid || "").replace(/^user_/, '');
+      let u = findUserByUid(cleanUid) || state.users["user_" + cleanUid] || Object.values(state.users || {}).find(usr => usr && String(usr.uid) === cleanUid);
+
+      if (!u) {
+        alert("⚠️ ئابونت ھېساباتى تېپىلمىدى! UID: #" + cleanUid);
+        return;
+      }
+
+      // 2. Add approved amount to user's balance
+      const depositAmount = parseFloat(p.amount) || 0;
+      const currentBalance = parseFloat(u.balance) || 0;
+      const newBalance = parseFloat((currentBalance + depositAmount).toFixed(2));
+      u.balance = newBalance;
+      u.totalSpent = Math.max(parseFloat(u.totalSpent || 0), newBalance);
+      if (!u.manualTier) u.tier = evaluateUserTier(u);
+
+      // 3. Mark payment status as approved
+      p.status = 'approved';
+      p.processedAt = getCurrentTimeString();
+      state.payments[payId] = p;
+
+      // 4. Update user in state.users under consistent key
+      state.users["user_" + cleanUid] = u;
+
+      // 5. If approved user is the currently logged in user, update active user balance immediately
+      const me = getCurrentUser();
+      if (me && String(me.uid).replace(/^user_/, '') === cleanUid) {
+        me.balance = newBalance;
+        me.totalSpent = u.totalSpent;
+        me.tier = u.tier;
+        state.users["user_" + me.uid] = me;
+      }
+
+      // 6. Persist to localStorage immediately (Cache/State update)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+      // 7. Update UI immediately
+      renderAll();
+
+      // 8. Update Supabase profiles table (by id, uid, and email)
+      try {
+        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+          if (u.supabaseId) {
+            supabaseClient.from('profiles').update({ balance: newBalance, tier: u.tier }).eq('id', u.supabaseId).then(() => {}).catch(e => console.warn("Supabase id update err:", e));
+          }
+          if (u.uid) {
+            supabaseClient.from('profiles').update({ balance: newBalance, tier: u.tier }).eq('uid', String(u.uid)).then(() => {}).catch(e => console.warn("Supabase uid update err:", e));
+          }
+          if (u.email) {
+            supabaseClient.from('profiles').update({ balance: newBalance, tier: u.tier }).eq('email', u.email).then(() => {}).catch(e => console.warn("Supabase email update err:", e));
+          }
+        }
+      } catch (sbErr) {
+        console.warn("Supabase sync warning:", sbErr);
+      }
+
+      // 9. Sync to Firebase Cloud
+      try {
+        fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(p)
-        });
+        }).catch(e => console.warn(e));
 
-        await fetch(`${FIREBASE_URL}/users/user_${u.uid}.json`, {
+        fetch(`${FIREBASE_URL}/users/user_${cleanUid}.json`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(u)
-        });
+        }).catch(e => console.warn(e));
 
-        if (u.supabaseId) {
-          supabaseClient.from('profiles').update({ balance: u.balance }).eq('id', u.supabaseId).then(() => {}).catch(() => {});
-        }
-
-        renderAll();
-        alert(`سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(p.amount)} قوشۇلدى.`);
+        pushToCloud().catch(e => console.warn(e));
+      } catch (fbErr) {
+        console.warn("Firebase sync warning:", fbErr);
       }
+
+      showToastNotification(`✅ سومما قاچىلاش تەستىقلاندى! ${u.username} گە +${formatCurrency(depositAmount)} قوشۇلدى.`);
     }
 
     async function adminRejectDeposit(payId) {
@@ -6328,14 +6518,22 @@ ${formatDualCurrency(u.balance)}`);
       p.processedAt = getCurrentTimeString();
       state.payments[payId] = p;
 
-      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(p)
-      });
-
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderAll();
-      alert(`سومما قاچىلاش تەلىپى رەت قىلىندى.`);
+
+      try {
+        fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(p)
+        }).catch(e => console.warn(e));
+
+        pushToCloud().catch(e => console.warn(e));
+      } catch (err) {
+        console.warn(err);
+      }
+
+      showToastNotification(`سومما قاچىلاش تەلىپى رەت قىلىندى.`);
     }
 
     function renderFavorites() {
@@ -6862,51 +7060,113 @@ ${formatDualCurrency(u.balance)}`);
       if (!container || !u) return;
 
       const q = (document.getElementById("orderSearchInput")?.value || "").toLowerCase().trim();
-      let list = getOrdersList().filter(o => o.userUid === u.uid);
+      const cleanUid = String(u.uid).replace(/^user_/, '');
+
+      // 1. Get user orders
+      const userOrders = getOrdersList().filter(o => o && String(o.userUid).replace(/^user_/, '') === cleanUid).map(o => ({
+        ...o,
+        itemType: 'order'
+      }));
+
+      // 2. Get user deposits
+      const userDeposits = getPaymentsList().filter(p => p && String(p.userUid).replace(/^user_/, '') === cleanUid).map(p => ({
+        ...p,
+        itemType: 'deposit',
+        prodName: `📥 سومما قاچىلاش (${p.methodName || 'شامكەش'})`,
+        packageName: `TxID: ${p.txId}`,
+        accountTarget: `شامكەش تالونى: ${p.txId}`,
+        price: p.amount
+      }));
+
+      // 3. Combine and sort: pending first, then newest date first
+      let combined = [...userOrders, ...userDeposits];
+
+      combined.sort((a, b) => {
+        const aPending = (a.status === 'pending') ? 1 : 0;
+        const bPending = (b.status === 'pending') ? 1 : 0;
+        if (aPending !== bPending) return bPending - aPending;
+
+        const aAlert = a.isSecurityAlert ? 1 : 0;
+        const bAlert = b.isSecurityAlert ? 1 : 0;
+        if (aAlert !== bAlert) return bAlert - aAlert;
+
+        const tA = (a.date || "") + (a.id || "");
+        const tB = (b.date || "") + (b.id || "");
+        return tB.localeCompare(tA);
+      });
 
       if (currentOrderFilter !== "all") {
-        list = list.filter(o => o.status === currentOrderFilter);
+        combined = combined.filter(item => item.status === currentOrderFilter);
       }
 
       if (q) {
-        list = list.filter(o => o.prodName.toLowerCase().includes(q) || o.id.toLowerCase().includes(q) || (o.accountTarget && o.accountTarget.toLowerCase().includes(q)));
+        combined = combined.filter(item => 
+          (item.prodName && item.prodName.toLowerCase().includes(q)) ||
+          (item.id && item.id.toLowerCase().includes(q)) ||
+          (item.accountTarget && item.accountTarget.toLowerCase().includes(q)) ||
+          (item.txId && item.txId.toLowerCase().includes(q)) ||
+          (item.methodName && item.methodName.toLowerCase().includes(q))
+        );
       }
 
-      if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📦</div><div>تەلەپ تېپىلمىدى</div></div>`;
+      if (combined.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📋</div><div>تەلەپ تېپىلمىدى</div></div>`;
         return;
       }
 
       container.innerHTML = "";
-      list.forEach(o => {
+      combined.forEach(item => {
         let statusBadge = '';
         let processedTimeNote = '';
 
-        if (o.status === 'approved') {
+        if (item.status === 'approved') {
           statusBadge = `<span class="badge badge-success">قوبۇل قىلىندى ✓</span>`;
-          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${o.processedAt}</div>`;
-        } else if (o.status === 'rejected') {
+          if (item.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#34d399; margin-top:3px;">ئورۇندالغان ۋاقتى: ${item.processedAt}</div>`;
+        } else if (item.status === 'rejected') {
           statusBadge = `<span class="badge badge-danger">رەت قىلىندى ✕</span>`;
-          if (o.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${o.processedAt}</div>`;
+          if (item.processedAt) processedTimeNote = `<div style="font-size:0.74rem; color:#f87171; margin-top:3px;">رەت قىلىنغان ۋاقتى: ${item.processedAt}</div>`;
         } else {
           statusBadge = `<span class="badge badge-warning">ساقلاشتا ⏳</span>`;
         }
 
         const div = document.createElement("div");
         div.className = "admin-list-item";
-        div.onclick = () => openAdminActionModal("order", o.id);
-        div.innerHTML = `
-          <div>
-            <div style="font-weight: bold; color: #fff;">${o.prodName} (${o.packageName})</div>
-            <div style="font-size: 0.78rem; color: #94a3b8;">${o.accountTarget} | ID: ${o.id}</div>
-            <div style="font-size: 0.74rem; color: #64748b;">تاپشۇرۇلغان ۋاقتى: ${o.date}</div>
-            ${processedTimeNote}
-          </div>
-          <div style="text-align: left;">
-            <div style="color: #f87171; font-weight: bold; margin-bottom:4px;">-${formatCurrency(o.price)}</div>
-            ${statusBadge}
-          </div>
-        `;
+        div.onclick = () => openAdminActionModal(item.itemType, item.id);
+
+        if (item.itemType === 'deposit') {
+          div.innerHTML = `
+            <div>
+              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                <span style="background:rgba(56, 189, 248, 0.15); color:#38bdf8; border:1px solid rgba(56, 189, 248, 0.3); border-radius:4px; padding:1px 6px; font-size:0.72rem; font-weight:bold;">📥 سومما قاچىلاش</span>
+                <span style="font-weight: bold; color: #fff;">${item.methodName || 'شامكەش'}</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #94a3b8; margin-top:3px;">سودا نومۇرى (TxID): <strong style="color:#fbbf24;">${item.txId}</strong> | ID: ${item.id}</div>
+              <div style="font-size: 0.74rem; color: #64748b; margin-top:2px;">تاپشۇرۇلغان ۋاقتى: ${item.date}</div>
+              ${processedTimeNote}
+            </div>
+            <div style="text-align: left; flex-shrink:0;">
+              <div style="color: #34d399; font-weight: bold; margin-bottom:4px; font-size:0.95rem;">+${formatDualCurrency(item.amount)}</div>
+              ${statusBadge}
+            </div>
+          `;
+        } else {
+          div.innerHTML = `
+            <div>
+              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                <span style="background:rgba(16, 185, 129, 0.15); color:#34d399; border:1px solid rgba(16, 185, 129, 0.3); border-radius:4px; padding:1px 6px; font-size:0.72rem; font-weight:bold;">🎮 زاكاس</span>
+                <span style="font-weight: bold; color: #fff;">${item.prodName} (${item.packageName})</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #94a3b8; margin-top:3px;">${item.accountTarget} | ID: ${item.id}</div>
+              <div style="font-size: 0.74rem; color: #64748b; margin-top:2px;">تاپشۇرۇلغان ۋاقتى: ${item.date}</div>
+              ${processedTimeNote}
+            </div>
+            <div style="text-align: left; flex-shrink:0;">
+              <div style="color: #f87171; font-weight: bold; margin-bottom:4px; font-size:0.95rem;">-${formatCurrency(item.price)}</div>
+              ${statusBadge}
+            </div>
+          `;
+        }
+
         container.appendChild(div);
       });
     }
@@ -7103,7 +7363,9 @@ ${formatDualCurrency(u.balance)}`);
 
           showCustomConfirm({
             title: "⚠️ تەكشۈرۈش نەتىجىسى: رەت قىلىندى!",
-            message: `${aiResult.reason}\n\n🚨 سىز ئاللىقاچان ${u.failedRechargeAttempts} قېتىم خاتا تالون يوللىدىڭىز! بۇ ئەھۋال باشقۇرغۇچىغا بىۋاسىتە AI ئارقىلىق مەلۇم قىلىندى. ھېساباتىڭىز تەكشۈرۈلۈۋاتىدۇ.`,
+            message: `${aiResult.reason}
+
+🚨 سىز ئاللىقاچان ${u.failedRechargeAttempts} قېتىم خاتا تالون يوللىدىڭىز! بۇ ئەھۋال باشقۇرغۇچىغا مەلۇم قىلىندى. ھېساباتىڭىز تەكشۈرۈلۈۋاتىدۇ.`,
             icon: "🚨",
             okText: "چۈشەندىم",
             cancelText: "",
@@ -7112,7 +7374,9 @@ ${formatDualCurrency(u.balance)}`);
         } else {
           showCustomConfirm({
             title: "⚠️ تەكشۈرۈش نەتىجىسى: رەت قىلىندى!",
-            message: `${aiResult.reason}\n\nتوغرا بولغان شامكەش تالون ھۆججىتى (تاپشۇرۇۋالغۇچى: N. Muhsin) يوللاڭ.`,
+            message: `${aiResult.reason}
+
+توغرا بولغان شامكەش تالون ھۆججىتى (تاپشۇرۇۋالغۇچى: N. Muhsin) يوللاڭ.`,
             icon: "⚠️",
             okText: "تۈزىتىش",
             cancelText: "",
@@ -7125,14 +7389,15 @@ ${formatDualCurrency(u.balance)}`);
       u.failedRechargeAttempts = 0;
       state.users["user_" + u.uid] = u;
 
+      const cleanUid = String(u.uid).replace(/^user_/, '');
       const payId = "PAY-" + Math.floor(100000 + Math.random() * 900000);
       const newPayItem = {
         id: payId,
-        userUid: u.uid,
+        userUid: cleanUid,
         username: u.username,
         userPhone: u.phone || "",
         userCountry: u.country || "",
-        methodName: selectedRechargeMethod.name,
+        methodName: selectedRechargeMethod ? selectedRechargeMethod.name : "Sham Cash",
         amount: finalUsd,
         amountSyp: finalSyp,
         currencyUsed: rechargeCurrency,
@@ -7141,29 +7406,54 @@ ${formatDualCurrency(u.balance)}`);
         recipientName: "N. Muhsin",
         status: "pending",
         date: getCurrentTimeString(),
-        processedAt: null
+        processedAt: null,
+        isDeposit: true
       };
 
       state.payments[payId] = newPayItem;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+      // 1. Close modal immediately
       closeModal("modalRechargeSubmit");
 
-      await fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newPayItem)
+      // 2. Clear input fields
+      const amtInput = document.getElementById("depositAmountInput");
+      const txInput = document.getElementById("depositTxIdInput");
+      if (amtInput) amtInput.value = "";
+      if (txInput) txInput.value = "";
+
+      // 3. Reset order filter to 'all' so new pending request is at top
+      currentOrderFilter = "all";
+      document.querySelectorAll("#orderFilterTabs .filter-tab-pill").forEach((pill, idx) => {
+        pill.classList.toggle("active", idx === 0);
       });
 
+      // 4. Update UI
+      renderAll();
+
+      // 5. Auto-Redirect to Requests page ("تەلەپلىرىم / زاكازلىرىم")
+      switchView("view-orders");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // 6. Show clear status notification and confirmation
       showCustomConfirm({
-        title: "✅ تەلەپ يوللاندى",
-        message: `✅ AI ئەقلىي تەكشۈرۈشىدىن ئۆتتى (9 خانىلىق تالون نومۇرى دەلىللەندى)!\nسومما قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا يوللاندى، تەكشۈرۈلگەندىن كېيىن دەرھال تەستىقلىنىدۇ.`,
+        title: "✅ ئىلتىماس تاپشۇرۇلدى",
+        message: "✅ تالون نومۇرى مۇۋەپپەقىيەتلىك تەكشۈرۈلدى (9 خانىلىق تالون جەزملەشتۈرۈلدى)!\nسومما قاچىلاش تەلىپىڭىز باشقۇرغۇچىغا يوللاندى، تەكشۈرۈلگەندىن كېيىن دەرھال تەستىقلىنىدۇ.",
         icon: "✅",
         okText: "ماقۇل",
         cancelText: "",
         okClass: "btn-success"
       });
+      showToastNotification("✅ قاچىلاش ئىلتىماسى تاپشۇرۇلدى: تالون دەلىللەندى، باشقۇرغۇچى تەستىقلىشى كۈتۈلمەكتە.");
 
-      renderAll();
-      switchView("view-payments");
+      // 7. Background sync to Cloud
+      fetch(`${FIREBASE_URL}/payments/${payId}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPayItem)
+      }).catch(e => console.warn("Cloud payment sync notice:", e));
+
+      pushToCloud().catch(e => console.warn("Cloud push notice:", e));
     }
 
     let rechargeCurrency = 'USD';
@@ -7608,6 +7898,7 @@ ${formatDualCurrency(u.balance)}`);
         return;
       }
       document.querySelectorAll(".page-view").forEach(el => el.style.display = "none");
+      document.querySelectorAll(".modal-backdrop").forEach(m => m.classList.remove("active"));
       const target = document.getElementById(viewId);
       const topHeader = document.querySelector(".top-header");
       const bottomNav = document.querySelector(".bottom-nav");
@@ -7876,7 +8167,7 @@ ${formatDualCurrency(u.balance)}`);
         rechargeAmountLabel: "قاچىلايدىغان سومما ($ دوللار) [ئەڭ تۆۋەن 1$ ياكى 135 لىرا]:",
         rechargeConvertedPrefix: "تەڭ قىممەت:",
         receiptLabel: "تالون ھۆججىتىنى يوللاڭ (9 خانىلىق تالون نومۇرى):",
-        receiptHint: "ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلارنى AI قوبۇل قىلمايدۇ.",
+        receiptHint: "ℹ️ شامكەش تالون نومۇرى چوقۇم دەل 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). 9 خانىدىن ئارتۇق ياكى كەم سانلار قوبۇل قىلىنمايدۇ.",
         warningImportant: "⚠️ مۇھىم ئەسكەرتىش:",
         warningDesc: "قاچىلىغان پۇل سانى، يازغان قاچىلاش پۇل سانى ھەمدە ئىسپات نومۇرىنىڭ توغرا بولۇشىغا كاپالەتلىك قىلىڭ، بۇ ئاپتوماتىك تەكشۈرۈلۈپ قاچىلىنىدۇ. ئەگەردە پۇل كەلمەي قالسا باشقۇرغۇچى بىلەن ئۇچۇرلىشىڭ. خاتا پۇل سانى ياكى خاتا ئىسپات نومۇرى يوللىغانلىقىڭىز بىلىنىپ قالسا ھېساباتىڭىز بىردەك توڭلىتىلىدۇ، ئاقىۋىتىگە ئۆزىڭىز ئىگە.",
         exchangeRate: "نەق پېرېۋوت نىسبىتى",
