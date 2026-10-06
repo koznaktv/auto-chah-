@@ -510,51 +510,208 @@
     /* Grids */
     .category-grid, .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
     .category-card, .game-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
+      background: linear-gradient(155deg, rgba(14, 43, 82, 0.8) 0%, rgba(6, 20, 42, 0.95) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.16);
+      border-radius: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       cursor: pointer;
       overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
     }
-    .category-card:hover, .game-card:hover { transform: translateY(-3px); border-color: var(--primary-light); box-shadow: 0 8px 20px var(--primary-glow); }
-    .category-cover-wrapper, .game-cover-wrapper { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #06172d; display: flex; align-items: center; justify-content: center; }
-    .category-cover-wrapper img, .game-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
-    .category-card:hover .category-cover-wrapper img, .game-card:hover .game-cover-wrapper img { transform: scale(1.06); }
-    .category-info-box, .game-info-box { width: 100%; padding: 10px 8px; background: linear-gradient(180deg, rgba(14, 43, 82, 0.9) 0%, #091e38 100%); border-top: 1px solid rgba(255, 255, 255, 0.06); }
-    .category-title, .game-title { font-size: 0.88rem; font-weight: 700; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .category-subtitle { font-size: 0.7rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .category-card::after, .game-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .category-card:hover, .game-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: #38bdf8;
+      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    .category-card:hover::after, .game-card:hover::after { opacity: 1; }
+    .category-cover-wrapper, .game-cover-wrapper {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: radial-gradient(circle, #0e294d 0%, #051325 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .category-cover-wrapper img, .game-cover-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .category-card:hover .category-cover-wrapper img, .game-card:hover .game-cover-wrapper img {
+      transform: scale(1.09);
+    }
+    .category-info-box, .game-info-box {
+      width: 100%;
+      padding: 10px 8px;
+      background: linear-gradient(180deg, rgba(12, 36, 68, 0.95) 0%, #06172d 100%);
+      border-top: 1px solid rgba(56, 189, 248, 0.12);
+      box-sizing: border-box;
+    }
+    .category-title, .game-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.2px;
+    }
+    .category-subtitle {
+      font-size: 0.72rem;
+      color: #38bdf8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 3px;
+      font-weight: 600;
+    }
 
-    /* Product Grid */
+    /* Product Grid & Enhanced Interactive Cards */
     .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; }
     .product-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
+      background: linear-gradient(160deg, rgba(15, 38, 72, 0.88) 0%, rgba(6, 19, 40, 0.96) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.18);
+      border-radius: 18px;
       overflow: hidden;
       padding: 12px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
     }
-    .product-card:hover { border-color: var(--primary-light); box-shadow: 0 6px 20px var(--primary-glow); }
-    .product-image { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.05); }
-    .product-info-title { font-size: 0.95rem; font-weight: bold; color: #fff; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .product-info-desc { font-size: 0.72rem; color: #38bdf8; margin-bottom: 8px; }
-    .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 6px; }
-    .product-price-box { display: flex; flex-direction: column; }
-    .product-price-usd { color: var(--primary-light); font-weight: 800; font-size: 0.92rem; }
-    .product-price-syp { color: var(--accent-gold); font-size: 0.75rem; font-weight: 600; }
-    .product-actions-group { display: flex; align-items: center; gap: 6px; }
-    .fav-toggle-btn { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-color); border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; }
-    .fav-toggle-btn:active { transform: scale(1.2); }
-    .buy-btn { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: 1px solid var(--primary-light); border-radius: 8px; padding: 6px 12px; font-size: 0.78rem; cursor: pointer; font-weight: bold; }
+    .product-card:hover {
+      transform: translateY(-4px) scale(1.015);
+      border-color: #38bdf8;
+      box-shadow: 0 14px 34px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    .product-image {
+      width: 100%;
+      height: 125px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.35s ease;
+      background: #06172d;
+    }
+    .product-card:hover .product-image {
+      transform: scale(1.035);
+    }
+    .product-info-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .product-info-desc {
+      font-size: 0.74rem;
+      color: #38bdf8;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .product-price-box {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .product-price-usd {
+      color: #38bdf8;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+    .product-price-syp {
+      color: #fbbf24;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(245, 158, 11, 0.12);
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      display: inline-block;
+      width: fit-content;
+    }
+    .product-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .fav-toggle-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.15rem;
+      transition: all 0.2s ease;
+    }
+    .fav-toggle-btn:hover {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.4);
+      transform: scale(1.1);
+    }
+    .fav-toggle-btn:active {
+      transform: scale(1.25);
+    }
+    .buy-btn {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border: 1px solid #38bdf8;
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: 0.84rem;
+      cursor: pointer;
+      font-weight: 800;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .buy-btn:hover {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
+    .buy-btn:active {
+      transform: scale(0.96);
+    }
 
     /* Product Order View */
     .product-detail-hero { position: relative; display: flex; flex-direction: column; align-items: center; margin: 10px 0 20px; }
@@ -582,14 +739,147 @@
     .filter-tab-pill { background: var(--bg-surface); border: 1px solid var(--border-color); color: #94a3b8; padding: 7px 16px; border-radius: 25px; font-size: 0.82rem; font-weight: bold; white-space: nowrap; cursor: pointer; }
     .filter-tab-pill.active { background: var(--primary); color: #fff; border-color: var(--primary-light); box-shadow: 0 2px 10px var(--primary-glow); }
 
-    /* Payments Grid */
-    .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .pay-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; cursor: pointer; transition: all 0.25s; }
-    .pay-card:hover { border-color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 6px 18px var(--accent-gold-glow); }
-    .pay-card-commission { position: absolute; top: 8px; right: 8px; background: rgba(245, 158, 11, 0.18); color: var(--accent-gold-light); font-size: 0.68rem; padding: 2px 8px; border-radius: 6px; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.3); }
-    .pay-icon-circle { width: 56px; height: 56px; border-radius: 50%; background: #061933; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; border: 2px solid var(--border-color); overflow: hidden; }
+    /* Payments Grid & Exclusive ShamCash Premium VIP Card */
+    .payment-methods-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .pay-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .shamcash-premium-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(14, 43, 82, 0.92) 45%, rgba(6, 22, 45, 0.98) 100%) !important;
+      border: 2px solid rgba(245, 158, 11, 0.55) !important;
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+      padding: 24px 18px !important;
+      border-radius: 20px !important;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    }
+    .shamcash-premium-card:hover {
+      transform: translateY(-4px) scale(1.01) !important;
+      border-color: #fbbf24 !important;
+      box-shadow: 0 16px 40px rgba(245, 158, 11, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+    .pay-card-commission {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.3));
+      color: #fbbf24;
+      font-size: 0.74rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 800;
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+    }
+    .pay-icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #061933;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      border: 2px solid var(--border-color);
+      overflow: hidden;
+    }
     .pay-icon-circle img { width: 100%; height: 100%; object-fit: contain; }
-    .pay-card-name { font-weight: 700; font-size: 0.88rem; color: #fff; }
+    .pay-card-name { font-weight: 800; font-size: 1.05rem; color: #fff; }
+    .pay-card-account-pill {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px dashed rgba(245, 158, 11, 0.45);
+      border-radius: 12px;
+      padding: 8px 14px;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: monospace;
+      color: #fbbf24;
+      font-size: 0.84rem;
+      word-break: break-all;
+    }
+    .pay-card-action-btn {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #041226;
+      font-weight: 900;
+      font-size: 0.95rem;
+      padding: 11px 26px;
+      border-radius: 25px;
+      margin-top: 6px;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.45);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Recharge Amount Quick Presets */
+    .recharge-presets-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .recharge-preset-chip {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1.5px solid rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .recharge-preset-chip:hover, .recharge-preset-chip.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-color: #38bdf8;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Video Auth Segmented Switch Tabs */
+    .video-auth-tabs {
+      display: flex;
+      background: rgba(4, 18, 38, 0.85);
+      border: 1.5px solid rgba(56, 189, 248, 0.25);
+      border-radius: 16px;
+      padding: 5px;
+      margin: 12px 0 18px;
+      width: 100%;
+      gap: 6px;
+      box-sizing: border-box;
+    }
+    .video-auth-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .video-auth-tab.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45);
+    }
 
     /* VIP Cards & Membership Section */
     .vip-dashboard-card {
@@ -1087,17 +1377,36 @@
     /* --- Breakpoint: Desktop (1025px and wider) --- */
     @media (min-width: 1025px) {
       .app-container {
-      width: 100% !important;
-      max-width: 100% !important;
-      margin: 0 auto;
-      padding: 12px 10px;
-      padding-bottom: 75px;
-      display: flex;
-      flex-direction: column;
-      min-height: calc(100vh - 130px);
-      box-sizing: border-box !important;
-      overflow-x: hidden !important;
-    }
+        width: 100% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 16px 24px !important;
+        padding-bottom: 95px !important;
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 130px);
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+      }
+      .top-header {
+        max-width: 1200px !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        border-radius: 0 0 20px 20px !important;
+        border-left: 1px solid var(--border-color) !important;
+        border-right: 1px solid var(--border-color) !important;
+      }
+      .bottom-nav {
+        max-width: 760px !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        bottom: 16px !important;
+        border-radius: 35px !important;
+        border: 1.5px solid rgba(56, 189, 248, 0.3) !important;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(2, 132, 199, 0.25) !important;
+      }
       .category-grid, .game-grid {
         grid-template-columns: repeat(6, 1fr);
         gap: 16px;
@@ -1107,18 +1416,18 @@
         gap: 18px;
       }
       .payment-methods-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
+        grid-template-columns: 1fr;
+        max-width: 800px;
+        margin: 0 auto;
       }
       .admin-hub-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 8px;
-      width: 100% !important;
-      max-width: 100% !important;
-      box-sizing: border-box !important;
-    }
+        display: grid;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px;
+        margin-bottom: 12px;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
       .admin-category-selector-bar {
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
@@ -2685,6 +2994,16 @@
           <div class="video-auth-brand-name">Auto cash</div>
           <div class="video-auth-subtitle" id="vAuthSubtitle">داۋاملاشتۇرۇش ئۈچۈن كىرىڭ (سجل دخولك للمتابعة)</div>
 
+          <!-- Modern Animated Segmented Switch Tabs -->
+          <div class="video-auth-tabs">
+            <button type="button" class="video-auth-tab active" id="vAuthTabLogin" onclick="toggleVideoAuthMode('login')">
+              <span>🔑</span> <span>كىرىش (Login)</span>
+            </button>
+            <button type="button" class="video-auth-tab" id="vAuthTabRegister" onclick="toggleVideoAuthMode('register')">
+              <span>📝</span> <span>تىزىملىتىش (Register)</span>
+            </button>
+          </div>
+
           <!-- LOGIN FORM -->
           <div class="video-auth-form" id="vAuthLoginForm">
             <div class="video-auth-form-group">
@@ -3954,6 +4273,15 @@
         <div class="form-group">
           <label class="form-label" id="depositAmountLabel">قاچىلايدىغان سومما ($ دوللار) [ئەڭ تۆۋەن 1$ ياكى 135 لىرا]:</label>
           <input type="number" step="any" id="depositAmountInput" class="form-control" placeholder="مەسىلەن: 1 ياكى 10" oninput="handleRechargeAmountConvert()">
+          <!-- Quick Preset Amount Buttons for Fast Recharge -->
+          <div class="recharge-presets-row" id="rechargePresetsContainer">
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(1)">$ 1</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(5)">$ 5</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(10)">$ 10</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(25)">$ 25</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(50)">$ 50</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(100)">$ 100</button>
+          </div>
         </div>
 
         <div style="background: rgba(2, 132, 199, 0.15); border: 1px dashed #0284c7; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: #38bdf8;" id="rechargeConvertedDisplay">
@@ -8261,19 +8589,28 @@ ${formatDualCurrency(u.balance)}`);
       const grid = document.getElementById("rechargeMethodsGrid");
       if (!grid) return;
       grid.innerHTML = "";
-      state.paymentMethods.forEach(m => {
-        const card = document.createElement("div");
-        card.className = "pay-card";
-        card.onclick = () => checkAuthAndAction(() => openRechargeModal(m.id));
-        card.innerHTML = `
-          <div class="pay-card-commission">${m.commission}</div>
-          <div class="pay-icon-circle">
-            ${m.icon.startsWith("http") ? `<img src="${m.icon}" onerror="this.src=fastIcons.userDefaultAvatar">` : `<span style="font-size:24px;">${m.icon}</span>`}
-          </div>
-          <div class="pay-card-name">${m.name}</div>
-        `;
-        grid.appendChild(card);
-      });
+      // Exclusively ShamCash for user balance top-up as requested
+      const shamMethod = (toSafeArray(state.paymentMethods, []).find(m => m.id === "pay-shamcash" || (m.name && m.name.toLowerCase().includes("sham")) || (m.name && m.name.includes("شام")))) || defaultData.paymentMethods[0];
+
+      const card = document.createElement("div");
+      card.className = "pay-card shamcash-premium-card";
+      card.onclick = () => checkAuthAndAction(() => openRechargeModal(shamMethod.id));
+      card.innerHTML = `
+        <div class="pay-card-commission">0% كومىسسىيەسىز (0% Commission)</div>
+        <div class="pay-icon-circle" style="width: 68px; height: 68px; font-size: 32px; background: radial-gradient(circle, #1a4275 0%, #061933 100%); border: 2.5px solid #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);">
+          <span>🪙</span>
+        </div>
+        <div class="pay-card-name" style="font-size: 1.15rem; font-weight: 900; color: #fff; margin: 4px 0;">${shamMethod.name || 'شام كاش (Sham Cash)'}</div>
+        <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 8px;">ئاپتوماتىك دەلىللەش & دەل ۋاقتىدا قاچىلاش</div>
+        <div class="pay-card-account-pill">
+          <span style="color: #94a3b8;">شامكەش كودى:</span>
+          <code style="color: #fbbf24; font-weight: bold; letter-spacing: 0.5px;">${shamMethod.account}</code>
+        </div>
+        <div class="pay-card-action-btn">
+          <span>⚡</span> <span>دەرھال سومما قاچىلاش (شامكەش) ➔</span>
+        </div>
+      `;
+      grid.appendChild(card);
     }
 
     let selectedRechargeMethod = null;
@@ -8483,24 +8820,57 @@ ${formatDualCurrency(u.balance)}`);
     let rechargeCurrency = 'USD';
     function setRechargeCurrency(curr) {
       rechargeCurrency = curr;
-      document.getElementById("currBtnUSD").classList.toggle("active", curr === 'USD');
-      document.getElementById("currBtnSYP").classList.toggle("active", curr === 'SYP');
+      document.getElementById("currBtnUSD")?.classList.toggle("active", curr === 'USD');
+      document.getElementById("currBtnSYP")?.classList.toggle("active", curr === 'SYP');
       const lbl = document.getElementById("depositAmountLabel");
       const inp = document.getElementById("depositAmountInput");
+      const presetsWrap = document.getElementById("rechargePresetsContainer");
       if (curr === 'USD') {
-        lbl.innerText = "قاچىلايدىغان سومما ($ دوللار):";
-        inp.placeholder = "مەسىلەن: 10";
+        if (lbl) lbl.innerText = "قاچىلايدىغان سومما ($ دوللار):";
+        if (inp) inp.placeholder = "مەسىلەن: 10";
+        if (presetsWrap) {
+          presetsWrap.innerHTML = `
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(1)">$ 1</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(5)">$ 5</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(10)">$ 10</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(25)">$ 25</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(50)">$ 50</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(100)">$ 100</button>
+          `;
+        }
       } else {
-        lbl.innerText = "قاچىلايدىغان سومما (سۈرىيە لىراسى SP):";
-        inp.placeholder = "مەسىلەن: 1360";
+        if (lbl) lbl.innerText = "قاچىلايدىغان سومما (سۈرىيە لىراسى SP):";
+        if (inp) inp.placeholder = "مەسىلەن: 150000";
+        if (presetsWrap) {
+          presetsWrap.innerHTML = `
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(150000)">150,000 SP</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(300000)">300,000 SP</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(500000)">500,000 SP</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(1000000)">1,000,000 SP</button>
+            <button type="button" class="recharge-preset-chip" onclick="selectPresetRechargeAmount(2500000)">2,500,000 SP</button>
+          `;
+        }
       }
       handleRechargeAmountConvert();
     }
 
+    function selectPresetRechargeAmount(val) {
+      const inp = document.getElementById("depositAmountInput");
+      if (inp) {
+        inp.value = val;
+        handleRechargeAmountConvert();
+      }
+      document.querySelectorAll(".recharge-preset-chip").forEach(btn => {
+        const btnNum = parseFloat(btn.innerText.replace(/[^0-9.]/g, '')) || 0;
+        btn.classList.toggle("active", btnNum === val);
+      });
+    }
+
     function handleRechargeAmountConvert() {
-      const rawVal = parseFloat(document.getElementById("depositAmountInput").value) || 0;
+      const rawVal = parseFloat(document.getElementById("depositAmountInput")?.value) || 0;
       const rate = getRate();
       const disp = document.getElementById("rechargeConvertedDisplay");
+      if (!disp) return;
       if (rechargeCurrency === 'USD') {
         const syp = Math.round(rawVal * rate);
         disp.innerText = `تەڭ قىممەت: $ ${rawVal.toFixed(2)} = ${syp.toLocaleString()} سۈرىيە لىراسى`;
@@ -9050,15 +9420,21 @@ ${formatDualCurrency(u.balance)}`);
       const loginForm = document.getElementById("vAuthLoginForm");
       const regForm = document.getElementById("vAuthRegisterForm");
       const subtitle = document.getElementById("vAuthSubtitle");
+      const tabLogin = document.getElementById("vAuthTabLogin");
+      const tabReg = document.getElementById("vAuthTabRegister");
 
       if (mode === "register") {
         if (loginForm) loginForm.style.display = "none";
         if (regForm) regForm.style.display = "flex";
-        if (subtitle) subtitle.innerText = "يېڭى ئابونت بولۇپ تىزىملىتىڭ (إنشاء حساب جديد)";
+        if (subtitle) subtitle.innerText = t("registerSubtitle", "يېڭى ئابونت بولۇپ تىزىملىتىڭ (إنشاء حساب جديد)");
+        if (tabLogin) tabLogin.classList.remove("active");
+        if (tabReg) tabReg.classList.add("active");
       } else {
         if (loginForm) loginForm.style.display = "flex";
         if (regForm) regForm.style.display = "none";
-        if (subtitle) subtitle.innerText = "داۋاملاشتۇرۇش ئۈچۈن كىرىڭ (سجل دخولك للمتابعة)";
+        if (subtitle) subtitle.innerText = t("signInToContinue", "داۋاملاشتۇرۇش ئۈچۈن كىرىڭ (سجل دخولك للمتابعة)");
+        if (tabLogin) tabLogin.classList.add("active");
+        if (tabReg) tabReg.classList.remove("active");
       }
     }
 
