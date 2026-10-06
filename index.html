@@ -2978,7 +2978,15 @@
         </div>
       </div>
 
-      </section>
+      <!-- FEATURED PRODUCTS SECTION -->
+      <div class="section-title-bar" style="margin-top: 18px; margin-bottom: 12px;">
+        <h3 class="section-title">
+          <span>💎</span> <span data-key="featuredTitle">تەۋسىيە قىلىنغان مەھسۇلاتلار</span>
+        </h3>
+      </div>
+      <div class="product-grid" id="productsGrid"></div>
+
+    </section>
 
     <!-- VIEW 1.5: CATEGORY PRODUCTS -->
     <section id="view-category-detail" class="page-view" style="display: none;">
@@ -3471,16 +3479,16 @@
     </section>
 
   
-    <!-- VIEW: PERSONAL ACCOUNT (حسابي - MATCHING SCREENSHOT 45733.jpg) -->
+    <!-- VIEW: PERSONAL ACCOUNT (ھېساباتىم / حسابي / My Profile) -->
     <section id="view-profile" class="page-view" style="display: none;">
       <div class="profile-page-container">
         
         <!-- Top App Bar -->
         <div class="profile-header-bar">
           <button class="header-back-btn" onclick="switchView('view-home')" style="margin: 0;">‹ كەينىگە</button>
-          <h2 class="profile-header-title">حسابي</h2>
+          <h2 class="profile-header-title" id="profileHeaderTitle">ھېساباتىم</h2>
           <div class="profile-country-badge" id="profileCountryBadge">
-            <span style="font-size: 20px;">🇸🇾</span>
+            <span style="font-size: 20px;">⚡</span>
           </div>
         </div>
 
@@ -3490,7 +3498,7 @@
             <h3 class="profile-username" id="profileUsername">مېھمان ئابونت</h3>
             <div class="profile-email" id="profileEmail">user@autocash.store</div>
             <div class="profile-tier-pill" id="profileTierPill">
-              <span id="profileTierName">Rookie Midziller</span>
+              <span id="profileTierName">مىس (Bronze)</span>
               <span class="profile-tier-shield">🛡️</span>
             </div>
           </div>
@@ -3506,8 +3514,8 @@
             <div class="profile-stat-icon-wrap trophy-wrap">
               <span style="font-size: 18px;">🏆</span>
             </div>
-            <div class="profile-stat-val" id="profileRankVal" style="color: #fbbf24;">Rookie</div>
-            <div class="profile-stat-lbl">الرتبة</div>
+            <div class="profile-stat-val" id="profileRankVal" style="color: #fbbf24;">مىس</div>
+            <div class="profile-stat-lbl" id="profileRankLabel">دەرىجە</div>
           </div>
 
           <!-- Wallet / المحفظة -->
@@ -3516,7 +3524,7 @@
               <span style="font-size: 18px;">💳</span>
             </div>
             <div class="profile-stat-val stat-val-green" id="profileBalanceVal">0.00</div>
-            <div class="profile-stat-lbl" id="profileWalletCurrencyLabel">المحفظة EGP</div>
+            <div class="profile-stat-lbl" id="profileWalletCurrencyLabel">ھەميان ($)</div>
           </div>
 
           <!-- Orders / الطلبات -->
@@ -3525,7 +3533,7 @@
               <span style="font-size: 18px;">📄</span>
             </div>
             <div class="profile-stat-val" id="profileOrdersVal">0</div>
-            <div class="profile-stat-lbl">الطلبات</div>
+            <div class="profile-stat-lbl" id="profileOrdersLabel">تەلەپلەر</div>
           </div>
         </div>
 
@@ -3533,52 +3541,52 @@
         <div class="profile-wallet-banner-card">
           <button type="button" class="profile-recharge-btn" onclick="switchView('view-add-balance')">
             <span class="recharge-btn-plus">⊕</span>
-            <span>شحن المحفظة</span>
+            <span id="profileRechargeBtnText">سومما قاچىلاش</span>
           </button>
           <div class="profile-wallet-balance-info">
             <div class="profile-wallet-lbl">
-              <span>رصيد المحفظة</span>
+              <span id="profileWalletBalanceLabel">ھەميان قالدۇقى</span>
               <span style="font-size: 16px;">💳</span>
             </div>
-            <div class="profile-wallet-amt" id="profileWalletDisplayAmt">0.00 EGP</div>
+            <div class="profile-wallet-amt" id="profileWalletDisplayAmt">$ 0.00</div>
           </div>
         </div>
 
-        <!-- Section: حسابي -->
-        <div class="profile-menu-section-title">حسابي</div>
+        <!-- Section: ھېسابات تىزىملىكى -->
+        <div class="profile-menu-section-title" id="profileSectionTitle">ھېسابات تەڭشەكلىرى</div>
         <div class="profile-menu-items-list">
-          <!-- 1. طلباتي (تەلەپلىرىم) -->
+          <!-- 1. تەلەپلىرىم / طلباتي -->
           <div class="profile-menu-item" onclick="switchView('view-orders')">
             <div class="profile-menu-left-chevron">‹</div>
             <div class="profile-menu-right-content">
-              <span class="profile-menu-text">طلباتي</span>
+              <span class="profile-menu-text" id="pMenuOrdersText">مېنىڭ تەلەپلىرىم</span>
               <span class="profile-menu-icon">📄</span>
             </div>
           </div>
 
-          <!-- 2. المحفظة (ھەميانىم) -->
+          <!-- 2. ھەميان / المحفظة -->
           <div class="profile-menu-item" onclick="switchView('view-add-balance')">
             <div class="profile-menu-left-chevron">‹</div>
             <div class="profile-menu-right-content">
-              <span class="profile-menu-text">المحفظة</span>
+              <span class="profile-menu-text" id="pMenuWalletText">ھەميان ۋە سومما قاچىلاش</span>
               <span class="profile-menu-icon">💳</span>
             </div>
           </div>
 
-          <!-- 3. برنامج الولاء (VIP مەرتىۋە) -->
+          <!-- 3. VIP ئەزالىق / برنامج الولاء -->
           <div class="profile-menu-item" onclick="switchView('view-vip')">
             <div class="profile-menu-left-chevron">‹</div>
             <div class="profile-menu-right-content">
-              <span class="profile-menu-text">برنامج الولاء</span>
+              <span class="profile-menu-text" id="pMenuVipText">VIP ئەزالىق دەرىجىسى</span>
               <span class="profile-menu-icon">🏆</span>
             </div>
           </div>
 
-          <!-- 4. المفضلة (ياقتۇرغانلار) -->
+          <!-- 4. ياقتۇرغانلار / المفضلة -->
           <div class="profile-menu-item" onclick="switchView('view-favorites')">
             <div class="profile-menu-left-chevron">‹</div>
             <div class="profile-menu-right-content">
-              <span class="profile-menu-text">المفضلة</span>
+              <span class="profile-menu-text" id="pMenuFavText">ياقتۇرغانلىرىم</span>
               <span class="profile-menu-icon">🤍</span>
             </div>
           </div>
@@ -3587,16 +3595,16 @@
           <div class="profile-menu-item" id="profileAdminMenuItem" style="display: none; border-color: rgba(239, 68, 68, 0.4);" onclick="switchView('view-admin')">
             <div class="profile-menu-left-chevron">‹</div>
             <div class="profile-menu-right-content">
-              <span class="profile-menu-text" style="color: #ef4444;">باشقۇرۇش سېستىمىسى (لوحة التحكم)</span>
+              <span class="profile-menu-text" id="pMenuAdminText" style="color: #ef4444;">باشقۇرۇش مەركىزى (Admin)</span>
               <span class="profile-menu-icon">⚙️</span>
             </div>
           </div>
 
-          <!-- 6. تسجيل الخروج (چېكىنىش) -->
+          <!-- 6. چېكىنىش / تسجيل الخروج -->
           <div class="profile-menu-item" onclick="logoutUser()">
             <div class="profile-menu-left-chevron">‹</div>
             <div class="profile-menu-right-content">
-              <span class="profile-menu-text" style="color: #94a3b8;">تسجيل الخروج</span>
+              <span class="profile-menu-text" id="pMenuLogoutText" style="color: #f87171;">ھېساباتتىن چېكىنىش</span>
               <span class="profile-menu-icon">🚪</span>
             </div>
           </div>
@@ -4992,7 +5000,7 @@
             }
 
             // Safe Merge for payment methods
-            const remoteMethods = toSafeArray(remote.paymentMethods, []).filter(m => m && (m.id === "pay-shamcash" || (m.name && m.name.toLowerCase().includes("sham"))));
+            const remoteMethods = toSafeArray(remote.paymentMethods, []);
             if (remoteMethods.length > 0) {
               const localPayMap = new Map((state.paymentMethods || []).map(m => [m.id, m]));
               remoteMethods.forEach(rM => {
@@ -5233,32 +5241,42 @@
       if (!txId || txId.trim().length === 0) {
         return {
           valid: false,
-          reason: "⚠️ شامكەش تالون ھۆججىتى (تالون نومۇرى) كىرگۈزۈلمىدى! 9 خانىلىق تالون نومۇرىنى كىرگۈزۈڭ."
+          reason: "⚠️ سودا تالون نومۇرى ياكى باشتىن كەچۈرگۈچى نومۇر كىرگۈزۈلمىدى! تالون نومۇرىنى كىرگۈزۈڭ."
         };
       }
 
       const cleanTx = txId.trim().replace(/\s+/g, '');
+      const isShamCash = !selectedRechargeMethod || (selectedRechargeMethod.name && selectedRechargeMethod.name.toLowerCase().includes("sham"));
 
-      if (!/^\d{9}$/.test(cleanTx)) {
-        return {
-          valid: false,
-          reason: `⚠️ تالون نومۇرى رەت قىلىندى: تالون نومۇرى چوقۇم 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). سىز كىرگۈزگەن نومۇر ${cleanTx.length} خانە بولۇپ قالدى، 9 خانىدىن ئارتۇق ياكى كەم نومۇر قوبۇل قىلىنمايدۇ.`
-        };
-      }
+      if (isShamCash) {
+        if (!/^\d{9}$/.test(cleanTx)) {
+          return {
+            valid: false,
+            reason: `⚠️ شامكەش تالون نومۇرى رەت قىلىندى: شامكەش تالون نومۇرى چوقۇم 9 خانىلىق پۈتۈن سان بولۇشى شەرت (مەسىلەن: 467890306). سىز كىرگۈزگەن نومۇر ${cleanTx.length} خانە بولۇپ قالدى.`
+          };
+        }
 
-      if (/^(.)\1{8}$/.test(cleanTx) || cleanTx === "123456789" || cleanTx === "987654321") {
-        return {
-          valid: false,
-          reason: "⚠️ تالون نومۇرى رەت قىلىندى: كىرگۈزگەن تالون نومۇرى ئىناۋەتسىز. شامكەشتىكى ھەقىقىي 9 خانىلىق تالون نومۇرىنى كىرگۈزۈڭ."
-        };
+        if (/^(.)\1{8}$/.test(cleanTx) || cleanTx === "123456789" || cleanTx === "987654321") {
+          return {
+            valid: false,
+            reason: "⚠️ شامكەش تالون نومۇرى رەت قىلىندى: كىرگۈزگەن تالون نومۇرى ئىناۋەتسىز. شامكەشتىكى ھەقىقىي 9 خانىلىق تالون نومۇرىنى كىرگۈزۈڭ."
+          };
+        }
+      } else {
+        if (cleanTx.length < 4) {
+          return {
+            valid: false,
+            reason: "⚠️ تالون / سودا نومۇرى بەك قىسقا! ئاز دېگەندە 4 ھەرپ ياكى رەقەم كىرگۈزۈڭ."
+          };
+        }
       }
 
       return {
         valid: true,
         cleanTx: cleanTx,
-        recipient: "N. Muhsin",
-        account: "efe8a2b200d66411c7c7e296369cbba8",
-        msg: "✅ تالون نومۇرى دەلىللەندى: 9 خانىلىق تالون نومۇرى ۋە تاپشۇرۇۋالغۇچى (N. Muhsin) توغرا تەكشۈرۈلدى."
+        recipient: isShamCash ? "N. Muhsin" : (selectedRechargeMethod ? selectedRechargeMethod.name : "Auto Cash"),
+        account: selectedRechargeMethod ? selectedRechargeMethod.account : "efe8a2b200d66411c7c7e296369cbba8",
+        msg: "✅ تالون نومۇرى دەلىللەندى."
       };
     }
 
@@ -5643,26 +5661,26 @@
       const pAdminMenu = document.getElementById("profileAdminMenuItem");
 
       if (!u) {
-        if (pUsername) pUsername.innerText = "مېھمان ئابونت";
-        if (pEmail) pEmail.innerText = "مېھمان ھالىتىدە كۆرىۋاتىسىز";
-        if (pTierName) pTierName.innerText = "Rookie Midziller";
-        if (pRankVal) pRankVal.innerText = "Rookie";
+        if (pUsername) pUsername.innerText = t("guestUser") || "مېھمان ئابونت";
+        if (pEmail) pEmail.innerText = t("guestBrowseMode") || "مېھمان ھالىتىدە كۆرىۋاتىسىز";
+        if (pTierName) pTierName.innerText = "VIP";
+        if (pRankVal) pRankVal.innerText = "Guest";
         if (pBalanceVal) pBalanceVal.innerText = "0.00";
-        if (pWalletDisplayAmt) pWalletDisplayAmt.innerText = "$ 0.00";
-        if (pWalletCurrLabel) pWalletCurrLabel.innerText = "المحفظة USD";
+        if (pWalletDisplayAmt) pWalletDisplayAmt.innerText = formatCurrency(0);
+        if (pWalletCurrLabel) pWalletCurrLabel.innerText = t("walletBalance") || "ھەميان قالدۇقى";
         if (pOrdersVal) pOrdersVal.innerText = "0";
         if (pAvatarImg) pAvatarImg.src = fastIcons.userDefaultAvatar;
         if (pAdminMenu) pAdminMenu.style.display = "none";
         return;
       }
 
-      if (pUsername) pUsername.innerText = u.username || "Killer 0996";
-      if (pEmail) pEmail.innerText = u.email || (u.username + "@gmail.com");
+      if (pUsername) pUsername.innerText = u.username || "ئابونت";
+      if (pEmail) pEmail.innerText = u.email || (u.username + "@user.local");
       if (pAvatarImg) pAvatarImg.src = u.avatar || fastIcons.userDefaultAvatar;
 
       const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || state.siteSettings.vipTiers[0];
-      const tierName = currentTierObj ? currentTierObj.name : "Rookie";
-      if (pTierName) pTierName.innerText = `${tierName} Midziller`;
+      const tierName = currentTierObj ? currentTierObj.name : "ئەزا";
+      if (pTierName) pTierName.innerText = `${tierName} VIP`;
       if (pRankVal) pRankVal.innerText = tierName;
 
       const bal = parseFloat(u.balance || 0);
@@ -5671,7 +5689,7 @@
         pWalletDisplayAmt.innerText = formatCurrency(bal);
       }
       if (pWalletCurrLabel) {
-        pWalletCurrLabel.innerText = "المحفظة " + (state.userCurrencyMode === 'SYP' ? 'SYP' : 'USD');
+        pWalletCurrLabel.innerText = (t("walletBalance") || "ھەميان قالدۇقى") + " (" + (state.userCurrencyMode === 'SYP' ? 'SYP' : 'USD') + ")";
       }
 
       const myOrders = getOrdersList().filter(o => o.userUid === u.uid);
@@ -5711,9 +5729,10 @@
       document.getElementById("walletTotalSpentVal").innerText = formatCurrency(u.totalSpent || 0);
     }
 
-    // STRICT ADMINISTRATOR AUTHORIZATION CHECK (Only real admin allowed)
+    // STRICT ADMINISTRATOR AUTHORIZATION CHECK (Admin role, email, or credentials allowed)
     function isUserAdmin(u) {
       if (!u) return false;
+      if (u.role === "admin" || u.isAdmin === true) return true;
       const adminEmails = ["dronemax0996@gmail.com", "dronemax@gmail.com"];
       const userEmail = (u.email || "").toLowerCase().trim();
       const userName = (u.username || "").toLowerCase().trim();
@@ -5955,7 +5974,7 @@
         sessionStorage.setItem("autocash_oauth_in_progress", "true");
         sessionStorage.setItem("autocash_oauth_timestamp", Date.now().toString());
 
-        const redirectUrl = window.location.origin;
+        const redirectUrl = window.location.href.split('#')[0].split('?')[0];
         console.log("handleGoogleSignIn: Initiating full-page redirect to Google with redirectTo:", redirectUrl);
 
         // Supabase OAuth with full browser redirect (no popups, mobile-friendly)
@@ -7145,6 +7164,7 @@ ${formatDualCurrency(u.balance)}`);
             }
           });
 
+          saveState();
           await pushToCloud();
           toDeleteKeys.forEach(k => {
             fetch(`${FIREBASE_URL}/orders/${k}.json`, { method: "DELETE" }).catch(() => {});
@@ -7170,6 +7190,7 @@ ${formatDualCurrency(u.balance)}`);
         okClass: "btn-danger",
         onOk: async () => {
           delete state.orders[orderId];
+          saveState();
           await pushToCloud();
           fetch(`${FIREBASE_URL}/orders/${orderId}.json`, { method: "DELETE" }).catch(() => {});
           showToastNotification("زاكاس مۇۋەپپەقىيەتلىك ئۆچۈرۈلدى.");
@@ -7209,6 +7230,7 @@ ${formatDualCurrency(u.balance)}`);
             }
           });
 
+          saveState();
           await pushToCloud();
           toDeleteKeys.forEach(k => {
             fetch(`${FIREBASE_URL}/payments/${k}.json`, { method: "DELETE" }).catch(() => {});
@@ -7234,6 +7256,7 @@ ${formatDualCurrency(u.balance)}`);
         okClass: "btn-danger",
         onOk: async () => {
           delete state.payments[payId];
+          saveState();
           await pushToCloud();
           fetch(`${FIREBASE_URL}/payments/${payId}.json`, { method: "DELETE" }).catch(() => {});
           showToastNotification("تالون مۇۋەپپەقىيەتلىك ئۆچۈرۈلدى.");
@@ -7336,6 +7359,9 @@ ${formatDualCurrency(u.balance)}`);
       ord.status = status;
       ord.processedAt = getCurrentTimeString();
       state.orders[orderId] = ord;
+
+      saveState();
+      pushToCloud().catch(() => {});
 
       await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
         method: "PUT",
@@ -7641,25 +7667,31 @@ ${formatDualCurrency(u.balance)}`);
       const container = document.getElementById("productsGrid");
       if (!container) return;
       container.innerHTML = "";
-      state.products.forEach(p => {
+      const products = toSafeArray(state.products, []);
+      if (products.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div>مەھسۇلات تېپىلمىدى</div></div>`;
+        return;
+      }
+      products.forEach(p => {
         const isFav = state.favorites.includes(p.id);
-        const basePrice = p.packages[0] ? p.packages[0].price : 0;
+        const pkg0 = p.packages && p.packages[0] ? p.packages[0] : { name: '', price: 0 };
+        const basePrice = typeof getProductPackageEffectivePrice === 'function' ? getProductPackageEffectivePrice(p, pkg0) : (pkg0.price || 0);
         const sypPrice = Math.round(basePrice * getRate());
 
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
-          <img src="${p.image}" class="product-image" alt="${p.name}" onerror="this.src=fastIcons.gameCover">
-          <div class="product-info-title">${p.name}</div>
+          <img src="${p.image || fastIcons.gameCover}" class="product-image" alt="${escapeHtml(p.name || '')}" loading="lazy" onerror="this.onerror=null; this.src=fastIcons.gameCover">
+          <div class="product-info-title">${p.name || ''}</div>
           <div class="product-info-desc">${p.badge || ''}</div>
           <div class="product-footer">
             <div class="product-price-box">
               <span class="product-price-usd">${formatCurrency(basePrice)}</span>
-              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' لىرا'}</span>
+              <span class="product-price-syp">${state.userCurrencyMode === 'SYP' ? '$ ' + basePrice.toFixed(2) : '≈ ' + sypPrice.toLocaleString() + ' ' + (t("sypUnit") || "لىرا")}</span>
             </div>
             <div class="product-actions-group">
-              <button class="fav-toggle-btn" onclick="toggleFavorite('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
-              <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">سېتىۋېلىش</button>
+              <button class="fav-toggle-btn" aria-label="Favorite" onclick="toggleFavorite('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
+              <button class="buy-btn" onclick="checkAuthAndAction(() => openProductOrderPage('${p.id}'))">${t("buyBtn") || "سېتىۋېلىش"}</button>
             </div>
           </div>
         `;
@@ -7959,9 +7991,10 @@ ${formatDualCurrency(u.balance)}`);
         return;
       }
 
-      const pkg = currentOrderingProduct.packages[selectedPackageIndex];
+      const pkg = currentOrderingProduct.packages[selectedPackageIndex] || { name: 'ئۆلچەملىك', price: 0 };
+      const effectivePrice = getProductPackageEffectivePrice(currentOrderingProduct, pkg);
       const currentTierObj = state.siteSettings.vipTiers.find(t => t.id === u.tier) || { discount: 0 };
-      const finalPrice = pkg.price * (1 - (currentTierObj.discount || 0) / 100);
+      const finalPrice = parseFloat((effectivePrice * (1 - (currentTierObj.discount || 0) / 100)).toFixed(3));
 
       if (u.balance < finalPrice) {
         showCustomConfirm({
@@ -8005,6 +8038,9 @@ ${formatDualCurrency(u.balance)}`);
       };
 
       state.orders[orderId] = orderObj;
+
+      saveState();
+      pushToCloud().catch(() => {});
 
       await fetch(`${FIREBASE_URL}/orders/${orderId}.json`, {
         method: "PUT",
@@ -8914,6 +8950,31 @@ ${formatDualCurrency(u.balance)}`);
       if (viewId === "view-add-balance") document.getElementById("nav-add-balance")?.classList.add("active");
       if (viewId === "view-orders") document.getElementById("nav-orders")?.classList.add("active");
       if (viewId === "view-vip") document.getElementById("nav-vip")?.classList.add("active");
+      if (viewId === "view-profile") document.getElementById("nav-profile")?.classList.add("active");
+
+      // Render fresh view-specific dynamic content
+      if (viewId === "view-home") {
+        renderCategories();
+        renderProducts();
+        renderCarousel();
+      } else if (viewId === "view-orders") {
+        renderOrdersList();
+      } else if (viewId === "view-payments") {
+        renderPaymentsList();
+      } else if (viewId === "view-add-balance") {
+        renderRechargeMethods();
+      } else if (viewId === "view-profile") {
+        renderUserProfilePage();
+      } else if (viewId === "view-wallet-details") {
+        renderWalletPageEmbeddedInfo();
+      } else if (viewId === "view-favorites") {
+        renderFavorites();
+      } else if (viewId === "view-vip") {
+        renderVipTiersPage();
+      } else if (viewId === "view-admin") {
+        renderAdminHomeHub();
+        renderAdminAllOrders();
+      }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -8929,6 +8990,20 @@ ${formatDualCurrency(u.balance)}`);
       if (target) target.style.display = "block";
       document.querySelectorAll(".admin-tab-btn").forEach(b => b.classList.remove("active"));
       if (el) el.classList.add("active");
+
+      if (tabId === "admin-orders") renderAdminAllOrders();
+      else if (tabId === "admin-deposits") renderAdminDeposits();
+      else if (tabId === "admin-feedbacks") renderAdminFeedbacks();
+      else if (tabId === "admin-users") renderAdminUsers();
+      else if (tabId === "admin-vip-rates") renderAdminVipRates();
+      else if (tabId === "admin-settings") renderAdminSettings();
+      else if (tabId === "admin-vip-logos") renderAdminVipLogos();
+      else if (tabId === "admin-prods") renderAdminProducts();
+      else if (tabId === "admin-cats") renderAdminCategories();
+      else if (tabId === "admin-payments") renderAdminPayments();
+      else if (tabId === "admin-banners") renderAdminBanners();
+      else if (tabId === "admin-welcome") renderAdminWelcomeSettings();
+      else if (tabId === "admin-texts") renderAdminTexts();
     }
 
     function openModal(id) {
@@ -9184,7 +9259,17 @@ ${formatDualCurrency(u.balance)}`);
         noFavorites: "ياقتۇرغانلار يوق",
         orderFeedbackTitle: "باھا بېرىش & ئىنكاس يېزىش",
         orderFeedbackSub: "پىكىر، باھا ۋە تەلەپلىرىڭىزنى ئورتاقلىشىڭ: @autocash_UYGHUR",
-        writeFeedbackBtn: "ئىنكاس يېزىش"
+        writeFeedbackBtn: "ئىنكاس يېزىش",
+        myProfile: "ھېساباتىم",
+        rank: "دەرىجە",
+        walletBalance: "ھەميان قالدۇقى",
+        adminPanel: "باشقۇرۇش مەركىزى",
+        accountDetails: "ھېسابات تەپسىلاتى",
+        securityNotice: "بىخەتەرلىك ئەسكەرتىشى",
+        guestBrowseMode: "مېھمان ھالىتىدە كۆرىۋاتىسىز",
+        myPayments: "پۇل تۆلەشلىرىم",
+        category: "تۈر",
+        product: "مەھسۇلات"
       },
       ar: {
         currentLangName: "ئەرەبچە",
@@ -9281,7 +9366,17 @@ ${formatDualCurrency(u.balance)}`);
         noFavorites: "لا توجد عناصر مفضلة",
         orderFeedbackTitle: "التقييم ومشاركة الرأي",
         orderFeedbackSub: "شاركنا اقتراحاتك وتقييمك عبر: @autocash_UYGHUR",
-        writeFeedbackBtn: "إرسال رأي"
+        writeFeedbackBtn: "إرسال رأي",
+        myProfile: "حسابي",
+        rank: "الرتبة",
+        walletBalance: "رصيد المحفظة",
+        adminPanel: "لوحة التحكم",
+        accountDetails: "تفاصيل الحساب",
+        securityNotice: "تنبيه الأمان",
+        guestBrowseMode: "تتصفح حالياً كضيف",
+        myPayments: "سجل المدفوعات",
+        category: "القسم",
+        product: "المنتج"
       },
       en: {
         currentLangName: "ئىنگلىزچە",
@@ -9378,7 +9473,17 @@ ${formatDualCurrency(u.balance)}`);
         noFavorites: "No favorites yet",
         orderFeedbackTitle: "Rating & Feedback",
         orderFeedbackSub: "Share your rating and thoughts with us: @autocash_UYGHUR",
-        writeFeedbackBtn: "Write Review"
+        writeFeedbackBtn: "Write Review",
+        myProfile: "My Profile",
+        rank: "Rank",
+        walletBalance: "Wallet Balance",
+        adminPanel: "Admin Panel",
+        accountDetails: "Account Details",
+        securityNotice: "Security Notice",
+        guestBrowseMode: "Browsing as guest",
+        myPayments: "My Payments",
+        category: "Category",
+        product: "Product"
       }
     };
 
@@ -9739,6 +9844,20 @@ ${formatDualCurrency(u.balance)}`);
       }
       const wInst = document.querySelector("#view-add-balance p[style*='text-muted']");
       if (wInst) wInst.innerText = t("chooseRechargeMethod");
+
+      // Profile view static translations
+      const profHeader = document.getElementById("profileHeaderTitle");
+      if (profHeader) profHeader.innerText = t("myProfile");
+      const profRank = document.getElementById("profileRankLabel");
+      if (profRank) profRank.innerText = t("rank");
+      const profOrders = document.getElementById("profileOrdersLabel");
+      if (profOrders) profOrders.innerText = t("orders");
+      const profRecharge = document.getElementById("profileRechargeBtnText");
+      if (profRecharge) profRecharge.innerText = t("recharge");
+      const profBalLbl = document.getElementById("profileWalletBalanceLabel");
+      if (profBalLbl) profBalLbl.innerText = t("walletBalance");
+      const profSecTitle = document.getElementById("profileSectionTitle");
+      if (profSecTitle) profSecTitle.innerText = t("accountDetails");
     }
 
     /* ========================================================
